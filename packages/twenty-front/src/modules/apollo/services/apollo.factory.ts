@@ -1,5 +1,9 @@
 import { ApolloClient, ApolloLink, type ErrorLike } from '@apollo/client';
 import {
+  emitGrowthOsPlanLimit,
+  isGrowthOsPlanLimitMessage,
+} from '~/growth-os/plan/growthOsPlanLimitEvents';
+import {
   CombinedGraphQLErrors,
   ServerError,
   type ServerParseError,
@@ -206,6 +210,14 @@ export class ApolloFactory implements ApolloManager {
 
         if (CombinedGraphQLErrors.is(error)) {
           onErrorCb?.(error.errors);
+          // Growth OS: surface plan limits / read-only blocks everywhere.
+          const growthOsPlanLimit = error.errors.find((graphQLError) =>
+            isGrowthOsPlanLimitMessage(graphQLError?.message),
+          );
+
+          if (isDefined(growthOsPlanLimit)) {
+            emitGrowthOsPlanLimit(growthOsPlanLimit.message);
+          }
           for (const graphQLError of error.errors) {
             if (isUnauthenticatedGraphQLError(graphQLError)) {
               if (isResponseFromCurrentSession) {

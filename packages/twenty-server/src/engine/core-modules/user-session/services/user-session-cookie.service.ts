@@ -8,6 +8,12 @@ import { USER_SESSION_COOKIE_NAME } from 'src/engine/core-modules/user-session/c
 import { USER_SESSION_IMPERSONATOR_COOKIE_NAME } from 'src/engine/core-modules/user-session/constants/user-session-impersonator-cookie-name.constant';
 import { USER_SESSION_IMPERSONATOR_SECURE_COOKIE_NAME } from 'src/engine/core-modules/user-session/constants/user-session-impersonator-secure-cookie-name.constant';
 import { USER_SESSION_SECURE_COOKIE_NAME } from 'src/engine/core-modules/user-session/constants/user-session-secure-cookie-name.constant';
+import {
+  USER_SESSION_LEGACY_COOKIE_NAME,
+  USER_SESSION_LEGACY_IMPERSONATOR_COOKIE_NAME,
+  USER_SESSION_LEGACY_IMPERSONATOR_SECURE_COOKIE_NAME,
+  USER_SESSION_LEGACY_SECURE_COOKIE_NAME,
+} from 'src/engine/core-modules/user-session/constants/user-session-legacy-cookie-names.constant';
 import { extractUserSessionTokenFromRequestCookie } from 'src/engine/core-modules/user-session/utils/extract-user-session-token-from-request.util';
 import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twenty-config.service';
 
@@ -36,21 +42,39 @@ export class UserSessionCookieService {
   }
 
   extractSessionTokenFromRequest(request: Request): string | undefined {
-    return extractUserSessionTokenFromRequestCookie(request, {
-      secureCookieName: USER_SESSION_SECURE_COOKIE_NAME,
-      insecureCookieName: USER_SESSION_COOKIE_NAME,
-      allowInsecureCookieName: !this.isSecureDeployment(),
-    });
+    const allowInsecureCookieName = !this.isSecureDeployment();
+
+    return (
+      extractUserSessionTokenFromRequestCookie(request, {
+        secureCookieName: USER_SESSION_SECURE_COOKIE_NAME,
+        insecureCookieName: USER_SESSION_COOKIE_NAME,
+        allowInsecureCookieName,
+      }) ??
+      extractUserSessionTokenFromRequestCookie(request, {
+        secureCookieName: USER_SESSION_LEGACY_SECURE_COOKIE_NAME,
+        insecureCookieName: USER_SESSION_LEGACY_COOKIE_NAME,
+        allowInsecureCookieName,
+      })
+    );
   }
 
   extractImpersonatorSessionTokenFromRequest(
     request: Request,
   ): string | undefined {
-    return extractUserSessionTokenFromRequestCookie(request, {
-      secureCookieName: USER_SESSION_IMPERSONATOR_SECURE_COOKIE_NAME,
-      insecureCookieName: USER_SESSION_IMPERSONATOR_COOKIE_NAME,
-      allowInsecureCookieName: !this.isSecureDeployment(),
-    });
+    const allowInsecureCookieName = !this.isSecureDeployment();
+
+    return (
+      extractUserSessionTokenFromRequestCookie(request, {
+        secureCookieName: USER_SESSION_IMPERSONATOR_SECURE_COOKIE_NAME,
+        insecureCookieName: USER_SESSION_IMPERSONATOR_COOKIE_NAME,
+        allowInsecureCookieName,
+      }) ??
+      extractUserSessionTokenFromRequestCookie(request, {
+        secureCookieName: USER_SESSION_LEGACY_IMPERSONATOR_SECURE_COOKIE_NAME,
+        insecureCookieName: USER_SESSION_LEGACY_IMPERSONATOR_COOKIE_NAME,
+        allowInsecureCookieName,
+      })
+    );
   }
 
   private resolveCookieOptions(): CookieOptions {
@@ -105,6 +129,11 @@ export class UserSessionCookieService {
 
     response.clearCookie(USER_SESSION_IMPERSONATOR_SECURE_COOKIE_NAME, options);
     response.clearCookie(USER_SESSION_IMPERSONATOR_COOKIE_NAME, options);
+    response.clearCookie(
+      USER_SESSION_LEGACY_IMPERSONATOR_SECURE_COOKIE_NAME,
+      options,
+    );
+    response.clearCookie(USER_SESSION_LEGACY_IMPERSONATOR_COOKIE_NAME, options);
   }
 
   hasSessionCookie(request: Request): boolean {
@@ -114,7 +143,12 @@ export class UserSessionCookieService {
       return false;
     }
 
-    return [USER_SESSION_SECURE_COOKIE_NAME, USER_SESSION_COOKIE_NAME].some(
+    return [
+      USER_SESSION_SECURE_COOKIE_NAME,
+      USER_SESSION_COOKIE_NAME,
+      USER_SESSION_LEGACY_SECURE_COOKIE_NAME,
+      USER_SESSION_LEGACY_COOKIE_NAME,
+    ].some(
       (cookieName) =>
         cookieHeader
           .split(';')
@@ -129,5 +163,7 @@ export class UserSessionCookieService {
     // issued under the old one.
     response.clearCookie(USER_SESSION_SECURE_COOKIE_NAME, options);
     response.clearCookie(USER_SESSION_COOKIE_NAME, options);
+    response.clearCookie(USER_SESSION_LEGACY_SECURE_COOKIE_NAME, options);
+    response.clearCookie(USER_SESSION_LEGACY_COOKIE_NAME, options);
   }
 }

@@ -6,7 +6,9 @@ import { SettingsPageContainer } from '@/settings/components/SettingsPageContain
 import { SettingsSectionSkeletonLoader } from '@/settings/components/SettingsSectionSkeletonLoader';
 import { SettingsPageLayout } from '@/settings/components/layout/SettingsPageLayout';
 import { useLingui } from '@lingui/react/macro';
-import { SettingsPath } from 'twenty-shared/types';
+import { GrowthOsBccInboxSection } from '~/growth-os/accounts/GrowthOsBccInboxSection';
+import { GrowthOsSyncPlanNotice } from '~/growth-os/accounts/GrowthOsSyncPlanNotice';
+import { ConnectedAccountProvider, SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 import { H2Title } from 'twenty-ui/typography';
 import { Section } from 'twenty-ui/layout';
@@ -14,7 +16,11 @@ import { Section } from 'twenty-ui/layout';
 export const SettingsAccounts = () => {
   const { t } = useLingui();
 
-  const { accounts: allAccounts, loading } = useMyConnectedAccounts();
+  const { accounts: myAccounts, loading } = useMyConnectedAccounts();
+  // Growth OS: the workspace BCC inbox has its own section below.
+  const allAccounts = myAccounts.filter(
+    (account) => account.provider !== ConnectedAccountProvider.EMAIL_GROUP,
+  );
 
   return (
     <SettingsPageLayout
@@ -32,6 +38,7 @@ export const SettingsAccounts = () => {
           <SettingsSectionSkeletonLoader />
         ) : (
           <>
+            <GrowthOsSyncPlanNotice />
             <Section>
               <H2Title
                 title={t`Connected accounts`}
@@ -41,6 +48,7 @@ export const SettingsAccounts = () => {
                 accounts={allAccounts}
               />
             </Section>
+            <GrowthOsBccInboxSection />
             <SettingsAccountsBlocklistSection />
             <SettingsAccountsSettingsSection />
           </>

@@ -6,6 +6,7 @@ import { TwentyConfigModule } from 'src/engine/core-modules/twenty-config/twenty
 import { ConnectedAccountEntity } from 'src/engine/metadata-modules/connected-account/entities/connected-account.entity';
 import { MessageChannelEntity } from 'src/engine/metadata-modules/message-channel/entities/message-channel.entity';
 import { WorkspaceDataSourceModule } from 'src/engine/workspace-datasource/workspace-datasource.module';
+import { GrowthOsWebhookInboundEmailMessageSourceService } from 'src/modules/messaging/message-import-manager/drivers/inbound-email/sources/growth-os-webhook-inbound-email-message-source.service';
 import { InboundEmailS3ClientProvider } from 'src/modules/messaging/message-import-manager/drivers/inbound-email/providers/inbound-email-s3-client.provider';
 import { InboundEmailParserService } from 'src/modules/messaging/message-import-manager/drivers/inbound-email/services/inbound-email-parser.service';
 import { InboundEmailStorageService } from 'src/modules/messaging/message-import-manager/drivers/inbound-email/services/inbound-email-storage.service';
@@ -26,6 +27,7 @@ import { SesS3InboundEmailMessageSourceService } from 'src/modules/messaging/mes
     SesS3InboundEmailMessageSourceService,
     ResendApiClientService,
     ResendInboundEmailMessageSourceService,
+    GrowthOsWebhookInboundEmailMessageSourceService,
     InboundEmailMessageSourceResolverService,
   ],
   exports: [
@@ -34,6 +36,7 @@ import { SesS3InboundEmailMessageSourceService } from 'src/modules/messaging/mes
     InboundEmailParserService,
     SesS3InboundEmailMessageSourceService,
     InboundEmailMessageSourceResolverService,
+    GrowthOsWebhookInboundEmailMessageSourceService,
   ],
 })
 export class MessagingInboundEmailDriverModule {}

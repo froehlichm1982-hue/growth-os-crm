@@ -1,0 +1,185 @@
+/* Growth OS CRM app shell (round 7 visual pass).
+   Brand layer on top of growth-os-theme.css: SPV navy sidebar, serif page
+   titles, roomier type and rows, soft grid, card panels. Keyed only on stable
+   hooks (data attributes, upstream global class names, and the few
+   growth-os-* class names we add), so upstream merges stay cheap.
+   Reference: /workspace/projects/growth-os/preview-site + previews/crm-desktop.png */
+
+/* 1. Scale: ~14px base and ~34px rows instead of 13px / 32px. Row height is a
+   JS constant upstream, so scale the whole UI through the existing zoom hook. */
+html:root {
+  --t-zoom: calc(var(--t-scale-user, 1) * 1.0769);
+}
+
+/* 2. Navy sidebar. The drawer is transparent upstream and shows the body
+   background, so paint the body navy and re-scope the drawer tokens. */
+body {
+  background: var(--spv-navy) !important;
+}
+
+[data-click-outside-id='navigation-drawer'] {
+  --t-font-color-primary: #f3f5f7;
+  --t-font-color-secondary: #c9d2dc;
+  --t-font-color-tertiary: #9aa8b8;
+  --t-font-color-light: #7e8ca0;
+  --t-font-color-extra-light: #5d6b7e;
+  --t-background-transparent-light: rgba(255, 255, 255, 0.06);
+  --t-background-transparent-lighter: rgba(255, 255, 255, 0.04);
+  --t-background-transparent-medium: rgba(255, 255, 255, 0.1);
+  --t-background-transparent-strong: rgba(255, 255, 255, 0.14);
+  --t-background-transparent-secondary: rgba(255, 255, 255, 0.06);
+  --t-background-transparent-primary: rgba(255, 255, 255, 0.04);
+  --t-background-primary: var(--spv-navy-light);
+  --t-background-secondary: var(--spv-navy);
+  --t-background-tertiary: rgba(255, 255, 255, 0.08);
+  --t-border-color-light: rgba(255, 255, 255, 0.08);
+  --t-border-color-medium: rgba(255, 255, 255, 0.12);
+  --t-border-color-strong: rgba(255, 255, 255, 0.18);
+  background: var(--spv-navy);
+  color: #f3f5f7;
+}
+
+/* ScalePoint logo above the workspace switcher. */
+[data-click-outside-id='navigation-drawer'] > div:first-child::before {
+  background: url('/images/growth-os/logo-dark@2x.png') left center / contain
+    no-repeat;
+  content: '';
+  display: block;
+  flex: 0 0 auto;
+  height: 26px;
+  margin: 6px 4px 14px;
+  width: 130px;
+}
+
+[data-click-outside-id='navigation-drawer'] .navigation-drawer-item {
+  border-radius: 8px;
+  min-height: 32px;
+}
+
+[data-click-outside-id='navigation-drawer'] .navigation-drawer-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-click-outside-id='navigation-drawer'] [aria-current='page'],
+[data-click-outside-id='navigation-drawer']
+  .navigation-drawer-item[aria-current='page'] {
+  background: rgba(89, 192, 182, 0.16) !important;
+  box-shadow: inset 2px 0 0 #59c0b6;
+  color: #ffffff;
+}
+
+[data-click-outside-id='navigation-drawer']
+  .section-title-container
+  [class*='_label_'] {
+  color: #7e8ca0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Placeholder avatars inside the drawer: teal on navy. */
+[data-click-outside-id='navigation-drawer']
+  [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
+  background: rgba(89, 192, 182, 0.2) !important;
+  color: #9fe0d9 !important;
+}
+
+/* 3. Main surface: one white card on the navy frame. */
+[data-page-surface='main'] {
+  border-radius: 8px;
+}
+
+/* 4. Page header: white bar, serif title, more air. */
+.growth-os-page-card-header {
+  background: #ffffff !important;
+  border-bottom-color: #e8ecf0 !important;
+  min-height: 60px !important;
+  padding-left: 20px !important;
+  padding-right: 16px !important;
+}
+
+.growth-os-page-card-title,
+[data-testid='top-bar-title'] {
+  font-family: var(--spv-font-display);
+  font-size: 1.55rem !important;
+  font-weight: 400 !important;
+  gap: 8px;
+  letter-spacing: -0.005em;
+}
+
+.growth-os-page-card-header nav {
+  font-size: 0.95rem;
+}
+
+/* 5. Tables: soft grid, calm header, quiet hover. */
+[data-page-surface='main'] .table-cell,
+[data-page-surface='main'] [data-testid^='row-id-'] > * {
+  border-color: #eef1f4 !important;
+}
+
+[data-page-surface='main'] [data-testid^='row-id-']:hover > * {
+  background: #f7f9fa;
+}
+
+/* Placeholder avatars and record chips in calm brand tints instead of the
+   upstream rainbow. */
+[data-page-surface='main']
+  [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
+  background: #e6f2f0 !important;
+  color: #2f625d !important;
+}
+
+/* 6. Record page: field and relation widgets as cards on a warm column. */
+[data-record-show-page-body] .page-layout-scroll-wrapper .widget {
+  background: #ffffff;
+  border: 1px solid #e3e8ee;
+  border-radius: 8px;
+  box-shadow:
+    0 1px 2px 0 #111e320a,
+    0 4px 16px -6px #111e320f;
+  box-sizing: border-box;
+  margin: 0 12px 12px;
+  width: calc(100% - 24px);
+}
+
+[data-record-show-page-body] .page-layout-scroll-wrapper > div {
+  padding-top: 12px;
+}
+
+[data-record-show-page-body]
+  .page-layout-scroll-wrapper
+  [data-orientation='horizontal'] {
+  display: none;
+}
+
+[data-record-show-page-body] .widget-card-header {
+  font-weight: 600;
+}
+
+[data-record-show-page-body] h3 [data-testid='tooltip'] {
+  font-family: var(--spv-font-display);
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+/* 7. Settings: each section is a white card on the warm page. */
+[data-page-surface='main']:has(.growth-os-settings-page) > div > div {
+  background: var(--spv-section-warm);
+}
+
+.growth-os-settings-page > [class*='_section_'] {
+  background: #ffffff;
+  border: 1px solid #e3e8ee;
+  border-radius: 8px;
+  box-shadow:
+    0 1px 2px 0 #111e320a,
+    0 4px 16px -6px #111e320f;
+  box-sizing: border-box;
+  padding: 20px 24px;
+}
+
+/* 8. Teal focus ring everywhere. */
+:focus-visible {
+  outline-color: #469189;
+}

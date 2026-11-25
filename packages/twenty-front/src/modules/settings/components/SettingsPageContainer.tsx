@@ -73,6 +73,7 @@ export const SettingsPageContainer = ({
   return (
     <ScrollWrapper componentInstanceId={componentInstanceId}>
       <StyledSettingsPageContainer
+        className="growth-os-settings-page"
         isMobile={isMobile}
         isInSidePanel={workspaceSurface.type === 'side-panel'}
         overflow={overflow}

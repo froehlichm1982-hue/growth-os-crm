@@ -85,6 +85,7 @@ import { CallRecordingModule } from 'src/modules/call-recording/call-recording.m
 import { DashboardModule } from 'src/modules/dashboard/dashboard.module';
 import { SendEmailModule } from 'src/modules/messaging/message-outbound-manager/send-email.module';
 import { GrowthOsModule } from 'src/engine/core-modules/growth-os/growth-os.module';
+import { GrowthOsBccInboxModule } from 'src/engine/core-modules/growth-os/bcc-inbox/growth-os-bcc-inbox.module';
 import { ClientConfigModule } from './client-config/client-config.module';
 import { EventLogsViewerModule } from './event-logs/event-logs-viewer.module';
 import { FileModule } from './file/file.module';
@@ -92,6 +93,7 @@ import { FileModule } from './file/file.module';
 @Module({
   imports: [
     GrowthOsModule,
+    GrowthOsBccInboxModule,
     EnvironmentModule,
     TwentyConfigModule.forRoot(),
     HealthModule,

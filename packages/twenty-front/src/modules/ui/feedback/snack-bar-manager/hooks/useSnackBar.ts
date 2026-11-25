@@ -14,6 +14,12 @@ import { t } from '@lingui/core/macro';
 import { useStore } from 'jotai';
 import { isDefined } from 'twenty-shared/utils';
 import { getErrorMessageFromApolloError } from '~/utils/get-error-message-from-apollo-error.util';
+import { SettingsPath } from 'twenty-shared/types';
+import { getSettingsPath } from 'twenty-shared/utils';
+import {
+  GROWTH_OS_PLAN_LIMIT_DEDUPE_KEY,
+  isGrowthOsPlanLimitMessage,
+} from '~/growth-os/plan/growthOsPlanLimitEvents';
 
 export const useSnackBar = () => {
   const componentInstanceId = useAvailableComponentInstanceIdOrThrow(
@@ -143,6 +149,21 @@ export const useSnackBar = () => {
         : apolloError
           ? getErrorMessageFromApolloError(apolloError)
           : t`An error occurred.`;
+
+      // Growth OS: plan limits are a warning with a way out, shown once.
+      if (isGrowthOsPlanLimitMessage(errorMessage)) {
+        setSnackBarQueue({
+          id: uuidv4(),
+          message: errorMessage,
+          dedupeKey: GROWTH_OS_PLAN_LIMIT_DEDUPE_KEY,
+          buttonLabel: 'See plans',
+          buttonTo: getSettingsPath(SettingsPath.Billing),
+          duration: 8000,
+          variant: SnackBarVariant.Warning,
+        });
+
+        return;
+      }
 
       const errorAction = buildErrorAction(apolloError);
 

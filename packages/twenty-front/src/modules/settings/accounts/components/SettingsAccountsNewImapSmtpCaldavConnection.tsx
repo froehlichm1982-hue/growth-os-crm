@@ -10,6 +10,7 @@ import { getSettingsPath } from 'twenty-shared/utils';
 import { useNavigateSettings } from '~/hooks/useNavigateSettings';
 
 import { SettingsAccountsConnectionForm } from '@/settings/accounts/components/SettingsAccountsConnectionForm';
+import { GrowthOsMailSetupHelp } from '~/growth-os/accounts/GrowthOsMailSetupHelp';
 import { useImapSmtpCaldavConnectionForm } from '@/settings/accounts/hooks/useImapSmtpCaldavConnectionForm';
 
 export const SettingsAccountsNewImapSmtpCaldavConnection = () => {
@@ -54,6 +55,7 @@ export const SettingsAccountsNewImapSmtpCaldavConnection = () => {
         }
       >
         <SettingsPageContainer>
+          <GrowthOsMailSetupHelp />
           <SettingsAccountsConnectionForm control={control} isEditing={false} />
         </SettingsPageContainer>
       </SettingsPageLayout>

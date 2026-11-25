@@ -6,6 +6,12 @@ import { MessageChannelType } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 import { Repository } from 'typeorm';
 
+import {
+  Inject as GrowthOsInject,
+  Optional as GrowthOsOptional,
+} from '@nestjs/common';
+
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twenty-config.service';
 import { ConnectedAccountEntity } from 'src/engine/metadata-modules/connected-account/entities/connected-account.entity';
 import { MessageChannelEntity } from 'src/engine/metadata-modules/message-channel/entities/message-channel.entity';
@@ -24,6 +30,10 @@ type ImportInboundMessageParams = {
 @Injectable()
 export class InboundEmailImportService {
   private readonly logger = new Logger(InboundEmailImportService.name);
+
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
 
   constructor(
     private readonly twentyConfigService: TwentyConfigService,
@@ -88,6 +98,27 @@ export class InboundEmailImportService {
       );
 
       return { kind: 'unmatched', recipient };
+    }
+
+    // Growth OS: the BCC / forwarding inbox is a Growth & Scale feature.
+    if (
+      this.growthOsEntitlementService &&
+      (!(await this.growthOsEntitlementService.isFeatureEnabled(
+        messageChannel.workspaceId,
+        'emailCalendarSync',
+      )) ||
+        (
+          await this.growthOsEntitlementService.getEntitlement(
+            messageChannel.workspaceId,
+          )
+        ).isReadOnly)
+    ) {
+      this.logger.warn(
+        `Inbound email for ${recipient} dropped: workspace ${messageChannel.workspaceId} plan does not include the BCC inbox`,
+      );
+      await messageSource.cleanup(messageReference.reference);
+
+      return { kind: 'plan_blocked', workspaceId: messageChannel.workspaceId };
     }
 
     const message = await messageSource.fetchMessage(

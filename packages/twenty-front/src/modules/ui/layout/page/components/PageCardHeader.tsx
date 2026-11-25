@@ -154,7 +154,10 @@ export const PageCardHeader = ({
   }
 
   return (
-    <StyledHeader centerTitle={shouldCenterTitle}>
+    <StyledHeader
+      className="growth-os-page-card-header"
+      centerTitle={shouldCenterTitle}
+    >
       <StyledLeft>
         {!isMobile && !isNavigationDrawerExpanded && (
           <NavigationDrawerCollapseButton direction="right" />
@@ -163,11 +166,19 @@ export const PageCardHeader = ({
           ? breadcrumb
           : isDefined(links) && <Breadcrumb links={links} />}
         {!shouldCenterTitle && hasTitleContent && (
-          <StyledTitle titleColor={titleColor}>{titleContent}</StyledTitle>
+          <StyledTitle
+            className="growth-os-page-card-title"
+            titleColor={titleColor}
+          >
+            {titleContent}
+          </StyledTitle>
         )}
       </StyledLeft>
       {shouldCenterTitle && (
-        <StyledCenteredTitle titleColor={titleColor}>
+        <StyledCenteredTitle
+          className="growth-os-page-card-title"
+          titleColor={titleColor}
+        >
           {titleContent}
         </StyledCenteredTitle>
       )}
