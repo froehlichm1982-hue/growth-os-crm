@@ -136,3 +136,13 @@ npx tsx scripts/growth-os-billing-mock.ts upgrade   --workspace <uuid> --bad-sig
 ```
 
 The mock never talks to Stripe.
+
+## Tax (decided 2026-11-25)
+
+- Stripe Tax is **automatic** on checkout sessions (`automatic_tax: { enabled: true }`)
+  with **tax ID collection** on (`tax_id_collection: { enabled: true }`), so business
+  customers can enter their VAT ID and reverse charge applies where valid.
+- All list prices are **net**. VAT is added at checkout. Copy in the app (plan page,
+  signup pricing panel, `taxNote`) says "VAT is added at checkout".
+- This is configured in growth-os-billing (the checkout service), not in the CRM.
+  The CRM never calls Stripe.

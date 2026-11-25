@@ -322,7 +322,7 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => (
             ))}
           </StyledPriceRows>
           <StyledOfferNote>
-            Net prices excl. VAT · yearly billing = 2 months free ·{' '}
+            Net prices, VAT added at checkout · yearly billing = 2 months free ·{' '}
             <a
               href={`${GROWTH_OS_BRAND.marketingUrl}#pricing`}
               target="_blank"

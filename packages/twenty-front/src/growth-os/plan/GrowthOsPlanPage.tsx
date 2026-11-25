@@ -355,7 +355,7 @@ export const GrowthOsPlanPage = () => {
         <Section>
           <H2Title
             title="Plans"
-            description="Net prices per user and month, excl. VAT. Yearly billing = 2 months free."
+            description="Net prices per user and month. VAT is added at checkout, where you can enter your VAT ID. Yearly billing = 2 months free."
           />
           <StyledToggle role="group" aria-label="Billing interval">
             <button

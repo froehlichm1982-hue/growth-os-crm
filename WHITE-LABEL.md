@@ -7,6 +7,8 @@ app sidebar, the sign-in footer and email footers (plain text, no repository
 links). The "Source code (AGPL-3.0)" link is rendered only when
 `SOURCE_CODE_URL` is set. **Before launch `SOURCE_CODE_URL` must point to the
 public repository (AGPL-3.0 §13 source offer for network users).**
+Planned (not yet public, so `SOURCE_CODE_URL` stays empty for now):
+`https://github.com/ScalepointVentures/growth-os-crm`.
 
 The layer is kept in a few isolated places so upstream merges stay easy.
 

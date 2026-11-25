@@ -27,7 +27,7 @@ import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
 
 export const buildGrowthOsCatalog = () => ({
   currency: 'EUR',
-  taxNote: 'Net prices per user, excl. VAT',
+  taxNote: 'Net prices per user. VAT is calculated at checkout (Stripe Tax); add your VAT ID there.',
   trialDays: GROWTH_OS_TRIAL_DAYS,
   graceDays: GROWTH_OS_GRACE_DAYS,
   featureLabels: GROWTH_OS_FEATURE_LABELS,

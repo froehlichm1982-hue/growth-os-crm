@@ -49,7 +49,7 @@ workflow reports such releases as blocked instead of merging them.
 | `FRONTEND_URL` / `SERVER_URL` | – | `https://crm.scalepoint-ventures.com`; workspaces live on `<workspace>.crm.scalepoint-ventures.com` (wildcard DNS + TLS) |
 | `DEFAULT_SUBDOMAIN` | *(empty)* | Empty = the bare domain is the sign-in/sign-up entry (no `app.` prefix). `app` stays reserved |
 | `HELP_URL` | `https://scalepoint-ventures.com/growthos/crm/faq` | All help/docs links (switch to `/help` later) |
-| `SOURCE_CODE_URL` | *(unset)* | AGPL-3.0 §13 source offer. The "Source code" link (app, emails, OpenAPI, MCP card) is only rendered when set. **Must be set to the public repository before launch.** |
+| `SOURCE_CODE_URL` | *(unset)* | AGPL-3.0 §13 source offer. The "Source code" link (app, emails, OpenAPI, MCP card) is only rendered when set. **Must be set to the public repository before launch.** Planned target: `https://github.com/ScalepointVentures/growth-os-crm` (not public yet, so it stays empty). |
 | `EMAIL_DRIVER`, `EMAIL_SMTP_HOST`, `EMAIL_SMTP_PORT`, `EMAIL_SMTP_USER` | `logger` | Production: `smtp`, `smtp.resend.com`, `465` (implicit TLS) or `587` (STARTTLS), user `resend` |
 | `RESEND_API_KEY` | – | Used as the SMTP password when `EMAIL_SMTP_PASSWORD` is empty. Secret, never committed |
 | `EMAIL_FROM_NAME` / `EMAIL_FROM_ADDRESS` | `ScalePoint Growth OS` / `noreply@scalepoint-ventures.com` | |
