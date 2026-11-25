@@ -256,6 +256,7 @@
   "overridden": [
     "packages/twenty-server/src/engine/core-modules/auth/strategies/saml.auth.strategy.ts",
     "packages/twenty-server/src/engine/core-modules/billing/services/billing-credit.service.ts",
+    "packages/twenty-server/src/engine/core-modules/billing/services/billing-subscription.service.ts",
     "packages/twenty-server/src/engine/core-modules/billing/services/billing-usage.service.ts",
     "packages/twenty-server/src/engine/core-modules/billing/services/billing.service.ts",
     "packages/twenty-server/src/engine/core-modules/enterprise/services/custom-ai-provider-access.service.ts",
@@ -460,7 +461,7 @@
       "upstreamRef": "twenty/v2.40.2",
       "found": 370,
       "stubbed": 251,
-      "overridden": 17,
+      "overridden": 18,
       "deletedEnterprise": 119,
       "deletedAgplTests": 59
     }

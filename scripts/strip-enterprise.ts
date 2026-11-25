@@ -465,7 +465,37 @@ const main = () => {
   const enterprise = new Set(markerFiles.filter((f) => SOURCE_EXT.test(f)));
   const nonSourceEnterprise = markerFiles.filter((f) => !SOURCE_EXT.test(f));
   if (!markerFiles.length) {
-    console.log('strip-enterprise: nothing to strip (tree is already AGPL-only).');
+    // Tree already stripped: keep generated stubs in sync with hand-written
+    // overrides (new or edited files in scripts/enterprise-overrides/).
+    const candidates: string[] = [];
+    const before = new Map<string, string>();
+    for (const f of sourceFiles) {
+      if (!read(f).includes(STUB_TAG)) continue;
+      const override = overrideFor(f);
+      if (!override || override === read(f)) continue;
+      before.set(f, read(f));
+      fs.writeFileSync(path.join(ROOT, f), override);
+      candidates.push(f);
+    }
+    if (candidates.length) {
+      try {
+        execFileSync('npx', ['oxfmt', ...candidates], { cwd: ROOT, stdio: 'ignore' });
+      } catch {}
+    }
+    // Formatting can make a written override identical to the existing stub.
+    const synced = candidates.filter((f) => fs.readFileSync(path.join(ROOT, f), 'utf8') !== before.get(f));
+    if (!synced.length) {
+      console.log('strip-enterprise: nothing to strip (tree is already AGPL-only).');
+      return;
+    }
+    const m = JSON.parse(fs.readFileSync(MANIFEST, 'utf8'));
+    m.overridden = [...new Set([...(m.overridden ?? []), ...synced])].sort();
+    const last = m.runs[m.runs.length - 1];
+    last.overridden = m.overridden.length;
+    fs.writeFileSync(MANIFEST, `${JSON.stringify(m, null, 2)}\n`);
+    writeReport(m);
+    console.log(`strip-enterprise: tree already AGPL-only; synced ${synced.length} AGPL override(s):`);
+    synced.forEach((f) => console.log(`  ${f}`));
     return;
   }
 
