@@ -171,6 +171,14 @@ const isPureData = (node: ts.Expression, allowCall: (callee: string) => boolean 
 
 type StubFlavor = 'server' | 'front' | 'shared';
 
+const NEST_LIFECYCLE_HOOKS = new Set([
+  'onModuleInit',
+  'onModuleDestroy',
+  'onApplicationBootstrap',
+  'onApplicationShutdown',
+  'beforeApplicationShutdown',
+]);
+
 const flavorOf = (f: string): StubFlavor =>
   f.startsWith('packages/twenty-front/') ? 'front' : f.startsWith('packages/twenty-server/') ? 'server' : 'shared';
 
@@ -266,7 +274,20 @@ const generateStub = (file: string, source: string, isEnterpriseSpecifier: (spec
       const rt = ts.isSetAccessorDeclaration(m) ? '' : star ? (m.type ? `: ${text(m.type)}` : ': any') : retType(m, isAsync);
       const sig = `${prefix}${star}${text(m.name)}${q}${typeParams(m.typeParameters)}(${params(m.parameters)})${rt}`;
       if (!m.body) return join(decos(m), mods(m), `${sig};`);
-      const body = ts.isSetAccessorDeclaration(m) ? '{}' : stubBody(`${className}.${text(m.name)}`, false);
+      const methodName = text(m.name);
+      const paramNames = m.parameters.map((p, i) => (ts.isIdentifier(p.name) ? p.name.text : `_p${i}`));
+      let body: string;
+      if (ts.isSetAccessorDeclaration(m)) body = '{}';
+      else if (flavor === 'server' && NEST_LIFECYCLE_HOOKS.has(methodName))
+        // Lifecycle hooks of removed features do nothing, so the app still boots.
+        body = '{\n  return undefined as any;\n}';
+      else if (flavor === 'server' && methodName === 'use' && paramNames.length === 3)
+        // Express/Nest middleware of a removed feature: pass the request on.
+        body = `{\n  return (${paramNames[2]} as any)();\n}`;
+      else if (flavor === 'server' && methodName === 'intercept' && paramNames.length === 2)
+        // Interceptor of a removed feature: continue the handler chain.
+        body = `{\n  return (${paramNames[1]} as any).handle();\n}`;
+      else body = stubBody(`${className}.${methodName}`, false);
       return join(decos(m), mods(m, [ts.SyntaxKind.AsyncKeyword]), `${sig} ${body}`);
     }
     return text(m);
