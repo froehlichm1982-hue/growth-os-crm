@@ -1,17 +1,11 @@
-import { styled } from '@linaria/react';
 import { Outlet } from 'react-router-dom';
-import { themeCssVariables } from 'twenty-ui/theme-constants';
 
-const StyledBackground = styled.div`
-  background: ${themeCssVariables.background.secondary};
-  display: flex;
-  flex-direction: column;
-  height: calc(100dvh / var(--t-zoom, 1));
-  width: 100%;
-`;
+import { GrowthOsAuthShell } from '~/growth-os/GrowthOsAuthShell';
 
+// Growth OS: reset, verify and payment-return pages use the kit auth shell
+// (form left, navy panel right) like sign-in.
 export const AuthFlowLayout = () => (
-  <StyledBackground>
+  <GrowthOsAuthShell>
     <Outlet />
-  </StyledBackground>
+  </GrowthOsAuthShell>
 );

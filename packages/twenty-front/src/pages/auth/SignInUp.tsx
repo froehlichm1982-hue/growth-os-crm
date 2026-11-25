@@ -1,3 +1,5 @@
+import { growthOsResetSentState } from '~/growth-os/auth/growthOsAuthAlertState';
+import { GrowthOsResetSentCard } from '~/growth-os/auth/GrowthOsResetSent';
 import { signInUpModeState } from '@/auth/states/signInUpModeState';
 import { SignInUpMode } from '@/auth/types/signInUpMode';
 import { useSignInUp } from '@/auth/sign-in-up/hooks/useSignInUp';
@@ -61,6 +63,7 @@ const StyledBackground = styled.div`
 `;
 
 export const SignInUp = () => {
+  const growthOsResetSent = useAtomStateValue(growthOsResetSentState);
   const { t } = useLingui();
   const setSignInUpStep = useSetAtomState(signInUpStepState);
   const clientConfigApiStatus = useAtomStateValue(clientConfigApiStatusState);
@@ -241,7 +244,9 @@ export const SignInUp = () => {
   ) : (
     <GrowthOsAuthShell>
     <StyledBackground>
-      {signInUpStep === SignInUpStep.EmailVerification ? (
+      {isDefined(growthOsResetSent) ? (
+        <GrowthOsResetSentCard />
+      ) : signInUpStep === SignInUpStep.EmailVerification ? (
         <ModalContent isVerticallyCentered isHorizontallyCentered>
           <EmailVerificationSent email={searchParams.get('email')} />
         </ModalContent>

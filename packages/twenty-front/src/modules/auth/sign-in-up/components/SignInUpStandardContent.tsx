@@ -44,14 +44,16 @@ export const SignInUpStandardContent = ({
 }: SignInUpStandardContentProps) => {
   return (
     <ModalContent isVerticallyCentered isHorizontallyCentered>
-      <AnimatedEaseIn className="gos-upstream-logo">
-        <Logo
-          secondaryLogo={workspacePublicData?.logo}
-          placeholder={workspacePublicData?.displayName}
-          onClick={onClickOnLogo}
-          to={AppPath.SignInUp}
-        />
-      </AnimatedEaseIn>
+      <div className="gos-upstream-logo">
+        <AnimatedEaseIn>
+          <Logo
+            secondaryLogo={workspacePublicData?.logo}
+            placeholder={workspacePublicData?.displayName}
+            onClick={onClickOnLogo}
+            to={AppPath.SignInUp}
+          />
+        </AnimatedEaseIn>
+      </div>
       <StyledTitleContainer>
         <h1 className="gos-auth-title">{title}</h1>
         {subtitle && <p className="gos-auth-sub">{subtitle}</p>}

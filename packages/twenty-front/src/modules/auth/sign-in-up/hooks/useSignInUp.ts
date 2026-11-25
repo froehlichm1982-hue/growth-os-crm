@@ -17,7 +17,12 @@ import { useCaptcha } from '@/client-config/hooks/useCaptcha';
 import { useBuildSearchParamsFromUrlSyncedStates } from '@/domain-manager/hooks/useBuildSearchParamsFromUrlSyncedStates';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
-import { isErrorLike } from '@apollo/client/errors';
+import { CombinedGraphQLErrors, isErrorLike } from '@apollo/client/errors';
+import {
+  growthOsAuthAlertState,
+  growthOsParseLockedSeconds,
+} from '~/growth-os/auth/growthOsAuthAlertState';
+import { getErrorMessageFromApolloError } from '~/utils/get-error-message-from-apollo-error.util';
 import { useLingui } from '@lingui/react/macro';
 import { AppPath } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
@@ -30,6 +35,7 @@ import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomStat
 
 export const useSignInUp = (form: UseFormReturn<Form>) => {
   const { enqueueErrorSnackBar } = useSnackBar();
+  const setGrowthOsAuthAlert = useSetAtomState(growthOsAuthAlertState);
   const { t } = useLingui();
 
   const [signInUpStep, setSignInUpStep] = useAtomState(signInUpStepState);
@@ -129,6 +135,7 @@ export const useSignInUp = (form: UseFormReturn<Form>) => {
       }
 
       const token = readCaptchaToken();
+      setGrowthOsAuthAlert(null);
       try {
         setLastAuthenticatedMethod(AuthenticatedMethod.EMAIL);
 
@@ -182,9 +189,32 @@ export const useSignInUp = (form: UseFormReturn<Form>) => {
           verifyEmailRedirectPath,
         });
       } catch (error: unknown) {
-        enqueueErrorSnackBar({
-          ...(isErrorLike(error) ? { apolloError: error } : {}),
-        });
+        // Growth OS: sign-in errors are an inline alert in the card (kit),
+        // with a live countdown while sign-in is paused.
+        if (isErrorLike(error) && error.name === 'AbortError') return;
+        const rawMessage = isErrorLike(error)
+          ? [
+              error.message,
+              ...(CombinedGraphQLErrors.is(error)
+                ? error.errors.map((graphqlError) => graphqlError.message)
+                : []),
+            ].join(' ')
+          : '';
+        const lockedSeconds = growthOsParseLockedSeconds(rawMessage);
+        setGrowthOsAuthAlert(
+          lockedSeconds !== null
+            ? {
+                tone: 'danger',
+                message: '',
+                lockedUntil: Date.now() + lockedSeconds * 1000,
+              }
+            : {
+                tone: 'danger',
+                message: isErrorLike(error)
+                  ? getErrorMessageFromApolloError(error)
+                  : t`Something went wrong on our side. Try again.`,
+              },
+        );
       }
     },
     [
@@ -199,6 +229,7 @@ export const useSignInUp = (form: UseFormReturn<Form>) => {
       workspaceInviteHash,
       workspacePersonalInviteToken,
       enqueueErrorSnackBar,
+      setGrowthOsAuthAlert,
       buildSearchParamsFromUrlSyncedStates,
       isOnAWorkspace,
       workspacePublicData,

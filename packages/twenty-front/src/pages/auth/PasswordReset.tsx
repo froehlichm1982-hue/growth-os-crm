@@ -1,93 +1,94 @@
-import { SKELETON_LOADER_HEIGHT_SIZES } from '@/activities/components/SkeletonLoader';
-import { Logo } from '@/auth/components/Logo';
-import { Title } from '@/auth/components/Title';
 import { useAuth } from '@/auth/hooks/useAuth';
 import { useIsLogged } from '@/auth/hooks/useIsLogged';
-import { StyledOnboardingContentContainer } from '@/auth/components/StyledOnboardingContentContainer';
+import { useHandleResetPassword } from '@/auth/sign-in-up/hooks/useHandleResetPassword';
 import { currentUserState } from '@/auth/states/currentUserState';
-import { workspacePublicDataState } from '@/auth/states/workspacePublicDataState';
-import { PASSWORD_REGEX } from '@/auth/utils/passwordRegex';
 import { useReadCaptchaToken } from '@/captcha/hooks/useReadCaptchaToken';
 import { useCaptcha } from '@/client-config/hooks/useCaptcha';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { useRedirect } from '@/domain-manager/hooks/useRedirect';
 import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
-import { TextInput } from '@/ui/input/components/TextInput';
-import { ModalContent } from 'twenty-ui/surfaces';
-import { CombinedGraphQLErrors } from '@apollo/client/errors';
-import { styled } from '@linaria/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { msg } from '@lingui/core/macro';
-import { i18n } from '@lingui/core';
+import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
+import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { useLingui } from '@lingui/react/macro';
 import { isNonEmptyString } from '@sniptt/guards';
-import { motion } from 'framer-motion';
-import { useContext, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { type FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
-import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
 import { AppPath } from 'twenty-shared/types';
-import { MainButton } from 'twenty-ui/input';
-import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
-import { AnimatedEaseIn } from 'twenty-ui/layout';
-import { z } from 'zod';
-import { useMutation, useQuery } from '@apollo/client/react';
+import { isDefined } from 'twenty-shared/utils';
+
 import {
   UpdatePasswordViaResetTokenDocument,
   ValidatePasswordResetTokenDocument,
 } from '~/generated-metadata/graphql';
+import { GrowthOsEmailInput, GrowthOsPasswordInput } from '~/growth-os/auth/GrowthOsAuthFields';
+import { growthOsResetSentState } from '~/growth-os/auth/growthOsAuthAlertState';
+import { growthOsPasswordError } from '~/growth-os/auth/growthOsPasswordRules';
+import { GrowthOsResetSentCard, GrowthOsStateIcon } from '~/growth-os/auth/GrowthOsResetSent';
+import { GROWTH_OS_BRAND } from '~/growth-os/brand';
 import { useNavigateApp } from '~/hooks/useNavigateApp';
+import { getErrorMessageFromApolloError } from '~/utils/get-error-message-from-apollo-error.util';
 import { logError } from '~/utils/logError';
 
-const passwordLengthMessage = msg`Password must be between 8 and 50 characters`;
+// Growth OS: kit reset flow (reset-new.html / expired.html) inside the auth
+// shell. Invalid or used links get the expired state with a way forward
+// instead of a toast and a redirect.
+const ExpiredLink = () => {
+  const { t } = useLingui();
+  const { handleResetPassword } = useHandleResetPassword();
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isSending, setIsSending] = useState(false);
 
-const validationSchema = z
-  .object({
-    passwordResetToken: z.string(),
-    newPassword: z
-      .string()
-      .regex(PASSWORD_REGEX, i18n._(passwordLengthMessage)),
-  })
-  .required();
+  const onSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    const trimmed = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setError(t`Enter an email like name@company.com.`);
+      return;
+    }
+    setError(null);
+    setIsSending(true);
+    await handleResetPassword(trimmed)();
+    setIsSending(false);
+  };
 
-type Form = z.infer<typeof validationSchema>;
+  return (
+    <div className="gos-flow" data-testid="growth-os-reset-expired">
+      <GrowthOsStateIcon tone="danger" kind="clock" />
+      <h1 className="gos-auth-title">{t`This link has expired`}</h1>
+      <p className="gos-auth-sub">
+        {t`Reset links work for 60 minutes and only once. Request a new one and we’ll send it straight away.`}
+      </p>
+      <form onSubmit={onSubmit} noValidate>
+        <GrowthOsEmailInput value={email} onChange={setEmail} error={error} autoFocus />
+        <button className="gos-btn gos-btn-primary gos-btn-block" type="submit" disabled={isSending} aria-busy={isSending || undefined}>
+          {isSending && <span className="gos-spinner" aria-hidden="true" />}
+          {isSending ? t`Sending link…` : t`Send a new link`}
+        </button>
+      </form>
+      <p className="gos-legal-line">
+        {t`Still stuck? Write to`}{' '}
+        <a href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>{GROWTH_OS_BRAND.supportEmail}</a>.
+      </p>
+    </div>
+  );
+};
 
-const StyledMainContainer = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-`;
-
-const StyledForm = styled.form`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-const StyledFullWidthContainer = styled.div`
-  width: 100%;
-`;
-
-const StyledInputContainer = styled.div`
-  margin-bottom: ${themeCssVariables.spacing[3]};
-`;
-
-const StyledMainButtonContainer = styled.div`
-  margin-top: ${themeCssVariables.spacing[2]};
-`;
+const LoadingCard = () => (
+  <div className="gos-flow" aria-busy="true" aria-live="polite">
+    <div className="gos-skel" style={{ height: 34, width: '70%' }} />
+    <div className="gos-skel" style={{ height: 16, width: '90%', marginTop: 12 }} />
+    <div className="gos-skel" style={{ height: 44, width: '100%', marginTop: 28 }} />
+    <div className="gos-skel" style={{ height: 44, width: '100%', marginTop: 24 }} />
+  </div>
+);
 
 export const PasswordReset = () => {
-  const { theme } = useContext(ThemeContext);
-  const { t } = useLingui();
-  const { enqueueErrorSnackBar, enqueueSuccessSnackBar } = useSnackBar();
-
-  const workspacePublicData = useAtomStateValue(workspacePublicDataState);
+  const { t, i18n } = useLingui();
+  const { enqueueSuccessSnackBar } = useSnackBar();
   const setCurrentUser = useSetAtomState(currentUserState);
+  const [resetSent, setResetSent] = useAtomState(growthOsResetSentState);
 
   const navigate = useNavigateApp();
   const { redirect } = useRedirect();
@@ -95,37 +96,25 @@ export const PasswordReset = () => {
   const [email, setEmail] = useState('');
   const [isTokenValid, setIsTokenValid] = useState(false);
   const [isTargetUserPasswordSet, setIsTargetUserPasswordSet] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const passwordResetToken = useParams().passwordResetToken;
 
   const isLogged = useIsLogged();
 
-  const { control, handleSubmit } = useForm<Form>({
-    mode: 'onChange',
-    defaultValues: {
-      passwordResetToken: passwordResetToken ?? '',
-      newPassword: '',
-    },
-    resolver: zodResolver(validationSchema),
-  });
+  // A stale "sent" card from the sign-in page must not cover this page.
+  useEffect(() => {
+    setResetSent(null);
+  }, [setResetSent]);
 
   const { data: tokenValidationData, error: tokenValidationError } = useQuery(
     ValidatePasswordResetTokenDocument,
     {
-      variables: {
-        token: passwordResetToken ?? '',
-      },
+      variables: { token: passwordResetToken ?? '' },
       skip: !passwordResetToken || isTokenValid,
     },
   );
-
-  useEffect(() => {
-    if (tokenValidationError) {
-      enqueueErrorSnackBar({
-        apolloError: tokenValidationError,
-      });
-      navigate(AppPath.Index);
-    }
-  }, [tokenValidationError, enqueueErrorSnackBar, navigate]);
 
   useEffect(() => {
     if (tokenValidationData) {
@@ -149,26 +138,25 @@ export const PasswordReset = () => {
   const { readCaptchaToken } = useReadCaptchaToken();
   const { isCaptchaReady } = useCaptcha();
 
-  const onSubmit = async (formData: Form) => {
+  const onSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    const problem = growthOsPasswordError(newPassword, email);
+    if (problem) {
+      setPasswordError(i18n._(problem));
+      return;
+    }
+    setPasswordError(null);
+    setFormError(null);
+
     try {
       const { data } = await updatePasswordViaToken({
-        variables: {
-          token: formData.passwordResetToken,
-          newPassword: formData.newPassword,
-        },
+        variables: { token: passwordResetToken ?? '', newPassword },
       });
 
       if (!data?.updatePasswordViaResetToken.success) {
-        enqueueErrorSnackBar({
-          message: t`There was an error while updating password.`,
-        });
+        setFormError(t`We couldn’t save your password. Try again.`);
         return;
       }
-
-      const successMessage =
-        isTargetUserPasswordSet === false
-          ? t`Password has been set`
-          : t`Password has been updated`;
 
       setCurrentUser((currentUser) =>
         currentUser ? { ...currentUser, hasPassword: true } : currentUser,
@@ -176,139 +164,81 @@ export const PasswordReset = () => {
 
       if (isLogged) {
         enqueueSuccessSnackBar({
-          message: successMessage,
+          message: isTargetUserPasswordSet ? t`Password updated` : t`Password set`,
         });
         navigate(AppPath.Index);
         return;
       }
 
       if (!isCaptchaReady) {
-        enqueueErrorSnackBar({
-          message: t`Captcha (anti-bot check) is still loading, try again`,
-        });
+        setFormError(t`The security check is still loading. Try again in a moment.`);
         return;
       }
 
-      const token = readCaptchaToken();
+      const captchaToken = readCaptchaToken();
 
       if (isOnAWorkspace) {
-        await signInWithCredentialsInWorkspace(
-          email || '',
-          formData.newPassword,
-          token,
-        );
+        await signInWithCredentialsInWorkspace(email || '', newPassword, captchaToken);
       } else {
-        await signInWithCredentials(email || '', formData.newPassword, token);
+        await signInWithCredentials(email || '', newPassword, captchaToken);
       }
 
       redirect(AppPath.Index);
     } catch (err) {
       logError(err);
-      enqueueErrorSnackBar({
-        apolloError: CombinedGraphQLErrors.is(err) ? err : undefined,
-      });
+      setFormError(
+        err instanceof Error
+          ? getErrorMessageFromApolloError(err)
+          : t`Something went wrong on our side. Try again.`,
+      );
     }
   };
 
-  const passwordActionLabel =
-    isTargetUserPasswordSet === true ? t`Change Password` : t`Set Password`;
+  if (isDefined(resetSent)) {
+    return <GrowthOsResetSentCard />;
+  }
+
+  if (!passwordResetToken || isDefined(tokenValidationError)) {
+    return <ExpiredLink />;
+  }
+
+  if (!isTokenValid || !email) {
+    return <LoadingCard />;
+  }
 
   return (
-    isTokenValid && (
-      <ModalContent isVerticallyCentered isHorizontallyCentered>
-        <StyledMainContainer>
-          <AnimatedEaseIn>
-            <Logo
-              secondaryLogo={workspacePublicData?.logo}
-              placeholder={workspacePublicData?.displayName}
-            />
-          </AnimatedEaseIn>
-          <Title animate>{passwordActionLabel}</Title>
-          <StyledOnboardingContentContainer>
-            {!email ? (
-              <SkeletonTheme
-                baseColor={theme.background.quaternary}
-                highlightColor={theme.background.secondary}
-              >
-                <Skeleton
-                  height={SKELETON_LOADER_HEIGHT_SIZES.standard.m}
-                  count={2}
-                  style={{
-                    marginBottom: themeCssVariables.spacing[2],
-                  }}
-                />
-              </SkeletonTheme>
-            ) : (
-              <StyledForm onSubmit={handleSubmit(onSubmit)}>
-                <StyledFullWidthContainer>
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 800,
-                      damping: 35,
-                    }}
-                  >
-                    <StyledInputContainer>
-                      <TextInput
-                        autoFocus
-                        value={email}
-                        placeholder={t`Email`}
-                        fullWidth
-                        disabled
-                      />
-                    </StyledInputContainer>
-                  </motion.div>
-                </StyledFullWidthContainer>
-                <StyledFullWidthContainer>
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 800,
-                      damping: 35,
-                    }}
-                  >
-                    <Controller
-                      name="newPassword"
-                      control={control}
-                      render={({
-                        field: { onChange, onBlur, value },
-                        fieldState: { error },
-                      }) => (
-                        <StyledInputContainer>
-                          <TextInput
-                            autoFocus
-                            value={value}
-                            type="password"
-                            placeholder={t`New Password`}
-                            onBlur={onBlur}
-                            onChange={onChange}
-                            error={error?.message}
-                            fullWidth
-                          />
-                        </StyledInputContainer>
-                      )}
-                    />
-                  </motion.div>
-                </StyledFullWidthContainer>
-
-                <StyledMainButtonContainer>
-                  <MainButton
-                    variant="secondary"
-                    title={passwordActionLabel}
-                    type="submit"
-                    fullWidth
-                    disabled={isUpdatingPassword}
-                  />
-                </StyledMainButtonContainer>
-              </StyledForm>
-            )}
-          </StyledOnboardingContentContainer>
-        </StyledMainContainer>
-      </ModalContent>
-    )
+    <div className="gos-flow" data-testid="growth-os-reset-new">
+      <h1 className="gos-auth-title">
+        {isTargetUserPasswordSet ? t`Choose a new password` : t`Set your password`}
+      </h1>
+      <p className="gos-auth-sub">
+        {t`For`} <b>{email}</b>.{' '}
+        {t`Use at least 8 characters. A short phrase is easy to remember and hard to guess.`}
+      </p>
+      {formError && (
+        <div className="gos-alert gos-alert-danger" role="alert">
+          <div><b>{formError}</b></div>
+        </div>
+      )}
+      <form onSubmit={onSubmit} noValidate>
+        <input type="email" name="username" autoComplete="username" value={email} readOnly hidden />
+        <GrowthOsPasswordInput
+          value={newPassword}
+          onChange={(value) => {
+            setNewPassword(value);
+            if (passwordError) setPasswordError(null);
+          }}
+          mode="new"
+          email={email}
+          label={t`New password`}
+          error={passwordError}
+          autoFocus
+        />
+        <button className="gos-btn gos-btn-primary gos-btn-block" type="submit" disabled={isUpdatingPassword} aria-busy={isUpdatingPassword || undefined}>
+          {isUpdatingPassword && <span className="gos-spinner" aria-hidden="true" />}
+          {isUpdatingPassword ? t`Saving…` : t`Save and sign in`}
+        </button>
+      </form>
+    </div>
   );
 };
