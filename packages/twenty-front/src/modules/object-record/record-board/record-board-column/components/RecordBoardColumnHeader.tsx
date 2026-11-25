@@ -211,7 +211,11 @@ export const RecordBoardColumnHeader = () => {
   };
 
   return (
-    <StyledColumn data-has-left-border={columnIndex > 0 ? 'true' : undefined}>
+    <StyledColumn
+      data-has-left-border={columnIndex > 0 ? 'true' : undefined}
+      className="growth-os-board-column-header"
+      data-growth-os-stage-color={columnDefinition.color}
+    >
       <DragDropItemSortableHandle
         fill
         disabled={isRecordBoardViewSettingsReadOnly}

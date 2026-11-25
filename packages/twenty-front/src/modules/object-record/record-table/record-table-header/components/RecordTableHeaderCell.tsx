@@ -1,3 +1,4 @@
+import { growthOsFieldTypeById } from '~/growth-os/table/growthOsFieldTypeById';
 import { type RecordField } from '@/object-record/record-field/types/RecordField';
 import { hasRecordGroupsComponentSelector } from '@/object-record/record-group/states/selectors/hasRecordGroupsComponentSelector';
 
@@ -79,6 +80,9 @@ export const RecordTableHeaderCell = ({
 
   const isResizingAnyColumn = isDefined(resizedFieldMetadataId);
 
+  const { objectMetadataItem: growthOsObjectMetadataItem } =
+    useRecordTableContextOrThrow();
+
   const shouldDisplayBorderBottom =
     hasRecordGroups ||
     !isFirstRowActiveOrFocused ||
@@ -91,6 +95,10 @@ export const RecordTableHeaderCell = ({
         getRecordTableColumnFieldWidthClassName(recordFieldIndex),
       )}
       key={recordField.fieldMetadataItemId}
+      data-growth-os-field-type={growthOsFieldTypeById(
+        growthOsObjectMetadataItem,
+        recordField.fieldMetadataItemId,
+      )}
       onPointerCancel={handlePointerCancel}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}

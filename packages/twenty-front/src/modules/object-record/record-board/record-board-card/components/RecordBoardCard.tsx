@@ -173,6 +173,7 @@ export const RecordBoardCard = () => {
       >
         <StyledBoardCardWrapper
           data-click-outside-id={RECORD_BOARD_CARD_CLICK_OUTSIDE_ID}
+          className="growth-os-board-card"
           onContextMenu={handleContextMenuOpen}
           onPointerCancel={handlePointerCancel}
           onPointerDown={handlePointerDown}

@@ -104,7 +104,10 @@ export const PageLayoutRecordIdentifierBar = ({
 
   return (
     <StyledBar hasPinnedTab={hasPinnedTab} hasTabList={hasTabList}>
-      <StyledIdentifierCell hasPinnedTab={hasPinnedTab}>
+      <StyledIdentifierCell
+        hasPinnedTab={hasPinnedTab}
+        className="growth-os-record-identifier-cell"
+      >
         <RecordIdentifierBarTitle
           objectNameSingular={targetRecordIdentifier.targetObjectNameSingular}
           objectRecordId={targetRecordIdentifier.id}

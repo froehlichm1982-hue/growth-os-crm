@@ -79,7 +79,12 @@ export const RecordBoardColumn = ({
         columnIndex: recordBoardColumnIndex,
       }}
     >
-      <StyledColumn ref={ref} data-record-board-column-id={recordBoardColumnId}>
+      <StyledColumn
+        ref={ref}
+        data-record-board-column-id={recordBoardColumnId}
+        className="growth-os-board-column"
+        data-growth-os-stage-color={recordGroupDefinition.color}
+      >
         <RecordBoardColumnCardsContainer
           recordBoardColumnId={recordBoardColumnId}
         />

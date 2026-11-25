@@ -17,6 +17,7 @@ import { CoreObjectNameSingular } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 import { PageLayoutType } from '~/generated-metadata/graphql';
+import { GrowthOsRecordHero } from '~/growth-os/record/GrowthOsRecordHero';
 
 const StyledShowPageBannerContainer = styled.div`
   flex-shrink: 0;
@@ -75,6 +76,12 @@ export const PageLayoutRecordPageRenderer = ({
       )}
 
       <StyledShowPageRightContainer data-record-show-page-body="">
+        {!isInSidePanel && (
+          <GrowthOsRecordHero
+            objectNameSingular={targetRecordIdentifier.targetObjectNameSingular}
+            recordId={targetRecordIdentifier.id}
+          />
+        )}
         <StyledContentContainer>
           <LayoutRenderingProvider
             value={{

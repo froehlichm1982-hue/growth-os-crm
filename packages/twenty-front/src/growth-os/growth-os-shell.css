@@ -248,3 +248,182 @@ body {
 [class*='_placeholderChar_'] {
   font-family: var(--spv-font-ui);
 }
+
+/* 10. Pipeline board: stage-tinted columns, accent rule on the header,
+   lifted white deal cards with the amount as the headline figure. */
+html:root {
+  --growth-os-stage-red: #d0605a;
+  --growth-os-stage-red-bg: #fbf3f2;
+  --growth-os-stage-purple: #7d68c4;
+  --growth-os-stage-purple-bg: #f6f4fb;
+  --growth-os-stage-sky: #3f86c0;
+  --growth-os-stage-sky-bg: #f1f6fb;
+  --growth-os-stage-turquoise: #3a7872;
+  --growth-os-stage-turquoise-bg: #eff6f5;
+  --growth-os-stage-yellow: #c48a1a;
+  --growth-os-stage-yellow-bg: #fcf7ec;
+  --growth-os-stage-gray: #65758b;
+  --growth-os-stage-gray-bg: #f5f7f9;
+}
+
+.growth-os-board-column,
+.growth-os-board-column-header {
+  --stage: var(--growth-os-stage-gray);
+  --stage-bg: var(--growth-os-stage-gray-bg);
+}
+[data-growth-os-stage-color='red'] { --stage: var(--growth-os-stage-red); --stage-bg: var(--growth-os-stage-red-bg); }
+[data-growth-os-stage-color='orange'],
+[data-growth-os-stage-color='yellow'] { --stage: var(--growth-os-stage-yellow); --stage-bg: var(--growth-os-stage-yellow-bg); }
+[data-growth-os-stage-color='purple'],
+[data-growth-os-stage-color='pink'] { --stage: var(--growth-os-stage-purple); --stage-bg: var(--growth-os-stage-purple-bg); }
+[data-growth-os-stage-color='sky'],
+[data-growth-os-stage-color='blue'] { --stage: var(--growth-os-stage-sky); --stage-bg: var(--growth-os-stage-sky-bg); }
+[data-growth-os-stage-color='turquoise'],
+[data-growth-os-stage-color='green'] { --stage: var(--growth-os-stage-turquoise); --stage-bg: var(--growth-os-stage-turquoise-bg); }
+
+html:root .growth-os-board-column {
+  background: var(--stage-bg) !important;
+  border-left: none !important;
+  border-radius: 0 0 10px 10px;
+  margin: 0 5px;
+  padding: 0 4px 8px;
+}
+
+html:root .growth-os-board-column-header {
+  background: var(--stage-bg) !important;
+  border-left: none !important;
+  border-radius: 10px 10px 0 0;
+  box-shadow: inset 0 3px 0 var(--stage);
+  margin: 8px 5px 0;
+  padding-top: 3px;
+}
+
+html:root .growth-os-board-column-header > div {
+  background: transparent !important;
+}
+
+html:root .growth-os-board-column-header span[class*='_tag_'] {
+  background: transparent !important;
+  color: var(--stage) !important;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+html:root .growth-os-board-column-header [data-testid='tooltip'] {
+  color: #111e32;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 600;
+}
+
+html:root .growth-os-board-card > div > div {
+  background: #ffffff !important;
+  border: 1px solid #e3e8ee !important;
+  border-radius: 9px !important;
+  box-shadow: 0 1px 2px #111e320d, 0 2px 8px #111e3208 !important;
+  transition: box-shadow 120ms ease, transform 120ms ease;
+}
+
+html:root .growth-os-board-card > div > div:hover {
+  box-shadow: 0 2px 4px #111e3212, 0 8px 20px #111e320f !important;
+  transform: translateY(-1px);
+}
+
+/* Card fields: no icon gutter; amount as the headline, close date muted. */
+html:root .growth-os-board-card-field > div > div:first-child:has(svg.tabler-icon) {
+  display: none;
+}
+
+html:root .growth-os-board-card-field[data-growth-os-field-type='CURRENCY'] {
+  color: #111e32;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+html:root .growth-os-board-card-field[data-growth-os-field-name='closeDate'] {
+  color: #65758b;
+  font-size: 0.8rem;
+}
+
+/* 11. Tables: amounts right-aligned in tabular figures, soft pills. */
+html:root .table-cell[data-growth-os-field-type='CURRENCY'],
+html:root .header-cell[data-growth-os-field-type='CURRENCY'] {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+html:root .table-cell[data-growth-os-field-type='CURRENCY'] .record-table-cell-display,
+html:root .table-cell[data-growth-os-field-type='CURRENCY'] .record-table-cell-display > div,
+html:root .table-cell[data-growth-os-field-type='CURRENCY'] [class*='_truncate_'] {
+  justify-content: flex-end;
+  padding-right: 6px;
+  text-align: right;
+}
+
+html:root .header-cell[data-growth-os-field-type='CURRENCY'] [data-dnd-sortable-handle] div {
+  justify-content: flex-end;
+}
+
+html:root .table-cell span[class*='_tag_'] {
+  border-radius: 999px !important;
+  font-weight: 500;
+  padding: 0 9px !important;
+}
+
+html:root .table-cell[data-growth-os-field-type='SELECT'] span[class*='_tag_'] {
+  font-size: 0.78rem;
+}
+
+/* 12. Record hero sits on the warm surface; bigger logo tile. */
+html:root .growth-os-record-hero [class*='_root_'] {
+  border-radius: 12px !important;
+  font-size: 1.35rem !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  width: 52px !important;
+}
+
+@media (max-width: 768px) {
+  html:root .growth-os-record-hero [class*='_root_'] {
+    height: 40px !important;
+    min-width: 40px !important;
+    width: 40px !important;
+  }
+}
+
+/* Record pages: the hero carries the editable title, so the identifier bar
+   keeps only the tabs. */
+html:root [data-record-show-page-body]:has(.growth-os-record-hero) .growth-os-record-identifier-cell > :first-child {
+  visibility: hidden;
+}
+
+html:root .growth-os-record-hero h3 {
+  font-family: var(--spv-font-display, Georgia, serif) !important;
+  font-size: 1.75rem !important;
+  font-weight: 400 !important;
+  height: auto !important;
+  line-height: 1.15 !important;
+}
+
+html:root .growth-os-record-hero h3 * {
+  font-size: inherit !important;
+  height: auto !important;
+  line-height: inherit !important;
+}
+
+@media (max-width: 768px) {
+  html:root .growth-os-record-hero h3 {
+    font-size: 1.35rem !important;
+  }
+}
+
+/* Primary text action in the page header (e.g. Send Email) in brand teal. */
+html:root [data-click-outside-id='page-action-container'] button[data-accent='default']:has([class*='_text_']) {
+  background: #3a7872 !important;
+  border-color: #3a7872 !important;
+  color: #ffffff !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-accent='default']:has([class*='_text_']) * {
+  color: #ffffff !important;
+}

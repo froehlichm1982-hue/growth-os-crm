@@ -80,7 +80,11 @@ export const RecordBoardCardBody = () => {
         }
 
         return (
-          <StopPropagationContainer key={recordField.fieldMetadataItemId}>
+          <StopPropagationContainer
+            key={recordField.fieldMetadataItemId}
+            growthOsFieldType={fieldMetadataItem.type}
+            growthOsFieldName={fieldMetadataItem.name}
+          >
             <FieldContext.Provider
               value={{
                 recordId,

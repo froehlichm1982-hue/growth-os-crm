@@ -1,3 +1,4 @@
+import { growthOsFieldTypeById } from '~/growth-os/table/growthOsFieldTypeById';
 import { hasRecordGroupsComponentSelector } from '@/object-record/record-group/states/selectors/hasRecordGroupsComponentSelector';
 import { useRecordTableContextOrThrow } from '@/object-record/record-table/contexts/RecordTableContext';
 import { useRecordTableRowContextOrThrow } from '@/object-record/record-table/contexts/RecordTableRowContext';
@@ -15,7 +16,8 @@ export const RecordTableFieldsCells = () => {
 
   const { isDragging } = useRecordTableRowDraggableContextOrThrow();
 
-  const { visibleRecordFields } = useRecordTableContextOrThrow();
+  const { visibleRecordFields, objectMetadataItem } =
+    useRecordTableContextOrThrow();
 
   const hasRecordGroups = useAtomComponentSelectorValue(
     hasRecordGroupsComponentSelector,
@@ -67,6 +69,10 @@ export const RecordTableFieldsCells = () => {
           <RecordTableCellStyleWrapper
             isSelected={isSelected}
             isDragging={isDragging}
+            data-growth-os-field-type={growthOsFieldTypeById(
+              objectMetadataItem,
+              recordField.fieldMetadataItemId,
+            )}
             widthClassName={getRecordTableColumnFieldWidthClassName(
               recordFieldIndex + 1,
             )}

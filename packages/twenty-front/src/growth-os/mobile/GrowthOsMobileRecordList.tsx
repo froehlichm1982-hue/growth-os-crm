@@ -148,10 +148,24 @@ const GrowthOsMobileRecordCard = ({
   );
 };
 
-const StyledHiddenTable = styled.div`
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
+// Always rendered so the table never remounts (a remount resets the loaded
+// record ids, which would flip this wrapper again and loop). When the cards are
+// shown the table is parked off-screen with a real size, so virtualisation and
+// loading keep working.
+const StyledTableSlot = styled.div`
+  display: contents;
+
+  &[data-parked='true'] {
+    display: block;
+    height: 600px;
+    left: -10000px;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    width: 100vw;
+  }
 `;
 
 const GrowthOsMobileRecordList = ({ recordIds }: { recordIds: string[] }) => {
@@ -200,14 +214,17 @@ export const GrowthOsMobileRecordIndex = ({
     recordIndexAllRecordIdsComponentSelector,
   );
 
-  if (!isMobile || recordIds.length === 0) {
-    return <>{children}</>;
-  }
+  const showCards = isMobile && recordIds.length > 0;
 
   return (
     <>
-      <GrowthOsMobileRecordList recordIds={recordIds} />
-      <StyledHiddenTable aria-hidden>{children}</StyledHiddenTable>
+      {showCards && <GrowthOsMobileRecordList recordIds={recordIds} />}
+      <StyledTableSlot
+        data-parked={showCards ? 'true' : 'false'}
+        aria-hidden={showCards ? true : undefined}
+      >
+        {children}
+      </StyledTableSlot>
     </>
   );
 };

@@ -14,6 +14,7 @@ import { useHasCurrentViewNonReadableFields } from '@/object-record/record-index
 import { RecordListContainer } from '@/object-record/record-list/components/RecordListContainer';
 import { ViewType } from '@/views/types/ViewType';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+import { GrowthOsPipelineKpis } from '~/growth-os/pipeline/GrowthOsPipelineKpis';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -50,6 +51,11 @@ export const RecordIndexContainer = () => {
       ) : (
         <>
           <RecordIndexFiltersToContextStoreEffect />
+          {objectNameSingular === 'opportunity' &&
+            (recordIndexViewType === ViewType.TABLE ||
+              recordIndexViewType === ViewType.KANBAN) && (
+              <GrowthOsPipelineKpis />
+            )}
           {recordIndexViewType === ViewType.TABLE && (
             <RecordIndexTableContainer recordTableId={recordIndexId} />
           )}
