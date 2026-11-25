@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Parent, Query, ResolveField } from '@nestjs/graphql';
 
@@ -23,6 +24,7 @@ import { RoleDTO } from 'src/engine/metadata-modules/role/dtos/role.dto';
 
 import { ApiKeyRoleService } from './services/api-key-role.service';
 import { ApiKeyService } from './services/api-key.service';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @MetadataResolver(() => ApiKeyEntity)
 @UseFilters(AuthGraphqlApiExceptionFilter, PermissionsGraphqlApiExceptionFilter)
@@ -31,6 +33,11 @@ import { ApiKeyService } from './services/api-key.service';
   SettingsPermissionGuard(PermissionFlagType.API_KEYS_AND_WEBHOOKS),
 )
 export class ApiKeyResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly apiKeyService: ApiKeyService,
     private readonly apiKeyRoleService: ApiKeyRoleService,
@@ -81,6 +88,8 @@ export class ApiKeyResolver {
     @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('input') input: CreateApiKeyInput,
   ): Promise<ApiKeyEntity> {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertFeature(workspace.id, 'api');
     return this.apiKeyService.create({
       name: input.name,
       expiresAt: new Date(input.expiresAt),

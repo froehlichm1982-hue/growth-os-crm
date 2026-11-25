@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import {
   Args,
@@ -46,11 +47,17 @@ import { ViewGraphqlApiExceptionFilter } from 'src/engine/metadata-modules/view/
 import { ViewPermissionGuard } from 'src/engine/metadata-modules/view-permissions/guards/view-permission.guard';
 import { CreateViewPermissionGuard } from 'src/engine/metadata-modules/view-permissions/guards/create-view-permission.guard';
 import { ApplicationTranslationCatalogService } from 'src/engine/metadata-modules/application-translation-catalog/services/application-translation-catalog.service';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @MetadataResolver(() => ViewDTO)
 @UseFilters(ViewGraphqlApiExceptionFilter)
 @UseGuards(WorkspaceAuthGuard)
 export class ViewResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly viewService: ViewService,
     private readonly viewWidgetUpsertService: ViewWidgetUpsertService,
@@ -178,6 +185,13 @@ export class ViewResolver {
     userWorkspaceId: string | undefined,
   ): Promise<ViewDTO> {
     const visibility = input.visibility ?? ViewVisibility.WORKSPACE;
+    // Growth OS CRM plan gate
+    if (input.type === ViewType.KANBAN) {
+      await this.growthOsEntitlementService?.assertCanCreatePipeline(
+        workspace.id,
+        input.objectMetadataId,
+      );
+    }
 
     input.visibility = visibility;
 

@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import {
   Args,
@@ -49,6 +50,7 @@ import { AiGraphqlApiExceptionInterceptor } from 'src/engine/metadata-modules/ai
 import { InjectWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/inject-workspace-scoped-repository.decorator';
 import { WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 import { getChatModelId } from 'src/engine/metadata-modules/ai/ai-models/utils/get-chat-model-id.util';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @UseGuards(WorkspaceAuthGuard, SettingsPermissionGuard(PermissionFlagType.AI))
 @UseInterceptors(AiGraphqlApiExceptionInterceptor)
@@ -58,6 +60,11 @@ import { getChatModelId } from 'src/engine/metadata-modules/ai/ai-models/utils/g
 )
 @MetadataResolver(() => AgentChatThreadDTO)
 export class AgentChatResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly agentChatService: AgentChatService,
     private readonly agentChatStreamingService: AgentChatStreamingService,
@@ -173,6 +180,9 @@ export class AgentChatResolver {
     @AuthUserWorkspaceId() userWorkspaceId: string,
     @AuthWorkspace() workspace: WorkspaceEntity,
   ): Promise<SendChatMessageResultDTO> {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.consumeAiRequest(workspace.id);
+
     if (this.aiModelRegistryService.getAvailableModels().length === 0) {
       throw new AiException(
         'No AI models are available. Configure at least one AI provider.',

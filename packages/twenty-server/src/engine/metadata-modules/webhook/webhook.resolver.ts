@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseGuards, UseInterceptors } from '@nestjs/common';
 import { Args, Mutation, Query } from '@nestjs/graphql';
 
@@ -15,6 +16,7 @@ import { WebhookDTO } from 'src/engine/metadata-modules/webhook/dtos/webhook.dto
 import { WebhookGraphqlApiExceptionInterceptor } from 'src/engine/metadata-modules/webhook/interceptors/webhook-graphql-api-exception.interceptor';
 import { WebhookService } from 'src/engine/metadata-modules/webhook/webhook.service';
 import { WorkspaceMigrationGraphqlApiExceptionInterceptor } from 'src/engine/workspace-manager/workspace-migration/interceptors/workspace-migration-graphql-api-exception.interceptor';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @UseGuards(WorkspaceAuthGuard)
 @UseInterceptors(
@@ -23,6 +25,11 @@ import { WorkspaceMigrationGraphqlApiExceptionInterceptor } from 'src/engine/wor
 )
 @MetadataResolver(() => WebhookDTO)
 export class WebhookResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(private readonly webhookService: WebhookService) {}
 
   @Query(() => [WebhookDTO])
@@ -48,6 +55,8 @@ export class WebhookResolver {
     @Args('input') input: CreateWebhookInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
   ): Promise<WebhookDTO> {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertFeature(workspace.id, 'api');
     return await this.webhookService.create(input, workspace.id);
   }
 

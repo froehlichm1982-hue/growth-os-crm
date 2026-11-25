@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { msg } from '@lingui/core/macro';
@@ -37,9 +38,15 @@ import {
 import { WorkflowThrottlingWorkspaceService } from 'src/modules/workflow/workflow-runner/workflow-run-queue/workspace-services/workflow-throttling.workspace-service';
 import { WorkflowRunWorkspaceService } from 'src/modules/workflow/workflow-runner/workflow-run/workflow-run.workspace-service';
 import { WorkflowTriggerType } from 'src/modules/workflow/workflow-trigger/types/workflow-trigger.type';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @Injectable()
 export class WorkflowRunnerWorkspaceService {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   private readonly logger = new Logger(WorkflowRunnerWorkspaceService.name);
   constructor(
     private readonly workflowRunWorkspaceService: WorkflowRunWorkspaceService,
@@ -65,6 +72,12 @@ export class WorkflowRunnerWorkspaceService {
     source: ActorMetadata;
     workflowRunId?: string;
   }) {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertFeature(
+      workspaceId,
+      'workflows',
+    );
+
     const subscriptionInactiveReason =
       await this.billingUsageService.getSubscriptionInactiveReason(workspaceId);
 

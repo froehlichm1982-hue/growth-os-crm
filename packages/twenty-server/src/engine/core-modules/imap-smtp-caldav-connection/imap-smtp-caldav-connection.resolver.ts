@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { Args, Mutation, Query } from '@nestjs/graphql';
 
@@ -24,11 +25,17 @@ import { ConnectedAccountMetadataService } from 'src/engine/metadata-modules/con
 import { ConnectedAccountTokenEncryptionService } from 'src/engine/metadata-modules/connected-account/services/connected-account-token-encryption.service';
 import { PermissionsGraphqlApiExceptionFilter } from 'src/engine/metadata-modules/permissions/utils/permissions-graphql-api-exception.filter';
 import { ImapSmtpCalDavApiService } from 'src/modules/connected-account/services/imap-smtp-caldav-apis.service';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @MetadataResolver()
 @UsePipes(ResolverValidationPipe)
 @UseFilters(AuthGraphqlApiExceptionFilter, PermissionsGraphqlApiExceptionFilter)
 export class ImapSmtpCaldavResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly imapSmtpCaldavService: ImapSmtpCaldavService,
     private readonly imapSmtpCaldavApisService: ImapSmtpCalDavApiService,
@@ -84,6 +91,12 @@ export class ImapSmtpCaldavResolver {
     @AuthUserWorkspaceId() userWorkspaceId: string,
     @Args('id', { type: () => UUIDScalarType, nullable: true }) id?: string,
   ): Promise<ImapSmtpCaldavConnectionSuccessDTO> {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertFeature(
+      workspace.id,
+      'emailCalendarSync',
+    );
+
     const existingAccount = isDefined(id)
       ? await this.connectedAccountMetadataService.findByIdAndUserWorkspaceId({
           id,

@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -46,8 +47,14 @@ import { buildSystemAuthContext } from 'src/engine/twenty-orm/utils/build-system
 import { type WorkspaceMemberWorkspaceEntity } from 'src/modules/workspace-member/standard-objects/workspace-member.workspace-entity';
 import { assert } from 'src/utils/assert';
 import { getDomainFromEmailOrThrow } from 'src/utils/get-domain-from-email-or-throw';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 export class UserWorkspaceService {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   private readonly logger = new Logger(UserWorkspaceService.name);
 
   constructor(
@@ -228,6 +235,13 @@ export class UserWorkspaceService {
       return;
     }
 
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertSeatsAvailable(
+      workspace.id,
+      1,
+      { countPendingInvitations: false },
+    );
+
     const resolvedRoleId = await this.resolveRoleIdForNewMember(
       roleId,
       workspace,
@@ -252,6 +266,11 @@ export class UserWorkspaceService {
       workspace.id,
       user.email,
     );
+
+    // Growth OS CRM: seat quantity sync to growth-os-billing (best effort).
+    await this.growthOsEntitlementService
+      ?.notifySeatChange(workspace.id)
+      .catch(() => undefined);
 
     await this.onboardingService.setOnboardingCreateProfilePending({
       userId: user.id,

@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import {
   Args,
@@ -52,6 +53,7 @@ import { fromFlatFieldMetadataToFieldMetadataDto } from 'src/engine/metadata-mod
 import { resolveEffectiveEntityProperty } from 'src/engine/metadata-modules/utils/resolve-effective-entity-property.util';
 import { PermissionsGraphqlApiExceptionFilter } from 'src/engine/metadata-modules/permissions/utils/permissions-graphql-api-exception.filter';
 import { ApplicationTranslationCatalogService } from 'src/engine/metadata-modules/application-translation-catalog/services/application-translation-catalog.service';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 // Keep @Parent() structurally typed so ResolverValidationPipe does not validate
 // FieldMetadataDTO date decorators on already-loaded parent records.
@@ -68,6 +70,11 @@ type FieldMetadataStandardOverrideParent = Pick<
   PreventNestToAutoLogGraphqlErrorsFilter,
 )
 export class FieldMetadataResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly fieldMetadataService: FieldMetadataService,
     private readonly applicationTranslationCatalogService: ApplicationTranslationCatalogService,
@@ -247,6 +254,15 @@ export class FieldMetadataResolver {
     @Args('input') input: CreateOneFieldMetadataInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
   ) {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertCanCreateCustomField(
+      workspaceId,
+      input.field.objectMetadataId,
+      input.field.type === 'RELATION' || input.field.type === 'MORPH_RELATION'
+        ? 2
+        : 1,
+    );
+
     try {
       const flatFieldMetadata = await this.fieldMetadataService.createOneField({
         createFieldInput: input.field,

@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -16,6 +17,7 @@ import {
 import { MessagingMessageListFetchService } from 'src/modules/messaging/message-import-manager/services/messaging-message-list-fetch.service';
 import { MessagingMonitoringService } from 'src/modules/messaging/monitoring/services/messaging-monitoring.service';
 import { MessageChannelEntity } from 'src/engine/metadata-modules/message-channel/entities/message-channel.entity';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 export type MessagingMessageListFetchJobData = {
   messageChannelId: string;
@@ -27,6 +29,11 @@ export type MessagingMessageListFetchJobData = {
   scope: Scope.REQUEST,
 })
 export class MessagingMessageListFetchJob {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly messagingMessageListFetchService: MessagingMessageListFetchService,
     private readonly messagingMonitoringService: MessagingMonitoringService,
@@ -39,6 +46,18 @@ export class MessagingMessageListFetchJob {
   @Process(MessagingMessageListFetchJob.name)
   async handle(data: MessagingMessageListFetchJobData): Promise<void> {
     const { messageChannelId, workspaceId } = data;
+
+    // Growth OS CRM plan gate
+    // Sync is paused (never deleted) while the plan has no email/calendar sync.
+    if (
+      this.growthOsEntitlementService &&
+      !(await this.growthOsEntitlementService.isFeatureEnabled(
+        workspaceId,
+        'emailCalendarSync',
+      ))
+    ) {
+      return;
+    }
 
     await this.messagingMonitoringService.track({
       eventName: 'message_list_fetch_job.triggered',

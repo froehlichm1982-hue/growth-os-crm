@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { msg } from '@lingui/core/macro';
 import { Injectable, Logger } from '@nestjs/common';
 import {
@@ -52,9 +53,15 @@ import { assertVersionCanBeActivated } from 'src/modules/workflow/workflow-trigg
 import { computeCronPatternFromSchedule } from 'src/modules/workflow/workflow-trigger/utils/compute-cron-pattern-from-schedule';
 import { getWorkflowCommandMenuItemLabel } from 'src/modules/workflow/workflow-trigger/utils/get-workflow-command-menu-item-label.util';
 import { assertNever } from 'src/utils/assert';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @Injectable()
 export class WorkflowTriggerWorkspaceService {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   private readonly logger = new Logger(WorkflowTriggerWorkspaceService.name);
 
   constructor(
@@ -101,6 +108,12 @@ export class WorkflowTriggerWorkspaceService {
     workflowVersionId: string,
     workspaceId: string,
   ) {
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertFeature(
+      workspaceId,
+      'workflows',
+    );
+
     const authContext = buildSystemAuthContext(workspaceId);
 
     return this.workspaceOrmManager.executeInWorkspaceContext(async () => {

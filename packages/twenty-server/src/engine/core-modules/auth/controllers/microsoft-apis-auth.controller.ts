@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import {
   Controller,
   Get,
@@ -31,10 +32,16 @@ import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twent
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { PublicEndpointGuard } from 'src/engine/guards/public-endpoint.guard';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @Controller(`${ApiPath.Auth}/microsoft-apis`)
 @UseFilters(AuthRestApiExceptionFilter)
 export class MicrosoftAPIsAuthController {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly microsoftAPIsService: MicrosoftAPIsService,
     private readonly transientTokenService: TransientTokenService,
@@ -92,6 +99,12 @@ export class MicrosoftAPIsAuthController {
           AuthExceptionCode.WORKSPACE_NOT_FOUND,
         );
       }
+
+      // Growth OS CRM plan gate
+      await this.growthOsEntitlementService?.assertFeature(
+        workspaceId,
+        'emailCalendarSync',
+      );
 
       workspace = await this.workspaceRepository.findOneBy({
         id: workspaceId,

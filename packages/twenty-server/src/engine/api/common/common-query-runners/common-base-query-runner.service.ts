@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { type PermissionFlagType } from 'twenty-shared/constants';
@@ -82,12 +83,25 @@ import { getWorkspaceContext } from 'src/engine/twenty-orm/storage/orm-workspace
 import { resolveRolePermissionConfig } from 'src/engine/twenty-orm/utils/resolve-role-permission-config.util';
 import { WorkspaceOrmManager } from 'src/engine/twenty-orm/workspace-orm.manager';
 import { WorkspaceCacheService } from 'src/engine/workspace-cache/services/workspace-cache.service';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
+
+const GROWTH_OS_READ_OPERATIONS = new Set<string>([
+  'findOne',
+  'findMany',
+  'findDuplicates',
+  'groupBy',
+]);
 
 @Injectable()
 export abstract class CommonBaseQueryRunnerService<
   Args extends CommonQueryArgs,
   Output extends CommonQueryResult,
 > {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   @Inject()
   protected readonly workspaceQueryHookService: WorkspaceQueryHookService;
   @Inject()
@@ -142,6 +156,10 @@ export abstract class CommonBaseQueryRunnerService<
 
     if ((queryRunnerContext.nestedOperationDepth ?? 0) === 0) {
       await this.throttleQueryExecution(authContext);
+    }
+
+    if ((queryRunnerContext.nestedOperationDepth ?? 0) === 0) {
+      await this.enforceGrowthOsPlan(authContext);
     }
 
     this.recordApiUsage(authContext);
@@ -573,6 +591,33 @@ export abstract class CommonBaseQueryRunnerService<
       resourceContext: apiType,
       spenders,
     });
+  }
+
+  // Growth OS CRM: read-only after the grace period (reads and exports keep
+  // working) and a per-plan API-key rate limit on top of the upstream one.
+  private async enforceGrowthOsPlan(authContext: WorkspaceAuthContext) {
+    if (!this.growthOsEntitlementService) return;
+
+    const workspaceId = authContext.workspace.id;
+    const isWrite = !GROWTH_OS_READ_OPERATIONS.has(this.operationName);
+
+    if (isWrite) {
+      await this.growthOsEntitlementService.assertWritable(workspaceId);
+    }
+
+    if (!isApiKeyAuthContext(authContext)) return;
+
+    const entitlement =
+      await this.growthOsEntitlementService.getEntitlement(workspaceId);
+
+    if (entitlement.apiRequestsPerMinute <= 0) return;
+
+    await this.throttlerService.tokenBucketThrottleOrThrow(
+      `growth-os:api:${workspaceId}`,
+      1,
+      entitlement.apiRequestsPerMinute,
+      60_000,
+    );
   }
 
   private async throttleQueryExecution(authContext: WorkspaceAuthContext) {

@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 
 import { isNonEmptyString } from '@sniptt/guards';
@@ -26,6 +27,7 @@ import {
 } from 'src/engine/utils/global-exception-handler.util';
 import { WorkspaceCacheStorageService } from 'src/engine/workspace-cache-storage/workspace-cache-storage.service';
 import { type CustomException } from 'src/utils/custom-exception';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 const DEAD_SESSION_COOKIE_EXCEPTION_CODES = new Set<string>([
   AuthExceptionCode.UNAUTHENTICATED,
@@ -37,6 +39,11 @@ const DEAD_SESSION_COOKIE_EXCEPTION_CODES = new Set<string>([
 
 @Injectable()
 export class MiddlewareService {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly accessTokenService: AccessTokenService,
     private readonly workspaceStorageCacheService: WorkspaceCacheStorageService,
@@ -130,6 +137,14 @@ export class MiddlewareService {
       throw new Error('No data sources found');
     }
 
+    // Growth OS CRM plan gate: API keys only work on plans with API access.
+    if (isDefined(data.apiKey) && isDefined(data.workspace)) {
+      await this.growthOsEntitlementService?.assertFeature(
+        data.workspace.id,
+        'api',
+      );
+    }
+
     bindDataToRequestObject(data, request, metadataVersion);
   }
 
@@ -179,6 +194,14 @@ export class MiddlewareService {
     const metadataVersion = data.workspace
       ? await this.getOrSeedMetadataVersion(data.workspace)
       : undefined;
+
+    // Growth OS CRM plan gate: API keys only work on plans with API access.
+    if (isDefined(data.apiKey) && isDefined(data.workspace)) {
+      await this.growthOsEntitlementService?.assertFeature(
+        data.workspace.id,
+        'api',
+      );
+    }
 
     bindDataToRequestObject(data, request, metadataVersion);
   }

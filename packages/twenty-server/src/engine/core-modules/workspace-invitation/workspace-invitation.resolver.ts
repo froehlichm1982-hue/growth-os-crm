@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { Args, Mutation, Query } from '@nestjs/graphql';
 
@@ -22,6 +23,7 @@ import { buildSystemAuthContext } from 'src/engine/twenty-orm/utils/build-system
 import { WorkspaceMemberWorkspaceEntity } from 'src/modules/workspace-member/standard-objects/workspace-member.workspace-entity';
 
 import { SendInvitationsInput } from './dtos/send-invitations.input';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @UseGuards(
   WorkspaceAuthGuard,
@@ -34,6 +36,11 @@ import { SendInvitationsInput } from './dtos/send-invitations.input';
 )
 @MetadataResolver()
 export class WorkspaceInvitationResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly workspaceOrmManager: WorkspaceOrmManager,
     private readonly workspaceInvitationService: WorkspaceInvitationService,
@@ -94,6 +101,14 @@ export class WorkspaceInvitationResolver {
     @AuthWorkspace() workspace: WorkspaceEntity,
   ): Promise<SendInvitationsDTO> {
     const authContext = buildSystemAuthContext(workspace.id);
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertSeatsAvailable(
+      workspace.id,
+      new Set(sendInviteLinkInput.emails.map((email) => email.toLowerCase()))
+        .size,
+      { countPendingInvitations: true },
+    );
+
 
     const workspaceMember =
       await this.workspaceOrmManager.executeInWorkspaceContext(async () => {

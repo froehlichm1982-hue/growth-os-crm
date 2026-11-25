@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import {
   UseFilters,
   UseGuards,
@@ -61,6 +62,7 @@ import { UserRoleService } from 'src/engine/metadata-modules/user-role/user-role
 import { WorkspaceCacheService } from 'src/engine/workspace-cache/services/workspace-cache.service';
 import { WorkspaceMigrationGraphqlApiExceptionInterceptor } from 'src/engine/workspace-manager/workspace-migration/interceptors/workspace-migration-graphql-api-exception.interceptor';
 import { WorkspaceMemberWorkspaceEntity } from 'src/modules/workspace-member/standard-objects/workspace-member.workspace-entity';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @MetadataResolver(() => RoleDTO)
 @UsePipes(ResolverValidationPipe)
@@ -75,6 +77,11 @@ import { WorkspaceMemberWorkspaceEntity } from 'src/modules/workspace-member/sta
 )
 @UseInterceptors(WorkspaceMigrationGraphqlApiExceptionInterceptor)
 export class RoleResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly userRoleService: UserRoleService,
     private readonly roleService: RoleService,
@@ -138,6 +145,11 @@ export class RoleResolver {
     @Args('createRoleInput') createRoleInput: CreateRoleInput,
   ): Promise<RoleDTO> {
     const { id: workspaceId } = workspace;
+    // Growth OS CRM plan gate
+    await this.growthOsEntitlementService?.assertFeature(
+      workspaceId,
+      'customRoles',
+    );
     const { workspaceCustomFlatApplication } =
       await this.applicationService.findWorkspaceTwentyStandardAndCustomApplicationOrThrow(
         {

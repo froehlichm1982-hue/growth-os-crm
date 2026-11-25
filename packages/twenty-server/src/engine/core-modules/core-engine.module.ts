@@ -84,12 +84,14 @@ import { CreateCalendarEventModule } from 'src/modules/calendar/calendar-event-c
 import { CallRecordingModule } from 'src/modules/call-recording/call-recording.module';
 import { DashboardModule } from 'src/modules/dashboard/dashboard.module';
 import { SendEmailModule } from 'src/modules/messaging/message-outbound-manager/send-email.module';
+import { GrowthOsModule } from 'src/engine/core-modules/growth-os/growth-os.module';
 import { ClientConfigModule } from './client-config/client-config.module';
 import { EventLogsViewerModule } from './event-logs/event-logs-viewer.module';
 import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
+    GrowthOsModule,
     EnvironmentModule,
     TwentyConfigModule.forRoot(),
     HealthModule,

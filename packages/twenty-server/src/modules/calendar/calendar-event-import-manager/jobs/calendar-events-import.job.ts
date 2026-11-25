@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -11,6 +12,7 @@ import { WorkspaceOrmManager } from 'src/engine/twenty-orm/workspace-orm.manager
 import { buildSystemAuthContext } from 'src/engine/twenty-orm/utils/build-system-auth-context.util';
 import { CalendarEventsImportService } from 'src/modules/calendar/calendar-event-import-manager/services/calendar-events-import.service';
 import { CalendarChannelEntity } from 'src/engine/metadata-modules/calendar-channel/entities/calendar-channel.entity';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 export type CalendarEventsImportJobData = {
   calendarChannelId: string;
@@ -22,6 +24,11 @@ export type CalendarEventsImportJobData = {
   scope: Scope.REQUEST,
 })
 export class CalendarEventsImportJob {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly calendarEventsImportService: CalendarEventsImportService,
     private readonly workspaceOrmManager: WorkspaceOrmManager,
@@ -32,6 +39,18 @@ export class CalendarEventsImportJob {
   @Process(CalendarEventsImportJob.name)
   async handle(data: CalendarEventsImportJobData): Promise<void> {
     const { calendarChannelId, workspaceId } = data;
+
+    // Growth OS CRM plan gate
+    // Sync is paused (never deleted) while the plan has no email/calendar sync.
+    if (
+      this.growthOsEntitlementService &&
+      !(await this.growthOsEntitlementService.isFeatureEnabled(
+        workspaceId,
+        'emailCalendarSync',
+      ))
+    ) {
+      return;
+    }
 
     const authContext = buildSystemAuthContext(workspaceId);
 

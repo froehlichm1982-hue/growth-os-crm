@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -12,6 +13,7 @@ import { buildSystemAuthContext } from 'src/engine/twenty-orm/utils/build-system
 import { MessagingMessagesImportService } from 'src/modules/messaging/message-import-manager/services/messaging-messages-import.service';
 import { MessagingMonitoringService } from 'src/modules/messaging/monitoring/services/messaging-monitoring.service';
 import { MessageChannelEntity } from 'src/engine/metadata-modules/message-channel/entities/message-channel.entity';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 export type MessagingMessagesImportJobData = {
   messageChannelId: string;
@@ -23,6 +25,11 @@ export type MessagingMessagesImportJobData = {
   scope: Scope.REQUEST,
 })
 export class MessagingMessagesImportJob {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly messagingMessagesImportService: MessagingMessagesImportService,
     private readonly messagingMonitoringService: MessagingMonitoringService,
@@ -34,6 +41,18 @@ export class MessagingMessagesImportJob {
   @Process(MessagingMessagesImportJob.name)
   async handle(data: MessagingMessagesImportJobData): Promise<void> {
     const { messageChannelId, workspaceId } = data;
+
+    // Growth OS CRM plan gate
+    // Sync is paused (never deleted) while the plan has no email/calendar sync.
+    if (
+      this.growthOsEntitlementService &&
+      !(await this.growthOsEntitlementService.isFeatureEnabled(
+        workspaceId,
+        'emailCalendarSync',
+      ))
+    ) {
+      return;
+    }
 
     await this.messagingMonitoringService.track({
       eventName: 'messages_import.triggered',
