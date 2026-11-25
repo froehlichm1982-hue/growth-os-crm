@@ -9,9 +9,12 @@ import { logError } from '~/utils/logError';
 export const useHandleFindManyRecordsError = ({
   handleError,
   objectMetadataItem,
+  silent = false,
 }: {
   objectMetadataItem: EnrichedObjectMetadataItem;
   handleError?: (error?: Error) => void;
+  // Growth OS: the caller shows an inline error card, so no extra toast.
+  silent?: boolean;
 }) => {
   const { enqueueErrorSnackBar } = useSnackBar();
 
@@ -21,7 +24,9 @@ export const useHandleFindManyRecordsError = ({
         `useFindManyRecords for "${objectMetadataItem.namePlural}" error : ` +
           error,
       );
-      if (CombinedGraphQLErrors.is(error)) {
+      if (silent) {
+        // inline error card handles it
+      } else if (CombinedGraphQLErrors.is(error)) {
         enqueueErrorSnackBar({
           apolloError: error,
         });
@@ -30,7 +35,7 @@ export const useHandleFindManyRecordsError = ({
       }
       handleError?.(error as Error);
     },
-    [enqueueErrorSnackBar, handleError, objectMetadataItem.namePlural],
+    [enqueueErrorSnackBar, handleError, objectMetadataItem.namePlural, silent],
   );
 
   return {

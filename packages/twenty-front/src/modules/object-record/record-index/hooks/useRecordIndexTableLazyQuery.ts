@@ -18,6 +18,7 @@ export const useRecordIndexTableLazyQuery = (objectNameSingular: string) => {
     useLazyFindManyRecords({
       ...params,
       recordGqlFields,
+      growthOsInlineError: true,
     });
 
   return {

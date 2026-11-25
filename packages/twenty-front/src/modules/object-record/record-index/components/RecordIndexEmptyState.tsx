@@ -1,4 +1,5 @@
 import { isLayoutCustomizationModeEnabledState } from '@/layout-customization/states/isLayoutCustomizationModeEnabledState';
+import { growthOsListLoadErrorState } from '~/growth-os/states/growthOsListLoadErrorState';
 import {
   GrowthOsForbiddenState,
   isGrowthOsForbiddenError,
@@ -71,10 +72,18 @@ export const RecordIndexEmptyState = ({
   };
   const objectLabelPlural = objectMetadataItem.labelPlural.toLowerCase();
 
-  const { totalCount, error: loadError } = useFindManyRecords({
+  const { totalCount, error: ownLoadError } = useFindManyRecords({
     objectNameSingular: objectMetadataItem.nameSingular,
     limit: 1,
+    growthOsInlineError: true,
   });
+  // Growth OS: the table's own failed load shows the card at once.
+  const listLoadError = useAtomStateValue(growthOsListLoadErrorState);
+  const loadError =
+    ownLoadError ??
+    (listLoadError?.objectNameSingular === objectMetadataItem.nameSingular
+      ? listLoadError.error
+      : undefined);
 
   const hasAnySoftDeleteFilterOnView = useAtomComponentSelectorValue(
     hasAnySoftDeleteFilterOnViewComponentSelector,

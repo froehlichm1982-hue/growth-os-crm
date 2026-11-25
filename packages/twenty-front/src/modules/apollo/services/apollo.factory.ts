@@ -117,8 +117,11 @@ export class ApolloFactory implements ApolloManager {
       });
 
       const retryLink = new RetryLink({
+        // Growth OS: one quick retry, then the inline error card (~2 s).
         delay: {
-          initial: 3000,
+          initial: 1500,
+          max: 2000,
+          jitter: false,
         },
         attempts: {
           max: 2,
