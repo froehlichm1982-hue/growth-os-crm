@@ -81,7 +81,10 @@ const listFiles = (): string[] => {
 
 const hasMarker = (content: string) => content.includes(MARKER);
 
+const isSpecLike = (f: string) => /(\.spec\.|\.test\.|\.stories\.|-spec\.)/.test(f);
+
 const isTestLike = (f: string) =>
+  isSpecLike(f) ||
   /(\.spec\.|\.test\.|\.stories\.|\.e2e-spec\.)/.test(f) ||
   /\/(__tests__|__stories__|__mocks__|test|tests|testing)\//.test(f) ||
   f.startsWith('packages/twenty-e2e-testing/');
@@ -128,21 +131,28 @@ const PURE_KINDS = new Set([
 // Plain data (literals, enum references, object/array literals of those) is
 // kept so `keyof typeof X` style types still resolve. Anything that computes
 // is replaced.
-const isPureData = (node: ts.Expression): boolean => {
+const isPureData = (node: ts.Expression, allowCall: (callee: string) => boolean = () => false): boolean => {
+  const pure = (n: ts.Expression) => isPureData(n, allowCall);
   if (PURE_KINDS.has(node.kind)) return true;
-  if (ts.isPrefixUnaryExpression(node)) return isPureData(node.operand);
-  if (ts.isParenthesizedExpression(node)) return isPureData(node.expression);
+  // Calls into AGPL/npm helpers with plain-data arguments, e.g.
+  // appendCommonExceptionCode({...}), createAtomState<T>({ key, defaultValue }).
+  if (ts.isCallExpression(node))
+    return allowCall(node.expression.getText()) && node.arguments.every((a) => pure(a));
+  if (ts.isTaggedTemplateExpression(node))
+    return allowCall(node.tag.getText()) && ts.isNoSubstitutionTemplateLiteral(node.template);
+  if (ts.isPrefixUnaryExpression(node)) return pure(node.operand);
+  if (ts.isParenthesizedExpression(node)) return pure(node.expression);
   if (ts.isAsExpression(node) || ts.isSatisfiesExpression(node) || ts.isTypeAssertionExpression(node))
-    return isPureData(node.expression);
-  if (ts.isPropertyAccessExpression(node)) return isPureData(node.expression);
-  if (ts.isArrayLiteralExpression(node)) return node.elements.every((e) => isPureData(e as ts.Expression));
-  if (ts.isSpreadElement(node)) return isPureData(node.expression);
+    return pure(node.expression);
+  if (ts.isPropertyAccessExpression(node)) return pure(node.expression);
+  if (ts.isArrayLiteralExpression(node)) return node.elements.every((e) => pure(e as ts.Expression));
+  if (ts.isSpreadElement(node)) return pure(node.expression);
   if (ts.isObjectLiteralExpression(node))
     return node.properties.every((p) => {
       if (ts.isShorthandPropertyAssignment(p)) return true;
-      if (ts.isSpreadAssignment(p)) return isPureData(p.expression);
+      if (ts.isSpreadAssignment(p)) return pure(p.expression);
       if (ts.isPropertyAssignment(p))
-        return (!ts.isComputedPropertyName(p.name) || isPureData(p.name.expression)) && isPureData(p.initializer);
+        return (!ts.isComputedPropertyName(p.name) || pure(p.name.expression)) && pure(p.initializer);
       return false;
     });
   return false;
@@ -153,13 +163,33 @@ type StubFlavor = 'server' | 'front' | 'shared';
 const flavorOf = (f: string): StubFlavor =>
   f.startsWith('packages/twenty-front/') ? 'front' : f.startsWith('packages/twenty-server/') ? 'server' : 'shared';
 
-const generateStub = (file: string, source: string): string => {
+const generateStub = (file: string, source: string, isEnterpriseSpecifier: (spec: string) => boolean): string => {
   const flavor = flavorOf(file);
   const isTsx = file.endsWith('.tsx');
   const sf = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, isTsx ? ts.ScriptKind.TSX : ts.ScriptKind.TS);
   const text = (n: ts.Node) => n.getText(sf);
   const out: string[] = [];
   let needsFrontHelper = false;
+
+  // identifier -> module specifier, for imported names
+  const importedFrom = new Map<string, string>();
+  for (const st of sf.statements) {
+    if (!ts.isImportDeclaration(st) || !st.importClause) continue;
+    const spec = (st.moduleSpecifier as ts.StringLiteral).text;
+    const c = st.importClause;
+    if (c.name) importedFrom.set(c.name.text, spec);
+    if (c.namedBindings) {
+      if (ts.isNamespaceImport(c.namedBindings)) importedFrom.set(c.namedBindings.name.text, spec);
+      else c.namedBindings.elements.forEach((e) => importedFrom.set(e.name.text, spec));
+    }
+  }
+  const GLOBAL_PURE_CALLS = new Set(['Object.freeze', 'Symbol', 'Symbol.for']);
+  const allowCall = (callee: string) => {
+    if (GLOBAL_PURE_CALLS.has(callee)) return true;
+    const root = callee.split('.')[0].split('<')[0];
+    const spec = importedFrom.get(root);
+    return !!spec && !isEnterpriseSpecifier(spec);
+  };
 
   const anyType = 'any';
   const stubBody = (name: string, isComponent: boolean, isCtor = false, superCall = ''): string => {
@@ -169,6 +199,9 @@ const generateStub = (file: string, source: string): string => {
       needsFrontHelper = true;
       return '{\n  return enterpriseStubValue();\n}';
     }
+    // PascalCase server functions are decorator factories (@IsBillingPlansConfig()).
+    // They run at class-definition time, so they must not throw: return a no-op.
+    if (/^[A-Z][A-Za-z0-9]*$/.test(name)) return '{\n  return ((..._args: any[]) => undefined) as any;\n}';
     return `{\n  throw new Error('Growth OS CRM: "${name}" is an Enterprise feature and was removed.');\n}`;
   };
 
@@ -211,7 +244,7 @@ const generateStub = (file: string, source: string): string => {
     }
     if (ts.isConstructorDeclaration(m)) {
       if (!m.body) return join(mods(m), `constructor(${params(m.parameters)});`);
-      const superCall = hasHeritage ? 'super(...(arguments as any));' : '';
+      const superCall = hasHeritage ? '\n    // @ts-ignore stub forwards its arguments unchanged\n    super(...(arguments as any));\n  ' : '';
       return join(mods(m), `constructor(${params(m.parameters)}) ${stubBody(className, false, true, superCall)}`);
     }
     if (ts.isMethodDeclaration(m) || ts.isGetAccessorDeclaration(m) || ts.isSetAccessorDeclaration(m)) {
@@ -291,7 +324,7 @@ const generateStub = (file: string, source: string): string => {
           }
         } else if (unwrapped && ts.isClassExpression(unwrapped)) {
           out.push(join(m, `${keyword} ${name} = ${classDecl(unwrapped)};`));
-        } else if (init && isPureData(init)) {
+        } else if (init && isPureData(init, allowCall)) {
           out.push(join(m, `${keyword} ${name}${d.type ? `: ${text(d.type)}` : ''} = ${text(init)};`));
         } else {
           out.push(join(m, `${keyword} ${name}: ${d.type ? text(d.type) : 'any'} = undefined as any;`));
@@ -399,39 +432,57 @@ const main = () => {
     if (!src) importsOf.set(f, r);
     return r;
   };
-  const deletedAgplTests = sourceFiles.filter(
-    (f) => !enterprise.has(f) && isTestLike(f) && importsFor(f).some((t) => enterprise.has(t)),
+  // Spec/story files that import Enterprise code are removed with it.
+  const deletedSet = new Set(
+    sourceFiles.filter((f) => !enterprise.has(f) && isSpecLike(f) && importsFor(f).some((t) => enterprise.has(t))),
   );
-  const deletedSet = new Set(deletedAgplTests);
 
-  // Generate stubs for every non-test Enterprise file, then keep only the
-  // ones reachable from remaining AGPL code.
+  // Generate stubs for every non-test Enterprise file.
   const stubs = new Map<string, string>();
   for (const f of enterprise) {
     if (isTestLike(f)) continue;
     try {
-      stubs.set(f, generateStub(f, read(f)));
+      stubs.set(
+        f,
+        generateStub(f, read(f), (spec) => {
+          const t = resolveSpecifier(f, spec, known);
+          return !!t && enterprise.has(t);
+        }),
+      );
     } catch (e) {
       console.error(`stub generation failed for ${f}: ${(e as Error).message}`);
       process.exit(1);
     }
   }
-  const needed = new Set<string>();
-  const queue: string[] = [];
-  const visit = (target: string) => {
-    if (enterprise.has(target) && !needed.has(target) && stubs.has(target)) {
-      needed.add(target);
-      queue.push(target);
+
+  // Keep only the stubs reachable from remaining AGPL code; then drop test
+  // helpers that import something deleted, until stable.
+  let needed = new Set<string>();
+  for (;;) {
+    needed = new Set<string>();
+    const queue: string[] = [];
+    const visit = (target: string) => {
+      if (enterprise.has(target) && !needed.has(target) && stubs.has(target)) {
+        needed.add(target);
+        queue.push(target);
+      }
+    };
+    for (const f of sourceFiles) {
+      if (enterprise.has(f) || deletedSet.has(f)) continue;
+      importsFor(f).forEach(visit);
     }
-  };
-  for (const f of sourceFiles) {
-    if (enterprise.has(f) || deletedSet.has(f)) continue;
-    importsFor(f).forEach(visit);
+    while (queue.length) {
+      const f = queue.pop()!;
+      importsFor(f, stubs.get(f)).forEach(visit);
+    }
+    const isDeleted = (t: string) => deletedSet.has(t) || (enterprise.has(t) && !needed.has(t));
+    const more = sourceFiles.filter(
+      (f) => !enterprise.has(f) && !deletedSet.has(f) && isTestLike(f) && importsFor(f).some(isDeleted),
+    );
+    if (!more.length) break;
+    more.forEach((f) => deletedSet.add(f));
   }
-  while (queue.length) {
-    const f = queue.pop()!;
-    importsFor(f, stubs.get(f)).forEach(visit);
-  }
+  const deletedAgplTests = [...deletedSet].sort();
   const deletedEnterprise = [...enterprise].filter((f) => !needed.has(f));
   const stubbed = [...needed].sort();
 
@@ -448,6 +499,14 @@ const main = () => {
   if (stubbed.some((f) => flavorOf(f) === 'front')) {
     fs.mkdirSync(path.dirname(path.join(ROOT, FRONT_STUB_HELPER)), { recursive: true });
     fs.writeFileSync(path.join(ROOT, FRONT_STUB_HELPER), FRONT_HELPER_SOURCE);
+  }
+
+  // Best-effort formatting of generated stubs with the repo formatter.
+  try {
+    for (let i = 0; i < stubbed.length; i += 200)
+      execFileSync('npx', ['oxfmt', ...stubbed.slice(i, i + 200)], { cwd: ROOT, stdio: 'ignore' });
+  } catch {
+    console.warn('oxfmt not available or failed; stubs left unformatted.');
   }
 
   // Cumulative manifest (union across runs / upstream merges).
