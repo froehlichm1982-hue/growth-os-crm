@@ -2,8 +2,7 @@ import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
 
 import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
-import { IconDatabase } from 'twenty-ui/icon';
-import { Button } from 'twenty-ui/input';
+import { t } from '@lingui/core/macro';
 
 // Growth OS CRM: workspaces start empty; this loads the fictional EU demo set
 // (lead company "Nordlicht Analytics") on demand. Plain English copy.
@@ -30,8 +29,8 @@ export const GrowthOsLoadSampleDataButton = () => {
 
       enqueueSuccessSnackBar({
         message: result.data?.growthOsLoadSampleData
-          ? 'Sample data loaded: 5 fictional companies, people and deals.'
-          : 'Sample data is already in this workspace.',
+          ? t`Sample data loaded: 5 fictional companies, people and deals.`
+          : t`Sample data is already in this workspace.`,
       });
       // Record caches are per object; a reload is the simplest full refresh.
       window.setTimeout(() => window.location.reload(), 800);
@@ -40,20 +39,26 @@ export const GrowthOsLoadSampleDataButton = () => {
         message:
           error instanceof Error
             ? error.message
-            : 'Could not load sample data. Please try again.',
+            : t`Couldn’t load sample data. Try again.`,
       });
     }
   };
 
+  // Rendered on the empty state's "more" line: a link-style action, so the
+  // state keeps max 1 primary + 1 secondary button.
   return (
-    <Button
-      Icon={IconDatabase}
-      title={loading ? 'Loading sample data…' : 'Load sample data'}
-      variant="tertiary"
-      size="small"
-      disabled={loading}
-      onClick={handleClick}
-      dataTestId="growth-os-load-sample-data"
-    />
+    <span>
+      {t`Just looking around?`}{' '}
+      <button
+        type="button"
+        className="gos-linklike"
+        disabled={loading}
+        onClick={handleClick}
+        data-testid="growth-os-load-sample-data"
+        style={{ minHeight: 44 }}
+      >
+        {loading ? t`Loading sample data…` : t`Load sample data`}
+      </button>
+    </span>
   );
 };

@@ -134,3 +134,4 @@
 .gos-linklike:disabled { color: var(--c-ink-3); cursor: default; }
 .gos-linklike:focus-visible { border-radius: 4px; box-shadow: var(--focus-ring); outline: none; }
 .gos-alert { margin-bottom: 16px; text-align: left; }
+.gos-flow p, .gos-flow b { overflow-wrap: anywhere; }

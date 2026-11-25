@@ -1,34 +1,17 @@
 import { type AppErrorDisplayProps } from '@/error-handler/types/AppErrorDisplayProps';
 import { t } from '@lingui/core/macro';
-import { IconRefresh } from 'twenty-ui/icon';
-import { Button } from 'twenty-ui/input';
-import {
-  AnimatedPlaceholder,
-  AnimatedPlaceholderEmptyContainer,
-  AnimatedPlaceholderEmptySubTitle,
-  AnimatedPlaceholderEmptyTextContainer,
-  AnimatedPlaceholderEmptyTitle,
-} from 'twenty-ui/feedback';
 
+import { GrowthOsErrorState } from '~/growth-os/states/GrowthOsStates';
+
+// Growth OS CRM: kit error state — what failed, Try again, reference id + CET time.
 export const AppErrorDisplay = ({
+  error,
   resetErrorBoundary,
-  title = t`Sorry, something went wrong`,
-}: AppErrorDisplayProps) => {
-  return (
-    <AnimatedPlaceholderEmptyContainer>
-      <AnimatedPlaceholder type="errorIndex" />
-      <AnimatedPlaceholderEmptyTextContainer>
-        <AnimatedPlaceholderEmptyTitle>{title}</AnimatedPlaceholderEmptyTitle>
-        <AnimatedPlaceholderEmptySubTitle>
-          {t`Please refresh the page.`}
-        </AnimatedPlaceholderEmptySubTitle>
-      </AnimatedPlaceholderEmptyTextContainer>
-      <Button
-        Icon={IconRefresh}
-        title={t`Reload`}
-        variant="secondary"
-        onClick={resetErrorBoundary}
-      />
-    </AnimatedPlaceholderEmptyContainer>
-  );
-};
+  title,
+}: AppErrorDisplayProps) => (
+  <GrowthOsErrorState
+    title={title ?? t`Something went wrong on our side`}
+    error={error}
+    onRetry={resetErrorBoundary}
+  />
+);

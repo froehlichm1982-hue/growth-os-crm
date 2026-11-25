@@ -1,4 +1,6 @@
 import { useQuery } from '@apollo/client/react';
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/core/macro';
 
 import {
   GROWTH_OS_PLAN_QUERY,
@@ -24,7 +26,7 @@ export const GROWTH_OS_PLAN_LABELS = {
 
 export const formatGrowthOsDate = (iso: string | null) =>
   iso
-    ? new Date(iso).toLocaleDateString('en-GB', {
+    ? new Date(iso).toLocaleDateString(i18n.locale?.startsWith('de') ? 'de-DE' : 'en-GB', {
         day: 'numeric',
         month: 'short',
         year: 'numeric',
@@ -36,20 +38,22 @@ export const getGrowthOsStatusLine = (plan: GrowthOsPlanData) => {
 
   switch (plan.status) {
     case 'trialing':
-      return `${label} trial · ${plan.trialDaysLeft} day${plan.trialDaysLeft === 1 ? '' : 's'} left`;
+      return plan.trialDaysLeft === 1
+        ? t`${label} trial · 1 day left`
+        : t`${label} trial · ${plan.trialDaysLeft ?? 0} days left`;
     case 'trial_expired':
       return plan.isReadOnly
-        ? 'Trial ended · read-only'
-        : `Trial ended · Starter limits until ${formatGrowthOsDate(plan.graceEndsAt)}`;
+        ? t`Trial ended · read-only`
+        : t`Trial ended · Starter limits until ${formatGrowthOsDate(plan.graceEndsAt)}`;
     case 'active':
-      return `${label} plan`;
+      return t`${label} plan`;
     case 'past_due':
       return plan.isReadOnly
-        ? 'Payment failed · read-only'
-        : `Payment failed · fix by ${formatGrowthOsDate(plan.graceEndsAt)}`;
+        ? t`Payment failed · read-only`
+        : t`Payment failed · fix by ${formatGrowthOsDate(plan.graceEndsAt)}`;
     default:
       return plan.isReadOnly
-        ? 'No active plan · read-only'
-        : `Plan ended · Starter limits until ${formatGrowthOsDate(plan.graceEndsAt)}`;
+        ? t`No active plan · read-only`
+        : t`Plan ended · Starter limits until ${formatGrowthOsDate(plan.graceEndsAt)}`;
   }
 };

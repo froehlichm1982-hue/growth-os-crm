@@ -209,6 +209,15 @@ export class ApolloFactory implements ApolloManager {
           requestSessionGeneration === getSessionGeneration();
 
         if (CombinedGraphQLErrors.is(error)) {
+          // Growth OS: an expired session is explained once on sign-in
+          // (kit session-expired state), so skip the generic error toast.
+          if (error.errors.some(isUnauthenticatedGraphQLError)) {
+            if (isResponseFromCurrentSession) {
+              onUnauthenticatedError?.();
+            }
+
+            return;
+          }
           onErrorCb?.(error.errors);
           // Growth OS: surface plan limits / read-only blocks everywhere.
           const growthOsPlanLimit = error.errors.find((graphQLError) =>

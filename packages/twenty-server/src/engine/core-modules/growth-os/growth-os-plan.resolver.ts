@@ -118,9 +118,11 @@ export class GrowthOsPlanResolver {
     interval?: string,
     @Args('returnUrl', { type: () => String, nullable: true })
     returnUrl?: string,
+    @Args('reason', { type: () => String, nullable: true })
+    reason?: string,
   ): Promise<string> {
-    if (kind !== 'checkout' && kind !== 'portal') {
-      throw new UserInputError('kind must be checkout or portal');
+    if (kind !== 'checkout' && kind !== 'portal' && kind !== 'cancel') {
+      throw new UserInputError('kind must be checkout, portal or cancel');
     }
     const entitlement = await this.growthOsEntitlementService.getEntitlement(
       workspace.id,
@@ -134,6 +136,7 @@ export class GrowthOsPlanResolver {
       interval: interval === 'year' ? 'year' : 'month',
       seats: Math.max(1, usage.seatsUsed),
       returnUrl: returnUrl ?? '',
+      reason: reason?.slice(0, 80),
     });
   }
 }

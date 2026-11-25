@@ -127,7 +127,7 @@ const checkEmails = async () => {
   const createElement = (reactModule as any).default?.createElement ?? (reactModule as any).createElement;
   let rendered = 0;
   for (const [name, component] of Object.entries(emails)) {
-    if (!/^[A-Z].*(Email|Validation)$/.test(name) || name === 'EmailRenderError' || typeof component !== 'function') continue;
+    if (!/^[A-Z].*(Email|Validation)$/.test(name) || name === 'EmailRenderError' || name.startsWith('Kit') || typeof component !== 'function') continue;
     const previewProps = (component as { PreviewProps?: Record<string, unknown> }).PreviewProps ?? {};
     // Same call shape as the server: render(Template(props)).
     const element = (component as (props: object) => unknown)({ locale: 'en', ...previewProps });

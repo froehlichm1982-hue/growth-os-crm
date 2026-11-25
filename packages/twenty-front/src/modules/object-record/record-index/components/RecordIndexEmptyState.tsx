@@ -11,7 +11,12 @@ import { canCreateRecordsForObjectMetadataItem } from '@/object-record/utils/can
 import { useAtomComponentSelectorValue } from '@/ui/utilities/state/jotai/hooks/useAtomComponentSelectorValue';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useLingui } from '@lingui/react/macro';
-import { IconFilterOff, IconPlus, IconSettings } from 'twenty-ui/icon';
+import { anyFieldFilterValueComponentState } from '@/object-record/record-filter/states/anyFieldFilterValueComponentState';
+import { currentRecordFiltersComponentState } from '@/object-record/record-filter/states/currentRecordFiltersComponentState';
+import { currentRecordFilterGroupsComponentState } from '@/object-record/record-filter-group/states/currentRecordFilterGroupsComponentState';
+import { useOpenObjectRecordsSpreadsheetImportDialog } from '@/object-record/spreadsheet-import/hooks/useOpenObjectRecordsSpreadsheetImportDialog';
+import { useSetAtomComponentState } from '@/ui/utilities/state/jotai/hooks/useSetAtomComponentState';
+import { IconFilterOff, IconSettings } from 'twenty-ui/icon';
 import { type ObjectPermission } from '~/generated-metadata/graphql';
 import {
   GrowthOsLoadSampleDataButton,
@@ -42,6 +47,24 @@ export const RecordIndexEmptyState = ({
   const { createNewIndexRecord } = useCreateNewIndexRecord({
     objectMetadataItem,
   });
+
+  const { openObjectRecordsSpreadsheetImportDialog } =
+    useOpenObjectRecordsSpreadsheetImportDialog(objectMetadataItem.nameSingular);
+  const setCurrentRecordFilters = useSetAtomComponentState(
+    currentRecordFiltersComponentState,
+  );
+  const setCurrentRecordFilterGroups = useSetAtomComponentState(
+    currentRecordFilterGroupsComponentState,
+  );
+  const setAnyFieldFilterValue = useSetAtomComponentState(
+    anyFieldFilterValueComponentState,
+  );
+  const clearFilters = () => {
+    setCurrentRecordFilters([]);
+    setCurrentRecordFilterGroups([]);
+    setAnyFieldFilterValue('');
+  };
+  const objectLabelPlural = objectMetadataItem.labelPlural.toLowerCase();
 
   const { totalCount } = useFindManyRecords({
     objectNameSingular: objectMetadataItem.nameSingular,
@@ -110,6 +133,8 @@ export const RecordIndexEmptyState = ({
   }
 
   if (totalCount === 0) {
+    const isImportable = !objectMetadataItem.nameSingular.startsWith('workflow');
+
     return (
       <RecordIndexEmptyStateDisplay
         animatedPlaceholderType="noRecord"
@@ -117,13 +142,33 @@ export const RecordIndexEmptyState = ({
           objectMetadataItem.nameSingular,
           objectLabelSingular,
         )}
-        subTitle={getEmptyStateSubTitle(
-          objectMetadataItem.nameSingular,
-          objectLabelSingular,
-        )}
-        ButtonIcon={IconPlus}
-        buttonTitle={t`Add a ${objectLabelSingular}`}
-        onButtonClick={handleAddRecordClick}
+        subTitle={
+          isImportable
+            ? t`Import a CSV from your current tool or add them one by one. Your team sees every owner and next step here.`
+            : getEmptyStateSubTitle(
+                objectMetadataItem.nameSingular,
+                objectLabelSingular,
+              )
+        }
+        buttonIcon={isImportable ? 'upload' : 'plus'}
+        buttonTitle={isImportable ? t`Import CSV` : t`Add a ${objectLabelSingular}`}
+        onButtonClick={
+          canCreateRecords
+            ? isImportable
+              ? () => openObjectRecordsSpreadsheetImportDialog()
+              : handleAddRecordClick
+            : undefined
+        }
+        secondary={
+          canCreateRecords && isImportable && handleAddRecordClick
+            ? {
+                label: t`Add a ${objectLabelSingular}`,
+                onClick: handleAddRecordClick,
+                icon: 'plus',
+                testId: 'growth-os-empty-add',
+              }
+            : undefined
+        }
         width={width}
         extra={
           canCreateRecords &&
@@ -138,11 +183,11 @@ export const RecordIndexEmptyState = ({
   return (
     <RecordIndexEmptyStateDisplay
       animatedPlaceholderType="noMatchRecord"
-      title={t`No ${objectLabelSingular} found`}
-      subTitle={t`No records matching the filter criteria were found.`}
-      ButtonIcon={IconPlus}
-      buttonTitle={t`Add a ${objectLabelSingular}`}
-      onButtonClick={handleAddRecordClick}
+      title={t`No ${objectLabelPlural} match your filters`}
+      subTitle={t`Try removing a filter or searching for something else.`}
+      buttonIcon="filterOff"
+      buttonTitle={t`Clear filters`}
+      onButtonClick={clearFilters}
       width={width}
     />
   );

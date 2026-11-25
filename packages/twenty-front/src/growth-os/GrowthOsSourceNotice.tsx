@@ -3,8 +3,9 @@ import { styled } from '@linaria/react';
 import { GROWTH_OS_BRAND } from '~/growth-os/brand';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
-// AGPL-3.0 section 13 source offer + upstream credit. The only place where
-// the upstream name may appear in the UI (see WHITE-LABEL.md).
+// AGPL-3.0 section 13 source offer. Product standard (25 Nov 2026): no vendor
+// name in any pixel, so the upstream credit lives in LICENSE/NOTICE and the
+// source repository, not in the UI.
 const StyledNotice = styled.div<{ align: 'left' | 'center' }>`
   color: ${themeCssVariables.font.color.light};
   font-size: ${themeCssVariables.font.size.xs};
@@ -33,9 +34,8 @@ export const GrowthOsSourceNotice = ({
   className,
 }: GrowthOsSourceNoticeProps) => (
   <StyledNotice align={align} className={className}>
-    {/* Upstream credit stays untranslated by design; no repository links
-        are shown until SOURCE_CODE_URL is configured (AGPL-3.0 section 13). */}
-    {GROWTH_OS_BRAND.productName} · {'Built on ' + GROWTH_OS_BRAND.upstreamName}
+    {/* No repository link until SOURCE_CODE_URL is configured (AGPL-3.0 s.13). */}
+    {GROWTH_OS_BRAND.productName}
     {GROWTH_OS_BRAND.sourceCodeUrl ? (
       <>
         {' · '}

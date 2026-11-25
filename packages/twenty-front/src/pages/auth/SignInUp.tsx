@@ -141,8 +141,6 @@ export const SignInUp = () => {
     workspaceFromInviteHash?.displayName,
   ]);
 
-  const authEmail = form.watch('email');
-
   const subtitle = useMemo(() => {
     if (isDefined(workspaceInviteHash)) {
       return t`Sign in or create a password to join your team.`;
@@ -150,8 +148,8 @@ export const SignInUp = () => {
 
     if (signInUpStep === SignInUpStep.Password) {
       return signInUpMode === SignInUpMode.SignUp
-        ? t`No card needed. Create a password for ${authEmail}.`
-        : t`Enter the password for ${authEmail}.`;
+        ? t`No card needed. Choose a password to get started.`
+        : t`Enter your password to continue.`;
     }
 
     if (signInUpStep === SignInUpStep.WorkspaceSelection) {
@@ -166,7 +164,7 @@ export const SignInUp = () => {
     }
 
     return undefined;
-  }, [workspaceInviteHash, signInUpStep, signInUpMode, authEmail, t]);
+  }, [workspaceInviteHash, signInUpStep, signInUpMode, t]);
 
   const signInUpForm = useMemo(() => {
     if (getPublicWorkspaceDataLoading || !clientConfigApiStatus.isLoadedOnce) {
