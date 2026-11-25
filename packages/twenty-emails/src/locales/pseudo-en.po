@@ -79,6 +79,7 @@ msgid "Accept the invite to see the pipeline, contacts and next steps."
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
 #: src/emails/sync-failed.email.tsx
 msgid "Account"
 msgstr ""
@@ -230,6 +231,11 @@ msgid "Didn’t sign up? You can ignore this email. No account is created until 
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Didn’t try to sign up? You can ignore this email. Nothing changed in your account."
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
 msgid "Don’t want to renew? Cancel in Settings → Billing before {formattedDate}. You keep access until the end of the paid period."
 msgstr ""
@@ -272,6 +278,11 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/emails/export-ready.email.tsx
 msgid "File"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Forgot your password? Choose a new one here: {resetLink}"
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -571,8 +582,23 @@ msgid "Set your password"
 msgstr ""
 
 #. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Sign in"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
 msgid "Sign in as other users"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Sign in instead. We didn’t create a second account."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Someone, probably you, tried to create a Growth OS CRM account with {email}. This address already has an account, so we didn’t create a new one."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -780,6 +806,16 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Workspace paused"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "You already have a Growth OS account"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "You already have an account"
 msgstr ""
 
 #. js-lingui-explicit-id

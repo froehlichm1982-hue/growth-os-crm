@@ -84,6 +84,7 @@ msgid "Accept the invite to see the pipeline, contacts and next steps."
 msgstr "Nimm die Einladung an und sieh Pipeline, Kontakte und nächste Schritte."
 
 #. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
 #: src/emails/sync-failed.email.tsx
 msgid "Account"
 msgstr "Konto"
@@ -235,6 +236,11 @@ msgid "Didn’t sign up? You can ignore this email. No account is created until 
 msgstr "Du hast dich nicht registriert? Dann ignoriere diese E-Mail. Ohne Bestätigung wird kein Konto angelegt."
 
 #. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Didn’t try to sign up? You can ignore this email. Nothing changed in your account."
+msgstr "Du hast dich nicht registriert? Dann kannst du diese E-Mail ignorieren. An deinem Konto hat sich nichts geändert."
+
+#. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
 msgid "Don’t want to renew? Cancel in Settings → Billing before {formattedDate}. You keep access until the end of the paid period."
 msgstr "Du willst nicht verlängern? Kündige vor dem {formattedDate} unter Einstellungen → Abrechnung. Der Zugriff bleibt bis zum Ende des bezahlten Zeitraums."
@@ -278,6 +284,11 @@ msgstr "Kontakte, Firmen und Deals als CSV exportieren"
 #: src/emails/export-ready.email.tsx
 msgid "File"
 msgstr "Datei"
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Forgot your password? Choose a new one here: {resetLink}"
+msgstr "Passwort vergessen? Hier wählst du ein neues: {resetLink}"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-cancellation.email.tsx
@@ -576,9 +587,24 @@ msgid "Set your password"
 msgstr "Passwort festlegen"
 
 #. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Sign in"
+msgstr "Anmelden"
+
+#. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
 msgid "Sign in as other users"
 msgstr "Als andere Benutzer anmelden"
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Sign in instead. We didn’t create a second account."
+msgstr "Melde dich einfach an. Wir haben kein zweites Konto angelegt."
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "Someone, probably you, tried to create a Growth OS CRM account with {email}. This address already has an account, so we didn’t create a new one."
+msgstr "Jemand, wahrscheinlich du, wollte mit {email} ein Growth-OS-CRM-Konto anlegen. Für diese Adresse gibt es schon ein Konto, deshalb haben wir kein neues erstellt."
 
 #. js-lingui-explicit-id
 #: src/components/kit/KitEmail.tsx
@@ -786,6 +812,16 @@ msgstr "Arbeitsbereich gelöscht"
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Workspace paused"
 msgstr "Arbeitsbereich pausiert"
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "You already have a Growth OS account"
+msgstr "Du hast schon ein Growth-OS-Konto"
+
+#. js-lingui-explicit-id
+#: src/emails/account-exists.email.tsx
+msgid "You already have an account"
+msgstr "Du hast schon ein Konto"
 
 #. js-lingui-explicit-id
 #: src/components/kit/KitEmail.tsx

@@ -945,6 +945,11 @@ msgstr "0 */1 * * *"
 msgid "1 Object"
 msgstr "1 Objek"
 
+#. js-lingui-id: S4fq0/
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "1 pipeline, 10 custom fields per object"
+msgstr ""
+
 #. js-lingui-id: lKmQeh
 #: src/modules/side-panel/pages/workflow/step/settings/components/SidePanelWorkflowStepSettingsContent.tsx
 msgid "1 retry"
@@ -1108,11 +1113,6 @@ msgstr "7n Rol moet vir die API-sleutel gekies word"
 #: src/modules/page-layout/widgets/call-recording/utils/getCallRecordingStatusDisplayConfiguration.ts
 msgid "A summary is not available for this call recording yet."
 msgstr "’n Opsomming is nog nie vir hierdie oproepopname beskikbaar nie."
-
-#. js-lingui-id: /cSHSG
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "A verification email has been sent to"
-msgstr "'n Verifikasie-e-pos is gestuur na"
 
 #. js-lingui-id: DqlQy+
 #: src/modules/settings/data-model/fields/forms/components/SettingsDataModelFieldMaxValuesForm.tsx
@@ -2095,6 +2095,11 @@ msgstr "AI-agent-uitvoering"
 msgid "AI agents"
 msgstr "AI-agente"
 
+#. js-lingui-id: iIKWS9
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "AI assistant (monthly allowance)"
+msgstr ""
+
 #. js-lingui-id: n2fhCy
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "AI chat"
@@ -2470,6 +2475,11 @@ msgstr "Toegelate herleidings-URI's vir OAuth-vloeie"
 #: src/modules/side-panel/pages/page-layout/utils/getSortLabelSuffixForFieldType.ts
 msgid "alphabetical"
 msgstr "alfabeties"
+
+#. js-lingui-id: 8wYDMp
+#: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
+msgid "Already have an account?"
+msgstr ""
 
 #. js-lingui-id: eO7HSp
 #: src/modules/navigation-menu-item/edit/side-panel/components/SidePanelObjectMenuItem.tsx
@@ -4074,11 +4084,6 @@ msgstr "Cc/Bcc},{"
 msgid "Change Color"
 msgstr "Verander Kleur"
 
-#. js-lingui-id: feCRNv
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Change email"
-msgstr "Verander e-pos"
-
 #. js-lingui-id: qTyVHs
 #: src/modules/workflow/workflow-diagram/workflow-nodes/components/WorkflowDiagramStepNodeOptionsDropdown.tsx
 msgid "Change node"
@@ -4214,11 +4219,6 @@ msgstr "Kontroleer verifikasie"
 #: src/growth-os/auth/GrowthOsResetSent.tsx
 msgid "Check your email"
 msgstr ""
-
-#. js-lingui-id: AwAGI4
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Check your Emails"
-msgstr "Gaan jou e-pos na"
 
 #. js-lingui-id: hXXBiE
 #: src/modules/settings/profile/hooks/useUpdateEmail.ts
@@ -4425,6 +4425,11 @@ msgstr "CLI-konfig"
 #. js-lingui-id: 783+Y+
 #: src/growth-os/auth/GrowthOsResetSent.tsx
 msgid "Click “Choose a new password”"
+msgstr ""
+
+#. js-lingui-id: MxQAVf
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "Click “Confirm email”"
 msgstr ""
 
 #. js-lingui-id: Gt8ndY
@@ -5012,6 +5017,11 @@ msgstr ""
 msgid "Confirm upgrade"
 msgstr "Bevestig opgradering"
 
+#. js-lingui-id: U8N77O
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "Confirm your email"
+msgstr ""
+
 #. js-lingui-id: OeMn6m
 #: src/modules/settings/unsubscribers/components/SettingsUnsubscribePreview.tsx
 msgid "Confirm your preferences:"
@@ -5142,7 +5152,9 @@ msgid "Contact auto-creation"
 msgstr "Kontakauto skeppingsbeleid"
 
 #. js-lingui-id: mpby9d
-#: src/pages/not-found/NotFound.tsx
+#: src/growth-os/states/GrowthOsForbiddenState.tsx
+#: src/growth-os/states/GrowthOsMaintenancePage.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
 msgid "Contact support"
 msgstr ""
 
@@ -7771,6 +7783,7 @@ msgid "Email"
 msgstr "E-pos"
 
 #. js-lingui-id: qGsN5X
+#: src/growth-os/plan/growthOsPlanCopy.ts
 #: src/growth-os/plan/GrowthOsPlanPage.tsx
 msgid "Email & calendar sync"
 msgstr ""
@@ -7867,11 +7880,6 @@ msgstr "E-pos verifikasie"
 #. js-lingui-id: FiEQ3l
 #: src/modules/auth/components/VerifyEmailEffect.tsx
 msgid "Email verification failed"
-msgstr "E-posverifikasie het misluk"
-
-#. js-lingui-id: hn6Eox
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Email Verification Failed"
 msgstr "E-posverifikasie het misluk"
 
 #. js-lingui-id: svTijF
@@ -8679,6 +8687,16 @@ msgstr "Almal"
 #: src/modules/settings/accounts/components/SettingsAccountsMessageVisibilityCard.tsx
 msgid "Everything"
 msgstr "Alles"
+
+#. js-lingui-id: SaDyyp
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Everything a growing sales team needs."
+msgstr ""
+
+#. js-lingui-id: Q4QEI6
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Everything in Growth"
+msgstr ""
 
 #. js-lingui-id: QQlMid
 #: src/modules/settings/accounts/components/SettingsAccountsMessageChannelDetails.tsx
@@ -10133,6 +10151,7 @@ msgid "Go to Settings"
 msgstr "Gaan na instellings"
 
 #. js-lingui-id: PUXtbx
+#: src/growth-os/states/GrowthOsForbiddenState.tsx
 #: src/pages/not-found/NotFound.tsx
 msgid "Go to your workspace"
 msgstr ""
@@ -10313,6 +10332,11 @@ msgstr "Gegroepeerde {objectLabel}"
 #: src/modules/ai/constants/crud-tool-operation-verbs.constant.ts
 msgid "Grouping {objectLabel}"
 msgstr "Besig om {objectLabel} te groepeer"
+
+#. js-lingui-id: TQHPUF
+#: src/growth-os/states/GrowthOsMaintenancePage.tsx
+msgid "Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own."
+msgstr ""
 
 #. js-lingui-id: R4r4XO
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -10512,6 +10536,11 @@ msgstr ""
 #: src/modules/settings/data-model/object-details/components/tabs/SettingsObjectIndexesSection.tsx
 msgid "Hide system indexes"
 msgstr "Versteek stelselindekse"
+
+#. js-lingui-id: jkzOvK
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Higher API rate limits"
+msgstr ""
 
 #. js-lingui-id: 1ETc0T
 #: src/pages/settings/community/SettingsCommunity.tsx
@@ -12525,6 +12554,7 @@ msgid "Mail Account"
 msgstr "Posrekening"
 
 #. js-lingui-id: 6Dd2PM
+#: src/growth-os/states/GrowthOsMaintenancePage.tsx
 #: src/modules/settings/admin-panel/health-status/maintenance-mode/components/SettingsAdminMaintenanceMode.tsx
 msgid "Maintenance"
 msgstr "Onderhoud"
@@ -13524,6 +13554,7 @@ msgstr "Nuwe Groep"
 
 #. js-lingui-id: DGS8gD
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "New here?"
 msgstr ""
 
@@ -13841,6 +13872,11 @@ msgstr "Geen roepkode"
 #. js-lingui-id: LHCGJf
 #: src/pages/auth/SignInUp.tsx
 msgid "No card needed. Choose a password to get started."
+msgstr ""
+
+#. js-lingui-id: sX4OOl
+#: src/pages/auth/SignInUp.tsx
+msgid "No card needed. Start with your work email."
 msgstr ""
 
 #. js-lingui-id: GgZThR
@@ -14642,6 +14678,7 @@ msgstr "Nie gesinkroniseer nie"
 
 #. js-lingui-id: NIHot4
 #: src/growth-os/auth/GrowthOsResetSent.tsx
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Not there after a minute? Check spam or promotions"
 msgstr ""
 
@@ -14803,11 +14840,6 @@ msgstr "Objekgebeurtenisse"
 #: src/modules/settings/event-logs/utils/getColumnsForEventLogTable.tsx
 msgid "Object ID"
 msgstr "Objek-ID"
-
-#. js-lingui-id: PezPrT
-#: src/modules/object-record/record-index/components/RecordIndexEmptyStateNotShared.tsx
-msgid "Object not shared"
-msgstr "Objek nie gedeel nie"
 
 #. js-lingui-id: wZpAXW
 #: src/modules/metadata-error-handler/hooks/useMetadataErrorHandler.ts
@@ -14995,6 +15027,11 @@ msgstr "Aanvangsbeloning"
 msgid "One or more filters reference deactivated or deleted fields and will be automatically removed on save."
 msgstr "Een of meer filters verwys na gedeaktiveerde of uitgevee velde en sal outomaties verwyder word wanneer gestoor word."
 
+#. js-lingui-id: iExkNj
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "One pipeline for a solo operator or a team of up to 3."
+msgstr ""
+
 #. js-lingui-id: 2l4SGU
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "One subscription provides one enterprise key that powers one production instance and one potential staging or test instance. To run a staging or test environment, install Twenty on a second server, activate it with this same enterprise key, then register that server as a development instance. Development instances unlock enterprise features without extra billing and do not count toward your production seats."
@@ -15105,11 +15142,6 @@ msgstr "Maak Claude oop met die Twenty-koppelnaam en MCP-URL vooraf ingevul."
 msgid "Open Cursor's MCP installer with the Twenty remote server config."
 msgstr "Maak Cursor se MCP-installeerder oop met die Twenty-afgeleë bediener-konfigurasie."
 
-#. js-lingui-id: pZZH4Q
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Open Gmail"
-msgstr "Maak Gmail oop"
-
 #. js-lingui-id: C39K59
 #: src/modules/ui/navigation/navigation-drawer/components/MultiWorkspaceDropdown/internal/MultiWorkspaceDropdownDefaultComponents.tsx
 msgid "Open in"
@@ -15134,11 +15166,6 @@ msgstr "Maak oop in Rolle"
 #: src/growth-os/plan/GrowthOsPlanPage.tsx
 msgid "Open Options, then Export, on any list to download a CSV."
 msgstr ""
-
-#. js-lingui-id: xGd6Ih
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Open Outlook"
-msgstr "Maak Outlook oop"
 
 #. js-lingui-id: VL5vJy
 #: src/modules/object-record/record-list/components/RecordListRow.tsx
@@ -15169,6 +15196,7 @@ msgstr "Maak Replit oop met die Twenty-afgeleë bediener-konfigurasie."
 
 #. js-lingui-id: WFTzOb
 #: src/growth-os/auth/GrowthOsResetSent.tsx
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Open the email from ScalePoint Growth OS"
 msgstr ""
 
@@ -16008,7 +16036,7 @@ msgid "Polish"
 msgstr "Pools"
 
 #. js-lingui-id: xkn2in
-#: src/pages/not-found/NotFound.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
 msgid "Popular destinations"
 msgstr ""
 
@@ -16166,7 +16194,7 @@ msgstr "Prioriteitsondersteuning"
 
 #. js-lingui-id: rjGI/Q
 #: src/growth-os/GrowthOsAuthShell.tsx
-#: src/pages/not-found/NotFound.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
 msgid "Privacy"
 msgstr ""
 
@@ -17073,7 +17101,6 @@ msgstr "Doen navorsing oor hierdie maatskappy en som op wat hulle doen, hoe groo
 #. js-lingui-id: G42SNI
 #: src/growth-os/auth/GrowthOsResetSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Resend email"
 msgstr "Stuur e-pos weer"
 
@@ -17551,7 +17578,7 @@ msgstr "Skaal"
 
 #. js-lingui-id: /Snwjq
 #: src/growth-os/GrowthOsAuthShell.tsx
-#: src/pages/not-found/NotFound.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
 msgid "ScalePoint Growth OS home"
 msgstr ""
 
@@ -18361,6 +18388,7 @@ msgid "Send"
 msgstr "Stuur"
 
 #. js-lingui-id: VRqXK+
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 #: src/pages/auth/PasswordReset.tsx
 msgid "Send a new link"
 msgstr ""
@@ -18468,11 +18496,12 @@ msgstr ""
 msgid "Sending starts right away, ahead of the time this campaign is holding."
 msgstr ""
 
-#. js-lingui-id: IoAuJG
+#. js-lingui-id: Sad2tK
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Sending..."
-msgstr "Besig om te stuur..."
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "Sending…"
+msgstr ""
 
 #. js-lingui-id: h69WC6
 #: src/modules/settings/accounts/components/SettingsAccountsMessageAutoCreationCard.tsx
@@ -18805,6 +18834,7 @@ msgstr "Sybalkitems"
 
 #. js-lingui-id: 5lWFkC
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
+#: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Sign in"
 msgstr "Teken aan"
 
@@ -18818,9 +18848,9 @@ msgstr ""
 msgid "Sign in or Create an account"
 msgstr "Meld aan of Skep 'n rekening"
 
-#. js-lingui-id: p6/Qr6
+#. js-lingui-id: tAErtX
 #: src/pages/auth/SignInUp.tsx
-msgid "Sign in to your Growth OS workspace, or start a 14-day trial with your work email."
+msgid "Sign in to your Growth OS workspace."
 msgstr ""
 
 #. js-lingui-id: mHC57v
@@ -19246,6 +19276,11 @@ msgstr "Standaard"
 #: src/modules/side-panel/pages/page-layout/components/SidePanelPageLayoutRecordPageWidgetTypeSelect.tsx
 msgid "Standard widgets"
 msgstr "Standaardwidgets"
+
+#. js-lingui-id: 0APgnL
+#: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
+msgid "Start a 14-day trial"
+msgstr ""
 
 #. js-lingui-id: ASqWQi
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
@@ -19914,8 +19949,8 @@ msgstr "Tydelike Mislukking"
 
 #. js-lingui-id: 4Y5H+g
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
-#: src/pages/not-found/NotFound.tsx
 msgid "Terms"
 msgstr ""
 
@@ -20523,6 +20558,7 @@ msgid "This key should be set through body input"
 msgstr "Hierdie sleutel moet via die liggaam-invoer gestel word"
 
 #. js-lingui-id: LWV1K3
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 #: src/pages/auth/PasswordReset.tsx
 msgid "This link has expired"
 msgstr ""
@@ -20622,6 +20658,11 @@ msgstr "Hierdie waarde sal in die databasis gestoor word."
 #: src/modules/activities/files/components/VideoPreview.tsx
 msgid "This video could not be loaded. Please download the file to view it."
 msgstr "Hierdie video kon nie gelaai word nie. Laai asseblief die lêer af om dit te bekyk."
+
+#. js-lingui-id: 7zhTK2
+#: src/modules/object-record/record-index/components/RecordIndexEmptyStateNotShared.tsx
+msgid "This view isn’t shared with you"
+msgstr ""
 
 #. js-lingui-id: esVnxk
 #. placeholder {0}: nonReadableViewFieldInfo.fieldLabel
@@ -21182,6 +21223,7 @@ msgid "True"
 msgstr "Waar"
 
 #. js-lingui-id: KDw4GX
+#: src/growth-os/states/GrowthOsMaintenancePage.tsx
 #: src/growth-os/states/GrowthOsStates.tsx
 #: src/modules/onboarding/components/upgrade-free-trial/ChooseYourPlanErrorState.tsx
 #: src/modules/settings/billing/components/SettingsBillingPlansErrorState.tsx
@@ -21208,11 +21250,6 @@ msgstr "Probeer ons komende funksies. Let wel: hulle is nog in beta. Wees assebl
 #: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
 msgid "Try removing a filter or searching for something else."
 msgstr ""
-
-#. js-lingui-id: LQdi+H
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Try with another email"
-msgstr "Probeer met 'n ander e-pos"
 
 #. js-lingui-id: ouRvqq
 #: src/modules/settings/components/SettingsDnsRecordsTable.tsx
@@ -21379,11 +21416,6 @@ msgstr ""
 #: src/pages/auth/Authorize.tsx
 msgid "Unable to load application details. Please try again later."
 msgstr "Kon nie toepassingsbesonderhede laai nie. Probeer asseblief weer later."
-
-#. js-lingui-id: l+ALBd
-#: src/modules/client-config/components/ClientConfigProvider.tsx
-msgid "Unable to Reach Back-end"
-msgstr "Nie in staat om rugsteun te bereik nie"
 
 #. js-lingui-id: 2lF8Zj
 #: src/modules/settings/admin-panel/components/SettingsAdminChatAskQuestionsPart.tsx
@@ -21576,6 +21608,21 @@ msgstr "Onbekende werksruimte"
 msgid "Unlimited"
 msgstr "Onbeperk"
 
+#. js-lingui-id: V/NV1M
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Unlimited pipelines, API & webhooks"
+msgstr ""
+
+#. js-lingui-id: 1B5tzk
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Unlimited users"
+msgstr ""
+
+#. js-lingui-id: k7Mdv5
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Unlimited users, AI and higher API limits."
+msgstr ""
+
 #. js-lingui-id: WDcQq9
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownVisibilityContent.tsx
@@ -21748,6 +21795,16 @@ msgstr "Ongenoemde Werkvloei"
 #: src/modules/settings/billing/components/SettingsBillingCreditsSection.tsx
 msgid "Unused credits roll over, up to 2× your plan's credits (max {rolloverCapDisplay})."
 msgstr "Ongebruikte krediete dra oor, tot 2× jou plan se krediete (maks {rolloverCapDisplay})."
+
+#. js-lingui-id: auWkD3
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Up to 25 users"
+msgstr ""
+
+#. js-lingui-id: vcWNwf
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Up to 3 users"
+msgstr ""
 
 #. js-lingui-id: j5CWO4
 #: src/modules/settings/admin-panel/utils/getUpgradeHealthStatusBadge.ts
@@ -22115,6 +22172,8 @@ msgstr "Gebruikstydperk"
 
 #. js-lingui-id: 7uJvRa
 #: src/growth-os/auth/GrowthOsResetSent.tsx
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Use a different email"
 msgstr ""
 
@@ -22527,11 +22586,6 @@ msgstr "Bekyk fakture"
 msgid "View Jobs"
 msgstr "Bekyk Werke"
 
-#. js-lingui-id: sAPirx
-#: src/modules/object-record/record-index/components/RecordIndexEmptyStateNotShared.tsx
-msgid "View not shared"
-msgstr "Aansig nie gedeel nie"
-
 #. js-lingui-id: hAAsm/
 #: src/modules/workflow/workflow-steps/workflow-actions/ai-agent-action/components/WorkflowEditActionAiAgent.tsx
 msgid "View role"
@@ -22570,6 +22624,11 @@ msgstr "Bekyk gebruik"
 #: src/pages/settings/layout/SettingsLayoutViewDetail.tsx
 msgid "Views"
 msgstr "Aansigte"
+
+#. js-lingui-id: 6XBY4b
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Views, CSV import and export"
+msgstr ""
 
 #. js-lingui-id: eedtPL
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -22742,6 +22801,11 @@ msgstr ""
 msgid "We could not reach the package registry to verify the package provenance. Please try again in a few minutes."
 msgstr "Ons kon nie die pakketregister bereik om die pakket se herkoms te verifieer nie. Probeer asseblief weer oor ’n paar minute."
 
+#. js-lingui-id: G/stmH
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "We couldn’t confirm your email with this link. Send a new one and use the latest email."
+msgstr ""
+
 #. js-lingui-id: h4KC4F
 #: src/modules/settings/billing/components/AddPaymentMethodForm.tsx
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
@@ -22769,11 +22833,6 @@ msgstr ""
 msgid "We couldn’t save your password. Try again."
 msgstr ""
 
-#. js-lingui-id: 6eMAkI
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "We encountered an issue verifying"
-msgstr "Ons het 'n probleem ondervind met die verifikasie"
-
 #. js-lingui-id: 4x3zRh
 #. placeholder {0}: objectLabelSingular ?? ''
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionUpsertRecord.tsx
@@ -22783,6 +22842,11 @@ msgstr "Ons pas op hierdie velde. As ’n {0} reeds bestaan, werk ons dit by. An
 #. js-lingui-id: jMShMC
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 msgid "We opened billing in a new tab."
+msgstr ""
+
+#. js-lingui-id: dT4lje
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "We sent a confirmation link to {address}. Open it to activate your workspace."
 msgstr ""
 
 #. js-lingui-id: id6ein
@@ -22819,6 +22883,11 @@ msgstr "Ons sal ŉ POST-versoek na hierdie eindpunt stuur vir elke nuwe gebeurte
 #: src/pages/settings/security/SettingsSecurityApprovedAccessDomain.tsx
 msgid "We will send you a link to verify domain ownership"
 msgstr "Ons sal vir jou ’n skakel stuur om domeineienaarskap te verifieer"
+
+#. js-lingui-id: 3eXKd8
+#: src/growth-os/states/GrowthOsMaintenancePage.tsx
+msgid "We’ll be right back"
+msgstr ""
 
 #. js-lingui-id: OAShZP
 #: src/pages/onboarding/PaymentSuccess.tsx
@@ -23123,6 +23192,11 @@ msgstr "Werkvloeiweergawes"
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Workflows"
 msgstr "Werksvloeie"
+
+#. js-lingui-id: YxWX5Q
+#: src/growth-os/plan/growthOsPlanCopy.ts
+msgid "Workflows, custom objects and roles"
+msgstr ""
 
 #. js-lingui-id: pmUArF
 #: src/growth-os/plan/GrowthOsPlanPage.tsx
@@ -23491,10 +23565,10 @@ msgstr "U het nie vergunning om toegang te verkry tot die {objectName} objek nie
 msgid "You do not have permission to view this widget"
 msgstr "U het nie vergunning om hierdie widget te besigtig nie"
 
-#. js-lingui-id: SDVtJI
-#: src/modules/object-record/record-index/components/RecordIndexEmptyStateNotShared.tsx
-msgid "You don't have access to this object."
-msgstr "Jy het nie toegang tot hierdie objek nie."
+#. js-lingui-id: fXo0YO
+#: src/growth-os/states/GrowthOsForbiddenState.tsx
+msgid "You don’t have access to this"
+msgstr ""
 
 #. js-lingui-id: Dg2c0z
 #: src/modules/settings/components/SettingsProtectedRouteWrapper.tsx
@@ -23676,6 +23750,11 @@ msgstr "Jou plan sal onmiddellik na Pro verander en jou proeflopie sal voortgaan
 #: src/pages/settings/admin-panel/SettingsAdminNewAiProvider.tsx
 msgid "Your provider API key for authentication"
 msgstr "Jou verskaffer se API-sleutel vir verifikasie"
+
+#. js-lingui-id: MudEI1
+#: src/growth-os/states/GrowthOsForbiddenState.tsx
+msgid "Your role doesn’t include this area. Ask a workspace admin to give you access. Nothing is wrong with your data."
+msgstr ""
 
 #. js-lingui-id: 3cPq25
 #: src/modules/apollo/hooks/useApolloFactory.ts

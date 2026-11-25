@@ -17,8 +17,11 @@ export type AccountExistsEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-export const accountExistsSubject = (locale: keyof typeof APP_LOCALES) =>
-  kitI18n(locale)._('You already have a Growth OS account');
+export const accountExistsSubject = (locale: keyof typeof APP_LOCALES) => {
+  const i18n = kitI18n(locale);
+
+  return i18n._('You already have a Growth OS account');
+};
 
 export const AccountExistsEmail = ({ email, signInLink, resetLink, locale }: AccountExistsEmailProps) => {
   const i18n = kitI18n(locale);
