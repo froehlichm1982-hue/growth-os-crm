@@ -1,64 +1,22 @@
-/* @license Enterprise */
+/* @growth-os-enterprise-override @growth-os-enterprise-stub: AGPL-3.0, written for Growth OS CRM.
+ * Replaces a stripped Enterprise file; source: scripts/enterprise-overrides/packages/twenty-server/src/engine/twenty-orm/utils/validate-rls-predicates-for-records.util.ts.
+ * Do not edit here, edit the override and re-run scripts/strip-enterprise.ts. */
 
-import { type ObjectRecord } from 'twenty-shared/types';
-import { isDefined } from 'twenty-shared/utils';
+// Row-level permissions (RLS) are not available in Growth OS CRM, so there are
+// no row predicates to validate written records against.
 import { type ObjectLiteral } from 'typeorm';
-
-import { type WorkspaceInternalContext } from 'src/engine/twenty-orm/interfaces/workspace-internal-context.interface';
 
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
 import { type FlatObjectMetadata } from 'src/engine/metadata-modules/flat-object-metadata/types/flat-object-metadata.type';
-import {
-  TwentyOrmException,
-  TwentyOrmExceptionCode,
-} from 'src/engine/twenty-orm/exceptions/twenty-orm.exception';
-import { isRecordMatchingRLSRowLevelPermissionPredicate } from 'src/engine/twenty-orm/utils/is-record-matching-rls-row-level-permission-predicate.util';
-import { resolveRowLevelPermissionRecordFilter } from 'src/engine/twenty-orm/utils/resolve-row-level-permission-record-filter.util';
+import { type WorkspaceInternalContext } from 'src/engine/twenty-orm/interfaces/workspace-internal-context.interface';
 
-type ValidateRLSPredicatesForRecordsArgs<T extends ObjectLiteral> = {
+export const validateRLSPredicatesForRecords = <
+  T extends ObjectLiteral,
+>(_args: {
   records: T[];
   objectMetadata: FlatObjectMetadata;
   internalContext: WorkspaceInternalContext;
   authContext: WorkspaceAuthContext;
   shouldBypassPermissionChecks: boolean;
   errorMessage?: string;
-};
-
-export const validateRLSPredicatesForRecords = <T extends ObjectLiteral>({
-  records,
-  objectMetadata,
-  internalContext,
-  authContext,
-  shouldBypassPermissionChecks,
-  errorMessage = 'Record does not satisfy row-level security constraints of your current role',
-}: ValidateRLSPredicatesForRecordsArgs<T>): void => {
-  if (shouldBypassPermissionChecks) {
-    return;
-  }
-
-  const recordFilter = resolveRowLevelPermissionRecordFilter({
-    internalContext,
-    authContext,
-    objectMetadata,
-  });
-
-  if (!isDefined(recordFilter)) {
-    return;
-  }
-
-  for (const record of records) {
-    const matchesRLS = isRecordMatchingRLSRowLevelPermissionPredicate({
-      record: record as unknown as ObjectRecord,
-      filter: recordFilter,
-      flatObjectMetadata: objectMetadata,
-      flatFieldMetadataMaps: internalContext.flatFieldMetadataMaps,
-    });
-
-    if (!matchesRLS) {
-      throw new TwentyOrmException(
-        errorMessage,
-        TwentyOrmExceptionCode.RLS_VALIDATION_FAILED,
-      );
-    }
-  }
-};
+}): void => undefined;
