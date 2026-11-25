@@ -12,11 +12,12 @@ export { createI18nInstanceFactory } from './create-i18n-instance-factory';
 export { generateMessageId } from './generate-message-id';
 export { getMetadataLabelContext } from './get-metadata-label-context';
 export {
+  GROWTH_OS_DEFAULT_HELP_URL,
   GROWTH_OS_BRAND,
-  GROWTH_OS_PRICING,
   rebrandText,
   rebrandMessages,
   withGrowthOsRebrand,
+  GROWTH_OS_PRICING,
 } from './growth-os-white-label';
 export { interpolateMessagePlaceholders } from './interpolate-message-placeholders';
 export type {
