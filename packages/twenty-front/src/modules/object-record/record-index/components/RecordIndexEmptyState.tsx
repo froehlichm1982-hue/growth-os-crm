@@ -15,6 +15,7 @@ import { anyFieldFilterValueComponentState } from '@/object-record/record-filter
 import { currentRecordFiltersComponentState } from '@/object-record/record-filter/states/currentRecordFiltersComponentState';
 import { currentRecordFilterGroupsComponentState } from '@/object-record/record-filter-group/states/currentRecordFilterGroupsComponentState';
 import { useOpenObjectRecordsSpreadsheetImportDialog } from '@/object-record/spreadsheet-import/hooks/useOpenObjectRecordsSpreadsheetImportDialog';
+import { GrowthOsErrorState } from '~/growth-os/states/GrowthOsStates';
 import { useSetAtomComponentState } from '@/ui/utilities/state/jotai/hooks/useSetAtomComponentState';
 import { IconFilterOff, IconSettings } from 'twenty-ui/icon';
 import { type ObjectPermission } from '~/generated-metadata/graphql';
@@ -66,7 +67,7 @@ export const RecordIndexEmptyState = ({
   };
   const objectLabelPlural = objectMetadataItem.labelPlural.toLowerCase();
 
-  const { totalCount } = useFindManyRecords({
+  const { totalCount, error: loadError } = useFindManyRecords({
     objectNameSingular: objectMetadataItem.nameSingular,
     limit: 1,
   });
@@ -92,6 +93,19 @@ export const RecordIndexEmptyState = ({
         createNewIndexRecord();
       }
     : undefined;
+
+  // Growth OS: load failed → inline error with Try again + reference id.
+  if (loadError) {
+    return (
+      <GrowthOsErrorState
+        title={t`We couldn’t load your ${objectLabelPlural}`}
+        description={t`This is usually a short connection problem. Try again. If it keeps happening, send us the reference below.`}
+        error={loadError}
+        onRetry={() => window.location.reload()}
+        width={width}
+      />
+    );
+  }
 
   if (!objectPermissions.canUpdateObjectRecords) {
     return (
@@ -133,7 +147,9 @@ export const RecordIndexEmptyState = ({
   }
 
   if (totalCount === 0) {
-    const isImportable = !objectMetadataItem.nameSingular.startsWith('workflow');
+    const isImportable =
+      !objectMetadataItem.nameSingular.startsWith('workflow') &&
+      objectMetadataItem.nameSingular !== 'dashboard';
 
     return (
       <RecordIndexEmptyStateDisplay

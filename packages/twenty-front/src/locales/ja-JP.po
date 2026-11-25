@@ -122,6 +122,12 @@ msgstr "({rank}/{total}、{viewName} 内)"
 msgid "({seats} {seatCountLabel} × ${displayedPerSeatPrice})"
 msgstr "({seats} {seatCountLabel} × ${displayedPerSeatPrice})"
 
+#. js-lingui-id: sd81GZ
+#. placeholder {0}: plan.pendingInvitations
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "(+{0} invited)"
+msgstr ""
+
 #. js-lingui-id: lAxYP0
 #: src/modules/settings/billing/components/internal/ResourceCreditPackagePickerModal.tsx
 msgid "(${currentCreditPriceDisplay}/{intervalLabel})"
@@ -246,6 +252,12 @@ msgstr ""
 msgid "{0, plural, one {You do not have permission to access the {fieldsList} field} other {You do not have permission to access the {fieldsList} fields}}"
 msgstr "{0, plural, other {フィールド {fieldsList} にアクセスする権限がありません}}"
 
+#. js-lingui-id: JsxXlO
+#. placeholder {0}: GROWTH_OS_PLAN_LABELS[plan.effectivePlan]
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "{0} (no active plan)"
+msgstr ""
+
 #. js-lingui-id: 6lE3tD
 #. placeholder {0}: formatNumber(counts.hardSuppressed)
 #: src/modules/activities/emails/utils/buildExcludedRecipientReasons.ts
@@ -356,6 +368,12 @@ msgstr ""
 msgid "{0} tokens/s"
 msgstr ""
 
+#. js-lingui-id: e+V7N4
+#. placeholder {0}: GROWTH_OS_PLAN_LABELS[plan.effectivePlan]
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "{0} trial"
+msgstr ""
+
 #. js-lingui-id: nZUq+6
 #. placeholder {0}: formatNumber(counts.globallyUnsubscribed)
 #: src/modules/activities/emails/utils/buildExcludedRecipientReasons.ts
@@ -392,6 +410,12 @@ msgstr ""
 msgid "{0} workspace members"
 msgstr "{0}人のワークスペースメンバー"
 
+#. js-lingui-id: Ie8LS6
+#. placeholder {0}: GROWTH_OS_PRICING.trialDays
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "{0}-day Growth trial, no card required. After the trial, unpaid workspaces keep Starter limits for 7 days and then become read-only; data is never deleted automatically and can always be exported. Billed by ScalePoint Ventures Oy."
+msgstr ""
+
 #. js-lingui-id: kofqAN
 #. placeholder {0}: selectedResolvedTier.label
 #. placeholder {1}: selectedResolvedTier.model.label
@@ -403,6 +427,12 @@ msgstr ""
 #. placeholder {0}: model.label
 #: src/modules/ai/components/AiModelTierSlider.tsx
 msgid "{0}: {description}, compared with the Balanced tier."
+msgstr ""
+
+#. js-lingui-id: 8mxwXi
+#. placeholder {0}: plan.apiRequestsPerMinute
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "{0}/min"
 msgstr ""
 
 #. js-lingui-id: qdQhzv
@@ -598,6 +628,22 @@ msgstr ""
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
 msgid "{label} list"
 msgstr "{label} リスト"
+
+#. js-lingui-id: UoK+Of
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "{label} plan"
+msgstr ""
+
+#. js-lingui-id: 9vQZL3
+#. placeholder {0}: plan.trialDaysLeft ?? 0
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "{label} trial · {0} days left"
+msgstr ""
+
+#. js-lingui-id: qApe4M
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "{label} trial · 1 day left"
+msgstr ""
 
 #. js-lingui-id: 1DrH/j
 #: src/modules/settings/roles/role-settings/components/SettingsRoleSettingsDeleteRoleConfirmationModalSubtitle.tsx
@@ -804,6 +850,11 @@ msgstr "{workflowRunIteratorSubStepIterationsCount, plural, other {# アイテ�
 msgid "{workspaceMemberName} will be unassigned from the following role:"
 msgstr "{workspaceMemberName}が次の役割から割り当て解除されます："
 
+#. js-lingui-id: EkpgDD
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "/ user / month"
+msgstr ""
+
 #. js-lingui-id: h5WHNQ
 #: src/modules/settings/billing/components/SettingsBillingCreditsSection.tsx
 msgid "/{intervalLabel}"
@@ -863,6 +914,12 @@ msgstr ""
 #. placeholder {0}: formatNumber(tier.model.costPerTask, { decimals: 2 })
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
 msgid "${0} / task"
+msgstr ""
+
+#. js-lingui-id: rnhCuC
+#. placeholder {0}: entry.priceYearlyEur
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "€{0} billed yearly"
 msgstr ""
 
 #. js-lingui-id: HwzlJs
@@ -2926,6 +2983,11 @@ msgstr "AIに尋ねる"
 msgid "Ask anything, @ a record or / a skill..."
 msgstr ""
 
+#. js-lingui-id: Zhy7zQ
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Ask your admin to update billing by {until} to keep full access."
+msgstr ""
+
 #. js-lingui-id: QVL/hg
 #: src/modules/ai/components/AiChatQuestionStatusRenderer.tsx
 msgid "Asking questions..."
@@ -3398,6 +3460,7 @@ msgid "Billing history"
 msgstr "請求履歴"
 
 #. js-lingui-id: nJGwRf
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -3856,6 +3919,12 @@ msgstr "間隔切替をキャンセル"
 msgid "Cancel interval switching?"
 msgstr "間隔切替をキャンセルしますか？"
 
+#. js-lingui-id: Bu+BBn
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Cancel plan"
+msgstr ""
+
 #. js-lingui-id: rRK/Lf
 #: src/modules/settings/billing/components/SettingsBillingContent.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
@@ -3876,6 +3945,16 @@ msgstr "プラン切替をキャンセルしますか？"
 #: src/modules/page-layout/widgets/email-thread/components/EmailThreadComposer.tsx
 msgid "Cancel reply"
 msgstr "返信をキャンセル"
+
+#. js-lingui-id: L1LFbt
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Cancel the {label} plan"
+msgstr ""
+
+#. js-lingui-id: IBKH5b
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Cancel your {label} plan?"
+msgstr ""
 
 #. js-lingui-id: N6gPiD
 #: src/modules/settings/billing/components/SettingsBillingContent.tsx
@@ -4167,6 +4246,12 @@ msgstr "中国語（簡体字）"
 msgid "Chinese — Traditional"
 msgstr "中国語（繁体字）"
 
+#. js-lingui-id: 7qxXKS
+#. placeholder {0}: entry.label
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Choose {0}"
+msgstr ""
+
 #. js-lingui-id: tMOTjD
 #: src/modules/settings/billing/components/internal/ResourceCreditPackagePickerModal.tsx
 msgid "Choose {intervalAdjective} credits"
@@ -4180,6 +4265,17 @@ msgstr ""
 #. js-lingui-id: jogQNT
 #: src/pages/auth/PasswordReset.tsx
 msgid "Choose a new password"
+msgstr ""
+
+#. js-lingui-id: zMquA7
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Choose a plan"
+msgstr ""
+
+#. js-lingui-id: k4gjQW
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "Choose a plan →"
 msgstr ""
 
 #. js-lingui-id: NFfUic
@@ -4315,6 +4411,7 @@ msgstr "フィルターをクリア"
 
 #. js-lingui-id: u8JHrO
 #: src/modules/ai/components/AiChatThreadFilterDropdownRootMenu.tsx
+#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
 #: src/modules/settings/unsubscribers/components/filter-dropdown/SettingsUnsubscribersFilterMenuContent.tsx
 msgid "Clear filters"
 msgstr "フィルターをクリア"
@@ -4418,6 +4515,7 @@ msgid "Clipboard requires a secure connection (HTTPS). Please access this app ov
 msgstr "クリップボードの使用にはセキュアな接続 (HTTPS) が必要です。コピーを有効にするには、HTTPS でこのアプリにアクセスしてください。"
 
 #. js-lingui-id: yz7wBu
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 #: src/modules/ai/components/AiChatCloseButton.tsx
 #: src/modules/ui/feedback/snack-bar-manager/components/SnackBar.tsx
 msgid "Close"
@@ -4908,6 +5006,11 @@ msgstr "ロールの更新を確認"
 msgid "Confirm the business terms to continue."
 msgstr ""
 
+#. js-lingui-id: JhaSiV
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Confirm the cancellation there. This page shows the new status as soon as billing confirms it, and we’ll email you a confirmation."
+msgstr ""
+
 #. js-lingui-id: DDbn3x
 #: src/modules/settings/billing/components/internal/ResourceCreditPriceSelector.tsx
 msgid "Confirm upgrade"
@@ -5102,6 +5205,7 @@ msgid "Context window must be a positive integer"
 msgstr "コンテキストウィンドウは正の整数である必要があります"
 
 #. js-lingui-id: xGVfLh
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
 #: src/modules/spreadsheet-import/components/StepNavigationButton.tsx
@@ -5164,6 +5268,11 @@ msgstr "会話"
 msgid "Cook"
 msgstr "Cook"
 
+#. js-lingui-id: 6V3Ea3
+#: src/growth-os/states/GrowthOsStates.tsx
+msgid "Copied"
+msgstr ""
+
 #. js-lingui-id: FxVG/l
 #: src/hooks/useCopyToClipboard.tsx
 #: src/modules/settings/components/SettingsDnsRecordsTable.tsx
@@ -5173,6 +5282,7 @@ msgid "Copied to clipboard"
 msgstr "クリップボードにコピーされました"
 
 #. js-lingui-id: he3ygx
+#: src/growth-os/states/GrowthOsStates.tsx
 #: src/modules/object-record/record-field/ui/meta-types/input/components/MultiItemFieldMenuItem.tsx
 #: src/modules/settings/developers/components/ApiKeyInput.tsx
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
@@ -5442,6 +5552,17 @@ msgstr "クリップボードにコピーできませんでした"
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationInstalledWorkspaces.tsx
 msgid "Couldn't load installed workspaces"
 msgstr "インストール済みワークスペースを読み込めませんでした"
+
+#. js-lingui-id: w7nLxg
+#: src/growth-os/sample-data/GrowthOsLoadSampleDataButton.tsx
+msgid "Couldn’t load sample data. Try again."
+msgstr ""
+
+#. js-lingui-id: sdoOxC
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+#: src/growth-os/plan/useGrowthOsBillingSession.ts
+msgid "Couldn’t open billing. Try again in a moment."
+msgstr ""
 
 #. js-lingui-id: kjbTwZ
 #: src/modules/navigation-menu-item/edit/hooks/useNavigationMenuItemEditController.ts
@@ -5972,6 +6093,12 @@ msgstr "現在の日付"
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
 msgid "Current period"
 msgstr "現在の期間"
+
+#. js-lingui-id: A+zoTy
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Current plan"
+msgstr ""
 
 #. js-lingui-id: C6vAhD
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
@@ -7211,6 +7338,7 @@ msgid "Don’t use your email name in your password."
 msgstr ""
 
 #. js-lingui-id: DPfwMq
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 #: src/modules/page-layout/widgets/fields/components/FieldsConfigurationGroupRenameInput.tsx
 msgid "Done"
 msgstr "完了"
@@ -7640,6 +7768,11 @@ msgstr "追加条件"
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Email"
 msgstr "メール"
+
+#. js-lingui-id: qGsN5X
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Email & calendar sync"
+msgstr ""
 
 #. js-lingui-id: ATGYL1
 #: src/modules/settings/unsubscribers/components/SettingsUnsubscribersList.tsx
@@ -8149,11 +8282,6 @@ msgstr "テキストを入力するか、「/」を入力してコマンドを�
 msgid "Enter text or Type '/' for commands"
 msgstr "テキストを入力するか、'/' でコマンドを呼び出せます"
 
-#. js-lingui-id: CO9plj
-#: src/pages/auth/SignInUp.tsx
-msgid "Enter the password for {authEmail}."
-msgstr ""
-
 #. js-lingui-id: 3EF9HN
 #: src/pages/settings/ai/components/SettingsAgentSettingsTab.tsx
 msgid "Enter the system prompt that defines this agent's behavior and capabilities"
@@ -8179,6 +8307,11 @@ msgstr "値を入力してください"
 #: src/modules/object-record/record-field/ui/form-types/components/FormMultiTextFieldInput.tsx
 msgid "Enter values, comma-separated"
 msgstr "値をカンマ区切りで入力"
+
+#. js-lingui-id: nH66Il
+#: src/pages/auth/SignInUp.tsx
+msgid "Enter your password to continue."
+msgstr ""
 
 #. js-lingui-id: GDMzJS
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
@@ -8728,6 +8861,11 @@ msgstr "エクスポート（{percentageValue}%）"
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
 msgid "Export CSV"
 msgstr "CSVをエクスポート"
+
+#. js-lingui-id: QJwofm
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Export data"
+msgstr ""
 
 #. js-lingui-id: leUV74
 #: src/modules/settings/logic-functions/components/triggers/SettingsLogicFunctionWorkflowActionTriggerSection.tsx
@@ -9518,6 +9656,11 @@ msgstr ""
 msgid "Finish flow with errors"
 msgstr "エラーがある状態でフローを終了"
 
+#. js-lingui-id: CC1THS
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Finish in the billing window"
+msgstr ""
+
 #. js-lingui-id: 8BwQeU
 #: src/pages/settings/accounts/SettingsAccountsConfigurationStepCalendar.tsx
 msgid "Finish Setup"
@@ -9780,6 +9923,11 @@ msgstr "フロントエンドコンポーネント"
 msgid "Full"
 msgstr "フル"
 
+#. js-lingui-id: uXB7F4
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Full access until {periodEnd}."
+msgstr ""
+
 #. js-lingui-id: aerYcp
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
 msgid "full admin panel access"
@@ -10002,6 +10150,11 @@ msgstr "イベントを作成するための Google、Microsoft、または CalD
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Goose"
 msgstr "Goose"
+
+#. js-lingui-id: Z6/Z5b
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Grace day {day} of {GROWTH_OS_GRACE_DAYS_UI}"
+msgstr ""
 
 #. js-lingui-id: nE5VAt
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantModal.tsx
@@ -10264,6 +10417,11 @@ msgstr "ヘブライ語"
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 msgid "Help center"
 msgstr "ヘルプセンター"
+
+#. js-lingui-id: zfb8F5
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Here is what happens. You can change your mind until the period ends."
+msgstr ""
 
 #. js-lingui-id: D+zLDD
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownHiddenRecordGroupsContent.tsx
@@ -10717,12 +10875,18 @@ msgstr "実装パートナー"
 msgid "Import"
 msgstr "インポート"
 
+#. js-lingui-id: q88Dim
+#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
+msgid "Import a CSV from your current tool or add them one by one. Your team sees every owner and next step here."
+msgstr ""
+
 #. js-lingui-id: sqOGcv
 #: src/modules/settings/accounts/components/SettingsAccountsMessageFolderCard.tsx
 msgid "Import all emails"
 msgstr "すべてのメールをインポート"
 
 #. js-lingui-id: 2CeOI3
+#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
 msgid "Import CSV"
 msgstr "CSVをインポート"
@@ -11459,6 +11623,11 @@ msgstr "現在位置に移動"
 msgid "Just for me"
 msgstr "自分専用"
 
+#. js-lingui-id: bEo2S8
+#: src/growth-os/sample-data/GrowthOsLoadSampleDataButton.tsx
+msgid "Just looking around?"
+msgstr ""
+
 #. js-lingui-id: OGXtL8
 #: src/modules/page-layout/widgets/record-table/types/RecordTableWidgetLayoutViewType.ts
 #: src/modules/views/types/ViewType.ts
@@ -11474,6 +11643,12 @@ msgstr "カンバン ウィジェット"
 #: src/modules/side-panel/pages/workflow/step/settings/components/SidePanelWorkflowStepSettingsContent.tsx
 msgid "Keep executing the next nodes even if this one fails"
 msgstr "このノードが失敗しても次のノードの実行を続行する"
+
+#. js-lingui-id: uHdpk+
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Keep my plan"
+msgstr ""
 
 #. js-lingui-id: JlHMbZ
 #: src/growth-os/GrowthOsAuthShell.tsx
@@ -12113,6 +12288,11 @@ msgstr "負荷分散済み"
 msgid "Load more"
 msgstr "さらに読み込む"
 
+#. js-lingui-id: i6nQK/
+#: src/growth-os/sample-data/GrowthOsLoadSampleDataButton.tsx
+msgid "Load sample data"
+msgstr ""
+
 #. js-lingui-id: CZGQgK
 #: src/modules/ai/utils/tool-display/get-tool-display-message.ts
 msgid "Loaded {formattedNames}"
@@ -12181,6 +12361,11 @@ msgstr "さらに読み込み中…"
 #: src/pages/settings/admin-panel/SettingsAdminQueueDetail.tsx
 msgid "Loading retention configuration..."
 msgstr "保持設定を読み込み中…"
+
+#. js-lingui-id: lf6PTF
+#: src/growth-os/sample-data/GrowthOsLoadSampleDataButton.tsx
+msgid "Loading sample data…"
+msgstr ""
 
 #. js-lingui-id: dJl485
 #: src/modules/ai/utils/tool-display/get-tool-display-message.ts
@@ -12346,6 +12531,7 @@ msgid "Manage"
 msgstr "管理"
 
 #. js-lingui-id: +nqVyF
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/settings/billing/components/internal/ResourceCreditPriceSelector.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCardHeaderActions.tsx
 #: src/modules/settings/billing/hooks/useBillingPlanActions.ts
@@ -12757,6 +12943,11 @@ msgstr "分"
 msgid "Minutes between triggers"
 msgstr "トリガー間の分"
 
+#. js-lingui-id: anmUZq
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Missing a feature"
+msgstr ""
+
 #. js-lingui-id: cOFpUq
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
 msgid "Missing calendar permission."
@@ -12874,6 +13065,7 @@ msgid "monthly"
 msgstr "月払い"
 
 #. js-lingui-id: +8Nek/
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingPlanComparisonTable.tsx
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
@@ -13156,6 +13348,11 @@ msgstr "日付フィールドが必要です"
 #: src/modules/page-layout/widgets/record-table/utils/getRecordTableWidgetLayoutPickerOptions.ts
 msgid "Needs a Select field"
 msgstr "選択フィールドが必要です"
+
+#. js-lingui-id: bWT/dC
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Net prices per user and month. VAT is added at checkout, where you can enter your VAT ID. Yearly billing = 2 months free."
+msgstr ""
 
 #. js-lingui-id: wW3b68
 #: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/WorkflowRunStepLogsHttpRequestDetail.tsx
@@ -13489,15 +13686,20 @@ msgstr "{fieldLabel}がありません"
 msgid "No {label}"
 msgstr "{label}がありません"
 
-#. js-lingui-id: 9CpMvJ
+#. js-lingui-id: n1XebM
 #: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
-msgid "No {objectLabelSingular} found"
-msgstr "{objectLabelSingular} が見つかりません"
+msgid "No {objectLabelPlural} match your filters"
+msgstr ""
 
 #. js-lingui-id: oPoLg+
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
 msgid "No access"
 msgstr "アクセス不可"
+
+#. js-lingui-id: HPXdgr
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "No active plan · read-only"
+msgstr ""
 
 #. js-lingui-id: glQp+P
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
@@ -13619,9 +13821,9 @@ msgstr "このカレンダーイベントには、まだ通話録音が存在し
 msgid "No calling code"
 msgstr "国番号なし"
 
-#. js-lingui-id: LIwu5i
+#. js-lingui-id: LHCGJf
 #: src/pages/auth/SignInUp.tsx
-msgid "No card needed. Create a password for {authEmail}."
+msgid "No card needed. Choose a password to get started."
 msgstr ""
 
 #. js-lingui-id: GgZThR
@@ -14019,11 +14221,6 @@ msgstr "レコードが選択されていません"
 #: src/modules/object-record/record-picker/components/RecordPickerNoRecordFoundMenuItem.tsx
 msgid "No records found"
 msgstr "レコードが見つかりません"
-
-#. js-lingui-id: FwUgy3
-#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
-msgid "No records matching the filter criteria were found."
-msgstr "フィルター条件に一致するレコードは見つかりませんでした。"
 
 #. js-lingui-id: gvIkAA
 #: src/modules/workflow/workflow-steps/workflow-actions/pick-record-action/components/WorkflowEditActionPickRecord.tsx
@@ -14445,6 +14642,11 @@ msgstr "ノート"
 msgid "Nothing has gone out yet. The campaign returns to your drafts and you can edit or schedule it again."
 msgstr ""
 
+#. js-lingui-id: e3a7RK
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Nothing is deleted. You can export all data at any time."
+msgstr ""
+
 #. js-lingui-id: VngD1z
 #: src/pages/settings/applications/SettingsApplicationDetails.tsx
 msgid "Nothing to configure for this application"
@@ -14651,6 +14853,13 @@ msgstr "オブジェクトとフィールドの権限設定"
 msgid "of"
 msgstr "の"
 
+#. js-lingui-id: az8lvo
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Off"
+msgstr ""
+
 #. js-lingui-id: KNz3EF
 #: src/pages/not-found/NotFound.tsx
 msgid "Off the beaten path"
@@ -14675,6 +14884,12 @@ msgstr "ol"
 #: src/modules/side-panel/pages/page-layout/constants/settings/ChartConfigurationSettingLabels.ts
 msgid "Omit zero values"
 msgstr "ゼロ値を省略する"
+
+#. js-lingui-id: Z5HWHd
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "On"
+msgstr ""
 
 #. js-lingui-id: UCQiqt
 #. placeholder {0}: appObject.labelSingular
@@ -14815,6 +15030,11 @@ msgstr "{monthName} のみ"
 msgid "only in {remainingMonths} and {0}"
 msgstr "{remainingMonths} と {0} のみ"
 
+#. js-lingui-id: MDgtmk
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Only needed it for a while"
+msgstr ""
+
 #. js-lingui-id: G+ijJ2
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getDayOfWeekDescription.ts
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getDayOfWeekDescription.ts
@@ -14898,6 +15118,11 @@ msgstr "フルページで開く"
 msgid "Open in Roles"
 msgstr "役割で開く"
 
+#. js-lingui-id: IbBIpq
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Open Options, then Export, on any list to download a CSV."
+msgstr ""
+
 #. js-lingui-id: xGd6Ih
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Open Outlook"
@@ -14939,6 +15164,11 @@ msgstr ""
 #: src/modules/navigation-menu-item/display/sections/components/NavigationDrawerOpenedSection.tsx
 msgid "Opened"
 msgstr "開いた"
+
+#. js-lingui-id: vvwt/a
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Opening billing…"
+msgstr ""
 
 #. js-lingui-id: Fzfj4N
 #: src/pages/settings/layout/SettingsLayoutViewDetail.tsx
@@ -15267,6 +15497,17 @@ msgstr "ページビュー"
 msgid "Pages"
 msgstr "ページ"
 
+#. js-lingui-id: ouJJ4u
+#. placeholder {0}: formatGrowthOsDate(plan.graceEndsAt)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Paid features are paused and nothing has been deleted. Your workspace uses Starter limits until {0}, then becomes read-only (view and export only)."
+msgstr ""
+
+#. js-lingui-id: yfXVdA
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Paid features are paused."
+msgstr ""
+
 #. js-lingui-id: ijBN4V
 #: src/modules/advanced-text-editor/extensions/slash-command/DefaultSlashCommands.ts
 msgid "paragraph"
@@ -15350,6 +15591,17 @@ msgstr "一時停止"
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Paused"
 msgstr "一時停止中"
+
+#. js-lingui-id: E+jMnT
+#. placeholder {0}: formatGrowthOsDate(plan.graceEndsAt)
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "Payment failed · fix by {0}"
+msgstr ""
+
+#. js-lingui-id: ZvaX7E
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "Payment failed · read-only"
+msgstr ""
 
 #. js-lingui-id: QmXBEc
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
@@ -15598,6 +15850,11 @@ msgstr ""
 msgid "Pipeline · Nordlicht Analytics"
 msgstr ""
 
+#. js-lingui-id: KQ93w+
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Pipelines"
+msgstr ""
+
 #. js-lingui-id: hx1ePY
 #: src/modules/workflow/workflow-steps/workflow-actions/form-action/components/WorkflowFormFieldSettingsNumber.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/form-action/components/WorkflowFormFieldSettingsText.tsx
@@ -15621,6 +15878,18 @@ msgstr "通常のテキスト段落"
 msgid "Plan"
 msgstr "プラン"
 
+#. js-lingui-id: 6bnoVc
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Plan & Billing"
+msgstr ""
+
+#. js-lingui-id: Nh9H81
+#. placeholder {0}: formatGrowthOsDate(plan.graceEndsAt)
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "Plan ended · Starter limits until {0}"
+msgstr ""
+
 #. js-lingui-id: XduPHC
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Plan switching has been cancelled."
@@ -15633,6 +15902,7 @@ msgid "Planned for {formattedStartDate}"
 msgstr "予定日: {formattedStartDate}"
 
 #. js-lingui-id: lWy5a1
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/settings/billing/components/SettingsBillingTabBar.tsx
 msgid "Plans"
 msgstr "プラン"
@@ -15671,7 +15941,6 @@ msgstr "メールエイリアスを更新するには、お使いのメールボ
 
 #. js-lingui-id: CjNkdJ
 #: src/modules/error-handler/components/AppRootErrorFallback.tsx
-#: src/modules/error-handler/components/internal/AppErrorDisplay.tsx
 msgid "Please refresh the page."
 msgstr "ページを更新してください。"
 
@@ -16243,6 +16512,7 @@ msgid "Recipients can only unsubscribe from everything. Add a public topic to le
 msgstr "受信者は、すべての配信を一括で配信停止することしかできません。公開トピックを追加して、どのメールを受信し続けるか選べるようにしましょう。"
 
 #. js-lingui-id: WEYdDv
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/ai/components/AiChatQuestionCard.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminChatAskQuestionsQuestion.tsx
 msgid "Recommended"
@@ -16394,6 +16664,11 @@ msgstr "リダイレクト URI"
 msgid "Redirect URIs updated"
 msgstr "リダイレクト URI を更新しました"
 
+#. js-lingui-id: N2C89m
+#: src/growth-os/states/GrowthOsStates.tsx
+msgid "Reference"
+msgstr ""
+
 #. js-lingui-id: pTGa/J
 #: src/pages/settings/admin-panel/SettingsAdminInferredVersion.tsx
 #: src/pages/settings/admin-panel/SettingsAdminInstanceStatus.tsx
@@ -16491,7 +16766,6 @@ msgstr "解放してこのサーバーに転送"
 
 #. js-lingui-id: HpK/8d
 #: src/modules/error-handler/components/AppRootErrorFallback.tsx
-#: src/modules/error-handler/components/internal/AppErrorDisplay.tsx
 #: src/modules/settings/domains/components/SettingPublicDomain.tsx
 msgid "Reload"
 msgstr "リロード"
@@ -17195,6 +17469,16 @@ msgstr "セールス"
 msgid "Same value on every side"
 msgstr "すべての辺で同じ値を使用"
 
+#. js-lingui-id: 6+oKBy
+#: src/growth-os/sample-data/GrowthOsLoadSampleDataButton.tsx
+msgid "Sample data is already in this workspace."
+msgstr ""
+
+#. js-lingui-id: d1HOzm
+#: src/growth-os/sample-data/GrowthOsLoadSampleDataButton.tsx
+msgid "Sample data loaded: 5 fictional companies, people and deals."
+msgstr ""
+
 #. js-lingui-id: 3hNFUc
 #: src/modules/settings/logic-functions/components/triggers/SettingsLogicFunctionTriggerPayloadFormat.tsx
 msgid "Sample input"
@@ -17761,6 +18045,11 @@ msgstr ""
 #. js-lingui-id: ruKb0q
 #: src/growth-os/GrowthOsAuthShell.tsx
 msgid "See plans"
+msgstr ""
+
+#. js-lingui-id: v3WFkz
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "See plans →"
 msgstr ""
 
 #. js-lingui-id: vn4aKq
@@ -18730,11 +19019,24 @@ msgstr "一部のレイアウト変更は保存できませんでした"
 msgid "Some log data was dropped to fit the size limit ({0} entries, {1} bytes)."
 msgstr "サイズ上限に合わせるため、一部のログデータが削除されました（{0} エントリ、{1} バイト）。"
 
+#. js-lingui-id: aQyGJc
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Something else"
+msgstr ""
+
 #. js-lingui-id: nwtY4N
 #: src/pages/auth/Authorize.tsx
 #: src/pages/object-core/WorkflowCoreIndexPage.tsx
 msgid "Something went wrong"
 msgstr "問題が発生しました"
+
+#. js-lingui-id: VlgPiy
+#: src/growth-os/states/GrowthOsStates.tsx
+#: src/modules/error-handler/components/AppFullScreenErrorFallback.tsx
+#: src/modules/error-handler/components/AppPageErrorFallback.tsx
+#: src/modules/error-handler/components/internal/AppErrorDisplay.tsx
+msgid "Something went wrong on our side"
+msgstr ""
 
 #. js-lingui-id: pKTyEY
 #: src/modules/auth/sign-in-up/hooks/useSignInUp.ts
@@ -18777,10 +19079,7 @@ msgid "Soon"
 msgstr "間もなく"
 
 #. js-lingui-id: wTrpxV
-#: src/modules/error-handler/components/AppFullScreenErrorFallback.tsx
-#: src/modules/error-handler/components/AppPageErrorFallback.tsx
 #: src/modules/error-handler/components/AppRootErrorFallback.tsx
-#: src/modules/error-handler/components/internal/AppErrorDisplay.tsx
 msgid "Sorry, something went wrong"
 msgstr "申し訳ありません、何か問題が発生しました"
 
@@ -19027,6 +19326,11 @@ msgstr "ステータス"
 #: src/pages/settings/community/SettingsCommunity.tsx
 msgid "Stay up to date with product news and community updates."
 msgstr "プロダクトニュースやコミュニティの最新情報を受け取りましょう。"
+
+#. js-lingui-id: QmriOY
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Step 2 of 2. Confirm to finish in billing."
+msgstr ""
 
 #. js-lingui-id: lATgy+
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterGroupOptionsDropdown.tsx
@@ -19357,6 +19661,12 @@ msgstr "推論をサポート"
 msgid "Swedish"
 msgstr "スウェーデン語"
 
+#. js-lingui-id: 1+P9RR
+#. placeholder {0}: entry.label
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Switch to {0}"
+msgstr ""
+
 #. js-lingui-id: GPKudC
 #: src/modules/settings/billing/hooks/useBillingPlanActions.ts
 msgid "Switch to Pro"
@@ -19377,6 +19687,11 @@ msgstr "年払いに切り替える"
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "Switched to a production instance."
 msgstr "本番インスタンスに切り替えました。"
+
+#. js-lingui-id: mNhR9s
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Switching tools"
+msgstr ""
 
 #. js-lingui-id: avDJC3
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
@@ -19788,6 +20103,12 @@ msgstr "お客様のデプロイメント向けに項目が反映された完全
 msgid "The icon your workflow trigger will display in the command menu"
 msgstr "ワークフロートリガーでコマンドメニューに表示するアイコン"
 
+#. js-lingui-id: UPZ9ll
+#. placeholder {0}: formatGrowthOsDate(plan.graceEndsAt)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "The last payment failed. Update your payment method by {0} to avoid read-only mode."
+msgstr ""
+
 #. js-lingui-id: gEcZnP
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAI.tsx
 msgid "The model behind each tier for every workspace. Workspaces can pin their own."
@@ -19920,6 +20241,11 @@ msgstr "テーマ"
 #: src/modules/keyboard-shortcut-menu/components/KeyboardShortcutMenuItem.tsx
 msgid "then"
 msgstr "その後"
+
+#. js-lingui-id: fp8nca
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Then {GROWTH_OS_GRACE_DAYS_UI} days with Starter limits, after that the workspace becomes read-only."
+msgstr ""
 
 #. js-lingui-id: l2fWLK
 #: src/modules/activities/files/components/FilesCardContent.tsx
@@ -20160,6 +20486,11 @@ msgstr "手動での行の並び替えを有効にするには、これが必要
 msgid "This is the current signing key. Revoking it will invalidate every JWT signed with it and users may need to sign in again. A new signing key will be generated automatically on the next request."
 msgstr "これは現在の署名キーです。これを失効させると、このキーで署名されたすべての JWT が無効になり、ユーザーは再度サインインする必要が生じる場合があります。新しい署名キーは、次のリクエスト時に自動的に生成されます。"
 
+#. js-lingui-id: GxVaP/
+#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
+msgid "This is usually a short connection problem. Try again. If it keeps happening, send us the reference below."
+msgstr ""
+
 #. js-lingui-id: yLvOxg
 #: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/KeyValuePairInput.tsx
 msgid "This key should be set through body input"
@@ -20342,6 +20673,16 @@ msgstr "これにより、二要素認証の方法が完全に削除されます
 msgid "This will revoke {0} for {userLabel}."
 msgstr "これにより {userLabel} の {0} が取り消されます。"
 
+#. js-lingui-id: 3dNKQ8
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "This workspace is read-only."
+msgstr ""
+
+#. js-lingui-id: lqZ9RE
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "This workspace is read-only. You can still view and export all data. Choose a plan to edit again. Nothing has been deleted."
+msgstr ""
+
 #. js-lingui-id: f8HOUp
 #: src/modules/ai/components/ThinkingStepsDisplay.tsx
 msgid "Thought"
@@ -20518,6 +20859,11 @@ msgstr "トマト"
 msgid "Tomorrow"
 msgstr "明日"
 
+#. js-lingui-id: AuR4E6
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Too expensive"
+msgstr ""
+
 #. js-lingui-id: 9MNPjf
 #: src/growth-os/auth/GrowthOsAuthAlert.tsx
 msgid "Too many attempts."
@@ -20693,6 +21039,17 @@ msgstr "翻訳"
 msgid "Trial"
 msgstr "トライアル"
 
+#. js-lingui-id: Rewoso
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "Trial ended · read-only"
+msgstr ""
+
+#. js-lingui-id: DZcR4A
+#. placeholder {0}: formatGrowthOsDate(plan.graceEndsAt)
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "Trial ended · Starter limits until {0}"
+msgstr ""
+
 #. js-lingui-id: KMw9zY
 #: src/modules/settings/billing/components/SettingsBillingTrialNoPaymentMethodBanner.tsx
 msgid "Trial ends {trialEndDate}, please add card details to keep the {planName}"
@@ -20794,6 +21151,7 @@ msgid "True"
 msgstr "真"
 
 #. js-lingui-id: KDw4GX
+#: src/growth-os/states/GrowthOsStates.tsx
 #: src/modules/onboarding/components/upgrade-free-trial/ChooseYourPlanErrorState.tsx
 #: src/modules/settings/billing/components/SettingsBillingPlansErrorState.tsx
 msgid "Try again"
@@ -20814,6 +21172,11 @@ msgstr "REST または GraphQL API プレイグラウンドをお試しくださ
 #: src/pages/settings/community/SettingsCommunity.tsx
 msgid "Try our upcoming features. Note they are still in beta. Please bear with us and report any issues you find."
 msgstr "今後の機能をお試しください。まだベータ版です。ご不便をおかけするかもしれませんが、見つけた問題はご報告ください。"
+
+#. js-lingui-id: I5qj8H
+#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
+msgid "Try removing a filter or searching for something else."
+msgstr ""
 
 #. js-lingui-id: LQdi+H
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
@@ -21383,6 +21746,11 @@ msgstr "更新"
 msgid "Update {contextStoreNumberOfSelectedRecords} records"
 msgstr "{contextStoreNumberOfSelectedRecords} 件のレコードを更新"
 
+#. js-lingui-id: T3qfgq
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Update it by {until} to keep full access."
+msgstr ""
+
 #. js-lingui-id: XeFxgX
 #: src/modules/information-banner/components/billing/InformationBannerFailPaymentInfo.tsx
 #: src/modules/settings/billing/components/internal/ResourceCreditPriceSelector.tsx
@@ -21392,6 +21760,7 @@ msgid "Update payment"
 msgstr "支払いを更新"
 
 #. js-lingui-id: Y69tSP
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "Update payment method"
 msgstr "お支払い方法を更新"
@@ -21533,6 +21902,11 @@ msgstr "監査ログにアクセスするにはアップグレードしてくだ
 #: src/modules/settings/security/components/SettingsSecuritySettings.tsx
 msgid "Upgrade to Enterprise to access audit logs."
 msgstr "Enterprise へアップグレードして監査ログにアクセスしてください."
+
+#. js-lingui-id: lINsE/
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Upgrade to Growth"
+msgstr ""
 
 #. js-lingui-id: yV3xLN
 #: src/pages/onboarding/UpgradeFreeTrial.tsx
@@ -21843,6 +22217,7 @@ msgid "User Usage"
 msgstr "ユーザーの利用状況"
 
 #. js-lingui-id: Sxm8rQ
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminGeneral.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Users"
@@ -22348,6 +22723,16 @@ msgstr "お支払い方法を確認できませんでした。再試行してく
 msgid "We couldn't load the plans"
 msgstr "プランを読み込めませんでした"
 
+#. js-lingui-id: A0+uJX
+#: src/growth-os/states/GrowthOsStates.tsx
+msgid "We couldn’t load this view. Try again. If it keeps happening, send us the reference below."
+msgstr ""
+
+#. js-lingui-id: AFsiGz
+#: src/modules/object-record/record-index/components/RecordIndexEmptyState.tsx
+msgid "We couldn’t load your {objectLabelPlural}"
+msgstr ""
+
 #. js-lingui-id: VVlCH+
 #: src/pages/auth/PasswordReset.tsx
 msgid "We couldn’t save your password. Try again."
@@ -22363,6 +22748,11 @@ msgstr "認証中に問題が発生しました"
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionUpsertRecord.tsx
 msgid "We match on these fields. If a {0} already exists, we update it. Otherwise, we create a new one."
 msgstr "これらのフィールドで一致します。既に{0}が存在する場合は更新します。そうでなければ、新しいものを作成します。"
+
+#. js-lingui-id: jMShMC
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "We opened billing in a new tab."
+msgstr ""
 
 #. js-lingui-id: id6ein
 #: src/modules/ui/input/components/ImageInput.tsx
@@ -22529,11 +22919,21 @@ msgstr "このフィールドのラベルについて各言語で表示される
 msgid "What each language displays for this object's labels"
 msgstr "このオブジェクトのラベルについて各言語で表示される内容"
 
+#. js-lingui-id: QDLFZp
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "What made you cancel? (optional)"
+msgstr ""
+
 #. js-lingui-id: cE4SvC
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeysNew.tsx
 msgid "What this API can do: Select a user role to define its permissions."
 msgstr "このAPIでできること：ユーザーのロールを選択して、その権限を定義します。"
+
+#. js-lingui-id: W4IMmp
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "What your workspace can use right now."
+msgstr ""
 
 #. js-lingui-id: drC+Tq
 #: src/pages/settings/ai/components/SettingsAiOverviewTab.tsx
@@ -22687,12 +23087,14 @@ msgid "Workflow versions"
 msgstr "ワークフローのバージョン"
 
 #. js-lingui-id: woYYQq
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Workflows"
 msgstr "ワークフロー"
 
 #. js-lingui-id: pmUArF
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 #: src/modules/navigation-menu-item/display/sections/workspace/components/WorkspaceSection.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownVisibilityContent.tsx
@@ -22925,6 +23327,11 @@ msgstr "年払い"
 msgid "Yearly"
 msgstr "年払い"
 
+#. js-lingui-id: FCQjKX
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Yearly · 2 months free"
+msgstr ""
+
 #. js-lingui-id: +BGee5
 #: src/modules/side-panel/pages/page-layout/utils/getDateGranularityPluralLabel.ts
 msgid "years"
@@ -22986,6 +23393,12 @@ msgstr "{currentLanguageLabel}の翻訳を編集中です。代わりに名前�
 msgid "You are not allowed to create records for this object"
 msgstr "このオブジェクトでレコードを作成することは許可されていません"
 
+#. js-lingui-id: rSzLpR
+#. placeholder {0}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "You are trying every Growth feature free until {0}. No card needed. Pick a plan before then to keep email sync, workflows and more than 3 users."
+msgstr ""
+
 #. js-lingui-id: iibZbD
 #: src/pages/settings/applications/tabs/SettingsApplicationsDeveloperTab.tsx
 msgid "You can either create a private app or share it to others"
@@ -23010,6 +23423,16 @@ msgstr "選択できるレコードは最大 {QUERY_MAX_RECORDS} 件です。"
 #: src/modules/settings/accounts/components/SettingsAccountsConnectionForm.tsx
 msgid "You can set up any combination of IMAP (receiving emails), SMTP (sending emails), and CalDAV (calendar sync)."
 msgstr "IMAP（メールの受信）、SMTP（メールの送信）、CalDAV（カレンダー同期）の任意の組み合わせを設定できます。"
+
+#. js-lingui-id: OGDCdC
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "You can still view and export everything, and nothing was deleted. Choose a plan to edit again."
+msgstr ""
+
+#. js-lingui-id: IajgUS
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "You can still view and export everything. Ask your admin to choose a plan."
+msgstr ""
 
 #. js-lingui-id: kv8vw3
 #: src/modules/settings/profile/components/EmailField.tsx
@@ -23188,6 +23611,16 @@ msgstr ""
 msgid "Your payment details are incomplete. Please review and retry."
 msgstr "お支払い情報が不完全です。内容を確認して再試行してください。"
 
+#. js-lingui-id: fhcslI
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Your payment didn’t go through."
+msgstr ""
+
+#. js-lingui-id: M/Scb8
+#: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+msgid "Your plan ends on {periodEnd}. Email sync, workflows and extra seats stop then. We’ll email you a confirmation."
+msgstr ""
+
 #. js-lingui-id: IxG5gy
 #: src/modules/settings/billing/hooks/useBillingWording.ts
 msgid "Your plan will switch to Organization immediately and your trial will continue. When it ends, you will be charged ${enterprisePrice} per user per month{suffix}."
@@ -23242,6 +23675,11 @@ msgstr "お客様のワークスペースにはアクティブなサブスクリ
 #: src/modules/information-banner/components/billing/InformationBannerNoBillingSubscription.tsx
 msgid "Your workspace doesn't have an active subscription. Please contact your admin."
 msgstr "お客様のワークスペースにはアクティブなサブスクリプションがありません。管理者に連絡してください。"
+
+#. js-lingui-id: tNLwH2
+#: src/growth-os/plan/GrowthOsBillingBanner.tsx
+msgid "Your workspace uses Starter limits until {until}, then becomes read-only. Nothing is deleted."
+msgstr ""
 
 #. js-lingui-id: RhNbPE
 #: src/modules/settings/billing/components/SettingsBillingContent.tsx
