@@ -115,8 +115,11 @@ body {
   gap: 8px;
 }
 
-[data-testid='top-bar-title'] > div:first-child:not(:last-of-type) {
+[data-testid='top-bar-title'] > div:first-child:not(:last-of-type),
+[data-testid='top-bar-title'] > div:first-child:not(:last-of-type) * {
   color: #65758b;
+  font-family: var(--spv-font-ui);
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
