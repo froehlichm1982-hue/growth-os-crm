@@ -1,0 +1,29 @@
+/* Growth OS CRM: ≥ 44 px touch targets on phones (PRODUCT-UX-STANDARD §5,
+   WCAG 2.5.5). Only min sizes, so desktop layouts are untouched and nothing
+   shrinks. Inline text links keep their line height (min-height does not
+   apply to inline boxes). */
+@media (max-width: 768px) {
+  #root button,
+  #root [role='button'],
+  #root [role='tab'],
+  body [role='menuitem'],
+  body [role='option'] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  #root a[href] {
+    min-height: 44px;
+  }
+
+  #root input:not([type='checkbox']):not([type='radio']):not([type='hidden']) {
+    min-height: 44px;
+  }
+
+  /* Icon buttons stay square and centred when they grow. */
+  #root button:has(> svg:only-child) {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+  }
+}
