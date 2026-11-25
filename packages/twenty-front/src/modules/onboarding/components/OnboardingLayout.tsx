@@ -1,14 +1,14 @@
 import { OnboardingHeader } from '@/onboarding/components/OnboardingHeader';
 import { styled } from '@linaria/react';
 import { type ReactNode } from 'react';
-import { themeCssVariables } from 'twenty-ui/theme-constants';
 import { GrowthOsAuthShell } from '~/growth-os/GrowthOsAuthShell';
 
+// Growth OS: rendered inside the kit auth card (GrowthOsAuthShell), so it
+// sizes to its content instead of filling the viewport.
 const StyledBackground = styled.div`
-  background: ${themeCssVariables.background.secondary};
+  background: transparent;
   display: flex;
   flex-direction: column;
-  height: calc(100dvh / var(--t-zoom, 1));
   width: 100%;
 `;
 
