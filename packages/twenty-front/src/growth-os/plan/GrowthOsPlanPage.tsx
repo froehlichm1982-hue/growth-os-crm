@@ -3,6 +3,8 @@ import { useMutation } from '@apollo/client/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from '@lingui/core/macro';
+import { i18n } from '@lingui/core';
+import { GROWTH_OS_PLAN_COPY } from '~/growth-os/plan/growthOsPlanCopy';
 import { GrowthOsCancelPlanModal } from '~/growth-os/plan/GrowthOsCancelPlanModal';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
@@ -414,7 +416,10 @@ export const GrowthOsPlanPage = () => {
                   {entry.plan === 'growth' && (
                     <StyledRibbon>{t`Recommended`}</StyledRibbon>
                   )}
-                  <H2Title title={entry.label} description={entry.tagline} />
+                  <H2Title
+                    title={entry.label}
+                    description={i18n._(GROWTH_OS_PLAN_COPY[entry.plan].tagline)}
+                  />
                   <StyledPrice>
                     €{Number.isInteger(monthly) ? monthly : monthly.toFixed(2)}
                     <span>
@@ -426,8 +431,8 @@ export const GrowthOsPlanPage = () => {
                     </span>
                   </StyledPrice>
                   <StyledList>
-                    {entry.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
+                    {GROWTH_OS_PLAN_COPY[entry.plan].highlights.map((highlight) => (
+                      <li key={highlight.id}>{i18n._(highlight)}</li>
                     ))}
                   </StyledList>
                   <Button
