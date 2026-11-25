@@ -22,6 +22,7 @@ import { getSettingsPath } from 'twenty-shared/utils';
 import { PermissionFlagType } from '~/generated-metadata/graphql';
 import { GROWTH_OS_HELP_URL, GROWTH_OS_LEGAL_URLS } from '~/growth-os/brand';
 import { GrowthOsExternalRedirect } from '~/growth-os/GrowthOsExternalRedirect';
+import { GrowthOsPlanPage } from '~/growth-os/plan/GrowthOsPlanPage';
 
 const SettingsGraphQLPlayground = lazy(() =>
   import('~/pages/settings/developers/playground/SettingsGraphQLPlayground').then(
@@ -430,18 +431,6 @@ const SettingsAccountsCalendars = lazy(() =>
   ),
 );
 
-const SettingsBilling = lazy(() =>
-  import('~/pages/settings/billing/SettingsBilling').then((module) => ({
-    default: module.SettingsBilling,
-  })),
-);
-
-const SettingsBillingPlans = lazy(() =>
-  import('~/pages/settings/billing/SettingsBillingPlans').then((module) => ({
-    default: module.SettingsBillingPlans,
-  })),
-);
-
 const SettingsUsage = lazy(() =>
   import('~/pages/settings/billing/SettingsUsage').then((module) => ({
     default: module.SettingsUsage,
@@ -761,10 +750,10 @@ const createSettingsRouteElements = ({
         path={SettingsPath.Unsubscribe}
         element={<SettingsWorkspaceUnsubscribe />}
       />
-      <Route path={SettingsPath.Billing} element={<SettingsBilling />} />
+      <Route path={SettingsPath.Billing} element={<GrowthOsPlanPage />} />
       <Route
         path={SettingsPath.BillingPlans}
-        element={<SettingsBillingPlans />}
+        element={<Navigate to={getSettingsPath(SettingsPath.Billing)} replace />}
       />
       <Route path={SettingsPath.Usage} element={<SettingsUsage />} />
       <Route

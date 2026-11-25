@@ -51,9 +51,10 @@
   --t-accent-accent6: #afd5d0;
   --t-accent-accent7: #92c4bd;
   --t-accent-accent8: #6faea6;
-  --t-accent-accent9: #469189;
-  --t-accent-accent10: #3a7872;
-  --t-accent-accent11: #3a7872;
+  /* accent9 carries white button text: strong teal keeps WCAG AA (5.1:1). */
+  --t-accent-accent9: #3a7872;
+  --t-accent-accent10: #2f625d;
+  --t-accent-accent11: #2f625d;
   --t-accent-accent12: #133430;
   --t-accent-primary: #c5e1dd;
   --t-accent-secondary: #c5e1dd;
@@ -61,7 +62,7 @@
   --t-accent-quaternary: #f3f9f8;
   --t-accent-accent3570: #6faea6;
   --t-accent-accent4060: #6faea6;
-  --t-color-blue: #469189;
+  --t-color-blue: #3a7872;
   --t-color-blue1: #fbfdfd;
   --t-color-blue2: #f3f9f8;
   --t-color-blue3: #e6f2f0;

@@ -53,6 +53,8 @@ type SettingsDiscoveryHeroCardProps = {
   playButtonAriaLabel?: string;
 };
 
+const GROWTH_OS_HIDE_UPSTREAM_DISCOVERY = true as boolean;
+
 export const SettingsDiscoveryHeroCard = ({
   lightSrc,
   darkSrc,
@@ -71,6 +73,12 @@ export const SettingsDiscoveryHeroCard = ({
   const tabsInstanceId = `${instanceIdPrefix}-tabs`;
 
   const src = colorScheme === 'light' ? lightSrc : darkSrc;
+
+  // Growth OS CRM: upstream demo covers and walkthrough videos show the
+  // upstream product, so only the actionable footer is kept.
+  if (GROWTH_OS_HIDE_UPSTREAM_DISCOVERY) {
+    return footer ? <Card rounded>{footer}</Card> : null;
+  }
 
   return (
     <>

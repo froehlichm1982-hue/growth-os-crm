@@ -1,3 +1,4 @@
+import { type ReactNode } from 'react';
 import { styled } from '@linaria/react';
 import { isDefined } from 'twenty-shared/utils';
 import {
@@ -24,6 +25,8 @@ type RecordIndexEmptyStateDisplayProps = {
   buttonTitle?: string;
   onButtonClick?: () => void;
   width?: number;
+  // Growth OS CRM: optional secondary action (e.g. "Load sample data").
+  extra?: ReactNode;
 };
 
 export const RecordIndexEmptyStateDisplay = ({
@@ -34,6 +37,7 @@ export const RecordIndexEmptyStateDisplay = ({
   buttonTitle,
   onButtonClick,
   width,
+  extra,
 }: RecordIndexEmptyStateDisplayProps) => (
   <StyledEmptyStateContainer>
     <AnimatedPlaceholderEmptyContainer width={width}>
@@ -52,6 +56,7 @@ export const RecordIndexEmptyStateDisplay = ({
           onClick={onButtonClick}
         />
       )}
+      {extra}
     </AnimatedPlaceholderEmptyContainer>
   </StyledEmptyStateContainer>
 );

@@ -13,6 +13,10 @@ import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomState
 import { useLingui } from '@lingui/react/macro';
 import { IconFilterOff, IconPlus, IconSettings } from 'twenty-ui/icon';
 import { type ObjectPermission } from '~/generated-metadata/graphql';
+import {
+  GrowthOsLoadSampleDataButton,
+  isGrowthOsSampleDataObject,
+} from '~/growth-os/sample-data/GrowthOsLoadSampleDataButton';
 
 type RecordIndexEmptyStateProps = {
   objectMetadataItem: EnrichedObjectMetadataItem;
@@ -121,6 +125,12 @@ export const RecordIndexEmptyState = ({
         buttonTitle={t`Add a ${objectLabelSingular}`}
         onButtonClick={handleAddRecordClick}
         width={width}
+        extra={
+          canCreateRecords &&
+          isGrowthOsSampleDataObject(objectMetadataItem.nameSingular) ? (
+            <GrowthOsLoadSampleDataButton />
+          ) : undefined
+        }
       />
     );
   }

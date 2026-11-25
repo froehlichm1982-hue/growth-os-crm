@@ -21,6 +21,7 @@ import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
 import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
 import { MOBILE_VIEWPORT, themeCssVariables } from 'twenty-ui/theme-constants';
 import { GrowthOsSourceNotice } from '~/growth-os/GrowthOsSourceNotice';
+import { GrowthOsPlanStatus } from '~/growth-os/plan/GrowthOsPlanStatus';
 import { NavigationDrawerHeader } from './NavigationDrawerHeader';
 
 export type NavigationDrawerProps = {
@@ -141,6 +142,7 @@ export const NavigationDrawer = ({
             showCollapseButton={isMobile || !isSettingsDrawer}
           />
           <StyledContent>{children}</StyledContent>
+          {isExpanded && <GrowthOsPlanStatus />}
           {isExpanded && (
             <StyledSourceNotice>
               <GrowthOsSourceNotice align="left" />
