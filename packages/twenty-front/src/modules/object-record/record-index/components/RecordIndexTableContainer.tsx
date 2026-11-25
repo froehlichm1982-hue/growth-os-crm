@@ -5,6 +5,7 @@ import { getRecordIndexRemoveSortingModalId } from '@/object-record/record-index
 import { RecordTableWithWrappers } from '@/object-record/record-table/components/RecordTableWithWrappers';
 import { isModalOpenedComponentState } from '@/ui/layout/modal/states/isModalOpenedComponentState';
 import { useAtomComponentStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomComponentStateValue';
+import { GrowthOsMobileRecordIndex } from '~/growth-os/mobile/GrowthOsMobileRecordList';
 
 type RecordIndexTableContainerProps = {
   recordTableId: string;
@@ -24,11 +25,13 @@ export const RecordIndexTableContainer = ({
   return (
     <>
       <RecordIndexTableContainerEffect />
-      <RecordTableWithWrappers
-        recordTableId={recordTableId}
-        objectNameSingular={objectNameSingular}
-        viewBarId={viewBarInstanceId}
-      />
+      <GrowthOsMobileRecordIndex>
+        <RecordTableWithWrappers
+          recordTableId={recordTableId}
+          objectNameSingular={objectNameSingular}
+          viewBarId={viewBarInstanceId}
+        />
+      </GrowthOsMobileRecordIndex>
       {isModalOpened && <RecordIndexRemoveSortingModal />}
     </>
   );

@@ -99,13 +99,36 @@ body {
   padding-right: 16px !important;
 }
 
-.growth-os-page-card-title,
-[data-testid='top-bar-title'] {
+.growth-os-page-card-title {
   font-family: var(--spv-font-display);
   font-size: 1.55rem !important;
   font-weight: 400 !important;
   gap: 8px;
   letter-spacing: -0.005em;
+}
+
+/* Record breadcrumb: parent object muted in the UI font, the record itself in
+   serif, the "(2/6)" position as a small muted counter. */
+[data-testid='top-bar-title'] {
+  font-family: var(--spv-font-ui);
+  font-size: 0.95rem;
+  gap: 8px;
+}
+
+[data-testid='top-bar-title'] > div:first-child:not(:last-of-type) {
+  color: #65758b;
+  font-weight: 500;
+}
+
+[data-testid='top-bar-title'] > div:last-of-type {
+  font-family: var(--spv-font-display);
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+[data-testid='top-bar-title'] > span:last-child {
+  color: #9aa8b8;
+  font-size: 0.8rem;
 }
 
 .growth-os-page-card-header nav {
@@ -151,6 +174,16 @@ body {
   .page-layout-scroll-wrapper
   [data-orientation='horizontal'] {
   display: none;
+}
+
+/* Widget slots carry upstream divider lines; the cards replace them. */
+[data-record-show-page-body] .page-layout-scroll-wrapper > div > div {
+  border-bottom: 0 !important;
+  border-top: 0 !important;
+}
+
+[data-record-show-page-body] .page-layout-scroll-wrapper > div {
+  background: var(--spv-section-warm);
 }
 
 [data-record-show-page-body] .widget-card-header {

@@ -19,7 +19,7 @@ export const computeStandardOpportunityViewFields = (
         fieldName: 'name',
         position: 0,
         isVisible: true,
-        size: 150,
+        size: 240,
       },
     }),
     allOpportunitiesAmount: createStandardViewFieldFlatMetadata({

@@ -19,7 +19,7 @@ export const computeStandardCompanyViewFields = (
         fieldName: 'name',
         position: 0,
         isVisible: true,
-        size: 180,
+        size: 220,
       },
     }),
     allCompaniesDomainName: createStandardViewFieldFlatMetadata({
@@ -31,7 +31,7 @@ export const computeStandardCompanyViewFields = (
         fieldName: 'domainName',
         position: 1,
         isVisible: true,
-        size: 100,
+        size: 190,
         aggregateOperation: AggregateOperations.COUNT,
       },
     }),

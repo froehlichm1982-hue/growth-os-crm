@@ -1,3 +1,4 @@
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
 import { UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { Args, Mutation } from '@nestjs/graphql';
 
@@ -15,12 +16,18 @@ import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
 import { ConnectedAccountMetadataService } from 'src/engine/metadata-modules/connected-account/connected-account-metadata.service';
 import { ChannelSyncSuccessDTO } from 'src/modules/connected-account/channel-sync/dtos/channel-sync-success.dto';
 import { ChannelSyncService } from 'src/modules/connected-account/channel-sync/services/channel-sync.service';
+import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 
 @MetadataResolver()
 @UsePipes(ResolverValidationPipe)
 @UseFilters(AuthGraphqlApiExceptionFilter)
 @UseGuards(WorkspaceAuthGuard)
 export class ChannelSyncResolver {
+  // Growth OS CRM: plan entitlement gate (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsEntitlementService)
+  private readonly growthOsEntitlementService?: GrowthOsEntitlementService;
+
   constructor(
     private readonly channelSyncService: ChannelSyncService,
     private readonly connectedAccountMetadataService: ConnectedAccountMetadataService,
@@ -34,6 +41,12 @@ export class ChannelSyncResolver {
     @AuthWorkspace() workspace: WorkspaceEntity,
     @AuthUserWorkspaceId() userWorkspaceId: string,
   ): Promise<ChannelSyncSuccessDTO> {
+    // Growth OS CRM plan gate: sync start needs Growth/Scale (or the trial).
+    await this.growthOsEntitlementService?.assertFeature(
+      workspace.id,
+      'emailCalendarSync',
+    );
+
     await this.connectedAccountMetadataService.verifyOwnership({
       id: connectedAccountId,
       userWorkspaceId,
