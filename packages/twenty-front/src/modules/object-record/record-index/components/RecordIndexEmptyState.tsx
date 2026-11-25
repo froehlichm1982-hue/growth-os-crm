@@ -1,4 +1,8 @@
 import { isLayoutCustomizationModeEnabledState } from '@/layout-customization/states/isLayoutCustomizationModeEnabledState';
+import {
+  GrowthOsForbiddenState,
+  isGrowthOsForbiddenError,
+} from '~/growth-os/states/GrowthOsForbiddenState';
 import { useObjectLabel } from '@/object-metadata/hooks/useObjectLabel';
 import { type EnrichedObjectMetadataItem } from '@/object-metadata/types/EnrichedObjectMetadataItem';
 import { useFindManyRecords } from '@/object-record/hooks/useFindManyRecords';
@@ -95,6 +99,10 @@ export const RecordIndexEmptyState = ({
     : undefined;
 
   // Growth OS: load failed → inline error with Try again + reference id.
+  if (loadError && isGrowthOsForbiddenError(loadError)) {
+    return <GrowthOsForbiddenState width={width} />;
+  }
+
   if (loadError) {
     return (
       <GrowthOsErrorState

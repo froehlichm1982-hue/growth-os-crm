@@ -18,3 +18,6 @@
 .gos-sys-foot{padding:20px;text-align:center;font-size:var(--fs-xs);color:var(--c-ink-3);display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}
 .gos-sys-foot a{color:var(--c-ink-3)}
 @media (max-width:640px){.gos-sys .gos-actions .gos-btn{width:100%}}
+.gos-sys-code.danger i{background:var(--c-danger)}
+.gos-sys-code.warn i{background:var(--c-warn,#b54708)}
+.gos-sys a.gos-btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
