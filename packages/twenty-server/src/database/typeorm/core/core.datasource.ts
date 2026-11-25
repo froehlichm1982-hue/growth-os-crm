@@ -37,13 +37,17 @@ const getLoggingConfig = (): LogLevel[] => {
 
 const isJest = process.argv.some((arg) => arg.includes('jest'));
 
+// Growth OS CRM: billing entities and migrations are never loaded (billing is
+// Enterprise code, stripped from this fork).
+const GROWTH_OS_BILLING_ENABLED = false as boolean;
+
 export const typeORMCoreModuleOptions: TypeOrmModuleOptions = {
   url: process.env.PG_DATABASE_URL,
   type: 'postgres',
   logging: getLoggingConfig(),
   schema: 'core',
   entities:
-    process.env.IS_BILLING_ENABLED === 'true'
+    GROWTH_OS_BILLING_ENABLED
       ? [
           `${isJest ? 'src/' : 'dist/'}engine/core-modules/**/*.entity{.ts,.js}`,
           `${isJest ? 'src/' : 'dist/'}engine/metadata-modules/**/*.entity{.ts,.js}`,
@@ -63,7 +67,7 @@ export const typeORMCoreModuleOptions: TypeOrmModuleOptions = {
   // Do NOT add new files there: write a fast/slow instance command instead.
   // See `packages/twenty-server/docs/UPGRADE_COMMANDS.md`.
   migrations:
-    process.env.IS_BILLING_ENABLED === 'true'
+    GROWTH_OS_BILLING_ENABLED
       ? [
           `${isJest ? 'src/' : 'dist/'}database/typeorm/core/legacy-typeorm-migrations-do-not-add/common/*{.ts,.js}`,
           `${isJest ? 'src/' : 'dist/'}database/typeorm/core/legacy-typeorm-migrations-do-not-add/billing/*{.ts,.js}`,

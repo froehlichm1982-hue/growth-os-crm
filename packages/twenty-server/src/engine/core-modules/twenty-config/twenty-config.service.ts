@@ -54,6 +54,13 @@ export class TwentyConfigService {
   }
 
   get<T extends keyof ConfigVariables>(key: T): ConfigVariables[T] {
+    // Growth OS CRM: Twenty's billing is Enterprise code and is stripped from
+    // this fork. It is hard-disabled regardless of env or database config;
+    // Growth OS billing runs in the separate growth-os-billing service.
+    if (key === 'IS_BILLING_ENABLED') {
+      return false as ConfigVariables[T];
+    }
+
     if (isEnvOnlyConfigVar(key)) {
       return this.environmentConfigDriver.get(key);
     }

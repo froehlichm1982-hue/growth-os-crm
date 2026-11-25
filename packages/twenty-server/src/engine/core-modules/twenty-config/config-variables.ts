@@ -906,7 +906,8 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.BILLING_CONFIG,
-    description: 'Enable or disable billing features',
+    description:
+      'Billing is not available in Growth OS CRM (always false, see ENTERPRISE-STRIP.md)',
     type: ConfigVariableType.BOOLEAN,
   })
   @IsOptional()
