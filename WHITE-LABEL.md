@@ -2,8 +2,11 @@
 
 Growth OS CRM is an AGPL-3.0 fork of [Twenty](https://github.com/twentyhq/twenty).
 Customers must only see **Growth OS CRM** / **ScalePoint Ventures**. The one
-allowed upstream mention is the AGPL credit "Built on Twenty · Source code
-(AGPL-3.0)" in the app sidebar, the sign-in footer and email footers.
+allowed upstream mention is the AGPL credit "Built on Twenty · AGPL-3.0" in the
+app sidebar, the sign-in footer and email footers (plain text, no repository
+links). The "Source code (AGPL-3.0)" link is rendered only when
+`SOURCE_CODE_URL` is set. **Before launch `SOURCE_CODE_URL` must point to the
+public repository (AGPL-3.0 §13 source offer for network users).**
 
 The layer is kept in a few isolated places so upstream merges stay easy.
 
@@ -18,7 +21,10 @@ The layer is kept in a few isolated places so upstream merges stay easy.
 | Logos, favicons, PWA/app icons | `packages/twenty-front/public/images/growth-os/` (brand kit, unchanged) and `scripts/white-label/generate-brand-assets.py` (regenerates every upstream icon PNG in place + the in-app logo SVG) |
 | Page title, meta, manifest | `packages/twenty-front/index.html`, `packages/twenty-front/public/manifest.json` |
 | Email look (colors, font stack), logo, footer | `packages/twenty-emails/src/common-style.ts`, `components/Logo.tsx`, `components/Footer.tsx`, `components/BaseHead.tsx` |
-| Email sender default | `EMAIL_FROM_NAME = 'Growth OS CRM'` in `config-variables.ts` (set `EMAIL_FROM_ADDRESS` per deployment) |
+| Email sender default | `ScalePoint Growth OS <noreply@scalepoint-ventures.com>`, Reply-To `support@scalepoint-ventures.com` (`EMAIL_FROM_*`, `EMAIL_REPLY_TO`); Resend over SMTP with `RESEND_API_KEY` (`email-driver.factory.ts`) |
+| App domain | `crm.scalepoint-ventures.com`, workspaces `<ws>.crm.scalepoint-ventures.com` (`DEFAULT_SUBDOMAIN` empty = bare domain is the entry) |
+| Help / source links | `HELP_URL` (default `/growthos/crm/faq`), `SOURCE_CODE_URL` (unset = no link); runtime values reach the browser via `generate-front-config.ts` (`window._env_`) |
+| Hosting claim | `GROWTH_OS_BRAND.hostingClaim`: "Hosted in the EU (Helsinki, Finland) · GDPR Art. 28 DPA" |
 
 Small one-line edits elsewhere (each marked `Growth OS CRM`): headline font in
 `auth/components/Title.tsx` and `onboarding/components/StyledOnboardingStepTitle.ts`,
@@ -44,9 +50,11 @@ customer-visible "twenty" outside the allowlist in the script.
 - Developer CLI from `twenty-sdk` (`npx create-twenty-app`, `yarn twenty dev`)
   shown on Settings → Apps → Developer. It is the real binary name.
 - Admin Panel (server operators only) links to the upstream Docker image tags.
-- Favicon/company-logo lookups use upstream services `twenty-icons.com` and
-  `twenty-companies.com` (image URLs only, not shown as text). Privacy note:
-  company domains are sent to these hosts. Decision needed: self-host or disable.
+- Company-logo lookups via `twenty-icons.com` are **off by default**
+  (`ALLOW_REQUESTS_TO_TWENTY_ICONS=false`); records show letter avatars.
+- `/client-config` names no AI vendor: every provider is labelled
+  `GROWTH_OS_AI_PROVIDER_LABEL` (default "Growth OS AI"). Model ids are set by
+  the operator; do not configure models whose id contains a vendor name.
 - The server-side DPA generator (Twenty's own DPA template) is unreachable from
   the UI (routes redirect to our DPA) but its API still exists.
 
@@ -56,5 +64,6 @@ customer-visible "twenty" outside the allowlist in the script.
 - OpenAPI document (`open-api/utils/base-schema.utils.ts`): title, contact, terms, licence link, externalDocs from `GROWTH_OS_BRAND`.
 - Public MCP server card (`/.well-known/...`, `build-mcp-server-card.util.ts`): name `com.scalepoint-ventures/growth-os-crm`, title, website, repository.
 - Helper AI agent description/prompt; onboarding and invite placeholders (Acme, no Apple people); signup B2B consent line.
-- Stays (internal key, not rendered): `/client-config` field `allowRequestsToTwentyIcons`.
+- Stays (internal key, not rendered): `/client-config` field name `allowRequestsToTwentyIcons` (value now `false`).
+- New workspaces start empty; "Load sample data" (record empty states for Companies/People/Opportunities) loads the fictional EU set once.
 - Stays (instance admin only): "Admin Panel" for the first instance user; create the instance admin before opening signup.

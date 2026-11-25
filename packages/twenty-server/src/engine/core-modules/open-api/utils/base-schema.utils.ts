@@ -132,7 +132,9 @@ curl -H 'Authorization: Bearer <token>' \\
       },
       license: {
         name: 'AGPL-3.0',
-        url: GROWTH_OS_BRAND.sourceCodeUrl,
+        url:
+          GROWTH_OS_BRAND.sourceCodeUrl ??
+          'https://www.gnu.org/licenses/agpl-3.0.html',
       },
       version: API_Version,
     },

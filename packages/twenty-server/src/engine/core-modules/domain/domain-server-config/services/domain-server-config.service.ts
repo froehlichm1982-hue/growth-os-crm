@@ -65,6 +65,16 @@ export class DomainServerConfigService {
 
     const frontDomain = this.getFrontUrl().hostname;
 
+    // Growth OS CRM: the bare front host is the default (workspace-agnostic)
+    // entry when DEFAULT_SUBDOMAIN is empty; it is never a custom domain.
+    if (originHostname === frontDomain) {
+      return {
+        subdomain: undefined,
+        domain: null,
+        isPublicDomainOrigin: false,
+      };
+    }
+
     const isFrontdomain = originHostname.endsWith(`.${frontDomain}`);
 
     if (isFrontdomain) {

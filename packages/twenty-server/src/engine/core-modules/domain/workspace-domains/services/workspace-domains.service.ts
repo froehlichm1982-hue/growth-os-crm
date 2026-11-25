@@ -240,9 +240,11 @@ export class WorkspaceDomainsService {
   private getTwentyWorkspaceUrl(subdomain: string) {
     const url = this.domainServerConfigService.getFrontUrl();
 
-    url.hostname = this.twentyConfigService.get('IS_MULTIWORKSPACE_ENABLED')
-      ? `${subdomain}.${url.hostname}`
-      : url.hostname;
+    // Growth OS CRM: an empty (default) subdomain means the bare front host.
+    url.hostname =
+      this.twentyConfigService.get('IS_MULTIWORKSPACE_ENABLED') && subdomain
+        ? `${subdomain}.${url.hostname}`
+        : url.hostname;
 
     return url.toString();
   }

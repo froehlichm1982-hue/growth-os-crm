@@ -259,6 +259,7 @@
     "packages/twenty-server/src/engine/core-modules/billing/services/billing-subscription.service.ts",
     "packages/twenty-server/src/engine/core-modules/billing/services/billing-usage.service.ts",
     "packages/twenty-server/src/engine/core-modules/billing/services/billing.service.ts",
+    "packages/twenty-server/src/engine/core-modules/dns-manager/services/dns-manager.service.ts",
     "packages/twenty-server/src/engine/core-modules/enterprise/services/custom-ai-provider-access.service.ts",
     "packages/twenty-server/src/engine/core-modules/enterprise/services/enterprise-plan.service.ts",
     "packages/twenty-server/src/engine/core-modules/usage-limit/services/usage-period.service.ts",
@@ -461,7 +462,7 @@
       "upstreamRef": "twenty/v2.40.2",
       "found": 370,
       "stubbed": 251,
-      "overridden": 18,
+      "overridden": 19,
       "deletedEnterprise": 119,
       "deletedAgplTests": 59
     }

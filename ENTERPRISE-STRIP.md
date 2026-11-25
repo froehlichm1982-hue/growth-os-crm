@@ -29,7 +29,7 @@ CI runs it on every push.
 
 - Upstream ref: `twenty/v2.40.2`
 - Marked files found: **370**
-- Stubbed: **251** (of which hand-written AGPL overrides: **18**, listed below)
+- Stubbed: **251** (of which hand-written AGPL overrides: **19**, listed below)
 - Deleted Enterprise files: **119**
 - Deleted AGPL tests/stories that imported Enterprise code: **59**
 
@@ -65,6 +65,7 @@ stub:
 - `packages/twenty-server/src/engine/core-modules/billing/services/billing-subscription.service.ts`
 - `packages/twenty-server/src/engine/core-modules/billing/services/billing-usage.service.ts`
 - `packages/twenty-server/src/engine/core-modules/billing/services/billing.service.ts`
+- `packages/twenty-server/src/engine/core-modules/dns-manager/services/dns-manager.service.ts`
 - `packages/twenty-server/src/engine/core-modules/enterprise/services/custom-ai-provider-access.service.ts`
 - `packages/twenty-server/src/engine/core-modules/enterprise/services/enterprise-plan.service.ts`
 - `packages/twenty-server/src/engine/core-modules/usage-limit/services/usage-period.service.ts`

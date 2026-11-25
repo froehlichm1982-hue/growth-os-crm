@@ -13,6 +13,7 @@ export { generateMessageId } from './generate-message-id';
 export { getMetadataLabelContext } from './get-metadata-label-context';
 export {
   GROWTH_OS_BRAND,
+  GROWTH_OS_PRICING,
   rebrandText,
   rebrandMessages,
   withGrowthOsRebrand,

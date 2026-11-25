@@ -91,7 +91,8 @@ export class ConfigVariables {
     type: ConfigVariableType.BOOLEAN,
   })
   @IsOptional()
-  IS_EMAIL_VERIFICATION_REQUIRED = false;
+  // Growth OS CRM: public SaaS signups must verify their email address.
+  IS_EMAIL_VERIFICATION_REQUIRED = true;
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
@@ -252,7 +253,8 @@ export class ConfigVariables {
       "Enable or disable requests to twenty-icons to get companies' icons",
     type: ConfigVariableType.BOOLEAN,
   })
-  ALLOW_REQUESTS_TO_TWENTY_ICONS = true;
+  // Growth OS CRM: no third-party logo lookups by default.
+  ALLOW_REQUESTS_TO_TWENTY_ICONS = false;
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.MICROSOFT_AUTH,
@@ -487,14 +489,14 @@ export class ConfigVariables {
     description: 'Email address used as the sender for outgoing emails',
     type: ConfigVariableType.STRING,
   })
-  EMAIL_FROM_ADDRESS = 'noreply@yourdomain.com';
+  EMAIL_FROM_ADDRESS = 'noreply@scalepoint-ventures.com';
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.EMAIL_SETTINGS,
     description: 'Name used in the From header for outgoing emails',
     type: ConfigVariableType.STRING,
   })
-  EMAIL_FROM_NAME = 'Growth OS CRM';
+  EMAIL_FROM_NAME = 'ScalePoint Growth OS';
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.EMAIL_SETTINGS,
@@ -1134,7 +1136,9 @@ export class ConfigVariables {
     type: ConfigVariableType.STRING,
   })
   @ValidateIf((env) => env.IS_MULTIWORKSPACE_ENABLED)
-  DEFAULT_SUBDOMAIN = 'app';
+  // Growth OS CRM: empty = the bare FRONTEND_URL host is the default entry
+  // (crm.scalepoint-ventures.com), workspaces live on <ws>.crm.scalepoint-ventures.com.
+  DEFAULT_SUBDOMAIN = '';
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
@@ -2024,7 +2028,8 @@ export class ConfigVariables {
     message:
       '"WORKSPACE_INACTIVE_DAYS_BEFORE_NOTIFICATION" should be strictly lower than "WORKSPACE_INACTIVE_DAYS_BEFORE_SOFT_DELETION"',
   })
-  WORKSPACE_INACTIVE_DAYS_BEFORE_NOTIFICATION = 7;
+  // Growth OS: Terms Schedule D §4 — no deletion before 30 days, export notice first.
+  WORKSPACE_INACTIVE_DAYS_BEFORE_NOTIFICATION = 30;
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
@@ -2036,7 +2041,7 @@ export class ConfigVariables {
     message:
       '"WORKSPACE_INACTIVE_DAYS_BEFORE_SOFT_DELETION" should be strictly lower than "WORKSPACE_INACTIVE_DAYS_BEFORE_DELETION"',
   })
-  WORKSPACE_INACTIVE_DAYS_BEFORE_SOFT_DELETION = 14;
+  WORKSPACE_INACTIVE_DAYS_BEFORE_SOFT_DELETION = 45;
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
@@ -2044,7 +2049,7 @@ export class ConfigVariables {
     type: ConfigVariableType.NUMBER,
   })
   @CastToPositiveNumber()
-  WORKSPACE_INACTIVE_DAYS_BEFORE_DELETION = 21;
+  WORKSPACE_INACTIVE_DAYS_BEFORE_DELETION = 60;
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,

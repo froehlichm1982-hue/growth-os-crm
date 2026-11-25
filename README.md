@@ -42,6 +42,37 @@ helpers are Enterprise, and those have a safe "feature off" replacement.
 `scripts/check-permission-hot-path.ts` enforces this in CI, and the sync
 workflow reports such releases as blocked instead of merging them.
 
+## Deployment settings (Growth OS CRM)
+
+| Variable | Default | Notes |
+|---|---|---|
+| `FRONTEND_URL` / `SERVER_URL` | – | `https://crm.scalepoint-ventures.com`; workspaces live on `<workspace>.crm.scalepoint-ventures.com` (wildcard DNS + TLS) |
+| `DEFAULT_SUBDOMAIN` | *(empty)* | Empty = the bare domain is the sign-in/sign-up entry (no `app.` prefix). `app` stays reserved |
+| `HELP_URL` | `https://scalepoint-ventures.com/growthos/crm/faq` | All help/docs links (switch to `/help` later) |
+| `SOURCE_CODE_URL` | *(unset)* | AGPL-3.0 §13 source offer. The "Source code" link (app, emails, OpenAPI, MCP card) is only rendered when set. **Must be set to the public repository before launch.** |
+| `EMAIL_DRIVER`, `EMAIL_SMTP_HOST`, `EMAIL_SMTP_PORT`, `EMAIL_SMTP_USER` | `logger` | Production: `smtp`, `smtp.resend.com`, `465` (implicit TLS) or `587` (STARTTLS), user `resend` |
+| `RESEND_API_KEY` | – | Used as the SMTP password when `EMAIL_SMTP_PASSWORD` is empty. Secret, never committed |
+| `EMAIL_FROM_NAME` / `EMAIL_FROM_ADDRESS` | `ScalePoint Growth OS` / `noreply@scalepoint-ventures.com` | |
+| `EMAIL_REPLY_TO` | `support@scalepoint-ventures.com` | Empty string = no Reply-To |
+| `IS_EMAIL_VERIFICATION_REQUIRED` | `true` | Public SaaS signups must confirm their email |
+| `ALLOW_REQUESTS_TO_TWENTY_ICONS` | `false` | No third-party logo lookups |
+| `GROWTH_OS_AI_PROVIDER_LABEL` | `Growth OS AI` | Only label exposed for AI providers in the public `/client-config` |
+| `GROWTH_OS_PREFILL_SAMPLE_DATA` | `false` | New workspaces start empty; users can click **Load sample data** (fictional EU set, lead company "Nordlicht Analytics") |
+
+Local testing never sends real mail: `local-boot/mailcatcher.py` (outside this
+repository) accepts SMTP on 127.0.0.1:1025 and writes `.eml` files.
+
+## Plans and billing hook
+
+Plan limits (Starter / Growth / Scale, 14-day Growth trial) are enforced in
+this codebase; payments run in the separate growth-os-billing service, which
+updates a workspace's plan through a signed webhook
+(`POST /webhooks/growth-os-billing`, HMAC-SHA256). No Stripe SDK or key is
+part of the CRM. Environment variables (`GROWTH_OS_BILLING_WEBHOOK_SECRET`,
+`GROWTH_OS_BILLING_URL`, `GROWTH_OS_CHECKOUT_URL`, …), the payload contract and
+the local mock (`scripts/growth-os-billing-mock.ts`) are documented in
+[GROWTH-OS-BILLING.md](./GROWTH-OS-BILLING.md).
+
 ## License
 
 Growth OS CRM is licensed under the **GNU Affero General Public License v3.0**

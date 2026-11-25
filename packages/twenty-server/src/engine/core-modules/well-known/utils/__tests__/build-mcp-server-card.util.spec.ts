@@ -27,7 +27,8 @@ describe('buildMcpServerCard', () => {
     );
     expect(card.name).toBe('com.scalepoint-ventures/growth-os-crm');
     expect(card.version).toBe('0.42.0');
-    expect(card.repository.source).toBe('github');
+    // No repository is advertised until SOURCE_CODE_URL is configured.
+    expect(card.repository).toBeUndefined();
   });
 
   it('marks the Authorization header optional and secret (OAuth or API key)', () => {

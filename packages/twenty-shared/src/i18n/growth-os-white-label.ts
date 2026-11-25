@@ -4,26 +4,50 @@ import { type I18n } from '@lingui/core';
 // Single source of truth for the product name and customer-facing links used
 // by twenty-front, twenty-emails and twenty-server.
 
+// Deployment-specific links are read at runtime: in the browser from
+// window._env_ (injected by the server, see generate-front-config.ts), on the
+// server from process.env. Unset values fall back to the defaults below.
+const readGrowthOsRuntimeEnv = (key: string): string | undefined => {
+  const browserEnv = (
+    globalThis as { window?: { _env_?: Record<string, string> } }
+  ).window?._env_;
+  const nodeEnv = (
+    globalThis as { process?: { env?: Record<string, string | undefined> } }
+  ).process?.env;
+  const value = browserEnv?.[key] ?? nodeEnv?.[key];
+
+  return typeof value === 'string' && value.trim() !== ''
+    ? value.trim()
+    : undefined;
+};
+
+export const GROWTH_OS_DEFAULT_HELP_URL =
+  'https://scalepoint-ventures.com/growthos/crm/faq';
+
 export const GROWTH_OS_BRAND = {
   productName: 'Growth OS CRM',
+  suiteName: 'ScalePoint Growth OS',
   companyName: 'ScalePoint Ventures',
   companyLegalName: 'ScalePoint Ventures Oy',
   supportEmail: 'support@scalepoint-ventures.com',
   privacyEmail: 'privacy@scalepoint-ventures.com',
-  // Public app URL; emails reference brand assets from here.
-  appUrl: 'https://app.crm.scalepoint-ventures.com',
+  // Public app URL (workspaces live on <workspace>.crm.scalepoint-ventures.com);
+  // emails reference brand assets from here.
+  appUrl: 'https://crm.scalepoint-ventures.com',
+  appBaseDomain: 'crm.scalepoint-ventures.com',
   marketingUrl: 'https://scalepoint-ventures.com/growthos/crm',
-  // Open product decision: no help center yet, docs links land here.
-  helpUrl: 'https://scalepoint-ventures.com/growthos/crm',
+  // Help/docs links (HELP_URL, later /help).
+  helpUrl: readGrowthOsRuntimeEnv('HELP_URL') ?? GROWTH_OS_DEFAULT_HELP_URL,
+  hostingClaim: 'Hosted in the EU (Helsinki, Finland) · GDPR Art. 28 DPA',
   legal: {
     terms: 'https://scalepoint-ventures.com/growthos/legal/terms',
     dpa: 'https://scalepoint-ventures.com/growthos/legal/dpa',
     privacy: 'https://scalepoint-ventures.com/growthos/legal/privacy',
     notice: 'https://scalepoint-ventures.com/growthos/legal/notice',
   },
-  // AGPL-3.0 section 13 source offer. Placeholder until the public repository
-  // URL is confirmed.
-  sourceCodeUrl: 'https://github.com/froehlichmarkus-spv/growth-os-crm',
+  // AGPL-3.0 section 13 source offer: SOURCE_CODE_URL. The link is only
+  // rendered when it is set; it MUST be set before launch.
+  sourceCodeUrl: readGrowthOsRuntimeEnv('SOURCE_CODE_URL') ?? null,
   upstreamName: 'Twenty',
   upstreamUrl: 'https://github.com/twentyhq/twenty',
 } as const;
@@ -148,3 +172,52 @@ export const withGrowthOsRebrand = <T extends I18n>(i18n: T): T => {
 
   return i18n;
 };
+
+// Public price list (net EUR per user/month; yearly = 10 × monthly). The CRM
+// server enforces limits from the same numbers; Stripe prices live in
+// growth-os-billing under the lookup keys crm_<tier>_m / crm_<tier>_y.
+export const GROWTH_OS_PRICING = {
+  currency: 'EUR',
+  trialDays: 14,
+  trialPlan: 'growth',
+  plans: [
+    {
+      plan: 'starter',
+      label: 'Starter',
+      priceMonthlyEur: 12,
+      priceYearlyEur: 120,
+      tagline: 'One pipeline for a solo operator or a team of up to 3.',
+      highlights: [
+        'Up to 3 users',
+        '1 pipeline, 10 custom fields per object',
+        'Views, CSV import and export',
+      ],
+    },
+    {
+      plan: 'growth',
+      label: 'Growth',
+      priceMonthlyEur: 24,
+      priceYearlyEur: 240,
+      tagline: 'Everything a growing sales team needs.',
+      highlights: [
+        'Up to 25 users',
+        'Email & calendar sync',
+        'Workflows, custom objects and roles',
+        'Unlimited pipelines, API & webhooks',
+      ],
+    },
+    {
+      plan: 'scale',
+      label: 'Scale',
+      priceMonthlyEur: 39,
+      priceYearlyEur: 390,
+      tagline: 'Unlimited users, AI and higher API limits.',
+      highlights: [
+        'Unlimited users',
+        'Everything in Growth',
+        'AI assistant (monthly allowance)',
+        'Higher API rate limits',
+      ],
+    },
+  ],
+} as const;

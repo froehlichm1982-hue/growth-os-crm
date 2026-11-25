@@ -35,6 +35,7 @@ import { type AuthContextUser } from 'src/engine/core-modules/auth/types/auth-co
 import { BillingSubscriptionService } from 'src/engine/core-modules/billing/services/billing-subscription.service';
 import { BillingService } from 'src/engine/core-modules/billing/services/billing.service';
 import { DnsManagerService } from 'src/engine/core-modules/dns-manager/services/dns-manager.service';
+import { isGrowthOsSampleDataPrefilledOnSignup } from 'src/engine/core-modules/growth-os/growth-os-sample-data.service';
 import { CustomDomainManagerService } from 'src/engine/core-modules/domain/custom-domain-manager/services/custom-domain-manager.service';
 import { SubdomainManagerService } from 'src/engine/core-modules/domain/subdomain-manager/services/subdomain-manager.service';
 import { EmailingDomainEntity } from 'src/engine/core-modules/emailing-domain/emailing-domain.entity';
@@ -1072,9 +1073,15 @@ export class WorkspaceService {
     try {
       await queryRunner.startTransaction();
 
-      await prefillCompanies(queryRunner.manager, schemaName);
+      // Growth OS CRM: workspaces start empty; demo records are loaded on
+      // demand (GrowthOsSampleDataService) unless explicitly enabled.
+      const prefillSampleRecords = isGrowthOsSampleDataPrefilledOnSignup();
 
-      await prefillPeople(queryRunner.manager, schemaName);
+      if (prefillSampleRecords) {
+        await prefillCompanies(queryRunner.manager, schemaName);
+
+        await prefillPeople(queryRunner.manager, schemaName);
+      }
 
       await prefillWorkflows(
         queryRunner.manager,
@@ -1084,7 +1091,9 @@ export class WorkspaceService {
         flatFieldMetadataMaps,
       );
 
-      await prefillOpportunities(queryRunner.manager, schemaName);
+      if (prefillSampleRecords) {
+        await prefillOpportunities(queryRunner.manager, schemaName);
+      }
 
       await prefillDashboards(
         queryRunner.manager,

@@ -19,10 +19,10 @@ export const buildMcpServerCard = ({
   description:
     'Read and write your Growth OS CRM data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.',
   websiteUrl: GROWTH_OS_BRAND.marketingUrl,
-  repository: {
-    url: GROWTH_OS_BRAND.sourceCodeUrl,
-    source: 'github',
-  },
+  // Repository is only advertised once SOURCE_CODE_URL is configured.
+  ...(GROWTH_OS_BRAND.sourceCodeUrl
+    ? { repository: { url: GROWTH_OS_BRAND.sourceCodeUrl, source: 'github' } }
+    : {}),
   remotes: [
     {
       type: 'streamable-http',

@@ -8,9 +8,11 @@ export const useReadDefaultDomainFromConfiguration = () => {
     isMultiWorkspaceEnabledState,
   );
 
-  const defaultDomain = isMultiWorkspaceEnabled
-    ? `${domainConfiguration.defaultSubdomain}.${domainConfiguration.frontDomain}`
-    : domainConfiguration.frontDomain;
+  // Growth OS CRM: an empty default subdomain means the bare front domain.
+  const defaultDomain =
+    isMultiWorkspaceEnabled && domainConfiguration.defaultSubdomain
+      ? `${domainConfiguration.defaultSubdomain}.${domainConfiguration.frontDomain}`
+      : domainConfiguration.frontDomain;
 
   return {
     defaultDomain,

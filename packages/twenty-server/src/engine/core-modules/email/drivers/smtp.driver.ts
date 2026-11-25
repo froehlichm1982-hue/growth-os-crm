@@ -14,7 +14,11 @@ export class SmtpDriver implements EmailDriverInterface {
   private readonly logger = new Logger(SmtpDriver.name);
   private transport: Transporter;
 
-  constructor(options: SMTPConnection.Options) {
+  constructor(
+    options: SMTPConnection.Options,
+    // Growth OS CRM: default Reply-To for system mail (EMAIL_REPLY_TO).
+    private readonly defaultReplyTo?: string,
+  ) {
     this.transport = createTransport({ ...options, pool: true });
   }
 
@@ -23,7 +27,12 @@ export class SmtpDriver implements EmailDriverInterface {
   }
 
   async send(sendMailOptions: SendMailOptions): Promise<void> {
-    await this.transport.sendMail(sendMailOptions).catch((err) => {
+    const options =
+      this.defaultReplyTo && !sendMailOptions.replyTo
+        ? { ...sendMailOptions, replyTo: this.defaultReplyTo }
+        : sendMailOptions;
+
+    await this.transport.sendMail(options).catch((err) => {
       this.logger.error(`sending email to '${sendMailOptions.to}': ${err}`);
 
       throw err;

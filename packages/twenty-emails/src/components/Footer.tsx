@@ -58,16 +58,18 @@ export const Footer = ({ i18n }: FooterProps) => {
             href={GROWTH_OS_BRAND.legal.notice}
             value={i18n._('Legal notice')}
           />
-          {' · '}
-          <Link
-            href={GROWTH_OS_BRAND.upstreamUrl}
-            value={`Built on ${GROWTH_OS_BRAND.upstreamName}`}
-          />
-          {' · '}
-          <Link
-            href={GROWTH_OS_BRAND.sourceCodeUrl}
-            value={i18n._('Source code (AGPL-3.0)')}
-          />
+          {` · Built on ${GROWTH_OS_BRAND.upstreamName}`}
+          {GROWTH_OS_BRAND.sourceCodeUrl ? (
+            <>
+              {' · '}
+              <Link
+                href={GROWTH_OS_BRAND.sourceCodeUrl}
+                value={i18n._('Source code (AGPL-3.0)')}
+              />
+            </>
+          ) : (
+            ' · AGPL-3.0'
+          )}
         </>
       </ShadowText>
     </Container>

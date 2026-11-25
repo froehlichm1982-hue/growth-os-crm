@@ -87,9 +87,13 @@ export class ClientConfigService {
     const resolvedProviders =
       this.aiModelRegistryService.getResolvedProvidersForAdmin();
 
+    // Growth OS CRM: /client-config is public, so AI vendors are never named
+    // here. One neutral label (GROWTH_OS_AI_PROVIDER_LABEL) for every provider.
+    const growthOsAiProviderLabel =
+      process.env.GROWTH_OS_AI_PROVIDER_LABEL?.trim() || 'Growth OS AI';
     const getProviderLabel = (providerName?: string | null) =>
-      providerName
-        ? (resolvedProviders[providerName]?.label ?? providerName)
+      providerName && isDefined(resolvedProviders)
+        ? growthOsAiProviderLabel
         : undefined;
 
     const aiModels: ClientAiModelConfig[] = availableModels.map(
@@ -106,9 +110,10 @@ export class ClientConfigService {
           modelId: registeredModel.modelId,
           label: modelConfig?.label || registeredModel.modelId,
           modelFamily,
-          modelFamilyLabel: modelFamily
-            ? MODEL_FAMILY_LABELS[modelFamily]
-            : undefined,
+          modelFamilyLabel:
+            modelFamily && isDefined(MODEL_FAMILY_LABELS[modelFamily])
+              ? growthOsAiProviderLabel
+              : undefined,
           sdkPackage: registeredModel.sdkPackage,
           providerName,
           providerLabel: getProviderLabel(providerName),

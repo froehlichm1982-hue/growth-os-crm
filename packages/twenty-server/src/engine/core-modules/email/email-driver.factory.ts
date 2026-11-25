@@ -4,6 +4,7 @@ import { type EmailDriverInterface } from 'src/engine/core-modules/email/drivers
 
 import { LoggerDriver } from 'src/engine/core-modules/email/drivers/logger.driver';
 import { SmtpDriver } from 'src/engine/core-modules/email/drivers/smtp.driver';
+import { getGrowthOsEmailReplyTo } from 'src/engine/core-modules/email/utils/get-growth-os-email-reply-to.util';
 import { EmailDriver } from 'src/engine/core-modules/email/enums/email-driver.enum';
 import { DriverFactoryBase } from 'src/engine/core-modules/twenty-config/dynamic-factory.base';
 import { ConfigVariablesGroup } from 'src/engine/core-modules/twenty-config/enums/config-variables-group.enum';
@@ -42,13 +43,19 @@ export class EmailDriverFactory extends DriverFactoryBase<EmailDriverInterface> 
 
     switch (driver) {
       case EmailDriver.LOGGER:
-        return new LoggerDriver();
+        return new LoggerDriver(getGrowthOsEmailReplyTo());
 
       case EmailDriver.SMTP: {
         const host = this.twentyConfigService.get('EMAIL_SMTP_HOST');
         const port = this.twentyConfigService.get('EMAIL_SMTP_PORT');
-        const user = this.twentyConfigService.get('EMAIL_SMTP_USER');
-        const pass = this.twentyConfigService.get('EMAIL_SMTP_PASSWORD');
+        // Growth OS CRM: Resend over plain SMTP (no SDK). RESEND_API_KEY is
+        // the SMTP password, the user defaults to 'resend'.
+        const resendApiKey = process.env.RESEND_API_KEY?.trim();
+        const user =
+          this.twentyConfigService.get('EMAIL_SMTP_USER') ||
+          (resendApiKey ? 'resend' : undefined);
+        const pass =
+          this.twentyConfigService.get('EMAIL_SMTP_PASSWORD') || resendApiKey;
         const noTLS = this.twentyConfigService.get('EMAIL_SMTP_NO_TLS');
 
         if (!host || !port) {
@@ -71,9 +78,12 @@ export class EmailDriverFactory extends DriverFactoryBase<EmailDriverInterface> 
         if (noTLS) {
           options.secure = false;
           options.ignoreTLS = true;
+        } else if (port === 465) {
+          // Implicit TLS (e.g. smtp.resend.com:465); 587 uses STARTTLS.
+          options.secure = true;
         }
 
-        return new SmtpDriver(options);
+        return new SmtpDriver(options, getGrowthOsEmailReplyTo());
       }
 
       default:

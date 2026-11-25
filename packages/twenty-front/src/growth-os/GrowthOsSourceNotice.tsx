@@ -33,15 +33,22 @@ export const GrowthOsSourceNotice = ({
   className,
 }: GrowthOsSourceNoticeProps) => (
   <StyledNotice align={align} className={className}>
-    {GROWTH_OS_BRAND.productName} ·{' '}
-    <a href={GROWTH_OS_BRAND.upstreamUrl} target="_blank" rel="noopener noreferrer">
-      {/* Upstream credit stays untranslated by design. */}
-      {'Built on ' + GROWTH_OS_BRAND.upstreamName}
-    </a>{' '}
-    ·{' '}
-    <a href={GROWTH_OS_BRAND.sourceCodeUrl} target="_blank" rel="noopener noreferrer">
-      {/* English-only legal notice (AGPL-3.0 section 13). */}
-      Source code (AGPL-3.0)
-    </a>
+    {/* Upstream credit stays untranslated by design; no repository links
+        are shown until SOURCE_CODE_URL is configured (AGPL-3.0 section 13). */}
+    {GROWTH_OS_BRAND.productName} · {'Built on ' + GROWTH_OS_BRAND.upstreamName}
+    {GROWTH_OS_BRAND.sourceCodeUrl ? (
+      <>
+        {' · '}
+        <a
+          href={GROWTH_OS_BRAND.sourceCodeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Source code (AGPL-3.0)
+        </a>
+      </>
+    ) : (
+      ' · AGPL-3.0'
+    )}
   </StyledNotice>
 );
