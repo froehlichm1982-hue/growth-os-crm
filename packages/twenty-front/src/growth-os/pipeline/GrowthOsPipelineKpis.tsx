@@ -43,29 +43,32 @@ const StyledStrip = styled.div`
 `;
 
 const StyledTile = styled.div`
-  background: #ffffff;
-  border: 1px solid #e3e8ee;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px 0 #111e320a;
+  background: var(--c-bg);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-xs);
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 0;
-  padding: 10px 14px;
+  transition: box-shadow var(--dur-2) var(--ease-out);
+
+  &:hover {
+    box-shadow: var(--sh-sm);
+  }
+  padding: 14px 16px;
 `;
 
 const StyledLabel = styled.span`
-  color: #65758b;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--c-ink-3);
+  font-size: var(--fs-xs);
+  font-weight: 500;
 `;
 
 const StyledValue = styled.span`
-  color: #111e32;
-  font-family: var(--spv-font-ui, Inter, sans-serif);
-  font-size: 1.45rem;
+  color: var(--c-ink);
+  font-family: var(--font-ui);
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.02em;
   font-variant-numeric: lining-nums tabular-nums;
@@ -73,9 +76,13 @@ const StyledValue = styled.span`
 `;
 
 const StyledHint = styled.span`
-  color: #3a7872;
-  font-size: 0.75rem;
-  font-weight: 500;
+  color: var(--c-ink-3);
+  font-size: var(--fs-xs);
+
+  &[data-tone='success'] {
+    color: var(--c-success);
+    font-weight: 600;
+  }
 `;
 
 const formatEur = (micros: number | null | undefined) =>
@@ -132,7 +139,7 @@ export const GrowthOsPipelineKpis = () => {
       <StyledTile>
         <StyledLabel>Won in {monthName}</StyledLabel>
         <StyledValue>{formatEur(wonSum)}</StyledValue>
-        <StyledHint>
+        <StyledHint data-tone="success">
           {wonCount} {wonCount === 1 ? 'deal' : 'deals'} closed
         </StyledHint>
       </StyledTile>

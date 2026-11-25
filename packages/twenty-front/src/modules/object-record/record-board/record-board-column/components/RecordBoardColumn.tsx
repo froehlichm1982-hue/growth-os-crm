@@ -84,6 +84,7 @@ export const RecordBoardColumn = ({
         data-record-board-column-id={recordBoardColumnId}
         className="growth-os-board-column"
         data-growth-os-stage-color={recordGroupDefinition.color}
+        data-growth-os-stage-value={recordGroupDefinition.value ?? undefined}
       >
         <RecordBoardColumnCardsContainer
           recordBoardColumnId={recordBoardColumnId}

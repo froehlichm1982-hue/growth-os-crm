@@ -12,8 +12,8 @@ const HERO_OBJECTS = new Set(['company', 'person', 'opportunity']);
 
 const StyledHero = styled.div`
   align-items: center;
-  background: #ffffff;
-  border-bottom: 1px solid #e3e8ee;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-line);
   display: flex;
   flex-shrink: 0;
   gap: 16px;
@@ -33,15 +33,15 @@ const StyledBody = styled.div`
 `;
 
 const StyledEyebrow = styled.span`
-  color: #3a7872;
-  font-size: 0.68rem;
+  color: var(--c-link);
+  font-size: var(--fs-xs);
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 `;
 
 const StyledTitle = styled.div`
-  color: #111e32;
+  color: var(--c-ink);
   min-width: 0;
 `;
 
@@ -53,12 +53,12 @@ const StyledChips = styled.div`
 
 const StyledChip = styled.span`
   align-items: center;
-  background: #f5f7f9;
-  border: 1px solid #e3e8ee;
-  border-radius: 999px;
-  color: #33425a;
+  background: var(--c-bg-warm);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-full);
+  color: var(--c-ink-2);
   display: inline-flex;
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   font-variant-numeric: lining-nums tabular-nums;
   gap: 4px;
   line-height: 1;
@@ -66,14 +66,14 @@ const StyledChip = styled.span`
   white-space: nowrap;
 
   &[data-tone='teal'] {
-    background: #e6f2f0;
-    border-color: #c5e0dc;
-    color: #2f625d;
+    background: var(--c-accent-soft);
+    border-color: var(--c-accent-soft);
+    color: var(--c-link);
   }
 `;
 
 const StyledChipLabel = styled.span`
-  color: #65758b;
+  color: var(--c-ink-3);
 `;
 
 type Chip = { label?: string; value: string; tone?: 'teal' };

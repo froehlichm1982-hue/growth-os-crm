@@ -215,6 +215,7 @@ export const RecordBoardColumnHeader = () => {
       data-has-left-border={columnIndex > 0 ? 'true' : undefined}
       className="growth-os-board-column-header"
       data-growth-os-stage-color={columnDefinition.color}
+      data-growth-os-stage-value={columnDefinition.value ?? undefined}
     >
       <DragDropItemSortableHandle
         fill
