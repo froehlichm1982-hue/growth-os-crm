@@ -101,8 +101,8 @@ export class EmailVerificationService {
 
     const emailVerificationMsg =
       verificationTrigger === EmailVerificationTrigger.EMAIL_UPDATE
-        ? msg`Please confirm your updated email`
-        : msg`Welcome to Twenty: Please Confirm Your Email`;
+        ? msg`Confirm your new email address`
+        : msg`Confirm your email address`;
     const i18n = this.i18nService.getI18nInstance(locale);
     const subject = i18n._(emailVerificationMsg);
 

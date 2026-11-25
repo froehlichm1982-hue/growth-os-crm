@@ -58,8 +58,7 @@ export const GrowthOsResetSentCard = () => {
       <GrowthOsStateIcon kind="mail" />
       <h1 className="gos-auth-title">{t`Check your email`}</h1>
       <p className="gos-auth-sub">
-        {t`If an account exists for`} <b>{email}</b>
-        {t`, a reset link is on its way. The link works for 60 minutes.`}
+        {t`If an account exists for ${email}, a reset link is on its way. The link works for 60 minutes.`}
       </p>
       <ol className="gos-steps">
         <li><span>1</span>{t`Open the email from ScalePoint Growth OS`}</li>

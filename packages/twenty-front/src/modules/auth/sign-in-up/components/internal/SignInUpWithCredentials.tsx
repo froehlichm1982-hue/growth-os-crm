@@ -208,7 +208,7 @@ export const SignInUpWithCredentials = ({
                     }}
                   />
                   <span>
-                    {t`I’m signing up for a business and agree to the`}{' '}
+                    {t`I’m signing up for a business and accept the`}{' '}
                     <a href={GROWTH_OS_BRAND.legal.terms} target="_blank" rel="noreferrer">{t`Terms`}</a>{' '}
                     {t`and`}{' '}
                     <a href={GROWTH_OS_BRAND.legal.dpa} target="_blank" rel="noreferrer">{t`DPA`}</a>
