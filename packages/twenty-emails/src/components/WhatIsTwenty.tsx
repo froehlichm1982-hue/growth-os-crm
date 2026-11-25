@@ -1,4 +1,5 @@
 import { type I18n } from '@lingui/core';
+import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
 import { MainText } from 'src/components/MainText';
 import { SubTitle } from 'src/components/SubTitle';
 
@@ -6,14 +7,14 @@ type WhatIsTwentyProps = {
   i18n: I18n;
 };
 
-export const WhatIsTwenty = ({ i18n }: WhatIsTwentyProps) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const WhatIsTwenty = ({ i18n: _i18n }: WhatIsTwentyProps) => {
   return (
     <>
-      <SubTitle value={i18n._('What is Twenty?')} />
+      {/* Growth OS CRM: product copy is English-only (brand decision). */}
+      <SubTitle value={`What is ${GROWTH_OS_BRAND.productName}?`} />
       <MainText>
-        {i18n._(
-          "It's a CRM, a software to help businesses manage their customer data and relationships efficiently.",
-        )}
+        {`A B2B CRM by ${GROWTH_OS_BRAND.companyName} for your companies, people and pipelines, in your own isolated workspace hosted in Europe.`}
       </MainText>
     </>
   );

@@ -230,7 +230,7 @@ export const CreateProfile = () => {
                       setIsEditingMode(false);
                     }}
                     onChange={onChange}
-                    placeholder={t`Tim`}
+                    placeholder="Alex"
                     error={error?.message}
                     fullWidth
                   />
@@ -254,7 +254,7 @@ export const CreateProfile = () => {
                       setIsEditingMode(false);
                     }}
                     onChange={onChange}
-                    placeholder={t`Apple`}
+                    placeholder="Smith"
                     error={error?.message}
                     fullWidth
                   />

@@ -19,6 +19,10 @@ import { Avatar } from 'twenty-ui/data-display';
 import { IconTrash, IconUpload } from 'twenty-ui/icon';
 import { Button, LightIconButton, MainButton } from 'twenty-ui/input';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+import {
+  GROWTH_OS_EXAMPLE_COMPANY,
+  GROWTH_OS_WORKSPACE_SUBTITLE,
+} from '~/growth-os/brand';
 
 const StyledContentContainer = styled.div`
   display: flex;
@@ -36,9 +40,12 @@ const StyledHeading = styled.div`
 
 const StyledTitle = styled.div`
   color: ${themeCssVariables.font.color.primary};
-  font-size: ${themeCssVariables.font.size.xl};
-  font-weight: ${themeCssVariables.font.weight.semiBold};
-  line-height: 1.2;
+  /* Growth OS CRM: brand headline font (src/growth-os/growth-os-theme.css). */
+  font-family: var(--spv-font-display);
+  font-size: ${themeCssVariables.font.size.xxl};
+  font-weight: ${themeCssVariables.font.weight.regular};
+  letter-spacing: -0.02em;
+  line-height: 1.15;
 `;
 
 const StyledSubtitle = styled.div`
@@ -242,7 +249,7 @@ export const SignInUpWorkspaceCreationForm = () => {
         </OnboardingStepAnimatedItem>
         <OnboardingStepAnimatedItem index={1}>
           <StyledSubtitle>
-            {t`Move work forward across teams and agents`}
+            {GROWTH_OS_WORKSPACE_SUBTITLE}
           </StyledSubtitle>
         </OnboardingStepAnimatedItem>
       </StyledHeading>
@@ -252,7 +259,7 @@ export const SignInUpWorkspaceCreationForm = () => {
             <StyledLogoAvatar
               avatarUrl={logoPreviewUrl}
               placeholder={
-                isNonEmptyString(workspaceName) ? workspaceName : '?'
+                isNonEmptyString(workspaceName) ? workspaceName : 'W'
               }
               placeholderColorSeed={workspaceName}
               type="squared"
@@ -294,7 +301,7 @@ export const SignInUpWorkspaceCreationForm = () => {
             autoFocus
             label={t`Name`}
             value={workspaceName}
-            placeholder={t`Apple`}
+            placeholder={GROWTH_OS_EXAMPLE_COMPANY}
             onChange={handleWorkspaceNameChange}
             onKeyDown={handleKeyDown}
             fullWidth
@@ -306,7 +313,7 @@ export const SignInUpWorkspaceCreationForm = () => {
               <TextInput
                 label={t`Subdomain`}
                 value={subdomain}
-                placeholder={t`apple`}
+                placeholder="acme"
                 onChange={handleSubdomainChange}
                 onKeyDown={handleKeyDown}
                 rightAdornment={

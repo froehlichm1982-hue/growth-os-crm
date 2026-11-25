@@ -33,6 +33,7 @@ import {
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 import { useDebouncedCallback } from 'use-debounce';
 import { v4 } from 'uuid';
+import { GROWTH_OS_HELP_URL } from '~/growth-os/brand';
 
 export type WorkflowEditActionFormBuilderProps = {
   triggerType: WorkflowTriggerType | undefined;
@@ -252,7 +253,7 @@ export const WorkflowEditActionFormBuilder = ({
                 label: t`Learn more`,
                 onClick: () =>
                   window.open(
-                    'https://docs.twenty.com/user-guide/workflows/capabilities/workflow-actions#form',
+                    GROWTH_OS_HELP_URL,
                     '_blank',
                     'noopener,noreferrer',
                   ),

@@ -196,7 +196,8 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
           label: t`Community`,
           path: SettingsPath.Community,
           Icon: IconUsers,
-          isHidden: !permissionMap[PermissionFlagType.WORKSPACE],
+          // Growth OS CRM: upstream community/partner page is not ours.
+          isHidden: true,
         },
         {
           label: t`Support`,

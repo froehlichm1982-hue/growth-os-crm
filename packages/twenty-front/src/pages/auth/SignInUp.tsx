@@ -38,6 +38,7 @@ import { useSearchParams } from 'react-router-dom';
 import { isDefined } from 'twenty-shared/utils';
 import { Loader } from 'twenty-ui/feedback';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+import { GrowthOsAuthShell } from '~/growth-os/GrowthOsAuthShell';
 
 const StyledLoaderContainer = styled.div`
   align-items: center;
@@ -210,6 +211,7 @@ export const SignInUp = () => {
       <StyledOnboardingStepPage>{signInUpForm}</StyledOnboardingStepPage>
     </OnboardingLayout>
   ) : (
+    <GrowthOsAuthShell>
     <StyledBackground>
       {signInUpStep === SignInUpStep.EmailVerification ? (
         <ModalContent isVerticallyCentered isHorizontallyCentered>
@@ -225,5 +227,6 @@ export const SignInUp = () => {
         />
       )}
     </StyledBackground>
+    </GrowthOsAuthShell>
   );
 };

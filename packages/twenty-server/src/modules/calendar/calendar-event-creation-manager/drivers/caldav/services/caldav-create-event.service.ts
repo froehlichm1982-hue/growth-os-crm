@@ -42,7 +42,7 @@ export class CalDavCreateEventService implements CalendarEventCreationDriver {
       }
 
       const uid = uuid();
-      const calendar = ical({ prodId: '//Twenty//Calendar//EN' });
+      const calendar = ical({ prodId: '//Growth OS CRM//Calendar//EN' });
 
       calendar.createEvent({
         id: uid,

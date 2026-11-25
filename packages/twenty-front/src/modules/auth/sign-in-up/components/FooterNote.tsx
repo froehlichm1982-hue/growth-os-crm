@@ -5,6 +5,11 @@ import { useWorkspaceBypass } from '@/auth/sign-in-up/hooks/useWorkspaceBypass';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { ONBOARDING_CONTENT_BLOCK_WIDTH } from '@/onboarding/constants/OnboardingContentBlockWidth';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+import {
+  GROWTH_OS_LEGAL_URLS,
+  GROWTH_OS_SIGNUP_CONSENT_PREFIX,
+} from '~/growth-os/brand';
+import { GrowthOsSourceNotice } from '~/growth-os/GrowthOsSourceNotice';
 
 const StyledCopyContainer = styled.div`
   align-items: center;
@@ -52,6 +57,13 @@ const StyledLinksContainer = styled.div`
   }
 `;
 
+const StyledFooterStack = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: ${themeCssVariables.spacing[3]};
+`;
+
 const StyledSeparator = styled.span`
   color: ${themeCssVariables.font.color.tertiary};
 `;
@@ -70,10 +82,11 @@ export const FooterNote = ({
 
   if (!isOnAWorkspace) {
     return (
+      <StyledFooterStack>
       <StyledCopyContainer>
-        <Trans>By using Twenty, you agree to the</Trans>{' '}
+        {GROWTH_OS_SIGNUP_CONSENT_PREFIX}{' '}
         <a
-          href="https://twenty.com/legal/terms"
+          href={GROWTH_OS_LEGAL_URLS.terms}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -82,7 +95,7 @@ export const FooterNote = ({
         <Trans>and</Trans>{' '}
         {secondaryAgreement === 'dataProcessingAgreement' ? (
           <a
-            href="https://twenty.com/legal/dpa"
+            href={GROWTH_OS_LEGAL_URLS.dpa}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -90,7 +103,7 @@ export const FooterNote = ({
           </a>
         ) : (
           <a
-            href="https://twenty.com/legal/privacy"
+            href={GROWTH_OS_LEGAL_URLS.privacy}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -99,10 +112,13 @@ export const FooterNote = ({
         )}
         .
       </StyledCopyContainer>
+      <GrowthOsSourceNotice />
+      </StyledFooterStack>
     );
   }
 
   return (
+    <StyledFooterStack>
     <StyledLinksContainer>
       {shouldOfferBypass && !shouldUseBypass && (
         <>
@@ -113,7 +129,7 @@ export const FooterNote = ({
         </>
       )}
       <a
-        href="https://twenty.com/legal/privacy"
+        href={GROWTH_OS_LEGAL_URLS.privacy}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -121,12 +137,14 @@ export const FooterNote = ({
       </a>
       <StyledSeparator>•</StyledSeparator>
       <a
-        href="https://twenty.com/legal/terms"
+        href={GROWTH_OS_LEGAL_URLS.terms}
         target="_blank"
         rel="noopener noreferrer"
       >
         <Trans>Terms of Service</Trans>
       </a>
     </StyledLinksContainer>
+    <GrowthOsSourceNotice />
+    </StyledFooterStack>
   );
 };

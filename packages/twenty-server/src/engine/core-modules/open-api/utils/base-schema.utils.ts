@@ -1,4 +1,5 @@
 import { type OpenAPIV3_1 } from 'openapi-types';
+import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
 import { ApiPath } from 'twenty-shared/types';
 
 import { computeOpenApiPath } from 'src/engine/core-modules/open-api/utils/path.utils';
@@ -12,7 +13,7 @@ export const baseSchema = (
   return {
     openapi: '3.1.1',
     info: {
-      title: 'Twenty Api',
+      title: `${GROWTH_OS_BRAND.productName} API`,
       description: `Use this page to explore and call the **REST API**.
 
 ## Authentication
@@ -106,7 +107,7 @@ order_by=id[AscNullsFirst],createdAt[DescNullsLast]
 ## Usage with LLMs
 
 The recommended way to give an LLM agent (Claude Desktop, Cursor, Windsurf, …)
-access to your workspace is the **Twenty MCP server**, not this OpenAPI schema.
+access to your workspace is the **Growth OS CRM MCP server**, not this OpenAPI schema.
 The MCP server exposes typed tools the agent can call directly with proper
 header-based auth (OAuth or API key), no tokens in URLs.
 
@@ -122,17 +123,16 @@ hand the file to your tool — never paste a tokenized URL into a chat:
 
 \`\`\`bash
 curl -H 'Authorization: Bearer <token>' \\
-  ${serverUrl}/${ApiPath.Rest}/open-api/${schemaName} > twenty-${schemaName}.json
+  ${serverUrl}/${ApiPath.Rest}/open-api/${schemaName} > growth-os-crm-${schemaName}.json
 \`\`\`
 `,
-      termsOfService:
-        'https://github.com/twentyhq/twenty?tab=coc-ov-file#readme',
+      termsOfService: GROWTH_OS_BRAND.legal.terms,
       contact: {
-        email: 'felix@twenty.com',
+        email: GROWTH_OS_BRAND.supportEmail,
       },
       license: {
         name: 'AGPL-3.0',
-        url: 'https://github.com/twentyhq/twenty?tab=License-1-ov-file#readme',
+        url: GROWTH_OS_BRAND.sourceCodeUrl,
       },
       version: API_Version,
     },
@@ -159,8 +159,8 @@ curl -H 'Authorization: Bearer <token>' \\
       },
     ],
     externalDocs: {
-      description: 'Find out more about **Twenty**',
-      url: 'https://twenty.com',
+      description: `Find out more about **${GROWTH_OS_BRAND.productName}**`,
+      url: GROWTH_OS_BRAND.helpUrl,
     },
     paths: { [`/open-api/${schemaName}`]: computeOpenApiPath(serverUrl) },
   };

@@ -20,6 +20,8 @@ import { SettingPublicDomain } from '@/settings/domains/components/SettingPublic
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 import { PermissionFlagType } from '~/generated-metadata/graphql';
+import { GROWTH_OS_HELP_URL, GROWTH_OS_LEGAL_URLS } from '~/growth-os/brand';
+import { GrowthOsExternalRedirect } from '~/growth-os/GrowthOsExternalRedirect';
 
 const SettingsGraphQLPlayground = lazy(() =>
   import('~/pages/settings/developers/playground/SettingsGraphQLPlayground').then(
@@ -173,18 +175,6 @@ const SettingsLogicFunctionDetail = lazy(() =>
 const SettingsGeneral = lazy(() =>
   import('~/pages/settings/general/SettingsGeneral').then((module) => ({
     default: module.SettingsGeneral,
-  })),
-);
-
-const SettingsLegalDpa = lazy(() =>
-  import('~/pages/settings/legal/SettingsLegalDpa').then((module) => ({
-    default: module.SettingsLegalDpa,
-  })),
-);
-
-const SettingsLegalDpaNew = lazy(() =>
-  import('~/pages/settings/legal/SettingsLegalDpaNew').then((module) => ({
-    default: module.SettingsLegalDpaNew,
   })),
 );
 
@@ -642,12 +632,6 @@ const SettingsAdminChats = lazy(() =>
   })),
 );
 
-const SettingsCommunity = lazy(() =>
-  import('~/pages/settings/community/SettingsCommunity').then((module) => ({
-    default: module.SettingsCommunity,
-  })),
-);
-
 const SettingsRoleCreate = lazy(() =>
   import('~/pages/settings/members/roles/SettingsRoleCreate').then(
     (module) => ({
@@ -799,10 +783,14 @@ const createSettingsRouteElements = ({
         path={SettingsPath.PublicDomain}
         element={<SettingPublicDomain />}
       />
-      <Route path={SettingsPath.LegalDpa} element={<SettingsLegalDpa />} />
+      {/* Growth OS CRM: our DPA is published at scalepoint-ventures.com. */}
+      <Route
+        path={SettingsPath.LegalDpa}
+        element={<GrowthOsExternalRedirect to={GROWTH_OS_LEGAL_URLS.dpa} />}
+      />
       <Route
         path={SettingsPath.LegalDpaNew}
-        element={<SettingsLegalDpaNew />}
+        element={<GrowthOsExternalRedirect to={GROWTH_OS_LEGAL_URLS.dpa} />}
       />
     </Route>
     <Route
@@ -1170,7 +1158,10 @@ const createSettingsRouteElements = ({
         />
       }
     >
-      <Route path={SettingsPath.Community} element={<SettingsCommunity />} />
+      <Route
+        path={SettingsPath.Community}
+        element={<GrowthOsExternalRedirect to={GROWTH_OS_HELP_URL} />}
+      />
     </Route>
   </>
 );

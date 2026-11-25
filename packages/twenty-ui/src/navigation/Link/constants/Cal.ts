@@ -1,1 +1,2 @@
-export const CAL_LINK = 'https://cal.com/team/twenty/talk-to-us';
+// Growth OS CRM: sales/support contact instead of the upstream booking link.
+export const CAL_LINK = 'mailto:support@scalepoint-ventures.com';

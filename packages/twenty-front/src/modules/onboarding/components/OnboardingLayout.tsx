@@ -2,6 +2,7 @@ import { OnboardingHeader } from '@/onboarding/components/OnboardingHeader';
 import { styled } from '@linaria/react';
 import { type ReactNode } from 'react';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+import { GrowthOsAuthShell } from '~/growth-os/GrowthOsAuthShell';
 
 const StyledBackground = styled.div`
   background: ${themeCssVariables.background.secondary};
@@ -24,6 +25,7 @@ export const OnboardingLayout = ({
   isBackDisabled,
   freeCredits,
 }: OnboardingLayoutProps) => (
+  <GrowthOsAuthShell>
   <StyledBackground>
     <OnboardingHeader
       onBack={onBack}
@@ -32,4 +34,5 @@ export const OnboardingLayout = ({
     />
     {children}
   </StyledBackground>
+  </GrowthOsAuthShell>
 );

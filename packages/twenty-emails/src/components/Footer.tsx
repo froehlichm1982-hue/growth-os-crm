@@ -2,7 +2,9 @@ import { type I18n } from '@lingui/core';
 import { Column, Container, Row } from 'react-email';
 import { Link } from 'src/components/Link';
 import { ShadowText } from 'src/components/ShadowText';
+import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
 
+// Growth OS CRM email footer: ScalePoint legal links + AGPL-3.0 source offer.
 const footerContainerStyle = {
   marginTop: '12px',
 };
@@ -18,45 +20,54 @@ export const Footer = ({ i18n }: FooterProps) => {
         <Column>
           <ShadowText>
             <Link
-              href="https://twenty.com/"
+              href={GROWTH_OS_BRAND.marketingUrl}
               value={i18n._('Website')}
-              aria-label={i18n._("Visit Twenty's website")}
             />
           </ShadowText>
         </Column>
         <Column>
           <ShadowText>
             <Link
-              href="https://github.com/twentyhq/twenty"
-              value={i18n._('Github')}
-              aria-label={i18n._("Visit Twenty's GitHub repository")}
+              href={GROWTH_OS_BRAND.legal.terms}
+              value={i18n._('Terms')}
             />
           </ShadowText>
         </Column>
         <Column>
           <ShadowText>
             <Link
-              href="https://docs.twenty.com/getting-started/introduction"
-              value={i18n._('User guide')}
-              aria-label={i18n._("Read Twenty's user guide")}
+              href={GROWTH_OS_BRAND.legal.privacy}
+              value={i18n._('Privacy')}
             />
           </ShadowText>
         </Column>
         <Column>
           <ShadowText>
             <Link
-              href="https://docs.twenty.com/"
-              value={i18n._('Developers')}
-              aria-label={i18n._("Visit Twenty's developer documentation")}
+              href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}
+              value={i18n._('Support')}
             />
           </ShadowText>
         </Column>
       </Row>
       <ShadowText>
         <>
-          {i18n._('Twenty.com, Public Benefit Corporation')}
+          {GROWTH_OS_BRAND.productName} · {GROWTH_OS_BRAND.companyLegalName}
           <br />
-          {i18n._('San Francisco / Paris')}
+          <Link
+            href={GROWTH_OS_BRAND.legal.notice}
+            value={i18n._('Legal notice')}
+          />
+          {' · '}
+          <Link
+            href={GROWTH_OS_BRAND.upstreamUrl}
+            value={`Built on ${GROWTH_OS_BRAND.upstreamName}`}
+          />
+          {' · '}
+          <Link
+            href={GROWTH_OS_BRAND.sourceCodeUrl}
+            value={i18n._('Source code (AGPL-3.0)')}
+          />
         </>
       </ShadowText>
     </Container>

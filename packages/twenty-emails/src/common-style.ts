@@ -23,19 +23,30 @@ const grayScale = {
 };
 
 const colors = {
-  blue40: '#5e90f2',
+  // Growth OS CRM: SPV teal strong (accessible on white) instead of upstream blue.
+  blue40: '#3A7872',
+};
+
+// Growth OS CRM brand tokens (/workspace/projects/growth-os/brand/tokens.css).
+const spv = {
+  navy: '#111E32',
+  text: '#3E4C60',
+  muted: '#65758B',
+  border: '#DAE0E7',
+  warm: '#F5F7F9',
 };
 
 export const canvasTheme = {
   font: {
     colors: {
-      highlighted: grayScale.gray60,
-      primary: grayScale.gray50,
-      tertiary: grayScale.gray35,
+      highlighted: spv.navy,
+      primary: spv.text,
+      tertiary: spv.muted,
       inverted: grayScale.gray0,
       blue: colors.blue40,
     },
-    family: 'Trebuchet MS', // Google Inter not working, we need to use a web safe font, see https://templates.mailchimp.com/design/typography/
+    // Growth OS CRM: email-safe brand stack (--font-email-ui in tokens.css).
+    family: "Inter, 'Segoe UI', Helvetica, Arial, sans-serif",
     weight: {
       regular: 400,
       bold: 600,
@@ -50,11 +61,11 @@ export const canvasTheme = {
   },
   border: {
     radius: { sm: '4px', md: '8px' },
-    color: { highlighted: grayScale.gray20 },
+    color: { highlighted: spv.border },
   },
   background: {
-    colors: { highlight: grayScale.gray15 },
-    button: grayScale.gray60,
+    colors: { highlight: spv.warm },
+    button: spv.navy,
     transparent: {
       medium: 'rgba(0, 0, 0, 0.08)',
       light: 'rgba(0, 0, 0, 0.04)',

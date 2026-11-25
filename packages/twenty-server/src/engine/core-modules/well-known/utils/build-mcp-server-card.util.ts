@@ -1,3 +1,5 @@
+import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
+
 import { MCP_PROTOCOL_VERSION } from 'src/engine/api/mcp/constants/mcp-protocol-version.const';
 
 type BuildMcpServerCardArgs = {
@@ -11,14 +13,14 @@ export const buildMcpServerCard = ({
 }: BuildMcpServerCardArgs) => ({
   $schema:
     'https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json',
-  name: 'com.twenty/twenty',
+  name: 'com.scalepoint-ventures/growth-os-crm',
   version,
-  title: 'Twenty CRM',
+  title: GROWTH_OS_BRAND.productName,
   description:
-    'Read and write your Twenty CRM data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.',
-  websiteUrl: 'https://twenty.com',
+    'Read and write your Growth OS CRM data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.',
+  websiteUrl: GROWTH_OS_BRAND.marketingUrl,
   repository: {
-    url: 'https://github.com/twentyhq/twenty',
+    url: GROWTH_OS_BRAND.sourceCodeUrl,
     source: 'github',
   },
   remotes: [

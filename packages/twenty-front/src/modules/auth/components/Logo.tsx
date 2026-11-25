@@ -7,6 +7,7 @@ import { UndecoratedLink } from 'twenty-ui/navigation';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 import { REACT_APP_SERVER_BASE_URL } from '~/config';
 import { useRedirectToDefaultDomain } from '~/modules/domain-manager/hooks/useRedirectToDefaultDomain';
+import { GrowthOsWordmark } from '~/growth-os/GrowthOsWordmark';
 
 type LogoProps = {
   primaryLogo?: string | null;
@@ -74,6 +75,15 @@ export const Logo = ({
     : null;
 
   const isUsingDefaultLogo = !isDefined(primaryLogo);
+
+  // Growth OS CRM: the product wordmark replaces the upstream square logo.
+  if (isUsingDefaultLogo && !isDefined(secondaryLogoUrl) && !isDefined(placeholder)) {
+    return (
+      <UndecoratedLink to={to} onClick={() => redirectToDefaultDomain()}>
+        <GrowthOsWordmark />
+      </UndecoratedLink>
+    );
+  }
 
   return (
     <StyledContainer onClick={() => onClick?.()}>

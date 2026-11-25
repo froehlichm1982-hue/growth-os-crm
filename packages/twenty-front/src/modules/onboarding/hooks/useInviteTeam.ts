@@ -120,15 +120,15 @@ export const useInviteTeam = () => {
 
   const getPlaceholder = (emailIndex: number) => {
     if (emailIndex === 0) {
-      return 'tim@apple.com';
+      return 'anna@acme.com';
     }
     if (emailIndex === 1) {
-      return 'phil@apple.com';
+      return 'jonas@acme.com';
     }
     if (emailIndex === 2) {
-      return 'jony@apple.com';
+      return 'lea@acme.com';
     }
-    return 'craig@apple.com';
+    return 'max@acme.com';
   };
 
   const onSubmit: SubmitHandler<InviteTeamFormInput> = useCallback(

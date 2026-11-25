@@ -8,6 +8,7 @@ import {
   setupI18n,
 } from '@lingui/core';
 import { compileMessage } from '@lingui/message-utils/compileMessage';
+import { withGrowthOsRebrand } from 'twenty-shared/i18n';
 import { type APP_LOCALES, SOURCE_LOCALE } from 'twenty-shared/translations';
 
 import { messages as afMessages } from 'src/engine/core-modules/i18n/locales/generated/af-ZA';
@@ -52,6 +53,8 @@ export class I18nService implements OnModuleInit {
     // compiled catalog, so it needs a runtime message compiler. Since lingui
     // 5.9 it also throws unless a locale is activated, so activate the source
     // locale (t`…` then renders the English source text via the compiler).
+    // Growth OS CRM white label: rebrand upstream product name in all locales.
+    withGrowthOsRebrand(i18n);
     i18n.setMessagesCompiler(compileMessage);
     i18n.load(SOURCE_LOCALE, enMessages);
     i18n.activate(SOURCE_LOCALE);
@@ -93,7 +96,7 @@ export class I18nService implements OnModuleInit {
     (
       Object.entries(messagesByLocale) as [keyof typeof APP_LOCALES, Messages][]
     ).forEach(([locale, messages]) => {
-      const localeI18n = setupI18n();
+      const localeI18n = withGrowthOsRebrand(setupI18n());
 
       localeI18n.setMessagesCompiler(compileMessage);
       localeI18n.load(locale, messages);

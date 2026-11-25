@@ -5,6 +5,7 @@ import { MainText } from 'src/components/MainText';
 import { Title } from 'src/components/Title';
 import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
 
 type CleanSuspendedWorkspaceEmailProps = {
   daysSinceInactive: number;
@@ -46,7 +47,7 @@ export const CleanSuspendedWorkspaceEmail = ({
       </MainText>
       <br />
       <CallToAction
-        href="https://app.twenty.com/"
+        href={GROWTH_OS_BRAND.appUrl}
         value={i18n._('Start a new workspace')}
       />
       <br />

@@ -10,8 +10,12 @@ type TitleProps = React.PropsWithChildren & {
 
 const StyledTitle = styled.div<Pick<TitleProps, 'noMarginTop'>>`
   color: ${themeCssVariables.font.color.primary};
-  font-size: ${themeCssVariables.font.size.xl};
-  font-weight: ${themeCssVariables.font.weight.semiBold};
+  /* Growth OS CRM: brand headline font (src/growth-os/growth-os-theme.css). */
+  font-family: var(--spv-font-display);
+  font-size: ${themeCssVariables.font.size.xxl};
+  font-weight: ${themeCssVariables.font.weight.regular};
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   margin-bottom: ${themeCssVariables.spacing[4]};
   margin-top: ${({ noMarginTop }) =>
     !noMarginTop ? themeCssVariables.spacing[4] : '0'};

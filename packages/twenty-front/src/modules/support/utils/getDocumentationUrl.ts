@@ -5,6 +5,7 @@ import {
   DOCUMENTATION_SUPPORTED_LANGUAGES,
   type DocumentationPath,
 } from 'twenty-shared/constants';
+import { GROWTH_OS_HELP_URL } from '~/growth-os/brand';
 
 export const getDocumentationUrl = ({
   locale,
@@ -13,6 +14,11 @@ export const getDocumentationUrl = ({
   locale?: string | null;
   path?: DocumentationPath | string;
 }): string => {
+  // Growth OS CRM: upstream docs describe Twenty; send users to our help page.
+  if (GROWTH_OS_HELP_URL.length > 0) {
+    return GROWTH_OS_HELP_URL;
+  }
+
   if (!locale) {
     return `${DOCUMENTATION_BASE_URL}${path}`;
   }

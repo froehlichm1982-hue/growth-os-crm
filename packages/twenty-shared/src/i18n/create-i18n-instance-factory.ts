@@ -3,6 +3,8 @@ import { setupI18n, type I18n, type Messages } from '@lingui/core';
 import { type AppLocale } from '@/translations/constants/AppLocales';
 import { SOURCE_LOCALE } from '@/translations/constants/SourceLocale';
 
+import { withGrowthOsRebrand } from './growth-os-white-label';
+
 export type LocaleMessagesMap = Partial<Record<AppLocale, Messages>>;
 
 export const createI18nInstanceFactory = (
@@ -19,7 +21,7 @@ export const createI18nInstanceFactory = (
     const fallbackMessages = messagesByLocale[SOURCE_LOCALE] ?? {};
     const localeMessages = messagesByLocale[locale] ?? fallbackMessages;
 
-    const i18n = setupI18n();
+    const i18n = withGrowthOsRebrand(setupI18n());
     i18n.load(locale, localeMessages);
     i18n.activate(locale);
 
