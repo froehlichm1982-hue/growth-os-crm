@@ -16,7 +16,7 @@ const StyledNotice = styled.div`
   padding: ${themeCssVariables.spacing[3]};
 
   a {
-    color: #3a7872;
+    color: var(--c-link);
     font-weight: ${themeCssVariables.font.weight.medium};
   }
 `;

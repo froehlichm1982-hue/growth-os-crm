@@ -1,0 +1,97 @@
+/* Growth OS CRM: app colour roles + dark mode on the kit palette.
+   Light values = kit tokens (growth-os-product-tokens.css); dark values follow
+   the kit mail dark palette (bg #0B1320, surface #111E32, line #24344B,
+   box #1C2B40, ink #F3F5F7 / #C9D2DD / #9FADBE, link #59C0B6). The kit auth and
+   system pages stay light (kit is light-first there). */
+:root,
+.light {
+  --gos-surface: #ffffff;
+  --gos-surface-warm: #f5f7f9;
+  --gos-line: #e3e8ee;
+  --gos-line-soft: #eef1f4;
+  --gos-hover: #f7f9fa;
+  --gos-ink-muted: #65758b;
+  --gos-ink-faint: #9aa8b8;
+  --gos-chip-bg: #e6f2f0;
+  --gos-chip-fg: #2f625d;
+  --gos-card-shadow: 0 1px 2px 0 #111e320a, 0 4px 16px -6px #111e320f;
+}
+
+.dark {
+  --gos-surface: #111e32;
+  --gos-surface-warm: #0b1320;
+  --gos-line: #24344b;
+  --gos-line-soft: #1a2638;
+  --gos-hover: #16243a;
+  --gos-ink-muted: #9fadbe;
+  --gos-ink-faint: #7a8899;
+  --gos-chip-bg: rgba(89, 192, 182, 0.16);
+  --gos-chip-fg: #9fe0d9;
+  --gos-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+
+  /* kit tokens, dark */
+  --c-bg: #111e32;
+  --c-bg-subtle: #0f1a2b;
+  --c-bg-warm: #0b1320;
+  --c-bg-hover: #16243a;
+  --c-bg-selected: #143532;
+  --c-navy: #f3f5f7;
+  --c-navy-hover: #dae0e7;
+  --c-navy-2: #1c2b40;
+  --c-ink: #f3f5f7;
+  --c-ink-2: #c9d2dd;
+  --c-ink-3: #9fadbe;
+  --c-link: #59c0b6;
+  --c-on-navy: #111e32;
+  --c-accent: #59c0b6;
+  --c-accent-soft: rgba(89, 192, 182, 0.16);
+  --c-line: #24344b;
+  --c-line-2: #1a2638;
+  --c-line-strong: #33465f;
+  --c-input-border: #5d6f87;
+  --c-danger: #fda29b;
+  --c-danger-soft: #3a1714;
+  --c-danger-line: #7a2a22;
+  --c-warn: #fec84b;
+  --c-warn-soft: #3a2a0c;
+  --c-warn-line: #7a5a14;
+  --c-success: #75e0a7;
+  --c-success-soft: #0c2e1f;
+  --c-success-line: #1f6b45;
+  --sh-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --sh-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --sh-md: 0 6px 16px -4px rgba(0, 0, 0, 0.45);
+  --sh-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.5);
+  --sh-xl: 0 32px 64px -16px rgba(0, 0, 0, 0.6);
+  --focus-ring: 0 0 0 2px #111e32, 0 0 0 4px #59c0b6;
+
+  /* upstream theme aligned to the same palette */
+  --t-background-primary: #0b1320;
+  --t-background-secondary: #0f1a2b;
+  --t-background-tertiary: #111e32;
+  --t-background-quaternary: #1c2b40;
+  --t-font-color-secondary: #c9d2dd;
+  --t-font-color-tertiary: #9fadbe;
+  --t-font-color-light: #7a8899;
+  --t-border-color-strong: #33465f;
+  --t-border-color-medium: #24344b;
+  --t-border-color-light: #1a2638;
+}
+
+/* Kit auth + system pages keep the light kit palette. */
+.dark .gos-auth,
+.dark .gos-sys {
+  --c-bg: #ffffff; --c-bg-subtle: #f7f9fb; --c-bg-warm: #f5f7f9; --c-bg-hover: #f2f5f8; --c-bg-selected: #eef6f5;
+  --c-navy: #111e32; --c-navy-hover: #09101b; --c-navy-2: #1c2b40; --c-on-navy: #ffffff;
+  --c-ink: #111e32; --c-ink-2: #3b4a5e; --c-ink-3: #5a687c; --c-link: #3a7872;
+  --c-accent: #469189; --c-accent-soft: #e6f2f1;
+  --c-line: #e4e9ef; --c-line-2: #eef2f6; --c-line-strong: #cbd3dd; --c-input-border: #8492a6;
+  --c-danger: #b42318; --c-danger-soft: #fef3f2; --c-danger-line: #fda29b;
+  --c-warn: #93370d; --c-warn-soft: #fffaeb; --c-warn-line: #fec84b;
+  --c-success: #067647; --c-success-soft: #ecfdf3; --c-success-line: #75e0a7;
+  --sh-xs: 0 1px 2px rgba(17, 30, 50, 0.05);
+  --sh-sm: 0 1px 2px rgba(17, 30, 50, 0.06), 0 1px 3px rgba(17, 30, 50, 0.08);
+  --sh-md: 0 2px 4px -1px rgba(17, 30, 50, 0.06), 0 6px 16px -4px rgba(17, 30, 50, 0.1);
+  --focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px #469189;
+  color-scheme: light;
+}

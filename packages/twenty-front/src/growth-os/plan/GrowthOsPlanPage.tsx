@@ -62,7 +62,7 @@ const StyledBadge = styled.span<{ tone: 'ok' | 'warn' | 'danger' }>`
     tone === 'ok' ? 'rgba(70,145,137,0.14)' : tone === 'warn' ? 'rgba(217,149,40,0.16)' : 'rgba(220,64,64,0.14)'};
   border-radius: 999px;
   color: ${({ tone }) =>
-    tone === 'ok' ? '#3A7872' : tone === 'warn' ? '#9a5f00' : '#b42318'};
+    tone === 'ok' ? 'var(--c-link)' : tone === 'warn' ? 'var(--c-warn)' : 'var(--c-danger)'};
   font-size: ${themeCssVariables.font.size.sm};
   font-weight: ${themeCssVariables.font.weight.medium};
   padding: 2px 10px;

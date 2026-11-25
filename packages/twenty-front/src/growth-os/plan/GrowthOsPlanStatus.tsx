@@ -28,7 +28,7 @@ const StyledStatus = styled.div<{ tone: 'ok' | 'warn' | 'danger' }>`
 
   a,
   span.growth-os-cta {
-    color: #3a7872;
+    color: var(--c-link);
     font-weight: ${themeCssVariables.font.weight.medium};
   }
 `;

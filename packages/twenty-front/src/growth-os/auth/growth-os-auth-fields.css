@@ -98,9 +98,9 @@
 .gos-btn:focus-visible { box-shadow: var(--focus-ring); outline: none; }
 .gos-btn:disabled { box-shadow: none; cursor: not-allowed; opacity: 0.55; }
 .gos-btn-block { width: 100%; }
-.gos-btn-primary { background: var(--c-navy); box-shadow: var(--sh-inset-btn), var(--sh-xs); color: #ffffff; }
+.gos-btn-primary { background: var(--c-navy); box-shadow: var(--sh-inset-btn), var(--sh-xs); color: var(--c-on-navy, #ffffff); }
 .gos-btn-primary:hover:not(:disabled) { background: var(--c-navy-hover); }
-.gos-btn-secondary { background: #ffffff; border-color: var(--c-line-strong); box-shadow: var(--sh-xs); color: var(--c-ink); font-weight: 500; }
+.gos-btn-secondary { background: var(--c-bg); border-color: var(--c-line-strong); box-shadow: var(--sh-xs); color: var(--c-ink); font-weight: 500; }
 .gos-btn-secondary:hover:not(:disabled) { background: var(--c-bg-subtle); }
 .gos-btn-ghost { background: transparent; color: var(--c-link); font-weight: 500; }
 .gos-btn-danger { background: var(--c-danger); color: #ffffff; }
@@ -142,3 +142,5 @@
 /* Sign-in ⇄ trial switch under the submit button */
 .gos-mode-switch { color: var(--c-ink-3); font-size: var(--fs-sm); margin: 14px 0 0; text-align: center; }
 .gos-mode-switch .gos-linklike { min-height: 44px; padding: 0 4px; }
+
+.dark .gos-btn-danger { background: #d92d20; color: #ffffff; }

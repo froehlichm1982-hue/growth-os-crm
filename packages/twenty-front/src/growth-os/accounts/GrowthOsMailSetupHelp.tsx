@@ -24,7 +24,7 @@ const StyledPreset = styled.button<{ isActive: boolean }>`
     isActive ? 'rgba(58,120,114,0.12)' : themeCssVariables.background.primary};
   border: 1px solid
     ${({ isActive }) =>
-      isActive ? '#3a7872' : themeCssVariables.border.color.medium};
+      isActive ? 'var(--c-link)' : themeCssVariables.border.color.medium};
   border-radius: 6px;
   color: ${themeCssVariables.font.color.primary};
   cursor: pointer;
