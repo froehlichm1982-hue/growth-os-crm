@@ -11,7 +11,6 @@ import { useLingui } from '@lingui/react/macro';
 import { useContext } from 'react';
 import { IconMicrosoft } from 'twenty-ui/icon';
 import { HorizontalSeparator } from 'twenty-ui/layout';
-import { MainButton } from 'twenty-ui/input';
 import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { LastUsedPill } from './LastUsedPill';
@@ -45,13 +44,14 @@ export const SignInUpWithMicrosoft = ({
   return (
     <>
       <StyledSsoButtonContainer>
-        <MainButton
-          Icon={() => <IconMicrosoft size={theme.icon.size.md} />}
-          title={t`Continue with Microsoft`}
+        <button
+          type="button"
+          className="gos-btn gos-btn-oauth gos-btn-block"
           onClick={handleClick}
-          variant={signInUpStep === SignInUpStep.Init ? undefined : 'secondary'}
-          fullWidth
-        />
+        >
+          <IconMicrosoft size={theme.icon.size.md} />
+          {t`Continue with Microsoft`}
+        </button>
         {isLastUsed && (isGlobalScope || hasMultipleAuthMethods) && (
           <LastUsedPill />
         )}

@@ -135,3 +135,7 @@
 .gos-linklike:focus-visible { border-radius: 4px; box-shadow: var(--focus-ring); outline: none; }
 .gos-alert { margin-bottom: 16px; text-align: left; }
 .gos-flow p, .gos-flow b { overflow-wrap: anywhere; }
+/* Kit .btn-oauth: white, strong line, medium weight */
+.gos-btn-oauth { background: #ffffff; border-color: var(--c-line-strong); box-shadow: var(--sh-xs); color: var(--c-ink); font-weight: 500; }
+.gos-btn-oauth:hover:not(:disabled) { background: var(--c-bg-subtle); border-color: #b6c0cc; }
+.gos-btn-oauth svg { height: 18px; width: 18px; }
