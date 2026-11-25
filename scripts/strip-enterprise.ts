@@ -421,6 +421,10 @@ const main = () => {
 
   const enterprise = new Set(markerFiles.filter((f) => SOURCE_EXT.test(f)));
   const nonSourceEnterprise = markerFiles.filter((f) => !SOURCE_EXT.test(f));
+  if (!markerFiles.length) {
+    console.log('strip-enterprise: nothing to strip (tree is already AGPL-only).');
+    return;
+  }
 
   // AGPL test/story files importing Enterprise code are removed with it.
   const importsOf = new Map<string, string[]>();
