@@ -30,6 +30,7 @@ import {
   hashPassword,
 } from 'src/engine/core-modules/auth/auth.util';
 import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
+import { growthOsSpendHashTime } from 'src/engine/core-modules/growth-os/password/growth-os-neutral-auth';
 import { GrowthOsSignInLockoutService } from 'src/engine/core-modules/growth-os/password/growth-os-sign-in-lockout.service';
 import { growthOsAssertPasswordPolicy } from 'src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util';
 import { type AuthTokens } from 'src/engine/core-modules/auth/dto/auth-tokens.dto';
@@ -160,6 +161,10 @@ export class AuthService {
     input: UserCredentialsInput,
     targetWorkspace?: WorkspaceEntity,
   ) {
+    // Growth OS: lockout first, and the same answer (and cost) for an unknown
+    // email, a user without a password and a wrong password.
+    await this.growthOsSignInLockoutService?.assertNotLocked(input.email);
+
     const user = await this.userRepository.findOne({
       where: {
         email: input.email,
@@ -167,11 +172,32 @@ export class AuthService {
       relations: { userWorkspaces: true },
     });
 
-    if (!user) {
+    const failNeutral = async (): Promise<never> => {
+      if (this.growthOsSignInLockoutService) {
+        await this.growthOsSignInLockoutService.recordFailureAndThrow(
+          input.email,
+        );
+      }
+
       throw new AuthException(
-        'User not found',
-        AuthExceptionCode.USER_NOT_FOUND,
+        'Wrong email or password',
+        AuthExceptionCode.FORBIDDEN_EXCEPTION,
+        {
+          userFriendlyMessage: msg`That email and password don’t match.`,
+        },
       );
+    };
+
+    if (!user || !user.passwordHash) {
+      await growthOsSpendHashTime(input.password);
+
+      return await failNeutral();
+    }
+
+    const isValid = await compareHash(input.password, user.passwordHash);
+
+    if (!isValid) {
+      return await failNeutral();
     }
 
     if (targetWorkspace && !targetWorkspace.isPasswordAuthEnabled) {
@@ -191,36 +217,6 @@ export class AuthService {
 
     if (targetWorkspace) {
       await this.checkAccessAndUseInvitationOrThrow(targetWorkspace, user);
-    }
-
-    if (!user.passwordHash) {
-      throw new AuthException(
-        'Incorrect login method',
-        AuthExceptionCode.INVALID_INPUT,
-        {
-          userFriendlyMessage: msg`User was not created with email/password`,
-        },
-      );
-    }
-
-    await this.growthOsSignInLockoutService?.assertNotLocked(input.email);
-
-    const isValid = await compareHash(input.password, user.passwordHash);
-
-    if (!isValid) {
-      if (this.growthOsSignInLockoutService) {
-        await this.growthOsSignInLockoutService.recordFailureAndThrow(
-          input.email,
-        );
-      }
-
-      throw new AuthException(
-        'Wrong password',
-        AuthExceptionCode.FORBIDDEN_EXCEPTION,
-        {
-          userFriendlyMessage: msg`Wrong password.`,
-        },
-      );
     }
 
     await this.growthOsSignInLockoutService?.clear(input.email);

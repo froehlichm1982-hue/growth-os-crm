@@ -28,6 +28,8 @@ import { growthOsAuthAlertState } from '~/growth-os/auth/growthOsAuthAlertState'
 import { growthOsPasswordError } from '~/growth-os/auth/growthOsPasswordRules';
 import { GROWTH_OS_BRAND } from '~/growth-os/brand';
 import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
+import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
+import { signInUpModeState } from '@/auth/states/signInUpModeState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 
 const StyledForm = styled.form`
@@ -64,7 +66,9 @@ export const SignInUpWithCredentials = ({
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
 
+  const setSignInUpMode = useSetAtomState(signInUpModeState);
   const {
+    isInviteMode,
     signInUpMode,
     continueWithEmail,
     continueWithCredentials,
@@ -239,6 +243,27 @@ export const SignInUpWithCredentials = ({
                 : buttonTitle}
             </button>
             {isLastUsed && <LastUsedPill />}
+            {!isInviteMode && (
+              <p className="gos-mode-switch">
+                {signInUpMode === SignInUpMode.SignUp ? t`Already have an account?` : t`New here?`}{' '}
+                <button
+                  type="button"
+                  className="gos-linklike"
+                  data-testid="growth-os-mode-switch"
+                  onClick={() => {
+                    setGrowthOsAuthAlert(null);
+                    setPasswordProblem(null);
+                    setSignInUpMode(
+                      signInUpMode === SignInUpMode.SignUp
+                        ? SignInUpMode.SignIn
+                        : SignInUpMode.SignUp,
+                    );
+                  }}
+                >
+                  {signInUpMode === SignInUpMode.SignUp ? t`Sign in` : t`Start a 14-day trial`}
+                </button>
+              </p>
+            )}
             {isSignUpBlockedByDDLLock && (
               <InputHint>{t`Sign-up is temporarily unavailable during maintenance.`}</InputHint>
             )}

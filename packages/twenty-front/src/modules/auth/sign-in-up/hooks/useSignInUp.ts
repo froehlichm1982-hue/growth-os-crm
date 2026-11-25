@@ -101,11 +101,9 @@ export const useSignInUp = (form: UseFormReturn<Form>) => {
         return enqueueErrorSnackBar({ apolloError: error });
       }
 
-      setSignInUpMode(
-        data?.checkUserExists.exists
-          ? SignInUpMode.SignIn
-          : SignInUpMode.SignUp,
-      );
+      // Growth OS: the server answers the same for every email (no account
+      // enumeration); sign-in vs sign-up follows what the person chose.
+      void data;
       setSignInUpStep(SignInUpStep.Password);
     } catch {
       enqueueErrorSnackBar({ message: errorMsgUserAlreadyExist });

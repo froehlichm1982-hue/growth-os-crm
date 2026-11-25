@@ -12,6 +12,7 @@ import {
 import { workspacePublicDataState } from '@/auth/states/workspacePublicDataState';
 import { styled } from '@linaria/react';
 
+import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
 
@@ -28,7 +29,7 @@ import { isMultiWorkspaceEnabledState } from '@/client-config/states/isMultiWork
 import { useGetPublicWorkspaceDataByDomain } from '@/domain-manager/hooks/useGetPublicWorkspaceDataByDomain';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { useIsCurrentLocationOnDefaultDomain } from '@/domain-manager/hooks/useIsCurrentLocationOnDefaultDomain';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { SignInUpGlobalScopeFormEffect } from '@/auth/sign-in-up/components/internal/SignInUpGlobalScopeFormEffect';
 import { SignInUpSsoExchangeTokenEffect } from '@/auth/sign-in-up/components/internal/SignInUpSsoExchangeTokenEffect';
@@ -70,7 +71,15 @@ export const SignInUp = () => {
   const isCreatingWorkspace = useAtomStateValue(isCreatingWorkspaceState);
 
   const { form } = useSignInUpForm();
-  const signInUpMode = useAtomStateValue(signInUpModeState);
+  const [signInUpMode, setSignInUpModeFromUrl] = useAtomState(signInUpModeState);
+  const [modeSearchParams] = useSearchParams();
+  const modeParam = modeSearchParams.get('mode');
+
+  // Growth OS: /welcome?mode=signup opens the trial sign-up directly.
+  useEffect(() => {
+    if (modeParam === 'signup') setSignInUpModeFromUrl(SignInUpMode.SignUp);
+    if (modeParam === 'signin') setSignInUpModeFromUrl(SignInUpMode.SignIn);
+  }, [modeParam, setSignInUpModeFromUrl]);
   const { signInUpStep } = useSignInUp(form);
   const { isDefaultDomain } = useIsCurrentLocationOnDefaultDomain();
   const { isOnAWorkspace } = useIsCurrentLocationOnAWorkspace();
@@ -123,11 +132,8 @@ export const SignInUp = () => {
       return t`Verify code from the app`;
     }
 
-    // Growth OS CRM: kit auth headings (one entry for sign-in and sign-up).
-    if (
-      signInUpStep === SignInUpStep.Password &&
-      signInUpMode === SignInUpMode.SignUp
-    ) {
+    // Growth OS CRM: kit auth headings; the mode is the person's choice.
+    if (signInUpMode === SignInUpMode.SignUp) {
       return t`Start your 14-day trial`;
     }
 
@@ -160,7 +166,9 @@ export const SignInUp = () => {
       signInUpStep === SignInUpStep.Init ||
       signInUpStep === SignInUpStep.Email
     ) {
-      return t`Sign in to your Growth OS workspace, or start a 14-day trial with your work email.`;
+      return signInUpMode === SignInUpMode.SignUp
+        ? t`No card needed. Start with your work email.`
+        : t`Sign in to your Growth OS workspace.`;
     }
 
     return undefined;
