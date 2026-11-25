@@ -1,10 +1,12 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitButton,
+  KitEmail,
+  KitNote,
+  KitText,
+  kitFormatDate,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type BillingSubscriptionRenewingEmailProps = {
   userName: string;
@@ -14,59 +16,34 @@ type BillingSubscriptionRenewingEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-// Sent 7 days before a yearly subscription renews. Goal: never let a large annual
-// charge be a surprise. This is both fair to the customer and expected by auto-renewal
-// laws in several regions. Monthly subscriptions intentionally get no renewal reminders.
-export const BillingSubscriptionRenewingEmail = ({
-  userName,
-  workspaceDisplayName,
-  renewsAt,
-  link,
-  locale,
-}: BillingSubscriptionRenewingEmailProps) => {
-  const i18n = createI18nInstance(locale);
-  const formattedDate = i18n.date(renewsAt, {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+export const BillingSubscriptionRenewingEmail = ({ userName, workspaceDisplayName, renewsAt, link, locale }: BillingSubscriptionRenewingEmailProps) => {
+  const i18n = kitI18n(locale);
+  const formattedDate = kitFormatDate(renewsAt, locale);
+  const workspace = workspaceDisplayName ?? i18n._('your workspace');
 
   return (
-    <BaseEmail width={333} locale={locale}>
-      <Title value={i18n._('Your plan renews soon')} />
-      <MainText>
-        {userName?.length > 1 ? (
-          <Trans id="Hi {userName}," values={{ userName }} />
-        ) : (
-          <Trans id="Hello," />
-        )}
-        <br />
-        <br />
-        <Trans id="Just so it's never a surprise, here's a heads up about your annual plan." />
-        <br />
-        <br />
-        <Trans
-          id="Your annual plan for <0>{workspaceDisplayName}</0> renews on {formattedDate}."
-          values={{ workspaceDisplayName, formattedDate }}
-          components={{ 0: <b /> }}
-        />
-        <br />
-        <br />
-        <Trans id="No action is needed if you'd like to continue. If you'd rather not renew, you can cancel anytime before then." />
-      </MainText>
-      <br />
-      <CallToAction href={link} value={i18n._('Manage subscription')} />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Your yearly plan renews on {formattedDate}', { formattedDate })}
+      preheader={i18n._('No surprises: here’s a heads-up before we charge your card.')}
+      eyebrow={i18n._('Renewal')}
+      heading={i18n._('Your plan renews on {formattedDate}', { formattedDate })}
+      reason="billing"
+    >
+      <KitText>
+        {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')} {i18n._('the yearly plan for {workspace} renews on {formattedDate}. If you want to continue, there’s nothing to do.', { workspace, formattedDate })}
+      </KitText>
+      <KitButton href={link} label={i18n._('Manage plan')} />
+      <KitNote>{i18n._('Don’t want to renew? Cancel in Settings → Billing before {formattedDate}. You keep access until the end of the paid period.', { formattedDate })}</KitNote>
+    </KitEmail>
   );
 };
 
 BillingSubscriptionRenewingEmail.PreviewProps = {
-  userName: 'John Doe',
-  workspaceDisplayName: 'Acme Inc.',
-  renewsAt: new Date('2027-07-02'),
-  link: 'https://acme.example.com/settings/billing',
+  userName: 'Lena',
+  workspaceDisplayName: 'Nordlicht Analytics',
+  renewsAt: new Date('2026-12-09'),
+  link: 'https://crm.scalepoint-ventures.com/settings/billing',
   locale: 'en',
 } as BillingSubscriptionRenewingEmailProps;
 

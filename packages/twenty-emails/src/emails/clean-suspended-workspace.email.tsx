@@ -1,11 +1,11 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
-import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
+import {
+  KitButton,
+  KitEmail,
+  KitNote,
+  KitText,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type CleanSuspendedWorkspaceEmailProps = {
   daysSinceInactive: number;
@@ -14,53 +14,33 @@ type CleanSuspendedWorkspaceEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-export const CleanSuspendedWorkspaceEmail = ({
-  daysSinceInactive,
-  userName,
-  workspaceDisplayName,
-  locale,
-}: CleanSuspendedWorkspaceEmailProps) => {
-  const i18n = createI18nInstance(locale);
+export const CleanSuspendedWorkspaceEmail = ({ daysSinceInactive, userName, workspaceDisplayName, locale }: CleanSuspendedWorkspaceEmailProps) => {
+  const i18n = kitI18n(locale);
+  const workspace = workspaceDisplayName ?? i18n._('your workspace');
 
   return (
-    <BaseEmail width={333} locale={locale}>
-      <Title value={i18n._('Your workspace has been deleted')} />
-      <MainText>
-        {userName?.length > 1 ? (
-          <Trans id="Hi {userName}," values={{ userName }} />
-        ) : (
-          <Trans id="Hello," />
-        )}
-        <br />
-        <br />
-        <Trans
-          id="Your workspace <0>{workspaceDisplayName}</0> has now been permanently deleted — it was paused {daysSinceInactive} days ago and wasn't reactivated in time."
-          values={{ workspaceDisplayName, daysSinceInactive }}
-          components={{ 0: <b /> }}
-        />
-        <br />
-        <br />
-        <Trans id="Its data has been removed and can no longer be recovered." />
-        <br />
-        <br />
-        <Trans id="If you'd ever like to give Twenty another try, you can start a fresh workspace in minutes — we'd love to have you back." />
-      </MainText>
-      <br />
-      <CallToAction
-        href={GROWTH_OS_BRAND.appUrl}
-        value={i18n._('Start a new workspace')}
-      />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Your workspace was deleted')}
+      preheader={i18n._('It was paused for {daysSinceInactive} days and not reactivated.', { daysSinceInactive })}
+      eyebrow={i18n._('Workspace deleted')}
+      heading={i18n._('Your workspace was deleted')}
+      reason="billing"
+    >
+      <KitText>
+        {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')} {i18n._('{workspace} was paused {daysSinceInactive} days ago and not reactivated, so we deleted it and its data as announced.', { workspace, daysSinceInactive })}
+      </KitText>
+      <KitButton href="https://scalepoint-ventures.com/growthos/crm" label={i18n._('Start a new workspace')} />
+      <KitNote>{i18n._('Think this is a mistake? Reply to this email and we’ll look into it.')}</KitNote>
+    </KitEmail>
   );
 };
 
 CleanSuspendedWorkspaceEmail.PreviewProps = {
-  daysSinceInactive: 1,
-  userName: 'John Doe',
-  workspaceDisplayName: 'My Workspace',
+  daysSinceInactive: 30,
+  userName: 'Lena',
+  workspaceDisplayName: 'Nordlicht Analytics',
   locale: 'en',
-};
+} as CleanSuspendedWorkspaceEmailProps;
 
 export default CleanSuspendedWorkspaceEmail;

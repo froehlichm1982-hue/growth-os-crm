@@ -1,9 +1,11 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitDetails,
+  KitEmail,
+  KitNote,
+  KitText,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type ServerAdminAccessChangedEmailProps = {
   actorName: string;
@@ -14,62 +16,33 @@ type ServerAdminAccessChangedEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-export const ServerAdminAccessChangedEmail = ({
-  actorName,
-  targetName,
-  targetEmail,
-  canAccessFullAdminPanel,
-  canImpersonate,
-  locale,
-}: ServerAdminAccessChangedEmailProps) => {
-  const i18n = createI18nInstance(locale);
-  const enabledLabel = i18n._('Enabled');
-  const disabledLabel = i18n._('Disabled');
-  const fullAdminStatus = canAccessFullAdminPanel
-    ? enabledLabel
-    : disabledLabel;
-  const impersonateStatus = canImpersonate ? enabledLabel : disabledLabel;
+export const ServerAdminAccessChangedEmail = ({ actorName, targetName, targetEmail, canAccessFullAdminPanel, canImpersonate, locale }: ServerAdminAccessChangedEmailProps) => {
+  const i18n = kitI18n(locale);
+  const on = i18n._('On');
+  const off = i18n._('Off');
 
   return (
-    <BaseEmail locale={locale}>
-      <Title value={i18n._('Server administrator access changed')} />
-      <MainText>
-        <Trans
-          id="serverAdminAccessChanged.summary"
-          message="{actorName} updated server administrator access for {targetName} ({targetEmail})."
-          values={{ actorName, targetName, targetEmail }}
-        />
-        <br />
-        <br />
-        <Trans
-          id="serverAdminAccessChanged.fullAdmin"
-          message="Full admin panel access: {fullAdminStatus}"
-          values={{ fullAdminStatus }}
-        />
-        <br />
-        <Trans
-          id="serverAdminAccessChanged.impersonation"
-          message="Impersonation: {impersonateStatus}"
-          values={{ impersonateStatus }}
-        />
-        <br />
-        <br />
-        <Trans
-          id="serverAdminAccessChanged.warning"
-          message="If you did not expect this change, review your server administrators immediately."
-        />
-        <br />
-      </MainText>
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Server administrator access changed')}
+      preheader={i18n._('{actorName} changed admin access for {targetName}.', { actorName, targetName })}
+      eyebrow={i18n._('Security')}
+      heading={i18n._('Admin access changed')}
+      reason="admin"
+    >
+      <KitText>
+        {i18n._('{actorName} changed server administrator access for {targetName} ({targetEmail}).', { actorName, targetName, targetEmail })}
+      </KitText>
+      <KitDetails rows={[[i18n._('Full admin panel'), canAccessFullAdminPanel ? on : off], [i18n._('Sign in as other users'), canImpersonate ? on : off]]} />
+      <KitNote tone="warn">{i18n._('Didn’t expect this change? Contact your server administrator right away.')}</KitNote>
+    </KitEmail>
   );
 };
 
 ServerAdminAccessChangedEmail.PreviewProps = {
-  actorName: 'John Doe',
-  targetName: 'Jane Smith',
-  targetEmail: 'jane.smith@example.com',
+  actorName: 'Lena Hartmann',
+  targetName: 'Jonas Berg',
+  targetEmail: 'jonas@nordlicht-mail.io',
   canAccessFullAdminPanel: true,
   canImpersonate: false,
   locale: 'en',

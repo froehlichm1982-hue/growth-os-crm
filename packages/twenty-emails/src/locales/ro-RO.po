@@ -19,19 +19,59 @@ msgstr ""
 "X-Crowdin-File-ID: 27\n"
 
 #. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "{actorName} changed admin access for {targetName}."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "{actorName} changed server administrator access for {targetName} ({targetEmail})."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/warn-suspended-workspace.email.tsx
+msgid "{daysSinceInactive} days"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "{exportName} is ready to download."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "{readOnlyDays} days"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/warn-suspended-workspace.email.tsx
+msgid "{remainingDays} days"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
-msgid "{senderName} (<0>{senderEmail}</0>) has invited you to join a workspace called <1>{workspaceName}</1>."
-msgstr "{senderName} (<0>{senderEmail}</0>) v-a invitat să vă alăturați unui spațiu de lucru numit <1>{workspaceName}</1>."
+msgid "{senderName} ({senderEmail}) invited you to the {workspaceName} workspace on Growth OS CRM, where your team keeps deals, contacts and next steps in one place."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "{senderName} invited you to {workspaceName}"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/validate-approved-access-domain.email.tsx
-msgid "{senderName} (<0>{senderEmail}</0>): Please validate this domain to allow users with <1>@{domain}</1> email addresses to join your workspace without requiring an invitation."
-msgstr "{senderName} (<0>{senderEmail}</0>): Vă rugăm să validați acest domeniu pentru a permite utilizatorilor cu adrese de email <1>@{domain}</1> să se alăture spațiului dumneavoastră de lucru fără a necesita o invitație."
+msgid "{senderName} wants anyone with an @{domain} email address to be able to join {workspaceName} without an invite."
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/billing-trial-converting.email.tsx
-msgid "A heads up before your trial ends"
-msgstr "Un anunț înainte să se încheie perioada de probă"
+#: src/emails/warn-suspended-workspace.email.tsx
+msgid "{workspace} is paused, but nothing is lost. Reactivate it and you pick up exactly where you left off."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/clean-suspended-workspace.email.tsx
+msgid "{workspace} was paused {daysSinceInactive} days ago and not reactivated, so we deleted it and its data as announced."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
@@ -39,18 +79,114 @@ msgid "Accept invite"
 msgstr "Acceptați invitația"
 
 #. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "Accept the invite to see the pipeline, contacts and next steps."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Account"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Action needed: your Growth OS payment didn’t go through"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/emails/billing-trial-ending.email.tsx
 msgid "Add a payment method"
 msgstr "Adaugă o metodă de plată"
 
 #. js-lingui-explicit-id
+#: src/emails/billing-trial-ending.email.tsx
+msgid "Add a payment method to keep everything you’ve built."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "Admin access changed"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
-msgid "After that, the workspace and all of its data will be permanently deleted — and we won't be able to bring it back."
-msgstr "După aceea, spațiul de lucru și toate datele sale vor fi șterse definitiv — și nu le vom mai putea recupera."
+msgid "After that, the workspace and all its data are deleted for good. We can’t bring them back."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Already synced"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Amount"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/validate-approved-access-domain.email.tsx
+msgid "Approve {domain} for {workspaceName}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/validate-approved-access-domain.email.tsx
+msgid "Approve domain"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/validate-approved-access-domain.email.tsx
+msgid "Approve the domain @{domain}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Billing"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Billing · day {graceDay} of 7"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Business ID"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Button not working? Paste this link into your browser:"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Calendar sync is paused"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Calendar sync paused: reconnect your account"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "Choose a new password"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Confirm email"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
 msgid "Confirm new email"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Confirm the change to finish updating your sign-in email."
 msgstr ""
 
 #. js-lingui-explicit-id
@@ -64,119 +200,324 @@ msgid "Confirm your new email address"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/password-update-notify.email.tsx
-msgid "Connect to Twenty"
-msgstr "Conectați-vă la Twenty"
-
-#. js-lingui-explicit-id
-#: src/emails/password-update-notify.email.tsx
-msgid "Dear {userName},"
-msgstr "Dragă {userName},"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Developers"
-msgstr "Dezvoltatori"
-
-#. js-lingui-explicit-id
-#: src/emails/server-admin-access-changed.email.tsx
-msgid "Disabled"
-msgstr "Dezactivat"
-
-#. js-lingui-explicit-id
-#: src/emails/server-admin-access-changed.email.tsx
-msgid "Enabled"
-msgstr "Activat"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Github"
-msgstr "Github"
+#: src/emails/sync-failed.email.tsx
+msgid "Connected account"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
-msgid "Good news first: your workspace <0>{workspaceDisplayName}</0> is only paused — none of your data is gone."
-msgstr "Mai întâi veștile bune: spațiul tău de lucru <0>{workspaceDisplayName}</0> este doar pus pe pauză — niciuna dintre datele tale nu a dispărut."
+msgid "Deleted in"
+msgstr ""
 
 #. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Didn’t ask for this? Ignore this email and your sign-in email stays the same."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "Didn’t ask for this? You can ignore this email. Your password stays the same. If you get these often, reply and we’ll take a look."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Didn’t cancel? Reply to this email right away and we’ll restore the plan."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "Didn’t expect this change? Contact your server administrator right away."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Didn’t sign up? You can ignore this email. No account is created until the address is confirmed."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-subscription-renewing.email.tsx
+msgid "Don’t want to renew? Cancel in Settings → Billing before {formattedDate}. You keep access until the end of the paid period."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Download export"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Download it within {expires}."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Email change"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Email sync is paused"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Email sync paused: reconnect your account"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Export"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Export contacts, companies and deals as CSV"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "File"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Full access until"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Full access until {formattedDate}. Changed your mind? Undo it in one click."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "Full admin panel"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+#: src/emails/billing-payment-failed.email.tsx
 #: src/emails/billing-subscription-renewing.email.tsx
 #: src/emails/billing-trial-converting.email.tsx
 #: src/emails/billing-trial-ending.email.tsx
 #: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/export-ready.email.tsx
+#: src/emails/password-reset-link.email.tsx
 #: src/emails/password-update-notify.email.tsx
-#: src/emails/warn-suspended-workspace.email.tsx
-msgid "Hello,"
-msgstr "Salut,"
-
-#. js-lingui-explicit-id
-#: src/emails/billing-subscription-renewing.email.tsx
-#: src/emails/billing-trial-converting.email.tsx
-#: src/emails/billing-trial-ending.email.tsx
-#: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/sync-failed.email.tsx
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Hi {userName},"
 msgstr "Bună, {userName},"
 
 #. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+#: src/emails/billing-payment-failed.email.tsx
+#: src/emails/billing-subscription-renewing.email.tsx
 #: src/emails/billing-trial-converting.email.tsx
-msgid "If Twenty is working for you, you're all set — there's nothing to do. If it's not the right fit, you can cancel in one click before then and you won't be charged."
-msgstr "Dacă Twenty funcționează bine pentru tine, ești acoperit — nu trebuie să faci nimic. Dacă nu este potrivit, poți anula cu un singur clic înainte de acea dată și nu vei fi taxat."
+#: src/emails/billing-trial-ending.email.tsx
+#: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/export-ready.email.tsx
+#: src/emails/password-reset-link.email.tsx
+#: src/emails/password-update-notify.email.tsx
+#: src/emails/sync-failed.email.tsx
+#: src/emails/warn-suspended-workspace.email.tsx
+msgid "Hi,"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-trial-converting.email.tsx
+msgid "If the CRM works for you, there’s nothing to do. If not, cancel in Settings → Billing before then and you won’t be charged."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
-msgid "If you did not initiate this change, please contact your workspace owner immediately."
-msgstr "Dacă nu ați inițiat această schimbare, vă rugăm să contactați imediat proprietarul spațiului de lucru."
+#: src/emails/password-update-notify.email.tsx
+msgid "If this was you, there’s nothing to do."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/test.email.tsx
+msgid "If you can read this, sending works."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/test.email.tsx
+msgid "If you can read this, your workspace can send email. You don’t need to do anything."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-trial-ending.email.tsx
-msgid "If you do nothing, we'll pause your workspace and keep your data safe for {dataRetentionDays} days in case you change your mind — no card will be charged."
-msgstr "Dacă nu faci nimic, vom pune spațiul tău de lucru pe pauză și îți vom păstra datele în siguranță timp de {dataRetentionDays} zile, în cazul în care te răzgândești — nu se va debita niciun card."
+msgid "If you do nothing, we pause the workspace and keep your data for {dataRetentionDays} days. No card is charged."
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/clean-suspended-workspace.email.tsx
-msgid "If you'd ever like to give Twenty another try, you can start a fresh workspace in minutes — we'd love to have you back."
-msgstr "Dacă vei dori vreodată să mai încerci Twenty, poți începe un spațiu de lucru nou în câteva minute — ne-ar plăcea să te avem din nou alături."
-
-#. js-lingui-explicit-id
-#: src/components/WhatIsTwenty.tsx
-msgid "It's a CRM, a software to help businesses manage their customer data and relationships efficiently."
-msgstr "Este un CRM, un software care ajută companiile să își gestioneze eficient datele și relațiile cu clienții."
-
-#. js-lingui-explicit-id
-#: src/emails/clean-suspended-workspace.email.tsx
-msgid "Its data has been removed and can no longer be recovered."
-msgstr "Datele sale au fost eliminate și nu mai pot fi recuperate."
+#: src/emails/export-ready.email.tsx
+#: src/emails/password-reset-link.email.tsx
+msgid "in {expires}"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
-msgid "Join your team on Twenty"
-msgstr "Alăturați-vă echipei pe Twenty"
+msgid "in 30 days"
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/billing-subscription-renewing.email.tsx
-msgid "Just so it's never a surprise, here's a heads up about your annual plan."
-msgstr "Ca să nu fie niciodată o surpriză, iată un anunț despre planul tău anual."
+#: src/emails/send-invite-link.email.tsx
+msgid "Invitation"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "Invite expires"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "Invited by"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Invoice"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/clean-suspended-workspace.email.tsx
+msgid "It was paused for {daysSinceInactive} days and not reactivated."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "Join {workspaceName}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Keep my plan"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "kept, nothing is deleted"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Last day: update payment by {formattedDate}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Legal notice"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+#: src/emails/password-reset-link.email.tsx
+msgid "Link expires"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
 #: src/emails/billing-trial-converting.email.tsx
-msgid "Manage subscription"
-msgstr "Gestionează abonamentul"
+msgid "Manage plan"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "New messages and meetings won’t show up in the CRM until you reconnect."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Next retry"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
-msgid "No action is needed if you'd like to continue. If you'd rather not renew, you can cancel anytime before then."
-msgstr "Nu este necesară nicio acțiune dacă dorești să continui. Dacă preferi să nu reînnoiești, poți anula oricând înainte de acea dată."
+msgid "No surprises: here’s a heads-up before we charge your card."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "not deleted during that time"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "Not expecting this? You can ignore it. Nothing happens until you accept."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-trial-converting.email.tsx
+msgid "Nothing to do if you want to continue. Cancel any time before then."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "Off"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "On"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "once"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/validate-approved-access-domain.email.tsx
+msgid "Once approved, colleagues with this domain can join without an invite."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "One click and your workspace is ready. The link works for 1 hour."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/validate-approved-access-domain.email.tsx
+msgid "Only approve domains your company owns. You can remove the domain later in Settings → Security."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Only people signed in to your workspace can open this link. Didn’t start an export? Tell your workspace owner."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
-msgid "Password updated"
-msgstr "Parola a fost actualizată"
+msgid "Open Growth OS CRM"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "Password reset"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
-msgid "Reactivate it within the next {remainingDays} {dayOrDays} and you'll pick up exactly where you left off, with every record, view and setting right where you left it."
-msgstr "Reactivează-l în următoarele {remainingDays} {dayOrDays} și vei relua exact de unde ai rămas, cu fiecare înregistrare, vizualizare și setare la locul lor."
+msgid "Paused for"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Plan"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Privacy"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Questions? Reply to this email or write to"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
@@ -184,24 +525,40 @@ msgid "Reactivate workspace"
 msgstr "Reactivează spațiul de lucru"
 
 #. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Read Twenty's user guide"
-msgstr "Citiți ghidul utilizatorului Twenty"
+#: src/emails/sync-failed.email.tsx
+msgid "Reconnect account"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Records"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Reminder: your Growth OS payment is still due"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-subscription-renewing.email.tsx
+msgid "Renewal"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/password-reset-link.email.tsx
-msgid "Reset"
-msgstr "Resetează"
+msgid "Reset your Growth OS password"
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/password-reset-link.email.tsx
-msgid "Reset your password 🗝"
-msgstr "Resetați-vă parola 🗝"
+#: src/emails/password-update-notify.email.tsx
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "Security"
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "San Francisco / Paris"
-msgstr "San Francisco / Paris"
+#: src/emails/test.email.tsx
+msgid "Sending works"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
@@ -209,34 +566,24 @@ msgid "Server administrator access changed"
 msgstr "Accesul de administrator al serverului a fost modificat"
 
 #. js-lingui-explicit-id
-#: src/emails/server-admin-access-changed.email.tsx
-msgid "serverAdminAccessChanged.fullAdmin"
-msgstr "serverAdminAccessChanged.fullAdmin"
-
-#. js-lingui-explicit-id
-#: src/emails/server-admin-access-changed.email.tsx
-msgid "serverAdminAccessChanged.impersonation"
-msgstr "serverAdminAccessChanged.impersonation"
-
-#. js-lingui-explicit-id
-#: src/emails/server-admin-access-changed.email.tsx
-msgid "serverAdminAccessChanged.summary"
-msgstr "serverAdminAccessChanged.summary"
-
-#. js-lingui-explicit-id
-#: src/emails/server-admin-access-changed.email.tsx
-msgid "serverAdminAccessChanged.warning"
-msgstr "serverAdminAccessChanged.warning"
+#: src/emails/password-reset-link.email.tsx
+msgid "Set your Growth OS password"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/password-reset-link.email.tsx
-msgid "Set"
-msgstr "Setează"
+msgid "Set your password"
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/password-reset-link.email.tsx
-msgid "Set your password 🗝"
-msgstr "Setează-ți parola 🗝"
+#: src/emails/server-admin-access-changed.email.tsx
+msgid "Sign in as other users"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Source code (AGPL-3.0)"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
@@ -244,117 +591,324 @@ msgid "Start a new workspace"
 msgstr "Începe un nou spațiu de lucru"
 
 #. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Stopped"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "Terms"
+msgstr ""
+
+#. js-lingui-explicit-id
 #: src/emails/test.email.tsx
-msgid "Test email"
-msgstr "Email de test"
+msgid "Test"
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/password-update-notify.email.tsx
-msgid "This is a confirmation that password for your account ({email}) was successfully changed on {formattedDate}."
-msgstr "Aceasta este o confirmare că parola contului dvs. ({email}) a fost schimbată cu succes la data de {formattedDate}."
-
-#. js-lingui-explicit-id
-#: src/emails/password-reset-link.email.tsx
-msgid "This link is only valid for the next {duration}. If the link does not work, you can use the login verification link directly:"
-msgstr "Acest link este valabil doar pentru următoarele {duration}. Dacă linkul nu funcționează, puteți folosi direct linkul de verificare a autentificării:"
-
-#. js-lingui-explicit-id
-#: src/emails/billing-trial-ending.email.tsx
-msgid "To keep your workspace and everything you've built, add a payment method and pick a plan."
-msgstr "Pentru a păstra spațiul de lucru și tot ce ai construit, adaugă o metodă de plată și alege un plan."
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Twenty.com, Public Benefit Corporation"
-msgstr "Twenty.com, Corporație de Beneficiu Public"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "User guide"
-msgstr "Ghidul Utilizatorului"
-
-#. js-lingui-explicit-id
-#: src/emails/validate-approved-access-domain.email.tsx
-#: src/emails/validate-approved-access-domain.email.tsx
-msgid "Validate domain"
-msgstr "Validează domeniul"
+#: src/emails/test.email.tsx
+msgid "Test email from Growth OS CRM"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
-msgid "Verify Email"
-msgstr "Verificați Email"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Visit Twenty's developer documentation"
-msgstr "Vizitați documentația pentru dezvoltatori a Twenty"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Visit Twenty's GitHub repository"
-msgstr "Vizitați depozitul GitHub al Twenty"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Visit Twenty's website"
-msgstr "Vizitați site-ul Twenty"
+msgid "Thanks for signing up for Growth OS CRM. Confirm that this is your address and your workspace is ready."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-trial-converting.email.tsx
-msgid "We don't like surprise charges, so here's a friendly heads up."
-msgstr "Nu ne plac taxările surpriză, așa că iată un mic anunț prietenos."
+msgid "the free trial of {workspace} ends on {formattedDate}. Then we charge the card on file for your monthly plan."
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Website"
-msgstr "Site web"
-
-#. js-lingui-explicit-id
-#: src/components/WhatIsTwenty.tsx
-msgid "What is Twenty?"
-msgstr "Ce este Twenty?"
-
-#. js-lingui-explicit-id
-#: src/emails/billing-subscription-renewing.email.tsx
-msgid "Your annual plan for <0>{workspaceDisplayName}</0> renews on {formattedDate}."
-msgstr "Planul tău anual pentru <0>{workspaceDisplayName}</0> va fi reînnoit la {formattedDate}."
+#: src/emails/billing-trial-converting.email.tsx
+msgid "the free trial of {workspace} ends on {formattedDate}. Then we charge the card on file for your yearly plan."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-trial-ending.email.tsx
-msgid "Your free trial of <0>{workspaceDisplayName}</0> ends on {formattedDate}."
-msgstr "Perioada ta de probă gratuită pentru <0>{workspaceDisplayName}</0> se încheie la {formattedDate}."
+msgid "the free trial of {workspace} ends on {formattedDate}. To keep your pipeline, contacts and settings, add a payment method and pick a plan."
+msgstr ""
 
 #. js-lingui-explicit-id
-#: src/emails/billing-trial-converting.email.tsx
-msgid "Your free trial of <0>{workspaceDisplayName}</0> ends on {formattedDate}. Unless you cancel before then, the card on file will be charged for your annual plan."
-msgstr "Perioada ta de probă gratuită pentru <0>{workspaceDisplayName}</0> se încheie la {formattedDate}. Dacă nu anulezi până atunci, cardul salvat va fi debitat pentru planul tău anual."
-
-#. js-lingui-explicit-id
-#: src/emails/billing-trial-converting.email.tsx
-msgid "Your free trial of <0>{workspaceDisplayName}</0> ends on {formattedDate}. Unless you cancel before then, the card on file will be charged for your monthly plan."
-msgstr "Perioada ta de probă gratuită pentru <0>{workspaceDisplayName}</0> se încheie la {formattedDate}. Dacă nu anulezi până atunci, cardul salvat va fi debitat pentru planul tău lunar."
+#: src/emails/password-update-notify.email.tsx
+msgid "the password for {email} was changed on {formattedDate}."
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
-msgid "Your plan renews soon"
-msgstr "Planul tău va fi reînnoit în curând"
+msgid "the yearly plan for {workspace} renews on {formattedDate}. If you want to continue, there’s nothing to do."
+msgstr ""
 
 #. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Then read-only for"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/clean-suspended-workspace.email.tsx
+msgid "Think this is a mistake? Reply to this email and we’ll look into it."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "This is a security email. We send it even if you’ve turned off product emails."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "This is a test email sent from your workspace settings."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "This link works for {expires} and only once."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "This usually means the card expired or the bank declined it."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Tomorrow your workspace becomes read-only"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-trial-converting.email.tsx
 #: src/emails/billing-trial-ending.email.tsx
-msgid "Your trial is ending soon"
-msgstr "Perioada ta de probă se va încheia în curând"
+msgid "Trial"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "Until you reconnect, new emails and meetings with your contacts won’t show up on their timelines."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Update payment method"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Update your payment method by {formattedDate} to keep full access."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Want a copy of your data?"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-update-notify.email.tsx
+msgid "Wasn’t you? Reset your password right away and tell your workspace owner. Reply to this email and we’ll help you secure your account."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "we couldn’t charge the card ending in {cardLast4} for {workspace}."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "we couldn’t charge your payment method for {workspace}."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "we got a request to reset the password for {email}. Click the button to choose a new one."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "we got a request to reset the password for your account. Click the button to choose a new one."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "We got a request to use this address to sign in to Growth OS CRM. Confirm it to finish the change. Until then, your old address keeps working."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "We retry automatically in the meantime."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "we stopped syncing {accountHandle} ({providerName}) because the connection expired or access was removed."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/sync-failed.email.tsx
+msgid "we stopped syncing {accountHandle} ({providerName}) because the provider kept returning errors."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "we’ve cancelled {planName} for {workspace}. You won’t be charged again."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Welcome"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "What happens next: after 7 days the workspace becomes read-only. Your data is not deleted, and everything is back the moment the payment succeeds."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-reset-link.email.tsx
+msgid "Works"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "Workspace"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/validate-approved-access-domain.email.tsx
+msgid "Workspace access"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
-msgid "Your workspace <0>{workspaceDisplayName}</0> has now been permanently deleted — it was paused {daysSinceInactive} days ago and wasn't reactivated in time."
-msgstr "Spațiul tău de lucru <0>{workspaceDisplayName}</0> a fost acum șters definitiv — a fost pus pe pauză acum {daysSinceInactive} zile și nu a fost reactivat la timp."
-
-#. js-lingui-explicit-id
-#: src/emails/clean-suspended-workspace.email.tsx
-msgid "Your workspace has been deleted"
-msgstr "Spațiul tău de lucru a fost șters"
+msgid "Workspace deleted"
+msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
+msgid "Workspace paused"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "You get this email because a teammate invited you. If you weren’t expecting it, you can ignore it."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "You get this email because you have a ScalePoint Growth OS account."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "You get this email because you manage billing for this workspace."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "You get this email because you use ScalePoint Growth OS. It is about your workspace, not marketing."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/components/kit/KitEmail.tsx
+msgid "You get this email because your server administrator access changed."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Your data"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/warn-suspended-workspace.email.tsx
+msgid "Your data is safe. Reactivate within {remainingDays} days to keep it."
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Your export is ready"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/export-ready.email.tsx
+msgid "Your export is ready: {exportName}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-update-notify.email.tsx
+msgid "Your Growth OS password was changed"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Your Growth OS plan is cancelled"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-trial-converting.email.tsx
+#: src/emails/billing-trial-converting.email.tsx
+msgid "Your paid plan starts on {formattedDate}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/password-update-notify.email.tsx
+msgid "Your password was changed"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Your payment didn’t go through"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-payment-failed.email.tsx
+msgid "Your payment is still due"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Your plan is cancelled"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-subscription-renewing.email.tsx
+msgid "Your plan renews on {formattedDate}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/send-invite-link.email.tsx
+msgid "your team’s workspace"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-trial-ending.email.tsx
+#: src/emails/billing-trial-ending.email.tsx
+msgid "Your trial ends on {formattedDate}"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+#: src/emails/billing-payment-failed.email.tsx
+#: src/emails/billing-subscription-renewing.email.tsx
+#: src/emails/billing-trial-converting.email.tsx
+#: src/emails/billing-trial-ending.email.tsx
+#: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/validate-approved-access-domain.email.tsx
+#: src/emails/warn-suspended-workspace.email.tsx
+msgid "your workspace"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/warn-suspended-workspace.email.tsx
+#: src/emails/warn-suspended-workspace.email.tsx
 msgid "Your workspace is paused"
 msgstr "Spațiul tău de lucru este în pauză"
+
+#. js-lingui-explicit-id
+#: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/clean-suspended-workspace.email.tsx
+msgid "Your workspace was deleted"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: src/emails/billing-subscription-renewing.email.tsx
+msgid "Your yearly plan renews on {formattedDate}"
+msgstr ""
