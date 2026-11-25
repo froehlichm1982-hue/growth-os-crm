@@ -420,13 +420,73 @@ html:root .growth-os-record-hero h3 * {
   }
 }
 
-/* Primary text action in the page header (e.g. Send Email) in brand teal. */
-html:root [data-click-outside-id='page-action-container'] button[data-accent='default']:has([class*='_text_']) {
-  background: var(--c-link) !important;
-  border-color: var(--c-link) !important;
-  color: var(--c-bg) !important;
+/* 13. Kit consistency pass (PRODUCT-UX-STANDARD §2): one primary style
+   (kit .btn-primary navy; white on navy in dark mode), calm table rows,
+   kit tabs, kit field labels and checkboxes. */
+html:root button[data-variant='primary'][data-accent='blue'],
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] {
+  background: var(--c-navy) !important;
+  border-color: var(--c-navy) !important;
+  box-shadow: var(--sh-inset-btn), var(--sh-xs) !important;
+  color: var(--c-on-navy, #ffffff) !important;
 }
 
-html:root [data-click-outside-id='page-action-container'] button[data-accent='default']:has([class*='_text_']) * {
-  color: var(--c-bg) !important;
+html:root button[data-variant='primary'][data-accent='blue'] *,
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] * {
+  color: var(--c-on-navy, #ffffff) !important;
 }
+
+html:root button[data-variant='primary'][data-accent='blue']:hover:not(:disabled),
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:hover:not(:disabled) {
+  background: var(--c-navy-hover) !important;
+}
+
+/* Rows: kit hover and selection tints; the name column reads as the label. */
+html:root [data-testid^='row-id-']:hover > .table-cell,
+html:root [data-testid^='row-id-']:hover > [class*='table-cell-'] {
+  background: var(--c-bg-subtle) !important;
+}
+
+html:root [data-testid^='row-id-'][data-selected='true'] > *,
+html:root [data-testid^='row-id-'][aria-selected='true'] > * {
+  background: var(--c-bg-selected) !important;
+}
+
+html:root .record-table-column-field-0 [class*='_chip_'],
+html:root .record-table-column-field-0 [class*='_label_'] {
+  color: var(--c-ink) !important;
+  font-weight: 600;
+}
+
+html:root [data-testid^='row-id-'] input[type='checkbox'],
+html:root .header-cell input[type='checkbox'] {
+  accent-color: var(--c-navy);
+}
+
+/* Tabs: kit ink + teal accent rule instead of the upstream black. */
+html:root [class*='_tabButton_'] {
+  color: var(--c-ink-3);
+  font-weight: 500;
+}
+
+html:root [class*='_tabButton_'][data-active='true'] {
+  color: var(--c-ink);
+}
+
+html:root [class*='_tabButton_'][data-active='true']::after,
+html:root [class*='_tabButton_'][data-active='true'] > [class*='_indicator_'] {
+  background: var(--c-accent) !important;
+  border-color: var(--c-accent) !important;
+}
+
+/* Record field labels: kit muted 13px. */
+html:root [data-record-show-page-body] .widget [class*='_label_'],
+html:root [data-record-show-page-body] .widget [class*='Label'] {
+  color: var(--c-ink-3);
+}
+
+/* Board cards: kit card hover lift. */
+html:root .growth-os-board-card > div > div {
+  transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+
