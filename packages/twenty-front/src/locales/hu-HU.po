@@ -3323,11 +3323,6 @@ msgstr "Vissza"
 msgid "Back to {text}"
 msgstr "Vissza ide: {text}"
 
-#. js-lingui-id: Dht9W3
-#: src/pages/not-found/NotFound.tsx
-msgid "Back to content"
-msgstr "Vissza a tartalomhoz"
-
 #. js-lingui-id: 9aZHfH
 #: src/modules/marketplace/components/SettingsApplicationInstallPermissionValidationModal.tsx
 msgid "Back to settings"
@@ -4752,6 +4747,7 @@ msgstr "Kompakt nézet"
 #. js-lingui-id: s2QZS6
 #: src/modules/onboarding/components/import-contacts/OnboardingImportPreviewCompanies.tsx
 #: src/modules/sign-in-background-mock/components/BackgroundMockPage.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Companies"
 msgstr "Cégek"
 
@@ -5144,6 +5140,11 @@ msgstr "Kapcsolatfelvétel az adminnal"
 #: src/modules/settings/accounts/components/SettingsAccountsMessageChannelDetails.tsx
 msgid "Contact auto-creation"
 msgstr "Kapcsolattartó automatikus létrehozás"
+
+#. js-lingui-id: mpby9d
+#: src/pages/not-found/NotFound.tsx
+msgid "Contact support"
+msgstr ""
 
 #. js-lingui-id: cByGGA
 #: src/modules/information-banner/components/billing/InformationBannerEndTrialPeriod.tsx
@@ -8386,6 +8387,11 @@ msgstr "Lágyított adatok törlése"
 msgid "Error"
 msgstr "Hiba"
 
+#. js-lingui-id: wwi5OC
+#: src/pages/not-found/NotFound.tsx
+msgid "Error 404"
+msgstr ""
+
 #. js-lingui-id: VouTsQ
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "Error activating enterprise license"
@@ -9621,6 +9627,11 @@ msgstr "szűrés"
 msgid "Filters"
 msgstr "Szűrők"
 
+#. js-lingui-id: uhvB6F
+#: src/pages/not-found/NotFound.tsx
+msgid "Find people and companies"
+msgstr ""
+
 #. js-lingui-id: YTaTdm
 #: src/modules/ai/constants/crud-tool-operation-verbs.constant.ts
 msgid "Finding {objectLabel}"
@@ -10093,6 +10104,7 @@ msgstr "Globális keresés"
 
 #. js-lingui-id: CKyk7Q
 #: src/modules/onboarding/components/OnboardingHeader.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Go back"
 msgstr "Vissza"
 
@@ -10119,6 +10131,11 @@ msgstr "\"Ugrás a piszkozatokhoz\""
 #: src/modules/views/view-picker/components/ViewPickerEditButton.tsx
 msgid "Go to Settings"
 msgstr "Ugrás a beállításokhoz"
+
+#. js-lingui-id: PUXtbx
+#: src/pages/not-found/NotFound.tsx
+msgid "Go to your workspace"
+msgstr ""
 
 #. js-lingui-id: FYlHHU
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -14860,11 +14877,6 @@ msgstr "a"
 msgid "Off"
 msgstr ""
 
-#. js-lingui-id: KNz3EF
-#: src/pages/not-found/NotFound.tsx
-msgid "Off the beaten path"
-msgstr "A járatlan úton"
-
 #. js-lingui-id: Zd5vVt
 #: src/modules/workflow/workflow-steps/workflow-actions/find-records-action/components/WorkflowEditActionFindRecords.tsx
 msgid "Offset"
@@ -15477,10 +15489,10 @@ msgstr "Oldalelrendezések"
 msgid "Page name"
 msgstr "Oldal neve"
 
-#. js-lingui-id: NRvxzv
+#. js-lingui-id: ZNqDxU
 #: src/pages/not-found/NotFound.tsx
-msgid "Page Not Found | Twenty"
-msgstr "Az oldal nem található | Twenty"
+msgid "Page not found · Growth OS CRM"
+msgstr ""
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -15845,6 +15857,11 @@ msgstr "Rögzített fül, mindig a bal oldalon jelenik meg"
 msgid "Pinned to a specific model"
 msgstr ""
 
+#. js-lingui-id: 67RoFa
+#: src/pages/not-found/NotFound.tsx
+msgid "Pipeline"
+msgstr ""
+
 #. js-lingui-id: 7u7suu
 #: src/growth-os/GrowthOsAuthShell.tsx
 msgid "Pipeline · Nordlicht Analytics"
@@ -15989,6 +16006,11 @@ msgstr "Többes szám"
 #: src/localization/hooks/useLocaleOptions.ts
 msgid "Polish"
 msgstr "Lengyel"
+
+#. js-lingui-id: xkn2in
+#: src/pages/not-found/NotFound.tsx
+msgid "Popular destinations"
+msgstr ""
 
 #. js-lingui-id: 0nsqwk
 #: src/localization/hooks/useLocaleOptions.ts
@@ -16144,6 +16166,7 @@ msgstr "Elsőbbségi támogatás"
 
 #. js-lingui-id: rjGI/Q
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Privacy"
 msgstr ""
 
@@ -17528,6 +17551,7 @@ msgstr "Méretezés"
 
 #. js-lingui-id: /Snwjq
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "ScalePoint Growth OS home"
 msgstr ""
 
@@ -19637,6 +19661,7 @@ msgstr "Vasárnap"
 #: src/modules/settings/hooks/useSettingsNavigationItems.tsx
 #: src/modules/settings/security/components/SettingsSecuritySettings.tsx
 #: src/modules/ui/navigation/navigation-drawer/components/MultiWorkspaceDropdown/internal/MultiWorkspaceDropdownDefaultComponents.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Support"
 msgstr "Támogatás"
 
@@ -19890,6 +19915,7 @@ msgstr "Átmeneti Hiba"
 #. js-lingui-id: 4Y5H+g
 #: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Terms"
 msgstr ""
 
@@ -20109,6 +20135,11 @@ msgstr "Az ikon, amit a munkafolyamata megjelenít a parancsmenüben"
 msgid "The last payment failed. Update your payment method by {0} to avoid read-only mode."
 msgstr ""
 
+#. js-lingui-id: wpTZNC
+#: src/pages/not-found/NotFound.tsx
+msgid "The link may be old, or the page has moved. Nothing is wrong with your account or data."
+msgstr ""
+
 #. js-lingui-id: gEcZnP
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAI.tsx
 msgid "The model behind each tier for every workspace. Workspaces can pin their own."
@@ -20145,11 +20176,6 @@ msgstr "Az a név, amelyet a címzettek a postafiókjukban az Ön címe mellett 
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "The name recipients see next to your address. It is set when the channel is created."
 msgstr "Az a név, amelyet a címzettek az Ön címe mellett látnak. Ez a csatorna létrehozásakor kerül beállításra."
-
-#. js-lingui-id: L97sPr
-#: src/pages/not-found/NotFound.tsx
-msgid "The page you're seeking is either gone or never was. Let's get you back on track"
-msgstr "Az Ön által keresett oldal vagy eltűnt, vagy soha nem is létezett. Segítünk visszatérni a helyes útra"
 
 #. js-lingui-id: Ya1wb4
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
@@ -20510,6 +20536,11 @@ msgstr "Ez a megbeszélés nem lett rögzítve."
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "This model will be removed from the provider. You can re-add it later."
 msgstr "Ez a modell eltávolításra kerül a szolgáltatóból. Később újra hozzáadhatja."
+
+#. js-lingui-id: QC0TmK
+#: src/pages/not-found/NotFound.tsx
+msgid "This page doesn’t exist"
+msgstr ""
 
 #. js-lingui-id: NCA55L
 #: src/modules/page-layout/widgets/components/StandaloneWidgetPlaceholder.tsx
@@ -23276,6 +23307,11 @@ msgstr "Írjon leírást"
 msgid "Write a description for this agent"
 msgstr "Írjon leírást az ügynökhöz"
 
+#. js-lingui-id: /04jgJ
+#: src/pages/not-found/NotFound.tsx
+msgid "Write to a real person"
+msgstr ""
+
 #. js-lingui-id: zeCIJi
 #: src/modules/settings/logic-functions/components/tabs/SettingsLogicFunctionCodeEditorTab.tsx
 msgid "Write your function (in typescript) below"
@@ -23599,6 +23635,11 @@ msgstr "A kezelő megkapja ezt az objektumot. A body üres, mert a GET kérések
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Your name as it will be displayed"
 msgstr "A neve úgy, ahogy látható lesz"
+
+#. js-lingui-id: Gfklgu
+#: src/pages/not-found/NotFound.tsx
+msgid "Your open deals"
+msgstr ""
 
 #. js-lingui-id: OAPgqn
 #: src/growth-os/GrowthOsAuthShell.tsx

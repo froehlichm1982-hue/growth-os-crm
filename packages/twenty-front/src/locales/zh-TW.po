@@ -3323,11 +3323,6 @@ msgstr "返回"
 msgid "Back to {text}"
 msgstr "返回 {text}"
 
-#. js-lingui-id: Dht9W3
-#: src/pages/not-found/NotFound.tsx
-msgid "Back to content"
-msgstr "返回內容"
-
 #. js-lingui-id: 9aZHfH
 #: src/modules/marketplace/components/SettingsApplicationInstallPermissionValidationModal.tsx
 msgid "Back to settings"
@@ -4752,6 +4747,7 @@ msgstr "緊湊視圖"
 #. js-lingui-id: s2QZS6
 #: src/modules/onboarding/components/import-contacts/OnboardingImportPreviewCompanies.tsx
 #: src/modules/sign-in-background-mock/components/BackgroundMockPage.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Companies"
 msgstr "公司"
 
@@ -5144,6 +5140,11 @@ msgstr "聯絡管理員"
 #: src/modules/settings/accounts/components/SettingsAccountsMessageChannelDetails.tsx
 msgid "Contact auto-creation"
 msgstr "聯繫人自動創建"
+
+#. js-lingui-id: mpby9d
+#: src/pages/not-found/NotFound.tsx
+msgid "Contact support"
+msgstr ""
 
 #. js-lingui-id: cByGGA
 #: src/modules/information-banner/components/billing/InformationBannerEndTrialPeriod.tsx
@@ -8386,6 +8387,11 @@ msgstr "擦除已軟刪除的記錄"
 msgid "Error"
 msgstr "錯誤"
 
+#. js-lingui-id: wwi5OC
+#: src/pages/not-found/NotFound.tsx
+msgid "Error 404"
+msgstr ""
+
 #. js-lingui-id: VouTsQ
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "Error activating enterprise license"
@@ -9621,6 +9627,11 @@ msgstr "篩選"
 msgid "Filters"
 msgstr "篩選"
 
+#. js-lingui-id: uhvB6F
+#: src/pages/not-found/NotFound.tsx
+msgid "Find people and companies"
+msgstr ""
+
 #. js-lingui-id: YTaTdm
 #: src/modules/ai/constants/crud-tool-operation-verbs.constant.ts
 msgid "Finding {objectLabel}"
@@ -10093,6 +10104,7 @@ msgstr "全域搜尋"
 
 #. js-lingui-id: CKyk7Q
 #: src/modules/onboarding/components/OnboardingHeader.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Go back"
 msgstr "返回"
 
@@ -10119,6 +10131,11 @@ msgstr "前往草稿"
 #: src/modules/views/view-picker/components/ViewPickerEditButton.tsx
 msgid "Go to Settings"
 msgstr "前往設置"
+
+#. js-lingui-id: PUXtbx
+#: src/pages/not-found/NotFound.tsx
+msgid "Go to your workspace"
+msgstr ""
 
 #. js-lingui-id: FYlHHU
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -14837,11 +14854,6 @@ msgstr "的"
 msgid "Off"
 msgstr ""
 
-#. js-lingui-id: KNz3EF
-#: src/pages/not-found/NotFound.tsx
-msgid "Off the beaten path"
-msgstr "偏離常規路線"
-
 #. js-lingui-id: Zd5vVt
 #: src/modules/workflow/workflow-steps/workflow-actions/find-records-action/components/WorkflowEditActionFindRecords.tsx
 msgid "Offset"
@@ -15454,10 +15466,10 @@ msgstr "頁面佈局"
 msgid "Page name"
 msgstr "頁面名稱"
 
-#. js-lingui-id: NRvxzv
+#. js-lingui-id: ZNqDxU
 #: src/pages/not-found/NotFound.tsx
-msgid "Page Not Found | Twenty"
-msgstr "找不到頁面 | Twenty"
+msgid "Page not found · Growth OS CRM"
+msgstr ""
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -15822,6 +15834,11 @@ msgstr "釘選分頁，一律顯示於左側"
 msgid "Pinned to a specific model"
 msgstr ""
 
+#. js-lingui-id: 67RoFa
+#: src/pages/not-found/NotFound.tsx
+msgid "Pipeline"
+msgstr ""
+
 #. js-lingui-id: 7u7suu
 #: src/growth-os/GrowthOsAuthShell.tsx
 msgid "Pipeline · Nordlicht Analytics"
@@ -15966,6 +15983,11 @@ msgstr "複數形"
 #: src/localization/hooks/useLocaleOptions.ts
 msgid "Polish"
 msgstr "波蘭語"
+
+#. js-lingui-id: xkn2in
+#: src/pages/not-found/NotFound.tsx
+msgid "Popular destinations"
+msgstr ""
 
 #. js-lingui-id: 0nsqwk
 #: src/localization/hooks/useLocaleOptions.ts
@@ -16121,6 +16143,7 @@ msgstr "優先支援"
 
 #. js-lingui-id: rjGI/Q
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Privacy"
 msgstr ""
 
@@ -17505,6 +17528,7 @@ msgstr "縮放比例"
 
 #. js-lingui-id: /Snwjq
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "ScalePoint Growth OS home"
 msgstr ""
 
@@ -19614,6 +19638,7 @@ msgstr "星期日"
 #: src/modules/settings/hooks/useSettingsNavigationItems.tsx
 #: src/modules/settings/security/components/SettingsSecuritySettings.tsx
 #: src/modules/ui/navigation/navigation-drawer/components/MultiWorkspaceDropdown/internal/MultiWorkspaceDropdownDefaultComponents.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Support"
 msgstr "支援"
 
@@ -19867,6 +19892,7 @@ msgstr "暫時故障"
 #. js-lingui-id: 4Y5H+g
 #: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
+#: src/pages/not-found/NotFound.tsx
 msgid "Terms"
 msgstr ""
 
@@ -20056,6 +20082,11 @@ msgstr "您的工作流程觸發器在指令選單中顯示的圖示"
 msgid "The last payment failed. Update your payment method by {0} to avoid read-only mode."
 msgstr ""
 
+#. js-lingui-id: wpTZNC
+#: src/pages/not-found/NotFound.tsx
+msgid "The link may be old, or the page has moved. Nothing is wrong with your account or data."
+msgstr ""
+
 #. js-lingui-id: gEcZnP
 #: src/modules/settings/admin-panel/ai/components/SettingsAdminAI.tsx
 msgid "The model behind each tier for every workspace. Workspaces can pin their own."
@@ -20092,11 +20123,6 @@ msgstr "收件人在收件匣中於您的地址旁邊看到的名稱，而不只
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "The name recipients see next to your address. It is set when the channel is created."
 msgstr "收件人在您的地址旁邊看到的名稱。此名稱會在建立頻道時設定。"
-
-#. js-lingui-id: L97sPr
-#: src/pages/not-found/NotFound.tsx
-msgid "The page you're seeking is either gone or never was. Let's get you back on track"
-msgstr "您正在尋找的頁面已經消失或從未存在。讓我們幫助您回到正軌"
 
 #. js-lingui-id: Ya1wb4
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
@@ -20457,6 +20483,11 @@ msgstr "此會議未錄音。"
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "This model will be removed from the provider. You can re-add it later."
 msgstr "此模型將從該供應商中移除。您稍後可以重新新增。"
+
+#. js-lingui-id: QC0TmK
+#: src/pages/not-found/NotFound.tsx
+msgid "This page doesn’t exist"
+msgstr ""
 
 #. js-lingui-id: NCA55L
 #: src/modules/page-layout/widgets/components/StandaloneWidgetPlaceholder.tsx
@@ -23223,6 +23254,11 @@ msgstr "撰寫描述"
 msgid "Write a description for this agent"
 msgstr "為此代理撰寫描述"
 
+#. js-lingui-id: /04jgJ
+#: src/pages/not-found/NotFound.tsx
+msgid "Write to a real person"
+msgstr ""
+
 #. js-lingui-id: zeCIJi
 #: src/modules/settings/logic-functions/components/tabs/SettingsLogicFunctionCodeEditorTab.tsx
 msgid "Write your function (in typescript) below"
@@ -23546,6 +23582,11 @@ msgstr "您的處理常式會接收此物件。由於 GET 請求不包含有效�
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Your name as it will be displayed"
 msgstr "顯示您的姓名"
+
+#. js-lingui-id: Gfklgu
+#: src/pages/not-found/NotFound.tsx
+msgid "Your open deals"
+msgstr ""
 
 #. js-lingui-id: OAPgqn
 #: src/growth-os/GrowthOsAuthShell.tsx
