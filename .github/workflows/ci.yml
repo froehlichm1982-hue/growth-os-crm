@@ -66,6 +66,8 @@ jobs:
         run: npx nx run twenty-front:typecheck
       - name: Build server
         run: npx nx run twenty-server:build
+      - name: Build emails
+        run: npx nx run twenty-emails:build
       - name: Build front
         run: npx nx run twenty-front:build
       - name: No Enterprise marker in build output
@@ -73,6 +75,8 @@ jobs:
           if grep -rlF "@license Enterprise" packages/twenty-server/dist packages/twenty-front/build; then
             echo "Enterprise code found in build output"; exit 1
           fi
+      - name: White label (no customer-visible upstream branding)
+        run: npx tsx scripts/check-white-label.ts
       - name: Server module graph loads (no stub throws at import time)
         working-directory: packages/twenty-server
         run: node -e "require('./dist/app.module.js'); console.log('app.module loaded')"
