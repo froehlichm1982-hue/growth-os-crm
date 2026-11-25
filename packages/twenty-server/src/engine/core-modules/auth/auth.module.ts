@@ -1,3 +1,4 @@
+import { GrowthOsSignInLockoutService } from 'src/engine/core-modules/growth-os/password/growth-os-sign-in-lockout.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -147,6 +148,7 @@ import { JwtAuthStrategy } from './strategies/jwt.auth.strategy';
     ConnectionProviderOAuthController,
   ],
   providers: [
+    GrowthOsSignInLockoutService,
     SignInUpService,
     AuthService,
     JwtAuthStrategy,

@@ -1,3 +1,4 @@
+import { GrowthOsAuthDivider } from '~/growth-os/auth/GrowthOsAuthDivider';
 import { availableWorkspacesState } from '@/auth/states/availableWorkspacesState';
 import { returnToPathState } from '@/auth/states/returnToPathState';
 import { useBuildWorkspaceUrl } from '@/domain-manager/hooks/useBuildWorkspaceUrl';
@@ -28,7 +29,6 @@ import { isNonEmptyString } from '@sniptt/guards';
 import { useContext } from 'react';
 import { Avatar } from 'twenty-ui/data-display';
 import { IconChevronRight, IconPlus } from 'twenty-ui/icon';
-import { HorizontalSeparator } from 'twenty-ui/layout';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 import {
   type AvailableWorkspace,
@@ -246,9 +246,7 @@ export const SignInUpGlobalScopeForm = () => {
             />
           )}
           {(authProviders.google || authProviders.microsoft) && (
-            <HorizontalSeparator
-              color={themeCssVariables.background.transparent.light}
-            />
+            <GrowthOsAuthDivider />
           )}
           {/* oxlint-disable-next-line react/jsx-props-no-spreading */}
           <FormProvider {...form}>

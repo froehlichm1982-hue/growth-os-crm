@@ -7,7 +7,8 @@ import {
 
 import * as bcrypt from 'bcrypt';
 
-export const PASSWORD_REGEX = /^.{8,50}$/;
+// Growth OS CRM: 8–128 (product standard §4.1); the policy lives in growth-os/password.
+export const PASSWORD_REGEX = /^.{8,128}$/;
 
 const saltRounds = 10;
 

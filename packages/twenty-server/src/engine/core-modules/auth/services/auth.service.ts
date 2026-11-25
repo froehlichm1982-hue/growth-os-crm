@@ -26,10 +26,12 @@ import {
   AuthExceptionCode,
 } from 'src/engine/core-modules/auth/auth.exception';
 import {
-  PASSWORD_REGEX,
   compareHash,
   hashPassword,
 } from 'src/engine/core-modules/auth/auth.util';
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
+import { GrowthOsSignInLockoutService } from 'src/engine/core-modules/growth-os/password/growth-os-sign-in-lockout.service';
+import { growthOsAssertPasswordPolicy } from 'src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util';
 import { type AuthTokens } from 'src/engine/core-modules/auth/dto/auth-tokens.dto';
 import { type AuthorizeAppDTO } from 'src/engine/core-modules/auth/dto/authorize-app.dto';
 import { type AuthorizeAppInput } from 'src/engine/core-modules/auth/dto/authorize-app.input';
@@ -107,6 +109,9 @@ export class AuthService {
     private readonly featureFlagService: FeatureFlagService,
     private readonly createSsoConnectedAccountService: CreateSsoConnectedAccountService,
     private readonly userSessionService: UserSessionService,
+    @GrowthOsOptional()
+    @GrowthOsInject(GrowthOsSignInLockoutService)
+    private readonly growthOsSignInLockoutService?: GrowthOsSignInLockoutService,
   ) {}
 
   private async checkAccessAndUseInvitationOrThrow(
@@ -198,9 +203,17 @@ export class AuthService {
       );
     }
 
+    await this.growthOsSignInLockoutService?.assertNotLocked(input.email);
+
     const isValid = await compareHash(input.password, user.passwordHash);
 
     if (!isValid) {
+      if (this.growthOsSignInLockoutService) {
+        await this.growthOsSignInLockoutService.recordFailureAndThrow(
+          input.email,
+        );
+      }
+
       throw new AuthException(
         'Wrong password',
         AuthExceptionCode.FORBIDDEN_EXCEPTION,
@@ -209,6 +222,8 @@ export class AuthService {
         },
       );
     }
+
+    await this.growthOsSignInLockoutService?.clear(input.email);
 
     await this.checkIsEmailVerified(user.isEmailVerified);
 
@@ -237,7 +252,10 @@ export class AuthService {
   ) {
     if (userData.type === 'newUser') {
       userData.newUserPayload.passwordHash =
-        await this.signInUpService.generateHash(authParams.password);
+        await this.signInUpService.generateHash(
+          authParams.password,
+          userData.newUserPayload.email,
+        );
     }
 
     if (userData.type === 'existingUser') {
@@ -701,17 +719,7 @@ export class AuthService {
       );
     }
 
-    const isPasswordValid = PASSWORD_REGEX.test(newPassword);
-
-    if (!isPasswordValid) {
-      throw new AuthException(
-        'Password is too weak',
-        AuthExceptionCode.INVALID_INPUT,
-        {
-          userFriendlyMessage: msg`Password is too weak.`,
-        },
-      );
-    }
+    growthOsAssertPasswordPolicy(newPassword, user.email);
 
     const newPasswordHash = await hashPassword(newPassword);
 

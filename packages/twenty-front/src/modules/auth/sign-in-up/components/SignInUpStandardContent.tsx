@@ -1,5 +1,4 @@
 import { Logo } from '@/auth/components/Logo';
-import { Title } from '@/auth/components/Title';
 import { FooterNote } from '@/auth/sign-in-up/components/FooterNote';
 import { WorkspaceSelectionFooter } from '@/auth/sign-in-up/components/WorkspaceSelectionFooter';
 import { SignInUpStep } from '@/auth/states/signInUpStepState';
@@ -31,6 +30,7 @@ type SignInUpStandardContentProps = {
   signInUpForm: JSX.Element | null;
   signInUpStep: SignInUpStep;
   title: string;
+  subtitle?: string;
   onClickOnLogo: () => void;
 };
 
@@ -39,11 +39,12 @@ export const SignInUpStandardContent = ({
   signInUpForm,
   signInUpStep,
   title,
+  subtitle,
   onClickOnLogo,
 }: SignInUpStandardContentProps) => {
   return (
     <ModalContent isVerticallyCentered isHorizontallyCentered>
-      <AnimatedEaseIn>
+      <AnimatedEaseIn className="gos-upstream-logo">
         <Logo
           secondaryLogo={workspacePublicData?.logo}
           placeholder={workspacePublicData?.displayName}
@@ -52,7 +53,8 @@ export const SignInUpStandardContent = ({
         />
       </AnimatedEaseIn>
       <StyledTitleContainer>
-        <Title animate>{title}</Title>
+        <h1 className="gos-auth-title">{title}</h1>
+        {subtitle && <p className="gos-auth-sub">{subtitle}</p>}
       </StyledTitleContainer>
       <StyledFormContainer>{signInUpForm}</StyledFormContainer>
       {signInUpStep === SignInUpStep.WorkspaceSelection && (

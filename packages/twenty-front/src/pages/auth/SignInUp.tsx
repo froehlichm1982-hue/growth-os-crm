@@ -1,3 +1,5 @@
+import { signInUpModeState } from '@/auth/states/signInUpModeState';
+import { SignInUpMode } from '@/auth/types/signInUpMode';
 import { useSignInUp } from '@/auth/sign-in-up/hooks/useSignInUp';
 import { useSignInUpForm } from '@/auth/sign-in-up/hooks/useSignInUpForm';
 import { isCreatingWorkspaceState } from '@/auth/states/isCreatingWorkspaceState';
@@ -65,6 +67,7 @@ export const SignInUp = () => {
   const isCreatingWorkspace = useAtomStateValue(isCreatingWorkspaceState);
 
   const { form } = useSignInUpForm();
+  const signInUpMode = useAtomStateValue(signInUpModeState);
   const { signInUpStep } = useSignInUp(form);
   const { isDefaultDomain } = useIsCurrentLocationOnDefaultDomain();
   const { isOnAWorkspace } = useIsCurrentLocationOnAWorkspace();
@@ -117,25 +120,50 @@ export const SignInUp = () => {
       return t`Verify code from the app`;
     }
 
-    if (isGlobalScope) {
-      return t`Welcome to Twenty`;
+    // Growth OS CRM: kit auth headings (one entry for sign-in and sign-up).
+    if (
+      signInUpStep === SignInUpStep.Password &&
+      signInUpMode === SignInUpMode.SignUp
+    ) {
+      return t`Start your 14-day trial`;
     }
 
-    const workspaceName = workspacePublicData?.displayName;
-
-    if (!workspaceName) {
-      return t`Welcome to your workspace`;
-    }
-
-    return t`Welcome, ${workspaceName}.`;
+    return t`Welcome back`;
   }, [
     workspaceInviteHash,
     signInUpStep,
     workspacePublicData?.displayName,
-    isGlobalScope,
+    signInUpMode,
     t,
     workspaceFromInviteHash?.displayName,
   ]);
+
+  const authEmail = form.watch('email');
+
+  const subtitle = useMemo(() => {
+    if (isDefined(workspaceInviteHash)) {
+      return t`Sign in or create a password to join your team.`;
+    }
+
+    if (signInUpStep === SignInUpStep.Password) {
+      return signInUpMode === SignInUpMode.SignUp
+        ? t`No card needed. Create a password for ${authEmail}.`
+        : t`Enter the password for ${authEmail}.`;
+    }
+
+    if (signInUpStep === SignInUpStep.WorkspaceSelection) {
+      return t`Pick the workspace you want to open.`;
+    }
+
+    if (
+      signInUpStep === SignInUpStep.Init ||
+      signInUpStep === SignInUpStep.Email
+    ) {
+      return t`Sign in to your Growth OS workspace, or start a 14-day trial with your work email.`;
+    }
+
+    return undefined;
+  }, [workspaceInviteHash, signInUpStep, signInUpMode, authEmail, t]);
 
   const signInUpForm = useMemo(() => {
     if (getPublicWorkspaceDataLoading || !clientConfigApiStatus.isLoadedOnce) {
@@ -223,6 +251,7 @@ export const SignInUp = () => {
           signInUpForm={signInUpForm}
           signInUpStep={signInUpStep}
           title={title}
+          subtitle={subtitle}
           onClickOnLogo={onClickOnLogo}
         />
       )}

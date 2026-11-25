@@ -1,0 +1,379 @@
+/* Growth OS CRM auth surfaces: reference-kit auth layout (kit.css §auth) on
+   product tokens, plus overrides that bring the upstream sign-in form pieces
+   (title, inputs, buttons, separator, footer note) in line with the kit. */
+
+.gos-auth {
+  background: var(--c-bg);
+  color: var(--c-ink-2);
+  display: grid;
+  font-family: var(--font-ui);
+  grid-template-columns: minmax(0, 1fr);
+  height: calc(100dvh / var(--t-zoom, 1));
+  overflow-y: auto;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .gos-auth {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    overflow: hidden;
+  }
+}
+
+.gos-auth-main {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 640px) {
+  .gos-auth-main { padding: 32px 40px; }
+}
+
+.gos-auth-top {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.gos-auth-brand { align-items: center; display: flex; gap: 10px; }
+.gos-auth-brand img { display: block; height: 28px; width: 140px; }
+
+.gos-module-chip {
+  align-items: center;
+  background: var(--c-accent-soft);
+  border-radius: var(--r-full);
+  color: var(--c-ink);
+  display: inline-flex;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  gap: 6px;
+  height: 24px;
+  letter-spacing: 0.01em;
+  padding: 0 9px;
+}
+
+.gos-module-chip::before {
+  background: var(--c-accent);
+  border-radius: 50%;
+  content: '';
+  height: 6px;
+  width: 6px;
+}
+
+.gos-top-link { color: var(--c-ink-3); font-size: var(--fs-sm); margin: 0; }
+.gos-top-link a { color: var(--c-link); font-weight: 600; }
+
+@media (max-width: 420px) { .gos-hide-xs { display: none; } }
+
+.gos-auth-card {
+  box-sizing: border-box;
+  margin: auto;
+  max-width: 400px;
+  padding: 48px 0;
+  width: 100%;
+}
+
+.gos-auth-foot {
+  color: var(--c-ink-3);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: var(--fs-xs);
+  gap: 6px 18px;
+  justify-content: center;
+}
+
+.gos-auth-foot a { color: var(--c-ink-3); text-decoration: none; }
+.gos-auth-foot a:hover { color: var(--c-ink); text-decoration: underline; }
+
+.gos-auth-side {
+  background: var(--c-navy);
+  border-radius: 20px;
+  color: var(--c-on-navy-2);
+  display: none;
+  isolation: isolate;
+  margin: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .gos-auth-side {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px;
+  }
+}
+
+.gos-auth-side::before {
+  background:
+    radial-gradient(60% 50% at 85% 10%, rgba(89, 192, 182, 0.22), transparent 70%),
+    radial-gradient(50% 40% at 0% 100%, rgba(70, 145, 137, 0.18), transparent 70%);
+  content: '';
+  inset: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.gos-auth-side::after {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  content: '';
+  inset: 0;
+  mask-image: radial-gradient(80% 70% at 70% 30%, #000, transparent);
+  position: absolute;
+  z-index: -1;
+}
+
+.gos-quote {
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 36px;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.15;
+  margin: 0;
+  max-width: 460px;
+  text-wrap: balance;
+}
+
+.gos-quote em { color: var(--c-teal-on-navy); font-style: italic; }
+
+.gos-auth-side ul {
+  display: grid;
+  font-size: var(--fs-base);
+  gap: 10px;
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+.gos-auth-side li { align-items: center; display: flex; gap: 10px; }
+.gos-auth-side li svg { color: var(--c-teal-on-navy); flex: none; }
+
+.gos-preview-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: var(--c-ink-2);
+  max-width: 460px;
+  padding: 18px;
+  transform: translateY(6px);
+}
+
+.gos-pc-h { align-items: center; display: flex; justify-content: space-between; margin-bottom: 14px; }
+.gos-pc-h b { color: var(--c-ink); font-size: var(--fs-sm); }
+
+.gos-pc-row {
+  align-items: center;
+  border-top: 1px solid var(--c-line-2);
+  display: grid;
+  font-size: var(--fs-sm);
+  gap: 10px;
+  grid-template-columns: 28px 1fr auto;
+  padding: 9px 0;
+}
+
+.gos-pc-row b { color: var(--c-ink); }
+.gos-sub2 { color: var(--c-ink-3); font-size: var(--fs-xs); }
+.gos-side-foot { color: var(--c-on-navy-2); font-size: var(--fs-xs); margin: 0; }
+
+.gos-av {
+  background: var(--c-accent-soft);
+  border-radius: 50%;
+  color: var(--c-ink);
+  display: grid;
+  font-size: 11px;
+  font-weight: 600;
+  height: 28px;
+  place-items: center;
+  width: 28px;
+}
+
+.gos-av-b { background: #e8edf5; }
+.gos-av-c { background: #f4ebdd; }
+
+/* Kit badge (shared with the app). */
+.gos-badge {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--r-full);
+  display: inline-flex;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  gap: 6px;
+  height: 22px;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.gos-badge::before { background: currentColor; border-radius: 50%; content: ''; height: 6px; opacity: 0.9; width: 6px; }
+.gos-badge-success { background: var(--c-success-soft); border-color: #d1f5e0; color: var(--c-success); }
+.gos-badge-warn { background: var(--c-warn-soft); border-color: #fdebc0; color: var(--c-warn); }
+.gos-badge-info { background: var(--c-info-soft); border-color: #dce8fa; color: var(--c-info); }
+.gos-badge-neutral { background: var(--c-bg-warm); border-color: var(--c-line); color: var(--c-ink-2); }
+.gos-badge-danger { background: var(--c-danger-soft); border-color: #fbd9d5; color: var(--c-danger); }
+
+/* Kit alert. */
+.gos-alert {
+  align-items: flex-start;
+  border: 1px solid;
+  border-radius: var(--r);
+  box-sizing: border-box;
+  display: flex;
+  font-size: var(--fs-sm);
+  gap: 10px;
+  line-height: 1.5;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  text-align: left;
+  width: 100%;
+}
+
+.gos-alert b { color: inherit; font-weight: 600; }
+.gos-alert a, .gos-alert button.gos-linklike { color: inherit; font-weight: 600; text-decoration: underline; }
+.gos-alert svg { flex: none; margin-top: 2px; }
+.gos-alert-danger { background: var(--c-danger-soft); border-color: var(--c-danger-line); color: var(--c-danger); }
+.gos-alert-success { background: var(--c-success-soft); border-color: var(--c-success-line); color: var(--c-success); }
+.gos-alert-warn { background: var(--c-warn-soft); border-color: var(--c-warn-line); color: var(--c-warn); }
+.gos-alert-info { background: var(--c-bg-subtle); border-color: var(--c-line); color: var(--c-ink-2); }
+
+.gos-linklike {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.gos-linklike:disabled { cursor: not-allowed; opacity: 0.55; text-decoration: none; }
+
+/* ---- Upstream form pieces inside the kit card ---- */
+
+/* The card is left-aligned, max 400px; upstream centres everything. */
+.gos-auth-card > div,
+.gos-auth-card [class*='ModalContent'],
+.gos-auth-card > div > div {
+  align-items: stretch !important;
+  background: transparent !important;
+  height: auto !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+/* Upstream logo above the title: the column header already carries it. */
+.gos-auth-card .gos-upstream-logo { display: none !important; }
+
+.gos-auth-card h2.gos-auth-title,
+.gos-auth-card .gos-auth-title {
+  color: var(--c-ink) !important;
+  font-family: var(--font-display) !important;
+  font-size: 34px !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.15 !important;
+  margin: 0 0 8px !important;
+  text-align: left !important;
+}
+
+.gos-auth-sub {
+  color: var(--c-ink-3);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0 0 28px;
+}
+
+.gos-auth-sub b { color: var(--c-ink); font-weight: 600; }
+
+.gos-auth-card form { width: 100%; }
+
+.gos-auth-card input[type='email'],
+.gos-auth-card input[type='text'],
+.gos-auth-card input[type='password'] {
+  border-color: var(--c-input-border) !important;
+  border-radius: var(--r) !important;
+  box-sizing: border-box;
+  color: var(--c-ink) !important;
+  font-size: 15px !important;
+  height: 44px !important;
+  transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
+}
+
+.gos-auth-card input:hover { border-color: var(--c-ink-3) !important; }
+
+.gos-auth-card input:focus {
+  border-color: var(--c-accent) !important;
+  box-shadow: 0 0 0 3px rgba(70, 145, 137, 0.22) !important;
+  outline: none;
+}
+
+.gos-auth-card input[aria-invalid='true'] {
+  border-color: var(--c-danger) !important;
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.14) !important;
+}
+
+@media (max-width: 639px) {
+  .gos-auth-card input { font-size: 16px !important; }
+}
+
+/* Buttons: OAuth = white secondary, submit = navy primary (one per view). */
+.gos-auth-card button[class*='_button_'],
+.gos-auth-card [class*='MainButton'] {
+  border-radius: var(--r) !important;
+  font-size: 15px !important;
+  height: 44px !important;
+  transition: background-color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+
+.gos-auth-card button[data-variant='secondary'],
+.gos-auth-card button.gos-oauth {
+  background: #ffffff !important;
+  border: 1px solid var(--c-line-strong) !important;
+  box-shadow: var(--sh-xs) !important;
+  color: var(--c-ink) !important;
+  font-weight: 500 !important;
+}
+
+.gos-auth-card button[data-variant='secondary']:hover { background: var(--c-bg-subtle) !important; }
+
+.gos-auth-card button[data-variant='primary'] {
+  background: var(--c-navy) !important;
+  border: 1px solid var(--c-navy) !important;
+  box-shadow: var(--sh-inset-btn), var(--sh-xs) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.gos-auth-card button[data-variant='primary']:hover { background: var(--c-navy-hover) !important; }
+.gos-auth-card button:active { transform: translateY(1px) scale(0.99); }
+.gos-auth-card button:focus-visible { box-shadow: var(--focus-ring) !important; outline: none; }
+
+/* "or" divider in place of the bare upstream rule. */
+.gos-auth-card .gos-divider {
+  align-items: center;
+  color: var(--c-ink-3);
+  display: flex;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  gap: 12px;
+  letter-spacing: 0.06em;
+  margin: 22px 0;
+  text-transform: uppercase;
+}
+
+.gos-auth-card .gos-divider::before,
+.gos-auth-card .gos-divider::after { background: var(--c-line); content: ''; flex: 1; height: 1px; }
+
+.gos-auth-card a { color: var(--c-link); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gos-auth *, .gos-auth *::before, .gos-auth *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}

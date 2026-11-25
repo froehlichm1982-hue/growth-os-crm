@@ -1,3 +1,4 @@
+import { GrowthOsAuthDivider } from '~/growth-os/auth/GrowthOsAuthDivider';
 import { StyledOnboardingContentContainer } from '@/auth/components/StyledOnboardingContentContainer';
 import { SignInUpWithCredentials } from '@/auth/sign-in-up/components/internal/SignInUpWithCredentials';
 import { SignInUpWithGoogle } from '@/auth/sign-in-up/components/internal/SignInUpWithGoogle';
@@ -12,7 +13,6 @@ import { workspaceAuthBypassProvidersState } from '@/workspace/states/workspaceA
 import { workspaceAuthProvidersState } from '@/workspace/states/workspaceAuthProvidersState';
 import { Trans } from '@lingui/react/macro';
 import { FormProvider } from 'react-hook-form';
-import { HorizontalSeparator } from 'twenty-ui/layout';
 import { ClickToActionLink } from 'twenty-ui/navigation';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 
@@ -56,7 +56,7 @@ export const SignInUpWorkspaceScopeForm = () => {
           providers.microsoft ||
           providers.sso.length > 0) &&
         providers.password ? (
-          <HorizontalSeparator />
+          <GrowthOsAuthDivider />
         ) : null}
         {providers.password && (
           // oxlint-disable-next-line react/jsx-props-no-spreading
