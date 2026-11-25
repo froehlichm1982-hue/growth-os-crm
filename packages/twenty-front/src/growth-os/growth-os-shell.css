@@ -183,3 +183,32 @@ body {
 :focus-visible {
   outline-color: #469189;
 }
+
+/* 9. Object icons in brand tones instead of the upstream rainbow tiles. */
+[data-click-outside-id='navigation-drawer']
+  .navigation-drawer-item
+  [class*='_root_']:has(> svg.tabler-icon) {
+  background: rgba(89, 192, 182, 0.14) !important;
+}
+
+[data-click-outside-id='navigation-drawer']
+  .navigation-drawer-item
+  [class*='_root_']:has(> svg.tabler-icon)
+  > svg {
+  color: #9fe0d9 !important;
+  stroke: #9fe0d9 !important;
+}
+
+.growth-os-page-card-title [class*='_root_']:has(> svg.tabler-icon) {
+  background: #e6f2f0 !important;
+}
+
+.growth-os-page-card-title [class*='_root_']:has(> svg.tabler-icon) > svg {
+  color: #2f625d !important;
+  stroke: #2f625d !important;
+}
+
+/* Avatar initials stay in the UI font even inside serif titles. */
+[class*='_placeholderChar_'] {
+  font-family: var(--spv-font-ui);
+}
