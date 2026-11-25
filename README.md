@@ -1,164 +1,106 @@
-<p align="center">
-  <a href="https://www.twenty.com">
-    <img src="./packages/twenty-website/public/images/core/logo.svg" width="100px" alt="Twenty logo" />
-  </a>
-</p>
+# Growth OS CRM
 
-<h2 align="center">The #1 Open-Source CRM</h2>
+Growth OS CRM is the CRM module of **ScalePoint Growth OS**, a self-service,
+multi-tenant CRM for small and mid-sized B2B teams, operated by ScalePoint
+Ventures Oy.
 
-<p align="center"><a href="https://twenty.com"><img src="./packages/twenty-website/public/images/readme/globe-icon.svg" width="12" height="12"/> Website</a> · <a href="https://docs.twenty.com"><img src="./packages/twenty-website/public/images/readme/book-icon.svg" width="12" height="12"/> Documentation</a> · <a href="https://github.com/orgs/twentyhq/projects/1"><img src="./packages/twenty-website/public/images/readme/map-icon.svg" width="12" height="12"/> Roadmap </a> · <a href="https://discord.gg/cx5n4Jzs57"><img src="./packages/twenty-website/public/images/readme/discord-icon.svg" width="12" height="12"/> Discord</a> · <a href="https://www.figma.com/file/xt8O9mFeLl46C5InWwoMrN/Twenty"><img src="./packages/twenty-website/public/images/readme/figma-icon.webp"  width="12" height="12"/>  Figma</a></p>
+Growth OS CRM is **a fork of [Twenty](https://github.com/twentyhq/twenty)**, the
+open-source CRM. It is not affiliated with or endorsed by Twenty.com PBC.
+"Twenty" is a trademark of its owner and is used here only to describe the
+origin of the code.
 
-<p align="center">
-  <a href="https://www.twenty.com">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/github-cover-dark.webp" />
-      <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/github-cover-light.webp" />
-      <img src="./packages/twenty-website/public/images/readme/github-cover-light.webp" alt="Twenty banner" />
-    </picture>
-  </a>
-</p>
+## Status
 
-<br />
+Pre-production. Build step 1 (fork + Enterprise strip + CI) is done. See
+[`ENTERPRISE-STRIP.md`](./ENTERPRISE-STRIP.md) for what was removed and the
+known runtime gaps that later build steps close.
 
-# Why Twenty
+## Upstream
 
-Twenty gives technical teams the building blocks for a custom CRM that meets complex business needs and quickly adapts as the business evolves. Twenty is the CRM you build, ship, and version like the rest of your stack.
-
-<a href="https://twenty.com/resources/why-twenty"><img src="./packages/twenty-website/public/images/readme/star-icon.svg" width="14" height="14"/> Learn more about why we built Twenty</a>
-
-<br />
-
-# Installation
-
-### <img src="./packages/twenty-website/public/images/readme/globe-icon.svg" width="14" height="14"/> Cloud
-
-The fastest way to get started. Sign up at [twenty.com](https://twenty.com) and spin up a workspace in under a minute, with no infrastructure to manage and always up to date.
-
-### <img src="./packages/twenty-website/public/images/readme/book-icon.svg" width="14" height="14"/> Build an app
-
-Scaffold a new app with the Twenty CLI:
+| | |
+| --- | --- |
+| Upstream repository | https://github.com/twentyhq/twenty |
+| Base release | `twenty/v2.40.2` (2026-09-15) |
+| Git remote name | `upstream` |
 
 ```bash
-npx create-twenty-app my-app
+git remote add upstream https://github.com/twentyhq/twenty.git
+git fetch --no-tags upstream '+refs/tags/twenty/v*:refs/tags/twenty/v*'
 ```
 
-Define objects, fields, and views as code:
+Upstream releases are merged by tag, never by branch. After every merge, run
+the Enterprise strip again (see below). The `Upstream sync check` workflow
+tests the newest release nightly and reports problems without pushing.
 
-```ts
-import { defineObject, FieldType } from 'twenty-sdk/define';
+**Why v2.40.2, and the upgrade ceiling.** Starting with v2.41, upstream Twenty
+moves permission checks that the data layer runs on every request into
+Enterprise-licensed files: first record sharing and object-readability
+gating, then (v2.55 to v2.58: #29787, #29824, #30007) the core record-permission
+services. v2.40.x is the newest line where only row-level-permission (RLS)
+helpers are Enterprise, and those have a safe "feature off" replacement.
+**Upgrading past v2.40.x requires our own AGPL permission layer.**
+`scripts/check-permission-hot-path.ts` enforces this in CI, and the sync
+workflow reports such releases as blocked instead of merging them.
 
-export default defineObject({
-  nameSingular: 'deal',
-  namePlural: 'deals',
-  labelSingular: 'Deal',
-  labelPlural: 'Deals',
-  fields: [
-    { name: 'name', label: 'Name', type: FieldType.TEXT },
-    { name: 'amount', label: 'Amount', type: FieldType.CURRENCY },
-    { name: 'closeDate', label: 'Close Date', type: FieldType.DATE_TIME },
-  ],
-});
-```
+## License
 
-Then ship it to your workspace:
+Growth OS CRM is licensed under the **GNU Affero General Public License v3.0**
+(see [`LICENSE`](./LICENSE)), inherited from Twenty's AGPL code.
+
+Twenty ships some files under a separate commercial license (marked
+`/* @license Enterprise */`). **Those files are not part of Growth OS CRM.**
+`scripts/strip-enterprise.ts` deletes them or replaces them with generated
+AGPL stubs, and CI fails if a marked file is ever left in the tree or the
+build output. Growth OS CRM does not use any Twenty license or organization
+key.
+
+### Source code offer (AGPL §13)
+
+Everyone who uses Growth OS CRM over a network can get the complete
+corresponding source code of the version they use, free of charge, from the
+public repository of this project. The running application links to it.
+Questions: crm@scalepoint-ventures.com.
+
+## Build
+
+Requirements: Node.js from [`.nvmrc`](./.nvmrc) (24.x), Yarn 4 (bundled in
+`.yarn/releases`, enable with `corepack enable`), about 8 GB RAM.
 
 ```bash
-npx twenty app:publish --private
+corepack enable
+yarn install
+
+# Enterprise strip: no-op on a clean tree, required after upstream merges
+npx tsx scripts/strip-enterprise.ts
+npx tsx scripts/strip-enterprise.ts --check
+
+# Typecheck and build
+npx tsx scripts/check-permission-hot-path.ts
+npx nx run twenty-server:typecheck && npx nx run twenty-front:typecheck
+npx nx run twenty-server:build && npx nx run twenty-front:build
 ```
 
-See the [app development guide](https://docs.twenty.com/developers/extend/apps/getting-started) for objects, views, agents, and logic functions.
+Configuration notes for the SaaS build:
 
-### <img src="./packages/twenty-website/public/images/readme/rocket-icon.svg" width="14" height="14"/> Self-hosting
+- `IS_MULTIWORKSPACE_ENABLED=true` in production (one workspace per customer,
+  tenant URL `<slug>.<domain>`). Upstream default stays `false`.
+- `MAX_WORKSPACES` caps the number of workspaces on a server; `0` (default)
+  means unlimited. There is no license-key based cap.
+- `IS_WORKSPACE_CREATION_LIMITED_TO_SERVER_ADMINS=false` for self-service
+  sign-up.
 
-Run Twenty on your own infrastructure with [Docker Compose](https://docs.twenty.com/developers/self-host/capabilities/docker-compose), or contribute locally via the [local setup guide](https://docs.twenty.com/developers/contribute/capabilities/local-setup).
+Twenty's billing is hard-disabled in this fork (`IS_BILLING_ENABLED` is always
+`false`). Growth OS subscriptions are handled by the separate
+`growth-os-billing` service, which is not part of this repository.
 
-<br />
-<br />
+## Repository layout
 
-# Everything you need
+The monorepo layout follows upstream (`packages/twenty-server`,
+`packages/twenty-front`, `packages/twenty-shared`, …). Package names are kept
+as-is to keep upstream merges simple. Growth OS specific code lives in
+`growth-os/` folders inside the packages and in `scripts/`.
 
-Twenty gives you the building blocks of a modern CRM (objects, views, workflows, and agents) and lets you extend them as code. Here's a tour of what's in the box.
+## Security
 
-Want to go deeper? Read the <a href="https://docs.twenty.com/user-guide/introduction"><img src="./packages/twenty-website/public/images/readme/planner-icon.svg" width="14" height="14"/> User Guide</a> for product walkthroughs, or the <a href="https://docs.twenty.com"><img src="./packages/twenty-website/public/images/readme/book-icon.svg" width="14" height="14"/> Documentation</a> for developer reference.
-
-<table align="center">
-  <tr>
-    <td width="50%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/v2-build-apps-dark.webp" />
-        <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/v2-build-apps-light.webp" />
-        <img src="./packages/twenty-website/public/images/readme/v2-build-apps-light.webp" alt="Create your apps" />
-      </picture>
-      <p align="center"><a href="https://docs.twenty.com/developers/extend/apps/getting-started"><img src="./packages/twenty-website/public/images/readme/code-icon.svg" width="16" height="16"/> Learn more about apps in doc</a></p>
-    </td>
-    <td width="50%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/v2-version-control-dark.webp" />
-        <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/v2-version-control-light.webp" />
-        <img src="./packages/twenty-website/public/images/readme/v2-version-control-light.webp" alt="Stay on top with version control" />
-      </picture>
-      <p align="center"><a href="https://docs.twenty.com/developers/extend/apps/publishing"><img src="./packages/twenty-website/public/images/readme/monitor-icon.svg" width="16" height="16"/> Learn more about version control in doc</a></p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/v2-all-tools-dark.webp" />
-        <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/v2-all-tools-light.webp" />
-        <img src="./packages/twenty-website/public/images/readme/v2-all-tools-light.webp" alt="All the tools you need to build anything" />
-      </picture>
-      <p align="center"><a href="https://docs.twenty.com/developers/extend/apps/building"><img src="./packages/twenty-website/public/images/readme/rocket-icon.svg" width="16" height="16"/> Learn more about primitives in doc</a></p>
-    </td>
-    <td width="50%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/v2-tools-dark.webp" />
-        <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/v2-tools-light.webp" />
-        <img src="./packages/twenty-website/public/images/readme/v2-tools-light.webp" alt="Customize your layouts" />
-      </picture>
-      <p align="center"><a href="https://docs.twenty.com/user-guide/layout/overview"><img src="./packages/twenty-website/public/images/readme/planner-icon.svg" width="16" height="16"/> Learn more about layouts in doc</a></p>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/v2-ai-agents-dark.webp" />
-        <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/v2-ai-agents-light.webp" />
-        <img src="./packages/twenty-website/public/images/readme/v2-ai-agents-light.webp" alt="AI agents and chats" />
-      </picture>
-      <p align="center"><a href="https://docs.twenty.com/user-guide/ai/overview"><img src="./packages/twenty-website/public/images/readme/message-icon.svg" width="16" height="16"/> Learn more about AI in doc</a></p>
-    </td>
-    <td width="50%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./packages/twenty-website/public/images/readme/v2-crm-tools-dark.webp" />
-        <source media="(prefers-color-scheme: light)" srcset="./packages/twenty-website/public/images/readme/v2-crm-tools-light.webp" />
-        <img src="./packages/twenty-website/public/images/readme/v2-crm-tools-light.webp" alt="Plus all the tools of a good CRM" />
-      </picture>
-      <p align="center"><a href="https://docs.twenty.com/user-guide/introduction"><img src="./packages/twenty-website/public/images/readme/star-icon.svg" width="16" height="16"/> Learn more about CRM features in doc</a></p>
-    </td>
-  </tr>
-</table>
-
-<br />
-
-# Stack
-
-- <a href="https://www.typescriptlang.org/"><img src="./packages/twenty-website/public/images/readme/stack-typescript.svg" width="14" height="14"/> TypeScript</a>
-- <a href="https://nx.dev/"><img src="./packages/twenty-website/public/images/readme/stack-nx.svg" width="14" height="14"/> Nx</a>
-- <a href="https://nestjs.com/"><img src="./packages/twenty-website/public/images/readme/stack-nestjs.svg" width="14" height="14"/> NestJS</a>, with <a href="https://bullmq.io/">BullMQ</a>, <a href="https://www.postgresql.org/"><img src="./packages/twenty-website/public/images/readme/stack-postgresql.svg" width="14" height="14"/> PostgreSQL</a>, <a href="https://redis.io/"><img src="./packages/twenty-website/public/images/readme/stack-redis.svg" width="14" height="14"/> Redis</a>
-- <a href="https://reactjs.org/"><img src="./packages/twenty-website/public/images/readme/stack-react.svg" width="14" height="14"/> React</a>, with <a href="https://jotai.org/">Jotai</a>, <a href="https://linaria.dev/">Linaria</a> and <a href="https://lingui.dev/">Lingui</a>
-
-# Thanks
-
-<p align="center">
-  <a href="https://greptile.com"><img src="./packages/twenty-website/public/images/readme/greptile.webp" height="28" alt="Greptile" /></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://sentry.io/"><img src="./packages/twenty-website/public/images/readme/sentry.webp" height="28" alt="Sentry" /></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://crowdin.com/"><img src="./packages/twenty-website/public/images/readme/crowdin.webp" height="28" alt="Crowdin" /></a>
-</p>
-
-Thanks to these amazing services that we use and recommend for code review (Greptile), catching bugs (Sentry) and translating (Crowdin).
-
-# Join the Community
-
-<p><a href="https://github.com/twentyhq/twenty"><img src="./packages/twenty-website/public/images/readme/star-icon.svg" width="12" height="12"/> Star the repo</a> · <a href="https://discord.gg/cx5n4Jzs57"><img src="./packages/twenty-website/public/images/readme/discord-icon.svg" width="12" height="12"/> Discord</a> · <a href="https://github.com/twentyhq/twenty/discussions"><img src="./packages/twenty-website/public/images/readme/message-icon.svg" width="12" height="12"/> Feature requests</a> · <a href="https://github.com/orgs/twentyhq/projects/1/views/35"><img src="./packages/twenty-website/public/images/readme/rocket-icon.svg" width="12" height="12"/> Releases</a> · <a href="https://twitter.com/twentycrm"><img src="./packages/twenty-website/public/images/readme/x-icon.svg" width="12" height="12"/> X</a> · <a href="https://www.linkedin.com/company/twenty/"><img src="./packages/twenty-website/public/images/readme/linkedin-icon.svg" width="12" height="12"/> LinkedIn</a> · <a href="https://twenty.crowdin.com/twenty"><img src="./packages/twenty-website/public/images/readme/language-icon.svg" width="12" height="12"/> Crowdin</a> · <a href="https://github.com/twentyhq/twenty/contribute"><img src="./packages/twenty-website/public/images/readme/code-icon.svg" width="12" height="12"/> Contribute</a></p>
+Report security issues to crm@scalepoint-ventures.com. Please do not open
+public issues for vulnerabilities.

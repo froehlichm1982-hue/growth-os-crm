@@ -1,0 +1,131 @@
+name: Upstream sync check
+
+# Reports newer Twenty releases and checks whether they can be merged and
+# stripped. It never pushes and never proposes crossing the permission line:
+# from twenty/v2.41 on, upstream moves record-permission checks into
+# Enterprise files (record sharing, then #29787, #29824, #30007). Such a
+# release is reported as BLOCKED until we have our own AGPL permission layer.
+
+on:
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Upstream tag to test (default: latest twenty/v* release)'
+        required: false
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  NX_DAEMON: 'false'
+  NX_NO_CLOUD: 'true'
+  NODE_OPTIONS: --max-old-space-size=6144
+  UPSTREAM: https://github.com/twentyhq/twenty.git
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch upstream tags
+        run: |
+          git remote add upstream "$UPSTREAM" || true
+          git fetch --no-tags upstream '+refs/tags/twenty/v*:refs/tags/twenty/v*'
+      - name: Pick tags
+        id: tags
+        run: |
+          current=$(git describe --tags --abbrev=0 --match 'twenty/v*' HEAD)
+          if [ -n "${{ inputs.tag }}" ]; then target="${{ inputs.tag }}"; else
+            target=$(curl -fsSL https://api.github.com/repos/twentyhq/twenty/releases/latest | jq -r .tag_name)
+          fi
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+          echo "Current base: \`$current\`, latest upstream: \`$target\`" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$current" = "$target" ]; then echo "uptodate=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Permission line check (report only)
+        if: steps.tags.outputs.uptodate != 'true'
+        id: permline
+        run: |
+          # Known Enterprise permission commit (#30007); any tag containing it is blocked.
+          if git merge-base --is-ancestor b8e9c097d01 "${{ steps.tags.outputs.target }}" 2>/dev/null; then
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+          fi
+          git worktree add -q /tmp/target "${{ steps.tags.outputs.target }}"
+          cp scripts/check-permission-hot-path.ts /tmp/target/scripts/ 2>/dev/null || { mkdir -p /tmp/target/scripts; cp scripts/check-permission-hot-path.ts /tmp/target/scripts/; }
+          cp -r scripts/enterprise-overrides /tmp/target/scripts/
+          npm install --no-save --no-package-lock --prefix /tmp/strip tsx@4 typescript@5.9 >/dev/null
+          if ! (cd /tmp/target && NODE_PATH=/tmp/strip/node_modules /tmp/strip/node_modules/.bin/tsx scripts/check-permission-hot-path.ts) >> "$GITHUB_STEP_SUMMARY" 2>&1; then
+            echo "blocked=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Report blocked upgrade
+        if: steps.permline.outputs.blocked == 'true'
+        run: |
+          {
+            echo "### Upgrade to \`${{ steps.tags.outputs.target }}\` is BLOCKED"
+            echo "Upstream moved record-permission checks on the ORM hot path into Enterprise code."
+            echo "Merging requires our own AGPL permission layer first. Not attempting a merge."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Merge upstream tag (local only)
+        if: steps.tags.outputs.uptodate != 'true' && steps.permline.outputs.blocked != 'true'
+        id: merge
+        run: |
+          git config user.name "growth-os-ci"; git config user.email "ci@invalid"
+          git checkout -b sync/${{ steps.tags.outputs.target }}
+          if ! git merge --no-edit "${{ steps.tags.outputs.target }}"; then
+            # Conflicts on files we stripped: take upstream, the strip runs again.
+            for f in $(git diff --name-only --diff-filter=U); do
+              if jq -e --arg f "$f" '(.stubbed + .deletedEnterprise + .deletedAgplTests) | index($f)' enterprise-strip-manifest.json >/dev/null; then
+                git checkout --theirs -- "$f" 2>/dev/null && git add "$f" || git rm -q "$f"
+              fi
+            done
+            # Upstream CI/CD workflows are not used in this fork.
+            git diff --name-only --diff-filter=U | grep '^\.github/workflows/' | grep -v -E '(ci|upstream-sync)\.yml$' | xargs -r git rm -q
+            left=$(git diff --name-only --diff-filter=U)
+            if [ -n "$left" ]; then
+              echo "### Manual merge conflicts" >> "$GITHUB_STEP_SUMMARY"; echo "$left" | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
+            git commit -qm "merge ${{ steps.tags.outputs.target }}"
+          fi
+          git ls-files .github/workflows | grep -v -E '(ci|upstream-sync)\.yml$' | xargs -r git rm -q
+      - uses: actions/setup-node@v4
+        if: steps.tags.outputs.uptodate != 'true'
+        with:
+          node-version-file: .nvmrc
+      - name: Install
+        if: steps.tags.outputs.uptodate != 'true' && steps.permline.outputs.blocked != 'true'
+        run: corepack enable && yarn install
+      - name: Strip Enterprise files
+        if: steps.tags.outputs.uptodate != 'true' && steps.permline.outputs.blocked != 'true'
+        run: |
+          npx tsx scripts/strip-enterprise.ts | tee -a "$GITHUB_STEP_SUMMARY"
+          npx tsx scripts/strip-enterprise.ts --check
+      - name: Workspace-cap patch target still present (brief 02)
+        if: steps.tags.outputs.uptodate != 'true' && steps.permline.outputs.blocked != 'true'
+        run: |
+          f=packages/twenty-server/src/engine/core-modules/auth/services/sign-in-up.service.ts
+          if ! grep -q "isWorkspaceCountWithinLimit" "$f"; then
+            echo "::error::Growth OS workspace cap (MAX_WORKSPACES) was lost in $f"; exit 1
+          fi
+          if grep -rq "MAX_WORKSPACES_WITHOUT_ENTERPRISE_KEY\|enterprisePlanService.isValid" packages/twenty-server/src/engine/core-modules/auth; then
+            echo "::error::upstream re-introduced the license-key workspace cap, re-apply brief 02"; exit 1
+          fi
+      - name: Typecheck + build
+        if: steps.tags.outputs.uptodate != 'true' && steps.permline.outputs.blocked != 'true'
+        run: |
+          npx tsx scripts/check-permission-hot-path.ts
+          npx nx run twenty-server:typecheck && npx nx run twenty-front:typecheck
+          npx nx run twenty-server:build && npx nx run twenty-front:build
+      - name: Open an issue on failure
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Upstream sync to ${{ steps.tags.outputs.target }} needs attention" \
+            --body "The nightly upstream sync check failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
