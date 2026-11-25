@@ -24,8 +24,14 @@ if (!secret || !to) {
 }
 
 const url = `${flag('url', 'http://127.0.0.1:3000')}/webhooks/growth-os-inbound`;
-const from = flag('from', 'Katrin Vogel <katrin.vogel@kestrel-logistics.example>');
-const visibleTo = flag('visible-to', 'Lena Hartmann <lena@getnordlicht.example>');
+const from = flag(
+  'from',
+  'Katrin Vogel <katrin.vogel@kestrel-logistics.example>',
+);
+const visibleTo = flag(
+  'visible-to',
+  'Lena Hartmann <lena@getnordlicht.example>',
+);
 const cc = flag('cc');
 const subject = flag('subject', 'Renewal terms for 2027');
 const text = flag(
@@ -61,14 +67,18 @@ const signature = createHmac(
   .update(`${timestamp}.${body}`)
   .digest('hex');
 
-const response = await fetch(url, {
-  method: 'POST',
-  headers: {
-    'content-type': 'application/json',
-    'x-growth-os-signature': `t=${timestamp},v1=${signature}`,
-  },
-  body,
-});
+const main = async () => {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-growth-os-signature': `t=${timestamp},v1=${signature}`,
+    },
+    body,
+  });
 
-console.log(response.status, await response.text());
-process.exit(response.ok ? 0 : 1);
+  console.log(response.status, await response.text());
+  process.exit(response.ok ? 0 : 1);
+};
+
+main();
