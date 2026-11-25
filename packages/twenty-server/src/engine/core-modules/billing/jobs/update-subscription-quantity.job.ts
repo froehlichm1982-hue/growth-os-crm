@@ -24,8 +24,6 @@ export class UpdateSubscriptionQuantityJob {
   @Process(UpdateSubscriptionQuantityJob.name) handle(
     data: UpdateSubscriptionQuantityJobData,
   ): Promise<void> {
-    throw new Error(
-      'Growth OS CRM: "UpdateSubscriptionQuantityJob.handle" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }

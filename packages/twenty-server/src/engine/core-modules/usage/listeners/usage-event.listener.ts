@@ -18,8 +18,6 @@ export class UsageEventListener {
   @OnCustomBatchEvent(USAGE_RECORDED) handleUsageRecordedEvent(
     payload: CustomWorkspaceEventBatch<UsageEvent>,
   ): Promise<void> {
-    throw new Error(
-      'Growth OS CRM: "UsageEventListener.handleUsageRecordedEvent" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }

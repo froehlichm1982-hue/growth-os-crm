@@ -21,8 +21,6 @@ export class EnterpriseKeyValidationCronJob {
     ENTERPRISE_KEY_VALIDATION_CRON_PATTERN,
   )
   handle(): Promise<void> {
-    throw new Error(
-      'Growth OS CRM: "EnterpriseKeyValidationCronJob.handle" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }

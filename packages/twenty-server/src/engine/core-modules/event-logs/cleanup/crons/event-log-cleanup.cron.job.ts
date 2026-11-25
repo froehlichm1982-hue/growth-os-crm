@@ -32,9 +32,7 @@ export class EventLogCleanupCronJob {
     EVENT_LOG_CLEANUP_CRON_PATTERN,
   )
   handle(): Promise<void> {
-    throw new Error(
-      'Growth OS CRM: "EventLogCleanupCronJob.handle" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
   private getActiveWorkspaces(): Promise<
     Array<{ id: string; eventLogRetentionDays: number }>

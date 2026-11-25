@@ -254,11 +254,23 @@
     "packages/twenty-shared/src/types/RowLevelPermissionPredicateValue.ts"
   ],
   "overridden": [
+    "packages/twenty-server/src/engine/core-modules/auth/strategies/saml.auth.strategy.ts",
+    "packages/twenty-server/src/engine/core-modules/billing/services/billing-credit.service.ts",
+    "packages/twenty-server/src/engine/core-modules/billing/services/billing-usage.service.ts",
+    "packages/twenty-server/src/engine/core-modules/billing/services/billing.service.ts",
+    "packages/twenty-server/src/engine/core-modules/enterprise/services/custom-ai-provider-access.service.ts",
     "packages/twenty-server/src/engine/core-modules/enterprise/services/enterprise-plan.service.ts",
+    "packages/twenty-server/src/engine/core-modules/usage-limit/services/usage-period.service.ts",
     "packages/twenty-server/src/engine/core-modules/usage/services/usage-recorder.service.ts",
+    "packages/twenty-server/src/engine/core-modules/usage/storage/api-request-context.storage.ts",
+    "packages/twenty-server/src/engine/metadata-modules/flat-row-level-permission-predicate/services/workspace-flat-row-level-permission-predicate-group-map-cache.service.ts",
+    "packages/twenty-server/src/engine/metadata-modules/flat-row-level-permission-predicate/services/workspace-flat-row-level-permission-predicate-map-cache.service.ts",
+    "packages/twenty-server/src/engine/twenty-orm/utils/build-row-level-permission-record-filter.util.ts",
     "packages/twenty-server/src/engine/twenty-orm/utils/render-row-level-permission-filter-to-sql.util.ts",
     "packages/twenty-server/src/engine/twenty-orm/utils/resolve-row-level-permission-record-filter.util.ts",
-    "packages/twenty-server/src/engine/twenty-orm/utils/validate-rls-predicates-for-records.util.ts"
+    "packages/twenty-server/src/engine/twenty-orm/utils/validate-rls-predicates-for-records.util.ts",
+    "packages/twenty-server/src/engine/workspace-manager/workspace-migration/workspace-migration-builder/builders/row-level-permission-predicate-group/workspace-migration-row-level-permission-predicate-group-actions-builder.service.ts",
+    "packages/twenty-server/src/engine/workspace-manager/workspace-migration/workspace-migration-builder/builders/row-level-permission-predicate/workspace-migration-row-level-permission-predicate-actions-builder.service.ts"
   ],
   "deletedEnterprise": [
     "packages/twenty-front/src/modules/auth/graphql/fragments/availableSsoIdentityProvidersFragment.ts",
@@ -444,11 +456,11 @@
   ],
   "runs": [
     {
-      "date": "2026-11-25T15:15:27.810Z",
+      "date": "2026-11-25T16:02:30.519Z",
       "upstreamRef": "twenty/v2.40.2",
       "found": 370,
       "stubbed": 251,
-      "overridden": 5,
+      "overridden": 17,
       "deletedEnterprise": 119,
       "deletedAgplTests": 59
     }

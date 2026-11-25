@@ -23,8 +23,6 @@ export class EventLogCleanupJob {
   @Process(EventLogCleanupJob.name) handle(
     data: EventLogCleanupJobData,
   ): Promise<void> {
-    throw new Error(
-      'Growth OS CRM: "EventLogCleanupJob.handle" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }

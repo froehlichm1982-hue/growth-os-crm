@@ -28,8 +28,6 @@ export class BillingWorkspaceMemberListener {
       ObjectRecordCreateEvent<WorkspaceMemberWorkspaceEntity>
     >,
   ): Promise<any> {
-    throw new Error(
-      'Growth OS CRM: "BillingWorkspaceMemberListener.handleCreateOrDeleteEvent" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }

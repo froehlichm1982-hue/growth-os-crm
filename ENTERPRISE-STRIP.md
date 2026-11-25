@@ -29,7 +29,7 @@ CI runs it on every push.
 
 - Upstream ref: `twenty/v2.40.2`
 - Marked files found: **370**
-- Stubbed: **251** (of which hand-written AGPL overrides: **5**, listed below)
+- Stubbed: **251** (of which hand-written AGPL overrides: **17**, listed below)
 - Deleted Enterprise files: **119**
 - Deleted AGPL tests/stories that imported Enterprise code: **59**
 
@@ -60,11 +60,23 @@ Hand-written replacements in `scripts/enterprise-overrides/` for Enterprise file
 on the hot path, giving the "feature removed" behaviour instead of a throwing
 stub:
 
+- `packages/twenty-server/src/engine/core-modules/auth/strategies/saml.auth.strategy.ts`
+- `packages/twenty-server/src/engine/core-modules/billing/services/billing-credit.service.ts`
+- `packages/twenty-server/src/engine/core-modules/billing/services/billing-usage.service.ts`
+- `packages/twenty-server/src/engine/core-modules/billing/services/billing.service.ts`
+- `packages/twenty-server/src/engine/core-modules/enterprise/services/custom-ai-provider-access.service.ts`
 - `packages/twenty-server/src/engine/core-modules/enterprise/services/enterprise-plan.service.ts`
+- `packages/twenty-server/src/engine/core-modules/usage-limit/services/usage-period.service.ts`
 - `packages/twenty-server/src/engine/core-modules/usage/services/usage-recorder.service.ts`
+- `packages/twenty-server/src/engine/core-modules/usage/storage/api-request-context.storage.ts`
+- `packages/twenty-server/src/engine/metadata-modules/flat-row-level-permission-predicate/services/workspace-flat-row-level-permission-predicate-group-map-cache.service.ts`
+- `packages/twenty-server/src/engine/metadata-modules/flat-row-level-permission-predicate/services/workspace-flat-row-level-permission-predicate-map-cache.service.ts`
+- `packages/twenty-server/src/engine/twenty-orm/utils/build-row-level-permission-record-filter.util.ts`
 - `packages/twenty-server/src/engine/twenty-orm/utils/render-row-level-permission-filter-to-sql.util.ts`
 - `packages/twenty-server/src/engine/twenty-orm/utils/resolve-row-level-permission-record-filter.util.ts`
 - `packages/twenty-server/src/engine/twenty-orm/utils/validate-rls-predicates-for-records.util.ts`
+- `packages/twenty-server/src/engine/workspace-manager/workspace-migration/workspace-migration-builder/builders/row-level-permission-predicate-group/workspace-migration-row-level-permission-predicate-group-actions-builder.service.ts`
+- `packages/twenty-server/src/engine/workspace-manager/workspace-migration/workspace-migration-builder/builders/row-level-permission-predicate/workspace-migration-row-level-permission-predicate-actions-builder.service.ts`
 
 ## Stubbed files by area
 

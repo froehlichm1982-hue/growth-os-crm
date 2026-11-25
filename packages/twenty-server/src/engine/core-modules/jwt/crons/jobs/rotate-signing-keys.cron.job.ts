@@ -25,8 +25,6 @@ export class RotateSigningKeysCronJob {
     ROTATE_SIGNING_KEYS_CRON_PATTERN,
   )
   handle(): Promise<void> {
-    throw new Error(
-      'Growth OS CRM: "RotateSigningKeysCronJob.handle" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }

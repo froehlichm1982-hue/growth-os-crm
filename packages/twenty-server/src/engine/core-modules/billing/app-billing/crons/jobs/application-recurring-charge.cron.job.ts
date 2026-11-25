@@ -31,8 +31,6 @@ export class ApplicationRecurringChargeCronJob {
     APPLICATION_RECURRING_CHARGE_CRON_PATTERN,
   )
   handle(): Promise<any> {
-    throw new Error(
-      'Growth OS CRM: "ApplicationRecurringChargeCronJob.handle" is an Enterprise feature and was removed.',
-    );
+    return undefined as any;
   }
 }
