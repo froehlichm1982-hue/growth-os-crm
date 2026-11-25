@@ -556,6 +556,16 @@ export class ConfigVariables {
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
     description:
+      'Maximum number of workspaces on this server. 0 or unset means unlimited (Growth OS CRM).',
+    type: ConfigVariableType.NUMBER,
+  })
+  @CastToPositiveNumber()
+  @IsOptional()
+  MAX_WORKSPACES = 0;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description:
       'When enabled, server admins can toggle any feature flag for any workspace from the admin panel. Always enabled in development mode and when billing is enabled.',
     type: ConfigVariableType.BOOLEAN,
   })

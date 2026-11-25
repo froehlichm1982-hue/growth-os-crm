@@ -37,7 +37,7 @@ import {
   compareHash,
   hashPassword,
 } from 'src/engine/core-modules/auth/auth.util';
-import { MAX_WORKSPACES_WITHOUT_ENTERPRISE_KEY } from 'src/engine/core-modules/auth/constants/max-workspaces-without-enterprise-key.constants';
+import { isWorkspaceCountWithinLimit } from 'src/engine/core-modules/auth/utils/is-workspace-count-within-limit.util';
 import { getSignUpWithoutWorkspaceDecision } from 'src/engine/core-modules/auth/utils/get-sign-up-without-workspace-decision.util';
 import { hasProvisionedSignUpDestination } from 'src/engine/core-modules/auth/utils/has-provisioned-sign-up-destination.util';
 import { DEFAULT_DPA_REGION } from 'src/engine/core-modules/dpa/config/dpa-region-config.constant';
@@ -52,7 +52,6 @@ import {
   type SignInUpNewUserPayload,
 } from 'src/engine/core-modules/auth/types/signInUp.type';
 import { SubdomainManagerService } from 'src/engine/core-modules/domain/subdomain-manager/services/subdomain-manager.service';
-import { EnterprisePlanService } from 'src/engine/core-modules/enterprise/services/enterprise-plan.service';
 import { ExceptionHandlerService } from 'src/engine/core-modules/exception-handler/exception-handler.service';
 import { FileCorePictureService } from 'src/engine/core-modules/file/file-core-picture/services/file-core-picture.service';
 import { MetricsService } from 'src/engine/core-modules/metrics/metrics.service';
@@ -97,7 +96,6 @@ export class SignInUpService {
     private readonly applicationService: ApplicationService,
     private readonly fileCorePictureService: FileCorePictureService,
     private readonly exceptionHandlerService: ExceptionHandlerService,
-    private readonly enterprisePlanService: EnterprisePlanService,
     private readonly eventLogEmitterService: EventLogEmitterService,
     private readonly billingCreditService: BillingCreditService,
     private readonly billingService: BillingService,
@@ -582,22 +580,22 @@ export class SignInUpService {
     );
   }
 
+  // Growth OS CRM: the workspace cap is a plain config variable
+  // (MAX_WORKSPACES, 0 = unlimited). It never depends on a license key.
   private async assertWorkspaceCountWithinLimit(
     workspaceCount: number,
   ): Promise<void> {
-    if (this.enterprisePlanService.isValid()) {
-      return;
-    }
+    const maxWorkspaces = this.twentyConfigService.get('MAX_WORKSPACES');
 
-    if (workspaceCount < MAX_WORKSPACES_WITHOUT_ENTERPRISE_KEY) {
+    if (isWorkspaceCountWithinLimit({ workspaceCount, maxWorkspaces })) {
       return;
     }
 
     throw new AuthException(
-      `Cannot create more than ${MAX_WORKSPACES_WITHOUT_ENTERPRISE_KEY} workspaces without a valid enterprise key`,
+      `Cannot create more than ${maxWorkspaces} workspaces on this server (MAX_WORKSPACES)`,
       AuthExceptionCode.FORBIDDEN_EXCEPTION,
       {
-        userFriendlyMessage: msg`Workspace limit reached. A valid enterprise key is required to create more workspaces.`,
+        userFriendlyMessage: msg`Workspace limit reached on this server. Please contact support.`,
       },
     );
   }
