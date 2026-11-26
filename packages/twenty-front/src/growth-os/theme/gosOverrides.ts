@@ -98,6 +98,7 @@ const GOS_BRIDGE: Record<string, string> = {
   '--t-background-transparent-strong': 'var(--gos-line)',
   // AA: upstream uses extra-light for real text (counts, footers), so it maps to text-3.
   '--t-font-color-extra-light': 'var(--gos-text-3)',
+  '--t-font-color-light': 'var(--gos-text-3)',
   '--t-font-color-danger': 'var(--gos-danger-ink)',
   '--t-border-color-inverted': 'var(--gos-primary)',
   '--t-border-color-danger': 'var(--gos-danger-line)',
