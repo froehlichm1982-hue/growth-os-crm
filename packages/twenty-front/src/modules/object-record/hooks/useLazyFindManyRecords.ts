@@ -107,9 +107,24 @@ export const useLazyFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
     // the query document changes (e.g. metadata/permissions loading).
     // Calling .retain() keeps the query running to completion even if
     // the ObservableQuery is updated, preventing AbortError rejections.
-    const result = await findManyRecords({
-      variables: defaultVariables,
-    }).retain();
+    let result;
+
+    try {
+      result = await findManyRecords({
+        variables: defaultVariables,
+      }).retain();
+    } catch (thrownError) {
+      // Growth OS: a rejected load (network/5xx after the quick retry) must
+      // reach the inline error card too, not only resolved GraphQL errors.
+      if (growthOsInlineError) {
+        store.set(growthOsListLoadErrorState.atom, {
+          objectNameSingular,
+          error: thrownError as Error,
+        });
+      }
+
+      throw thrownError;
+    }
 
     if (isDefined(result?.error)) {
       handleFindManyRecordsError(result.error);
