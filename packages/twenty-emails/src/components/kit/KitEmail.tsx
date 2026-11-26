@@ -259,8 +259,8 @@ export const KitDetails = ({ rows }: { rows: Array<[string, ReactNode]> }) => (
     <tbody>
       {rows.map(([label, value]) => (
         <tr key={label}>
-          <td className="t3 bd" style={{ padding: '10px 0', borderTop: `1px solid ${KIT.line}`, fontSize: 14, color: KIT.ink3 }}>{label}</td>
-          <td align="right" className="t1 bd" style={{ padding: '10px 0', borderTop: `1px solid ${KIT.line}`, fontSize: 14, fontWeight: 600, color: KIT.ink }}>{value}</td>
+          <td className="t3 bd" style={{ padding: '10px 0', borderTop: `1px solid ${KIT.line}`, fontSize: 14, color: KIT.ink3 }}>{label}<span style={{ display: 'none', msoHide: 'all' } as CSSProperties}>: </span></td>
+          <td align="right" className="t1 bd" style={{ padding: '10px 0', borderTop: `1px solid ${KIT.line}`, fontSize: 14, fontWeight: 600, color: KIT.ink }}>{value}<br style={{ display: 'none' }} /></td>
         </tr>
       ))}
     </tbody>
