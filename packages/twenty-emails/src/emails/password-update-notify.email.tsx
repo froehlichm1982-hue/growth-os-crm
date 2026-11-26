@@ -41,7 +41,7 @@ export const PasswordUpdateNotifyEmail = ({ userName, email, link, locale }: Pas
 
 PasswordUpdateNotifyEmail.PreviewProps = {
   userName: 'Lena',
-  email: 'lena@nordlicht-mail.io',
+  email: 'lena@getnordlicht.example',
   link: 'https://crm.scalepoint-ventures.com',
   locale: 'en',
 } as PasswordUpdateNotifyEmailProps;

@@ -42,7 +42,7 @@ export const ServerAdminAccessChangedEmail = ({ actorName, targetName, targetEma
 ServerAdminAccessChangedEmail.PreviewProps = {
   actorName: 'Lena Hartmann',
   targetName: 'Jonas Berg',
-  targetEmail: 'jonas@nordlicht-mail.io',
+  targetEmail: 'jonas@getnordlicht.example',
   canAccessFullAdminPanel: true,
   canImpersonate: false,
   locale: 'en',

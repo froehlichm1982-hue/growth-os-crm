@@ -1,5 +1,6 @@
 import { type APP_LOCALES } from 'twenty-shared/translations';
 import {
+  KIT,
   KitButton,
   KitDetails,
   KitEmail,
@@ -48,7 +49,7 @@ export const BillingCancellationEmail = ({ userName, workspaceDisplayName, acces
       <KitButton href={link} label={i18n._('Keep my plan')} />
       <KitText>
         {i18n._('Want a copy of your data?')}{' '}
-        <a className="lk" href={exportLink} style={{ color: '#3A7872' }}>{i18n._('Export contacts, companies and deals as CSV')}</a>.
+        <a className="lk" href={exportLink} style={{ color: KIT.link }}>{i18n._('Export contacts, companies and deals as CSV')}</a>.
       </KitText>
       <KitNote>{i18n._('Didn’t cancel? Reply to this email right away and we’ll restore the plan.')}</KitNote>
     </KitEmail>

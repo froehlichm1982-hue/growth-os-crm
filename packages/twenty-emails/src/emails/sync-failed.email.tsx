@@ -57,7 +57,7 @@ export const SyncFailedEmail = ({ userName, accountHandle, provider, channel, fa
 
 SyncFailedEmail.PreviewProps = {
   userName: 'Lena',
-  accountHandle: 'lena@nordlicht-mail.io',
+  accountHandle: 'lena@getnordlicht.example',
   provider: 'google',
   channel: 'email',
   failedAt: new Date('2026-11-25'),

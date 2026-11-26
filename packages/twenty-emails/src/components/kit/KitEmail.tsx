@@ -6,25 +6,35 @@ import { type APP_LOCALES } from 'twenty-shared/translations';
 
 import { createI18nInstance } from 'src/utils/i18n.utils';
 
-// Growth OS shared email template (product standard §6, reference-kit/emails):
-// 600px, #F5F7F9 canvas, white 16px card, eyebrow, DM Serif H1 30/36, one
-// navy bulletproof CTA with a fallback link, a note box, reason + support +
-// company footer, dark-mode classes and a logo swap, hidden preheader.
+import { GOS_EMAIL } from 'src/gos/tokensEmail.generated';
+
+// Growth OS email base, DS v2.5 (design-system/email/base.html): 600px card on
+// the warm canvas, DS header art (light/dark swap), Geist, eyebrow, 26/32 H1,
+// one navy bulletproof CTA with a fallback link, an info box with an accent
+// edge, reason + support + company footer inside the card, dark-mode classes,
+// hidden preheader. All colours come from DS generated/tokens.email.json.
+
+const L = GOS_EMAIL.light;
+const D = GOS_EMAIL.dark;
 
 export const KIT = {
-  canvas: '#F5F7F9',
-  card: '#FFFFFF',
-  line: '#E4E9EF',
-  ink: '#111E32',
-  ink2: '#3B4A5E',
-  ink3: '#5A687C',
-  link: '#3A7872',
-  danger: '#B42318',
-  dangerSoft: '#FEF3F2',
-  warnSoft: '#FFFAEB',
-  warn: '#93370D',
-  font: "Inter,'Segoe UI',Helvetica,Arial,sans-serif",
-  serif: "'DM Serif Display',Georgia,'Times New Roman',serif",
+  canvas: L.bg,
+  card: L.card,
+  line: L.line,
+  ink: L.text,
+  ink2: L.text2,
+  ink3: L.muted,
+  link: L.link,
+  eyebrow: L.eyebrow,
+  button: L.button,
+  buttonText: L.buttonText,
+  info: L.info,
+  code: L.code,
+  font: GOS_EMAIL.font,
+  mono: GOS_EMAIL.mono,
+  edgeInfo: GOS_EMAIL.edge.light.info,
+  edgeDanger: GOS_EMAIL.edge.light.danger,
+  edgeWarn: GOS_EMAIL.edge.light.warning,
 } as const;
 
 export type KitReason = 'security' | 'account' | 'billing' | 'invite' | 'product' | 'admin' | 'test';
@@ -32,19 +42,19 @@ export type KitReason = 'security' | 'account' | 'billing' | 'invite' | 'product
 const KIT_STYLE = `
 :root{color-scheme:light dark;supported-color-schemes:light dark}
 body{margin:0;padding:0;width:100%!important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
-a{text-decoration:underline} .btn:hover{background:#09101B!important}
-.logo-dark{display:none;max-height:0;overflow:hidden;mso-hide:all}
-@media (max-width:520px){.card{border-radius:0!important;border-left:0!important;border-right:0!important;padding:32px 24px!important} .pad{padding-left:24px!important;padding-right:24px!important} h1{font-size:26px!important;line-height:32px!important} .btn{display:block!important;text-align:center!important;height:auto!important;line-height:22px!important;padding:13px 20px!important} .outer{padding:24px 0!important}}
+a{text-decoration:underline} img{-ms-interpolation-mode:bicubic}
+.hdr-d{display:none;max-height:0;overflow:hidden;mso-hide:all}
+@media (max-width:620px){.card{border-radius:0!important} .pad{padding:24px 22px!important} .ft{padding:18px 22px 26px!important} .hdr,.hdr img{border-radius:0!important} .ctat{width:100%!important} .btn{display:block!important;text-align:center!important} .outer{padding:0!important} h1{font-size:24px!important;line-height:30px!important}}
 @media (prefers-color-scheme:dark){
- .bg{background:#0B1320!important} .card{background:#111E32!important;border-color:#24344B!important}
- .t1,h1{color:#F3F5F7!important} .t2{color:#C9D2DD!important} .t3{color:#9FADBE!important} .lk{color:#59C0B6!important}
- .bd{border-color:#24344B!important} .box{background:#1C2B40!important;color:#C9D2DD!important} .eb{color:#59C0B6!important}
- .boxd{background:#3A1714!important;color:#FDA29B!important} .boxw{background:#3A2A0C!important;color:#FEC84B!important}
- .btn{background:#FFFFFF!important;color:#111E32!important}
- .logo-light{display:none!important} .logo-dark{display:block!important;max-height:none!important}
+ .bg{background:${D.bg}!important} .card{background:${D.card}!important;border-color:${D.line}!important}
+ .t1,h1{color:${D.text}!important} .t2{color:${D.text2}!important} .t3,.ft{color:${D.muted}!important} .lk{color:${D.link}!important} .eb{color:${D.eyebrow}!important}
+ .bd{border-color:${D.line}!important} .box{background:${D.info}!important;border-top-color:${D.line}!important;border-right-color:${D.line}!important;border-bottom-color:${D.line}!important;color:${D.text2}!important}
+ .boxd,.boxw{background:${D.info}!important;border-top-color:${D.line}!important;border-right-color:${D.line}!important;border-bottom-color:${D.line}!important;color:${D.text}!important}
+ .btn{background:${D.button}!important;color:${D.buttonText}!important}
+ .hdr{background:${D.bg}!important} .hdr-l{display:none!important} .hdr-d{display:block!important;max-height:none!important}
 }
-[data-ogsc] .t1,[data-ogsc] h1{color:#F3F5F7!important} [data-ogsc] .t2{color:#C9D2DD!important} [data-ogsc] .lk{color:#59C0B6!important}
-[data-ogsb] .card{background:#111E32!important} [data-ogsb] .bg{background:#0B1320!important}
+[data-ogsc] .t1,[data-ogsc] h1{color:${D.text}!important} [data-ogsc] .t2{color:${D.text2}!important} [data-ogsc] .lk,[data-ogsc] .eb{color:${D.link}!important}
+[data-ogsb] .card{background:${D.card}!important} [data-ogsb] .bg{background:${D.bg}!important}
 `;
 
 const PREHEADER_PAD = '&#8199;&#65279;&#847;'.repeat(12);
@@ -61,6 +71,9 @@ type KitEmailProps = {
   // Optional forced scheme for screenshots ('dark' applies the dark classes).
   previewScheme?: 'light' | 'dark';
 };
+
+const legalUrl = (url: string, lang: string) =>
+  lang === 'de' ? url.replace('/growthos/legal/', '/de/growthos/legal/') : url;
 
 export const kitReasonLine = (i18n: I18n, reason: KitReason) => {
   switch (reason) {
@@ -93,8 +106,8 @@ export const KitEmail = ({
 }: KitEmailProps) => {
   const i18n = createI18nInstance(locale);
   const lang = String(locale).split('-')[0];
-  const logo = (variant: 'light' | 'dark') =>
-    `${GROWTH_OS_BRAND.appUrl}/images/growth-os/logo-${variant}@2x.png`;
+  const header = (variant: 'light' | 'dark') =>
+    `${GROWTH_OS_BRAND.appUrl}/images/growth-os/email-header-${variant}@2x.png`;
   const style = previewScheme === 'dark'
     ? KIT_STYLE.replace('@media (prefers-color-scheme:dark){', '@media all{')
     : KIT_STYLE;
@@ -119,43 +132,43 @@ export const KitEmail = ({
           <table role="presentation" width="100%" cellPadding={0} cellSpacing={0} className="bg" style={{ background: KIT.canvas }}>
             <tbody>
               <tr>
-                <td align="center" className="outer" style={{ padding: '40px 16px' }}>
-                  <table role="presentation" width={600} cellPadding={0} cellSpacing={0} style={{ width: '100%', maxWidth: 600 }}>
+                <td align="center" className="outer" style={{ padding: '32px 12px' }}>
+                  <table role="presentation" width={600} cellPadding={0} cellSpacing={0} className="card" style={{ width: '100%', maxWidth: 600, background: KIT.card, border: `1px solid ${KIT.line}`, borderRadius: GOS_EMAIL.radius.card }}>
                     <tbody>
                       <tr>
-                        <td className="pad" style={{ padding: '0 8px 20px' }}>
-                          <img className="logo-light" src={logo('light')} width={140} height={28} alt="ScalePoint Growth OS" style={{ display: 'block', border: 0, height: 28, width: 140 }} />
-                          <div className="logo-dark">
-                            <img src={logo('dark')} width={140} height={28} alt="ScalePoint Growth OS" style={{ display: 'block', border: 0, height: 28, width: 140 }} />
+                        <td className="hdr" style={{ padding: 0, borderRadius: `${GOS_EMAIL.radius.card} ${GOS_EMAIL.radius.card} 0 0`, overflow: 'hidden', background: KIT.canvas }}>
+                          <img className="hdr-l" src={header('light')} width={600} height={120} alt="ScalePoint Ventures" style={{ display: 'block', width: '100%', maxWidth: 600, height: 'auto', border: 0, borderRadius: `${GOS_EMAIL.radius.card} ${GOS_EMAIL.radius.card} 0 0` }} />
+                          <div className="hdr-d">
+                            <img src={header('dark')} width={600} height={120} alt="" style={{ display: 'block', width: '100%', maxWidth: 600, height: 'auto', border: 0, borderRadius: `${GOS_EMAIL.radius.card} ${GOS_EMAIL.radius.card} 0 0` }} />
                           </div>
                         </td>
                       </tr>
                       <tr>
-                        <td className="card" style={{ background: KIT.card, border: `1px solid ${KIT.line}`, borderRadius: 16, padding: '40px 48px', fontFamily: KIT.font }}>
-                          <p className="eb" style={{ margin: '0 0 12px', fontSize: 12, lineHeight: '16px', letterSpacing: '1.6px', textTransform: 'uppercase', fontWeight: 600, color: KIT.link }}>
+                        <td className="pad" style={{ padding: '32px 40px 8px', fontFamily: KIT.font }}>
+                          <p className="eb" style={{ margin: '0 0 10px', fontSize: 12, lineHeight: '16px', letterSpacing: '.08em', textTransform: 'uppercase', fontWeight: 600, color: KIT.eyebrow }}>
                             {eyebrow}
                           </p>
-                          <h1 style={{ margin: '0 0 16px', fontFamily: KIT.serif, fontWeight: 400, fontSize: 30, lineHeight: '36px', letterSpacing: '-0.4px', color: KIT.ink }}>
+                          <h1 style={{ margin: '0 0 12px', fontFamily: KIT.font, fontWeight: 600, fontSize: 26, lineHeight: '32px', letterSpacing: '-.02em', color: KIT.ink }}>
                             {heading}
                           </h1>
                           {children}
                         </td>
                       </tr>
                       <tr>
-                        <td className="pad" style={{ padding: '24px 8px 0', fontFamily: KIT.font, fontSize: 12, lineHeight: '19px', color: KIT.ink3 }}>
+                        <td className="ft" style={{ padding: '22px 40px 30px', fontFamily: KIT.font, fontSize: 12, lineHeight: '18px', color: KIT.ink3 }}>
                           <p className="t3" style={{ margin: '0 0 8px' }}>{kitReasonLine(i18n, reason)}</p>
-                          <p className="t3" style={{ margin: '0 0 8px' }}>
+                          <p className="t3" style={{ margin: '0 0 12px' }}>
                             {i18n._('Questions? Reply to this email or write to')}{' '}
                             <a className="lk" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`} style={{ color: KIT.link }}>{GROWTH_OS_BRAND.supportEmail}</a>.
                           </p>
                           <p className="t3" style={{ margin: 0 }}>
                             ScalePoint Ventures Oy · Almavägen 26, 65610 Mustasaari, Finland · {i18n._('Business ID')} 3620767-9
                             <br />
-                            <a className="lk" href={GROWTH_OS_BRAND.legal.terms} style={{ color: KIT.link }}>{i18n._('Terms')}</a>
+                            <a className="lk" href={legalUrl(GROWTH_OS_BRAND.legal.terms, lang)} style={{ color: KIT.link }}>{i18n._('Terms')}</a>
                             {' · '}
-                            <a className="lk" href={GROWTH_OS_BRAND.legal.privacy} style={{ color: KIT.link }}>{i18n._('Privacy')}</a>
+                            <a className="lk" href={legalUrl(GROWTH_OS_BRAND.legal.privacy, lang)} style={{ color: KIT.link }}>{i18n._('Privacy')}</a>
                             {' · '}
-                            <a className="lk" href={GROWTH_OS_BRAND.legal.notice} style={{ color: KIT.link }}>{i18n._('Legal notice')}</a>
+                            <a className="lk" href={legalUrl(GROWTH_OS_BRAND.legal.notice, lang)} style={{ color: KIT.link }}>{i18n._('Legal notice')}</a>
                             {GROWTH_OS_BRAND.sourceCodeUrl ? (
                               <>
                                 {' · '}
@@ -184,7 +197,7 @@ export const escapeHtml = (value: string) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-const textStyle: CSSProperties = { margin: '0 0 16px', fontSize: 16, lineHeight: '26px', color: KIT.ink2 };
+const textStyle: CSSProperties = { margin: '0 0 16px', fontSize: 15, lineHeight: '24px', color: KIT.ink2 };
 
 export const KitText = ({ children }: { children: ReactNode }) => (
   <p className="t2" style={textStyle}>{children}</p>
@@ -194,16 +207,16 @@ export const KitStrong = ({ children }: { children: ReactNode }) => (
   <b className="t1" style={{ color: KIT.ink }}>{children}</b>
 );
 
-// Bulletproof button: VML roundrect for Outlook, a styled link elsewhere.
-export const KitButton = ({ href, label, width = 260 }: { href: string; label: string; width?: number }) => {
+// Bulletproof button (DS base): VML roundrect for Outlook, a styled link elsewhere.
+export const KitButton = ({ href, label, width = 240 }: { href: string; label: string; width?: number }) => {
   const safeHref = escapeHtml(href);
   const safeLabel = escapeHtml(label);
   const html =
-    `<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safeHref}" style="height:48px;v-text-anchor:middle;width:${width}px;" arcsize="17%" stroke="f" fillcolor="#111E32"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${safeLabel}</center></v:roundrect><![endif]-->` +
-    `<!--[if !mso]><!-- --><a href="${safeHref}" class="btn" style="display:inline-block;background:#111E32;color:#ffffff;font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;line-height:48px;height:48px;padding:0 28px;border-radius:8px;text-decoration:none;mso-hide:all">${safeLabel}</a><!--<![endif]-->`;
+    `<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safeHref}" style="height:46px;v-text-anchor:middle;width:${width}px;" arcsize="22%" stroke="f" fillcolor="${KIT.button}"><w:anchorlock/><center style="color:${KIT.buttonText};font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">${safeLabel}</center></v:roundrect><![endif]-->` +
+    `<!--[if !mso]><!-- --><a href="${safeHref}" class="btn" style="display:inline-block;background:${KIT.button};color:${KIT.buttonText};font-family:${KIT.font.replace(/"/g, "'")};font-size:15px;font-weight:600;line-height:46px;height:46px;padding:0 26px;border-radius:${GOS_EMAIL.radius.button};text-decoration:none;mso-hide:all">${safeLabel}</a><!--<![endif]-->`;
 
   return (
-    <table role="presentation" cellPadding={0} cellSpacing={0} style={{ margin: '8px 0 24px' }}>
+    <table role="presentation" className="ctat" cellPadding={0} cellSpacing={0} style={{ margin: '8px 0 22px' }}>
       <tbody>
         <tr>
           <td dangerouslySetInnerHTML={{ __html: html }} />
@@ -214,28 +227,30 @@ export const KitButton = ({ href, label, width = 260 }: { href: string; label: s
 };
 
 export const KitFallbackLink = ({ href, i18n }: { href: string; i18n: I18n }) => (
-  <p className="t3" style={{ margin: '0 0 24px', fontSize: 13, lineHeight: '20px', color: KIT.ink3 }}>
+  <p className="t3" style={{ margin: '0 0 16px', fontSize: 13, lineHeight: '20px', color: KIT.ink3 }}>
     {i18n._('Button not working? Paste this link into your browser:')}
     <br />
     <a href={href} className="lk" style={{ color: KIT.link, wordBreak: 'break-all' }}>{href}</a>
   </p>
 );
 
+// DS info box: warm surface, hairline, 3px status edge (info / danger / warning).
 export const KitNote = ({ children, tone = 'neutral' }: { children: ReactNode; tone?: 'neutral' | 'danger' | 'warn' }) => {
-  const toneStyle =
-    tone === 'danger'
-      ? { background: KIT.dangerSoft, color: KIT.danger }
-      : tone === 'warn'
-        ? { background: KIT.warnSoft, color: KIT.warn }
-        : { background: KIT.canvas, color: KIT.ink2 };
+  const edge = tone === 'danger' ? KIT.edgeDanger : tone === 'warn' ? KIT.edgeWarn : KIT.edgeInfo;
 
   return (
-    <p
-      className={tone === 'danger' ? 'boxd' : tone === 'warn' ? 'boxw' : 't2 box'}
-      style={{ margin: '0 0 16px', padding: '14px 16px', borderRadius: 8, fontSize: 14, lineHeight: '22px', ...toneStyle }}
-    >
-      {children}
-    </p>
+    <table role="presentation" width="100%" cellPadding={0} cellSpacing={0} style={{ margin: '4px 0 20px' }}>
+      <tbody>
+        <tr>
+          <td
+            className={tone === 'danger' ? 'boxd' : tone === 'warn' ? 'boxw' : 'box'}
+            style={{ background: KIT.info, border: `1px solid ${KIT.line}`, borderLeft: `3px solid ${edge}`, borderRadius: GOS_EMAIL.radius.box, padding: '14px 16px', fontSize: 14, lineHeight: '21px', color: tone === 'neutral' ? KIT.ink2 : KIT.ink }}
+          >
+            {children}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 
