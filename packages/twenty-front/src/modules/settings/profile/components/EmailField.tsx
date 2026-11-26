@@ -101,6 +101,7 @@ export const EmailField = () => {
           disabled={!canEdit || !isEditing}
           fullWidth
           type="email"
+          aria-label={t`Email`}
           onInputEnter={handleSave}
         />
         {isEditing ? (

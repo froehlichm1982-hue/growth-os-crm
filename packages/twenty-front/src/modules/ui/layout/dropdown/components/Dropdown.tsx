@@ -24,7 +24,14 @@ import {
   useFloating,
 } from '@floating-ui/react';
 import { styled } from '@linaria/react';
-import { type MouseEvent, type ReactNode, useCallback } from 'react';
+import {
+  type MouseEvent,
+  type ReactNode,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { flushSync } from 'react-dom';
 import { type Keys } from 'react-hotkeys-hook';
 import { isDefined } from 'twenty-shared/utils';
@@ -189,18 +196,48 @@ export const Dropdown = ({
     ],
   );
 
+  // growth-os (PATCHES.md): when the trigger already holds a native control,
+  // the popup attributes go on that control instead of a wrapping role=button
+  // (axe nested-interactive / aria-command-name).
+  const clickableWrapperRef = useRef<HTMLDivElement | null>(null);
+  const [delegatesToChild, setDelegatesToChild] = useState(false);
+  const setClickableRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      clickableWrapperRef.current = node;
+      refs.setReference(node);
+    },
+    [refs],
+  );
+
+  useLayoutEffect(() => {
+    const inner = clickableWrapperRef.current?.querySelector<HTMLElement>(
+      'button, a[href], input, [role="button"], [tabindex]:not([tabindex="-1"])',
+    );
+
+    setDelegatesToChild(isDefined(inner));
+    if (isDefined(inner)) {
+      inner.setAttribute('aria-controls', `${dropdownId}-options`);
+      inner.setAttribute('aria-expanded', String(isDropdownOpen));
+      inner.setAttribute('aria-haspopup', 'true');
+    }
+  });
+
   return (
     <DropdownComponentInstanceContext.Provider
       value={{ instanceId: dropdownId }}
     >
       {isDefined(clickableComponent) ? (
         <StyledClickableComponent
-          ref={refs.setReference}
+          ref={setClickableRef}
           onClick={handleClickableComponentClick}
-          aria-controls={`${dropdownId}-options`}
-          aria-expanded={isDropdownOpen}
-          aria-haspopup={true}
-          role="button"
+          {...(delegatesToChild
+            ? {}
+            : {
+                'aria-controls': `${dropdownId}-options`,
+                'aria-expanded': isDropdownOpen,
+                'aria-haspopup': true,
+                role: 'button',
+              })}
           width={clickableComponentWidth}
         >
           {clickableComponent}

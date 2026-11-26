@@ -106,8 +106,13 @@ export const KitEmail = ({
 }: KitEmailProps) => {
   const i18n = createI18nInstance(locale);
   const lang = String(locale).split('-')[0];
+  // Same asset modes as the Connect mails (emails/ASSETS.md): "cid" (default) ships the
+  // header art as inline attachments, "url" points at the hosted file.
+  // EMAIL_ASSET_MODE=url switches without template edits.
   const header = (variant: 'light' | 'dark') =>
-    `${GROWTH_OS_BRAND.appUrl}/images/growth-os/email-header-${variant}@2x.png`;
+    process.env.EMAIL_ASSET_MODE === 'url'
+      ? `${GROWTH_OS_BRAND.appUrl}/images/growth-os/email-header-${variant}@2x.png`
+      : `cid:header-${variant}@crm.scalepoint`;
   const style = previewScheme === 'dark'
     ? KIT_STYLE.replace('@media (prefers-color-scheme:dark){', '@media all{')
     : KIT_STYLE;
@@ -146,7 +151,7 @@ export const KitEmail = ({
                       <tr>
                         <td className="pad" style={{ padding: '32px 40px 8px', fontFamily: KIT.font }}>
                           <p className="eb" style={{ margin: '0 0 10px', fontSize: 12, lineHeight: '16px', letterSpacing: '.08em', textTransform: 'uppercase', fontWeight: 600, color: KIT.eyebrow }}>
-                            {eyebrow}
+                            {`CRM · ${eyebrow}`}
                           </p>
                           <h1 style={{ margin: '0 0 12px', fontFamily: KIT.font, fontWeight: 600, fontSize: 26, lineHeight: '32px', letterSpacing: '-.02em', color: KIT.ink }}>
                             {heading}

@@ -6,6 +6,7 @@ import {
   type Transporter,
 } from 'nodemailer';
 
+import { getGrowthOsEmailAttachments } from 'src/engine/core-modules/email/utils/get-growth-os-email-attachments.util';
 import { type EmailDriverInterface } from 'src/engine/core-modules/email/drivers/interfaces/email-driver.interface';
 
 import type SMTPConnection from 'nodemailer/lib/smtp-connection';
@@ -32,7 +33,19 @@ export class SmtpDriver implements EmailDriverInterface {
         ? { ...sendMailOptions, replyTo: this.defaultReplyTo }
         : sendMailOptions;
 
-    await this.transport.sendMail(options).catch((err) => {
+    // Inline header art (cid:) for the Growth OS mail layout.
+    const cidAttachments = getGrowthOsEmailAttachments(options);
+    const withAttachments = cidAttachments.length
+      ? {
+          ...options,
+          attachments: [
+            ...((options.attachments as Array<object> | undefined) ?? []),
+            ...cidAttachments,
+          ],
+        }
+      : options;
+
+    await this.transport.sendMail(withAttachments).catch((err) => {
       this.logger.error(`sending email to '${sendMailOptions.to}': ${err}`);
 
       throw err;

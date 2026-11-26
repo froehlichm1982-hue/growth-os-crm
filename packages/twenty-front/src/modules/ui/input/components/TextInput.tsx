@@ -290,6 +290,7 @@ const TextInputComponent = forwardRef<
       rightAdornment,
       leftAdornment,
       textClickOutsideId,
+      'aria-label': ariaLabel,
     },
     ref,
   ) => {
@@ -348,6 +349,7 @@ const TextInputComponent = forwardRef<
 
             <StyledInput
               id={instanceId}
+              aria-label={ariaLabel}
               width={width}
               data-testid={dataTestId}
               autoComplete={autoComplete ?? 'off'}
