@@ -297,6 +297,11 @@
 
 .gos-auth-sub b { color: var(--gos-text-strong); font-weight: var(--gos-weight-semibold); }
 
+/* DS rhythm: sub → first control 20px (upstream adds 24 + 16 px of wrapper margins). */
+.gos-auth-card div:has(> .gos-auth-sub) + div { margin-top: 0 !important; }
+.gos-auth-card div:has(> .gos-auth-sub) + div > div:first-child { margin-top: var(--gos-space-5) !important; }
+.gos-auth-card div:has(> .gos-auth-sub) .gos-auth-sub { margin-bottom: 0; }
+
 .gos-auth-card form { width: 100%; }
 
 .gos-auth-card input[type='email'],
@@ -395,3 +400,7 @@
 @media (prefers-reduced-motion: reduce) {
   .gos-auth *, .gos-auth *::before, .gos-auth *::after { animation: none !important; transition-duration: 0ms !important; }
 }
+
+/* DS sign-in has one mode switch (top right of the form column). The upstream
+   in-form switch would duplicate it and can disagree with the URL, so it is hidden. */
+.gos-auth .gos-mode-switch { display: none; }

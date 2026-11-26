@@ -3,6 +3,9 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 
 import { growthOsAuthAlertState } from '~/growth-os/auth/growthOsAuthAlertState';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
+
+const GosAlertIcon = createGosIcon('circle-alert', 'GosAuthAlertIcon');
 
 const formatCountdown = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
@@ -32,10 +35,7 @@ export const GrowthOsAuthAlert = ({ onResetPassword }: { onResetPassword?: () =>
 
   return (
     <div className={`gos-alert gos-alert-${alert.tone}`} role="alert" data-testid="growth-os-auth-alert">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M8 4.8v3.6M8 10.9v.1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
+      <GosAlertIcon size={16} />
       <div>
         {remaining !== null ? (
           <>

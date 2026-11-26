@@ -533,7 +533,7 @@ html:root .growth-os-record-hero h3 * {
 }
 
 /* 10. Pipeline board: DS stage colours (color.stage) on every column header
-   chip; columns carry a faint stage tint; white deal cards. */
+   chip; columns stay neutral (2% stage tint on bg-sunken) with a 3px stage edge; white deal cards. */
 .growth-os-board-column,
 .growth-os-board-column-header {
   --stage: var(--gos-stage-new);
@@ -549,7 +549,7 @@ html:root .growth-os-record-hero h3 * {
 [data-growth-os-stage-value='LOST'] { --stage: var(--gos-stage-lost); }
 
 html:root .growth-os-board-column {
-  background: color-mix(in srgb, var(--stage) 5%, var(--gos-bg-subtle)) !important;
+  background: color-mix(in srgb, var(--stage) 2%, var(--gos-bg-sunken)) !important;
   border-left: none !important;
   border-radius: 0 0 var(--gos-radius-lg) var(--gos-radius-lg);
   margin: 0 5px;
@@ -557,7 +557,7 @@ html:root .growth-os-board-column {
 }
 
 html:root .growth-os-board-column-header {
-  background: color-mix(in srgb, var(--stage) 5%, var(--gos-bg-subtle)) !important;
+  background: color-mix(in srgb, var(--stage) 2%, var(--gos-bg-sunken)) !important;
   border-left: none !important;
   border-radius: var(--gos-radius-lg) var(--gos-radius-lg) 0 0;
   box-shadow: inset 0 3px 0 var(--stage);

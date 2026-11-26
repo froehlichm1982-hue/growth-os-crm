@@ -7,29 +7,22 @@ import {
   growthOsResetCooldownSeconds,
   growthOsResetSentState,
 } from '~/growth-os/auth/growthOsAuthAlertState';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 
-export const GrowthOsStateIcon = ({ tone = 'info', kind }: { tone?: 'info' | 'danger' | 'success'; kind: 'mail' | 'clock' | 'lock' }) => (
-  <div className={`gos-state-icon gos-state-icon-${tone}`} aria-hidden="true">
-    {kind === 'mail' && (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M4 7l8 6 8-6" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-      </svg>
-    )}
-    {kind === 'clock' && (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    )}
-    {kind === 'lock' && (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" strokeWidth="1.8" />
-      </svg>
-    )}
-  </div>
-);
+const GOS_STATE_ICONS = {
+  mail: createGosIcon('mail', 'GosStateMail'),
+  clock: createGosIcon('clock', 'GosStateClock'),
+  lock: createGosIcon('lock', 'GosStateLock'),
+};
+
+export const GrowthOsStateIcon = ({ tone = 'info', kind }: { tone?: 'info' | 'danger' | 'success'; kind: 'mail' | 'clock' | 'lock' }) => {
+  const StateIcon = GOS_STATE_ICONS[kind];
+  return (
+    <div className={`gos-state-icon gos-state-icon-${tone}`} aria-hidden="true">
+      <StateIcon size={24} />
+    </div>
+  );
+};
 
 // Kit reset-sent card: neutral wording (never confirms an account exists),
 // three next steps, resend with a live cooldown (60 s, then 120 s).

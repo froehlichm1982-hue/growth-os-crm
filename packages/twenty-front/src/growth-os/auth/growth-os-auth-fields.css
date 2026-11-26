@@ -23,8 +23,8 @@
 
 .gos-input::placeholder { color: var(--gos-text-3); opacity: 1; }
 .gos-input:hover { border-color: var(--c-ink-3); }
-.gos-input:focus { border-color: var(--c-accent); box-shadow: 0 0 0 3px rgba(70, 145, 137, 0.22); }
-.gos-input[aria-invalid='true'] { border-color: var(--c-danger); box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12); }
+.gos-input:focus { border-color: var(--c-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gos-focus) 18%, transparent); }
+.gos-input[aria-invalid='true'] { border-color: var(--c-danger); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gos-danger-fill) 14%, transparent); }
 .gos-input[readonly] { background: var(--c-bg-subtle); color: var(--c-ink-2); }
 .gos-has-toggle { padding-right: 46px; }
 

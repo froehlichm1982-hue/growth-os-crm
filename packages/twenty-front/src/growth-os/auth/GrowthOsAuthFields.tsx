@@ -15,30 +15,22 @@ import {
   growthOsPasswordScore,
 } from '~/growth-os/auth/growthOsPasswordRules';
 
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
+
 import './growth-os-auth-fields.css';
 
 // Kit form fields for auth (product standard §4.1 / §4.2): label above the
 // field, reserved message slot, 44px controls, password toggle + Caps Lock
 // hint, live rules + 4-segment strength meter for new passwords.
 
-const ErrorIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M8 4.8v3.6M8 10.9v.1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-  </svg>
-);
+const GosCircleAlert = createGosIcon('circle-alert', 'GosFieldAlert');
+const GosEye = createGosIcon('eye', 'GosEye');
+const GosEyeOff = createGosIcon('eye-off', 'GosEyeOff');
+
+const ErrorIcon = () => <GosCircleAlert size={14} />;
 
 const Eye = ({ off }: { off: boolean }) =>
-  off ? (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.1A9.8 9.8 0 0112 5c5 0 9 4.5 10 7a12.6 12.6 0 01-3.2 4.3M6.6 6.6C4.4 8 2.8 10.1 2 12c1 2.5 5 7 10 7a9.6 9.6 0 004.4-1" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  ) : (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M2 12c1-2.5 5-7 10-7s9 4.5 10 7c-1 2.5-5 7-10 7S3 14.5 2 12z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.7" />
-    </svg>
-  );
+  off ? <GosEyeOff size={18} /> : <GosEye size={18} />;
 
 type FieldShellProps = {
   id: string;
