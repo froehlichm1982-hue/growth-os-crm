@@ -95,3 +95,19 @@
   --focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px #469189;
   color-scheme: light;
 }
+
+/* Board in dark mode: stage columns are a faint stage tint over the dark
+   subtle surface (the light soft tints read as bright slabs on navy). */
+.dark {
+  --c-info: #7cb4f5;
+  --c-info-soft: #12253f;
+}
+
+.dark .growth-os-board-column,
+.dark .growth-os-board-column-header,
+.dark [data-growth-os-stage-value].growth-os-board-column,
+.dark [data-growth-os-stage-value].growth-os-board-column-header,
+.dark [data-growth-os-stage-value] .growth-os-board-column,
+.dark [data-growth-os-stage-value] .growth-os-board-column-header {
+  --stage-bg: color-mix(in srgb, var(--stage) 7%, var(--c-bg-subtle));
+}
