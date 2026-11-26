@@ -8,7 +8,9 @@ import {
 } from 'src/engine/core-modules/growth-os/growth-os-plan.constants';
 import { signGrowthOsPayload } from 'src/engine/core-modules/growth-os/utils/growth-os-signature.util';
 
-export type GrowthOsBillingSessionKind = 'checkout' | 'portal';
+// 'cancel' asks growth-os-billing for a cancel-confirmation session (Stripe
+// portal subscription_cancel flow); without the service it falls back to the portal.
+export type GrowthOsBillingSessionKind = 'checkout' | 'portal' | 'cancel';
 
 // Thin client for growth-os-billing (private service; no Stripe code here).
 // Expected API (documented in GROWTH-OS-BILLING.md):
@@ -51,6 +53,7 @@ export class GrowthOsBillingClient {
     interval,
     seats,
     returnUrl,
+    reason,
   }: {
     kind: GrowthOsBillingSessionKind;
     workspaceId: string;
@@ -58,6 +61,7 @@ export class GrowthOsBillingClient {
     interval: GrowthOsBillingInterval;
     seats: number;
     returnUrl: string;
+    reason?: string;
   }): Promise<string> {
     const lookupKey = getGrowthOsLookupKey(plan, interval);
 
@@ -69,6 +73,7 @@ export class GrowthOsBillingClient {
         lookupKey,
         seats,
         returnUrl,
+        ...(reason ? { reason } : {}),
       });
 
       if (typeof result?.url === 'string') return result.url;
@@ -78,7 +83,7 @@ export class GrowthOsBillingClient {
 
     const { checkoutUrl, portalUrl } = getGrowthOsConfig();
 
-    if (kind === 'portal') return portalUrl;
+    if (kind === 'portal' || kind === 'cancel') return portalUrl;
 
     const url = new URL(checkoutUrl);
 

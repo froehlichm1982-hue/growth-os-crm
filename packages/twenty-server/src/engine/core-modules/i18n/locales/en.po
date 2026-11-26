@@ -88,11 +88,6 @@ msgstr "{fieldType} fields cannot have a default value."
 msgid "{fullMessage}"
 msgstr "{fullMessage}"
 
-#. js-lingui-id: iEZavm
-#: src/engine/core-modules/dns-manager/services/dns-manager.service.ts
-msgid "{hostnameCount} hostnames found for domain '{domainName}'. Expect 1"
-msgstr "{hostnameCount} hostnames found for domain '{domainName}'. Expect 1"
-
 #. js-lingui-id: dmxzg7
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workspace-member-standard-flat-field-metadata.util.ts
 msgctxt "fieldMetadata.label"
@@ -169,11 +164,6 @@ msgstr "A duplicate entry was detected."
 msgid "A field with this name already exists."
 msgstr "A field with this name already exists."
 
-#. js-lingui-id: cWaEaJ
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "A free development instance requires an active production instance on this enterprise subscription."
-msgstr "A free development instance requires an active production instance on this enterprise subscription."
-
 #. js-lingui-id: D0Kuk1
 #: src/engine/metadata-modules/front-component/front-component.exception.ts
 msgid "A front component with this name already exists."
@@ -189,11 +179,6 @@ msgstr "A function with this name already exists."
 msgctxt "objectMetadata.description"
 msgid "A hand-picked audience of people"
 msgstr "A hand-picked audience of people"
-
-#. js-lingui-id: TF/ZV2
-#: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
-msgid "A heads up before your Twenty trial ends"
-msgstr "A heads up before your Twenty trial ends"
 
 #. js-lingui-id: 6yZjO1
 #: src/engine/core-modules/application/application.exception.ts
@@ -268,12 +253,6 @@ msgstr "A path segment contains invalid characters. Only alphanumeric, dots, das
 #: src/engine/core-modules/file-storage/utils/validate-path-segments-safety.util.ts
 msgid "A path segment exceeds the maximum length of 255 characters"
 msgstr "A path segment exceeds the maximum length of 255 characters"
-
-#. js-lingui-id: W6LTzL
-#: src/engine/core-modules/billing/billing.exception.ts
-#: src/engine/core-modules/billing/utils/billing-graphql-api-exception-handler.util.ts
-msgid "A payment processing error occurred."
-msgstr "A payment processing error occurred."
 
 #. js-lingui-id: K1qNjB
 #: src/engine/workspace-manager/twenty-standard-application/utils/object-metadata/create-standard-flat-object-metadata.util.ts
@@ -533,16 +512,6 @@ msgctxt "commandMenuItem.shortLabel"
 msgid "Accounts"
 msgstr "Accounts"
 
-#. js-lingui-id: j0DfGR
-#: src/engine/core-modules/auth/services/reset-password.service.ts
-msgid "Action Needed to Reset Password"
-msgstr "Action Needed to Reset Password"
-
-#. js-lingui-id: 8Q5bRY
-#: src/engine/core-modules/auth/services/reset-password.service.ts
-msgid "Action Needed to Set Password"
-msgstr "Action Needed to Set Password"
-
 #. js-lingui-id: X2aLVJ
 #: src/engine/workspace-manager/twenty-standard-application/constants/standard-command-menu-item.constant.ts
 msgctxt "commandMenuItem.shortLabel"
@@ -776,16 +745,6 @@ msgctxt "objectMetadata.description"
 msgid "An opportunity"
 msgstr "An opportunity"
 
-#. js-lingui-id: Tstlpf
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "An unexpected billing error occurred."
-msgstr "An unexpected billing error occurred."
-
-#. js-lingui-id: U8C7oj
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "An unexpected billing error occurred. Please contact support."
-msgstr "An unexpected billing error occurred. Please contact support."
-
 #. js-lingui-id: acTNEg
 #: src/engine/core-modules/twenty-config/twenty-config.exception.ts
 msgid "An unexpected configuration error occurred."
@@ -805,7 +764,6 @@ msgstr "An unexpected error occurred while handling the server route."
 #: src/database/clickhouse/clickhouse.exception.ts
 #: src/engine/core-modules/cache-storage/exceptions/cache-storage.exception.ts
 #: src/engine/core-modules/emailing-domain/exceptions/email-group-access.exception.ts
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
 #: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate.exception.ts
 #: src/engine/metadata-modules/view-field/filters/view-field-rest-api-exception.filter.ts
 #: src/engine/metadata-modules/view-filter-group/filters/view-filter-group-rest-api-exception.filter.ts
@@ -1154,16 +1112,6 @@ msgctxt "fieldMetadata.description"
 msgid "Audio-only recording"
 msgstr "Audio-only recording"
 
-#. js-lingui-id: aepsXP
-#: src/engine/core-modules/event-logs/event-logs.exception.ts
-msgid "Audit logs require an Enterprise subscription."
-msgstr "Audit logs require an Enterprise subscription."
-
-#. js-lingui-id: PKMDuT
-#: src/engine/core-modules/event-logs/event-logs.exception.ts
-msgid "Audit logs require ClickHouse to be configured."
-msgstr "Audit logs require ClickHouse to be configured."
-
 #. js-lingui-id: DBHTm/
 #: src/engine/api/graphql/graphql-query-runner/group-by/resolvers/utils/format-result-with-group-by-dimension-values.util.ts
 msgid "August"
@@ -1242,31 +1190,6 @@ msgstr "Bcc"
 msgctxt "commandMenuItem.shortLabel"
 msgid "Billing"
 msgstr "Billing"
-
-#. js-lingui-id: rkIGWa
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Billing customer not found."
-msgstr "Billing customer not found."
-
-#. js-lingui-id: HVTHL6
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Billing meter not found."
-msgstr "Billing meter not found."
-
-#. js-lingui-id: FNftTK
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Billing plan not found."
-msgstr "Billing plan not found."
-
-#. js-lingui-id: LI7tcn
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Billing price not found."
-msgstr "Billing price not found."
-
-#. js-lingui-id: DDKhmc
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Billing product not found."
-msgstr "Billing product not found."
 
 #. js-lingui-id: /q4AFh
 #: src/engine/workspace-manager/twenty-standard-application/constants/standard-command-menu-item.constant.ts
@@ -1923,70 +1846,10 @@ msgstr "Cannot modify predicate belonging to a different object."
 msgid "Cannot modify predicate belonging to a different role."
 msgstr "Cannot modify predicate belonging to a different role."
 
-#. js-lingui-id: eiujBX
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
-msgid "Cannot modify predicate group belonging to a different object."
-msgstr "Cannot modify predicate group belonging to a different object."
-
-#. js-lingui-id: 3niIR5
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
-msgid "Cannot modify predicate group belonging to a different role."
-msgstr "Cannot modify predicate group belonging to a different role."
-
-#. js-lingui-id: Su850d
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Cannot modify predicate group to change its object"
-msgstr "Cannot modify predicate group to change its object"
-
-#. js-lingui-id: /lHFxo
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Cannot modify predicate group to change its object from {existingObjectMetadataIdentifier} to {updatedObjectMetadataIdentifier}"
-msgstr "Cannot modify predicate group to change its object from {existingObjectMetadataIdentifier} to {updatedObjectMetadataIdentifier}"
-
-#. js-lingui-id: jm1hwE
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Cannot modify predicate group to change its role"
-msgstr "Cannot modify predicate group to change its role"
-
-#. js-lingui-id: yxykz2
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Cannot modify predicate group to change its role from {existingRoleIdentifier} to {updatedRoleIdentifier}"
-msgstr "Cannot modify predicate group to change its role from {existingRoleIdentifier} to {updatedRoleIdentifier}"
-
-#. js-lingui-id: HDo5ie
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Cannot modify predicate to change its object"
-msgstr "Cannot modify predicate to change its object"
-
-#. js-lingui-id: ku/9og
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Cannot modify predicate to change its object from {existingObjectMetadataIdentifier} to {updatedObjectMetadataIdentifier}"
-msgstr "Cannot modify predicate to change its object from {existingObjectMetadataIdentifier} to {updatedObjectMetadataIdentifier}"
-
-#. js-lingui-id: 7JaPm8
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Cannot modify predicate to change its role"
-msgstr "Cannot modify predicate to change its role"
-
-#. js-lingui-id: uoi9Wy
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Cannot modify predicate to change its role from {existingRoleIdentifier} to {updatedRoleIdentifier}"
-msgstr "Cannot modify predicate to change its role from {existingRoleIdentifier} to {updatedRoleIdentifier}"
-
 #. js-lingui-id: Q0diyJ
 #: src/engine/metadata-modules/permissions/permissions.exception.ts
 msgid "Cannot remove the last admin from the workspace."
 msgstr "Cannot remove the last admin from the workspace."
-
-#. js-lingui-id: wNJvot
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Cannot switch subscription interval."
-msgstr "Cannot switch subscription interval."
-
-#. js-lingui-id: U/P/gT
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Cannot switch subscription plan."
-msgstr "Cannot switch subscription plan."
 
 #. js-lingui-id: jNnzPT
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/validate-role-belongs-to-caller-application.util.ts
@@ -2211,6 +2074,11 @@ msgctxt "fieldMetadata.label"
 msgid "Complained count"
 msgstr "Complained count"
 
+#. js-lingui-id: c9jNCJ
+#: src/engine/core-modules/tool-provider/constants/action-tool-label.constant.ts
+msgid "Complete File Upload"
+msgstr "Complete File Upload"
+
 #. js-lingui-id: DjvRWr
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workflow-run-standard-flat-field-metadata.util.ts
@@ -2343,6 +2211,16 @@ msgstr "Configuration validation failed."
 msgid "Configuration variable not found."
 msgstr "Configuration variable not found."
 
+#. js-lingui-id: RPHFhC
+#: src/engine/core-modules/email-verification/services/email-verification.service.ts
+msgid "Confirm your email address"
+msgstr "Confirm your email address"
+
+#. js-lingui-id: ryglCn
+#: src/engine/core-modules/email-verification/services/email-verification.service.ts
+msgid "Confirm your new email address"
+msgstr "Confirm your new email address"
+
 #. js-lingui-id: WtMHh6
 #: src/engine/core-modules/record-transformer/record-transformer.exception.ts
 msgid "Conflicting phone calling code and country code."
@@ -2368,6 +2246,11 @@ msgstr "Connect is not allowed for {connectFieldName} on {objectMetadataNameSing
 #: src/engine/metadata-modules/connected-account/connected-account.exception.ts
 msgid "Connected account not found."
 msgstr "Connected account not found."
+
+#. js-lingui-id: lAyVpb
+#: src/engine/core-modules/application/connection-provider/connection-provider.exception.ts
+msgid "Connection not found."
+msgstr "Connection not found."
 
 #. js-lingui-id: xQ2DfP
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-connection-provider-validator.service.ts
@@ -2593,6 +2476,11 @@ msgstr "Create"
 msgid "Create Calendar Event"
 msgstr "Create Calendar Event"
 
+#. js-lingui-id: AIGOKT
+#: src/engine/core-modules/tool-provider/constants/action-tool-label.constant.ts
+msgid "Create File Upload"
+msgstr "Create File Upload"
+
 #. js-lingui-id: fOgbeX
 #: src/engine/workspace-manager/twenty-standard-application/constants/standard-command-menu-item.constant.ts
 msgctxt "commandMenuItem.label"
@@ -2655,6 +2543,11 @@ msgstr "Created by"
 #: src/engine/metadata-modules/flat-field-metadata/utils/from-create-field-input-to-flat-field-metadatas-to-create.util.ts
 msgid "Created field metadata, parent object metadata not found"
 msgstr "Created field metadata, parent object metadata not found"
+
+#. js-lingui-id: tpPGe6
+#: src/engine/record-share/utils/validate-share-with-arg-or-throw.util.ts
+msgid "Creating a record of a private object requires the shareWith argument"
+msgstr "Creating a record of a private object requires the shareWith argument"
 
 #. js-lingui-id: ezEYQZ
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/build-standard-target-flat-field-metadatas.util.ts
@@ -2750,16 +2643,6 @@ msgstr "Creation Form"
 #: src/engine/core-modules/usage-limit/services/usage-limit-quota.service.ts
 msgid "Credit allowance exhausted for this billing period."
 msgstr "Credit allowance exhausted for this billing period."
-
-#. js-lingui-id: iMikvq
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Credit grant must expire after it becomes effective."
-msgstr "Credit grant must expire after it becomes effective."
-
-#. js-lingui-id: J0OIhA
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Credit grant not found."
-msgstr "Credit grant not found."
 
 #. js-lingui-id: OZIOad
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workflow-automated-trigger-standard-flat-field-metadata.util.ts
@@ -3263,11 +3146,6 @@ msgstr "Display Name"
 msgid "Domain already used for workspace custom domain"
 msgstr "Domain already used for workspace custom domain"
 
-#. js-lingui-id: 2sIVDj
-#: src/engine/core-modules/dns-manager/services/dns-manager.service.ts
-msgid "Domain is already registered"
-msgstr "Domain is already registered"
-
 #. js-lingui-id: PfJswy
 #: src/engine/core-modules/domain/custom-domain-manager/services/custom-domain-manager.service.ts
 msgid "Domain is already registered as public domain"
@@ -3284,6 +3162,11 @@ msgstr "Domain Name"
 msgctxt "commandMenuItem.shortLabel"
 msgid "Domains"
 msgstr "Domains"
+
+#. js-lingui-id: 0qAY6j
+#: src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util.ts
+msgid "Don’t use your email name in your password."
+msgstr "Don’t use your email name in your password."
 
 #. js-lingui-id: uyJle/
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-task-standard-flat-field-metadata.util.ts
@@ -3359,6 +3242,11 @@ msgstr "Duplicate Workflow"
 #: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-enum-flat-field-metadata.util.ts
 msgid "Duplicated option {field}"
 msgstr "Duplicated option {field}"
+
+#. js-lingui-id: nTBzmZ
+#: src/engine/record-share/utils/resolve-share-with-principal-or-throw.util.ts
+msgid "Each shareWith entry must target exactly one of workspaceMemberId, roleId or everyone"
+msgstr "Each shareWith entry must target exactly one of workspaceMemberId, roleId or everyone"
 
 #. js-lingui-id: zhhpvr
 #: src/engine/workspace-manager/twenty-standard-application/constants/standard-command-menu-item.constant.ts
@@ -3540,6 +3428,11 @@ msgstr "Emails"
 #: src/engine/metadata-modules/permissions/permissions.exception.ts
 msgid "Empty field permissions are not allowed."
 msgstr "Empty field permissions are not allowed."
+
+#. js-lingui-id: xFJpEE
+#: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-searchable-flat-field-metadata.util.ts
+msgid "Enable search on this object before adding searchable fields"
+msgstr "Enable search on this object before adding searchable fields"
 
 #. js-lingui-id: ovnbNI
 #: src/engine/core-modules/admin-panel/services/admin-panel-server-admin.service.ts
@@ -3877,11 +3770,6 @@ msgstr "Failed to load queue jobs. Please try again later."
 msgid "Failed to receive real time updates."
 msgstr "Failed to receive real time updates."
 
-#. js-lingui-id: /E7MoD
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Failed to record billing event."
-msgstr "Failed to record billing event."
-
 #. js-lingui-id: eQmx6a
 #: src/engine/core-modules/application/connection-provider/connection-provider.exception.ts
 msgid "Failed to refresh the access token."
@@ -3962,10 +3850,6 @@ msgstr "Field label identifier is required"
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-field-permission-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-field-permission-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-field-permission-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-search-field-metadata-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-search-field-metadata-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-view-field-validator.service.ts
@@ -4322,6 +4206,11 @@ msgstr "Filtering or ordering through this relation is not supported."
 msgid "Find"
 msgstr "Find"
 
+#. js-lingui-id: klz9oi
+#: src/engine/core-modules/tool-provider/constants/action-tool-label.constant.ts
+msgid "Find Connected Accounts"
+msgstr "Find Connected Accounts"
+
 #. js-lingui-id: 4GaFCQ
 #: src/engine/workspace-manager/workspace-migration/interceptors/utils/__tests__/build-metadata-validation-error-payload.util.spec.ts
 msgid "First friendly message"
@@ -4449,6 +4338,11 @@ msgstr "Full"
 msgctxt "fieldMetadata.label"
 msgid "Full path"
 msgstr "Full path"
+
+#. js-lingui-id: oj6EVd
+#: src/engine/metadata-modules/flat-page-layout-widget/validators/utils/validate-tab-viewport-constraints.util.ts
+msgid "Full-height widgets must be placed after fit-content widgets"
+msgstr "Full-height widgets must be placed after fit-content widgets"
 
 #. js-lingui-id: yQDBsf
 #: src/engine/metadata-modules/logic-function/logic-function.exception.ts
@@ -4810,10 +4704,10 @@ msgctxt "fieldMetadata.label"
 msgid "Id"
 msgstr "Id"
 
-#. js-lingui-id: 6cVc+b
-#: src/engine/core-modules/sso/sso.exception.ts
-msgid "Identity provider not found."
-msgstr "Identity provider not found."
+#. js-lingui-id: ZbNFXE
+#: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-searchable-flat-field-metadata.util.ts
+msgid "Id field cannot be searched"
+msgstr "Id field cannot be searched"
 
 #. js-lingui-id: YcVn4w
 #: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-enum-flat-field-metadata.util.ts
@@ -5074,11 +4968,6 @@ msgstr "Invalid connected account input."
 msgid "Invalid country code {countryCode}"
 msgstr "Invalid country code {countryCode}"
 
-#. js-lingui-id: vplJ+F
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Invalid credit amount."
-msgstr "Invalid credit amount."
-
 #. js-lingui-id: egz9rA
 #: src/engine/metadata-modules/object-metadata/object-metadata.exception.ts
 msgid "Invalid data format."
@@ -5104,11 +4993,6 @@ msgstr "Invalid email address."
 #: src/modules/blocklist/blocklist-validation-manager/services/blocklist-validation.service.ts
 msgid "Invalid email or domain."
 msgstr "Invalid email or domain."
-
-#. js-lingui-id: pOHI+b
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "Invalid enterprise key."
-msgstr "Invalid enterprise key."
 
 #. js-lingui-id: 8knMLv
 #: src/engine/core-modules/event-logs/emit/event-log-emitter.exception.ts
@@ -5224,11 +5108,6 @@ msgstr "Invalid hour value. Should be integer between 0 and 23"
 msgid "Invalid hour value. Should be integer greater than 1"
 msgstr "Invalid hour value. Should be integer greater than 1"
 
-#. js-lingui-id: 6WLJFQ
-#: src/engine/core-modules/sso/sso.exception.ts
-msgid "Invalid identity provider type."
-msgstr "Invalid identity provider type."
-
 #. js-lingui-id: xfXYBX
 #: src/engine/core-modules/application/application-registration/application-registration.exception.ts
 msgid "Invalid input for application registration."
@@ -5240,11 +5119,6 @@ msgstr "Invalid input for application registration."
 #: src/engine/core-modules/auth/auth.exception.ts
 msgid "Invalid input provided."
 msgstr "Invalid input provided."
-
-#. js-lingui-id: 4MWDA2
-#: src/engine/core-modules/sso/sso.exception.ts
-msgid "Invalid issuer URL."
-msgstr "Invalid issuer URL."
 
 #. js-lingui-id: tm//h9
 #: src/engine/metadata-modules/utils/exceptions/invalid-metadata.exception.ts
@@ -5380,16 +5254,6 @@ msgstr "Invalid phone country code."
 msgid "Invalid phone number."
 msgstr "Invalid phone number."
 
-#. js-lingui-id: r+9b/a
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Invalid price."
-msgstr "Invalid price."
-
-#. js-lingui-id: tkzFzG
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Invalid pricing tiers."
-msgstr "Invalid pricing tiers."
-
 #. js-lingui-id: XBYAgs
 #: src/engine/metadata-modules/connected-account/exceptions/connected-account-refresh-tokens.exception.ts
 msgid "Invalid refresh token."
@@ -5426,11 +5290,6 @@ msgstr "Invalid role target data."
 msgid "Invalid row level permission predicate data."
 msgstr "Invalid row level permission predicate data."
 
-#. js-lingui-id: nwC2sc
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
-msgid "Invalid row level permission predicate group data."
-msgstr "Invalid row level permission predicate group data."
-
 #. js-lingui-id: xzNMzS
 #: src/engine/metadata-modules/logic-function/logic-function.exception.ts
 msgid "Invalid seed project configuration."
@@ -5455,21 +5314,6 @@ msgstr "Invalid string format."
 #: src/engine/core-modules/workspace/workspace.exception.ts
 msgid "Invalid subdomain."
 msgstr "Invalid subdomain."
-
-#. js-lingui-id: SFQl8b
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Invalid subscription interval."
-msgstr "Invalid subscription interval."
-
-#. js-lingui-id: Do5gvp
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Invalid subscription item."
-msgstr "Invalid subscription item."
-
-#. js-lingui-id: mDAXg+
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Invalid subscription."
-msgstr "Invalid subscription."
 
 #. js-lingui-id: WreNd7
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-webhook-validator.service.ts
@@ -5509,6 +5353,7 @@ msgstr "Invalid URL format."
 
 #. js-lingui-id: Z3Su9z
 #: src/engine/api/graphql/workspace-query-runner/utils/assert-is-valid-uuid.util.ts
+#: src/engine/record-share/utils/resolve-share-with-principal-or-throw.util.ts
 msgid "Invalid UUID format."
 msgstr "Invalid UUID format."
 
@@ -5772,11 +5617,6 @@ msgctxt "fieldMetadata.label"
 msgid "Is Organizer"
 msgstr "Is Organizer"
 
-#. js-lingui-id: 1bOGPq
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "IS_CONFIG_VARIABLES_IN_DB_ENABLED is false on your server. Please add ENTERPRISE_KEY to your .env file manually."
-msgstr "IS_CONFIG_VARIABLES_IN_DB_ENABLED is false on your server. Please add ENTERPRISE_KEY to your .env file manually."
-
 #. js-lingui-id: rjyWPb
 #: src/engine/api/graphql/graphql-query-runner/group-by/resolvers/utils/format-result-with-group-by-dimension-values.util.ts
 msgid "January"
@@ -5800,10 +5640,10 @@ msgctxt "objectMetadata.description"
 msgid "Join table linking message channel message associations to message folders"
 msgstr "Join table linking message channel message associations to message folders"
 
-#. js-lingui-id: PviVyk
+#. js-lingui-id: 3qNwLG
 #: src/engine/core-modules/workspace-invitation/services/workspace-invitation.service.ts
-msgid "Join your team on Twenty"
-msgstr "Join your team on Twenty"
+msgid "Join your team on Growth OS CRM"
+msgstr "Join your team on Growth OS CRM"
 
 #. js-lingui-id: +KEn4d
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
@@ -5934,6 +5774,11 @@ msgstr "Label cannot be empty"
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-field-metadata-validator.service.ts
 msgid "Label identifier field cannot be deactivated"
 msgstr "Label identifier field cannot be deactivated"
+
+#. js-lingui-id: +LPcfA
+#: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-searchable-flat-field-metadata.util.ts
+msgid "Label identifier field cannot be removed from search"
+msgstr "Label identifier field cannot be removed from search"
 
 #. js-lingui-id: Qx822J
 #: src/engine/metadata-modules/field-metadata/field-metadata.exception.ts
@@ -6779,11 +6624,6 @@ msgstr "Missing decorator configuration."
 msgid "Missing main alias target."
 msgstr "Missing main alias target."
 
-#. js-lingui-id: W5hpOP
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Missing request body."
-msgstr "Missing request body."
-
 #. js-lingui-id: SzCMUQ
 #: src/engine/twenty-orm/utils/compute-relation-connect-query-configs.util.ts
 msgid "Missing required fields: at least one unique constraint have to be fully populated for '{connectFieldName}'."
@@ -6820,11 +6660,6 @@ msgstr "Multi-select field default value must be an array"
 #: src/engine/api/common/common-query-runners/common-create-many-query-runner/utils/get-matching-record-id.util.ts
 msgid "Multiple records found with the same unique field values for {conflictingFieldsValues}. Cannot determine which record to update."
 msgstr "Multiple records found with the same unique field values for {conflictingFieldsValues}. Cannot determine which record to update."
-
-#. js-lingui-id: B9dbXq
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Multiple subscriptions found where one was expected."
-msgstr "Multiple subscriptions found where one was expected."
 
 #. js-lingui-id: egii0n
 #: src/engine/metadata-modules/page-layout/constants/standard-page-layout-names.ts
@@ -7001,11 +6836,6 @@ msgstr "New email must be different from current email"
 #: src/modules/dashboard/chart-data/utils/format-dimension-value.util.ts
 msgid "No"
 msgstr "No"
-
-#. js-lingui-id: LnV8zi
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "No active subscription found."
-msgstr "No active subscription found."
 
 #. js-lingui-id: hQQZse
 #: src/modules/workflow/workflow-trigger/utils/assert-version-can-be-activated.util.ts
@@ -7361,14 +7191,6 @@ msgstr "Object metadata ID"
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-permission-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-page-layout-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-page-layout-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-search-field-metadata-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-search-field-metadata-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/validate-flat-view-creation.util.ts
@@ -7378,7 +7200,6 @@ msgstr "Object metadata not found"
 
 #. js-lingui-id: rHce90
 #: src/engine/metadata-modules/permissions/permissions.exception.ts
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
 #: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate.exception.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-runner/exceptions/workspace-migration-action-execution.exception.ts
 #: src/modules/dashboard/chart-data/exceptions/chart-data.exception.ts
@@ -7517,10 +7338,10 @@ msgstr "One or more redirect URIs are invalid."
 msgid "One or more requested scopes are invalid."
 msgstr "One or more requested scopes are invalid."
 
-#. js-lingui-id: EkozT1
+#. js-lingui-id: B73M2h
 #: src/engine/core-modules/emailing-domain/exceptions/emailing-domain.exception.ts
-msgid "Only a campaign that is currently sending can be canceled."
-msgstr "Only a campaign that is currently sending can be canceled."
+msgid "Only a scheduled or sending campaign can be canceled."
+msgstr "Only a scheduled or sending campaign can be canceled."
 
 #. js-lingui-id: NYONBC
 #: src/engine/core-modules/impersonation/constants/impersonation-denial-by-reason.constant.ts
@@ -7547,6 +7368,11 @@ msgstr "Only error"
 msgid "Only field restrictions are allowed."
 msgstr "Only field restrictions are allowed."
 
+#. js-lingui-id: xzfBXd
+#: src/engine/metadata-modules/flat-page-layout-widget/validators/utils/validate-tab-viewport-constraints.util.ts
+msgid "Only one full-height widget is allowed per tab"
+msgstr "Only one full-height widget is allowed per tab"
+
 #. js-lingui-id: lWLaJ5
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workspace-member-standard-flat-field-metadata.util.ts
 msgctxt "fieldMetadata.label"
@@ -7558,11 +7384,6 @@ msgstr "Open Records In"
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/get-incompatible-view-filter-operand-error.util.ts
 msgid "Operand \"{operand}\" is not supported on field type \"{filterType}\". Supported operands: {0}."
 msgstr "Operand \"{operand}\" is not supported on field type \"{filterType}\". Supported operands: {0}."
-
-#. js-lingui-id: iD+jGc
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Operand \"{operand}\" requires a value, an empty predicate would remove the row restriction entirely"
-msgstr "Operand \"{operand}\" requires a value, an empty predicate would remove the row restriction entirely"
 
 #. js-lingui-id: Rh2dh5
 #: src/engine/metadata-modules/flat-page-layout-widget/validators/utils/validate-chart-filter.util.ts
@@ -7895,14 +7716,6 @@ msgstr "PAGE_LAYOUT navigation menu item must reference a STANDALONE_PAGE page l
 msgid "Parent navigation menu item not found"
 msgstr "Parent navigation menu item not found"
 
-#. js-lingui-id: Xsgh7b
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Parent row level permission predicate group not found"
-msgstr "Parent row level permission predicate group not found"
-
 #. js-lingui-id: 6OzP7Y
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-view-filter-group-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-view-filter-group-validator.service.ts
@@ -7916,16 +7729,6 @@ msgstr "Parent view filter group not found"
 msgctxt "pageLayoutWidget.title"
 msgid "Participants"
 msgstr "Participants"
-
-#. js-lingui-id: /GJDxy
-#: src/engine/core-modules/auth/services/auth.service.ts
-msgid "Password is too weak."
-msgstr "Password is too weak."
-
-#. js-lingui-id: wT0H4O
-#: src/engine/core-modules/auth/services/sign-in-up.service.ts
-msgid "Password too weak"
-msgstr "Password too weak"
 
 #. js-lingui-id: GisVJf
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-command-menu-item-validator.service.ts
@@ -8125,6 +7928,11 @@ msgctxt "fieldMetadata.label"
 msgid "Phones"
 msgstr "Phones"
 
+#. js-lingui-id: T1yaeQ
+#: src/engine/core-modules/emailing-domain/exceptions/emailing-domain.exception.ts
+msgid "Pick a send time in the future."
+msgstr "Pick a send time in the future."
+
 #. js-lingui-id: RrxR7k
 #. placeholder {0}: flatField.label
 #: src/engine/metadata-modules/index-metadata/services/index-metadata.service.ts
@@ -8151,11 +7959,6 @@ msgstr "Please check your connection settings. Make sure the server host, port, 
 #: src/engine/core-modules/admin-panel/admin-panel.exception.ts
 msgid "Please choose an end date and time after the start date and time."
 msgstr "Please choose an end date and time after the start date and time."
-
-#. js-lingui-id: mqzu5F
-#: src/engine/core-modules/email-verification/services/email-verification.service.ts
-msgid "Please confirm your updated email"
-msgstr "Please confirm your updated email"
 
 #. js-lingui-id: Zm9s4F
 #: src/engine/api/common/common-args-processors/data-arg-processor/validator-utils/validate-links-field-or-throw.util.ts
@@ -8263,17 +8066,6 @@ msgstr "Position must be a finite number"
 #: src/engine/metadata-modules/logic-function/logic-function.exception.ts
 msgid "Prebuilt bundle is not installed on the function. Rebuild and try again."
 msgstr "Prebuilt bundle is not installed on the function. Rebuild and try again."
-
-#. js-lingui-id: OAanPr
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Predicate is missing a value"
-msgstr "Predicate is missing a value"
-
-#. js-lingui-id: a/WH2z
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Predicate value is not valid for this operand"
-msgstr "Predicate value is not valid for this operand"
 
 #. js-lingui-id: /h13bI
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workspace-member-standard-flat-field-metadata.util.ts
@@ -8389,11 +8181,6 @@ msgstr "Public domain already registered"
 #: src/engine/core-modules/public-domain/public-domain.exception.ts
 msgid "Public domain not found."
 msgstr "Public domain not found."
-
-#. js-lingui-id: Capzni
-#: src/engine/core-modules/dns-manager/services/dns-manager.service.ts
-msgid "Public domain URL is not defined. Please set the PUBLIC_DOMAIN_URL environment variable"
-msgstr "Public domain URL is not defined. Please set the PUBLIC_DOMAIN_URL environment variable"
 
 #. js-lingui-id: vVCf2E
 #: src/modules/dashboard/chart-data/exceptions/chart-data.exception.ts
@@ -8696,6 +8483,11 @@ msgstr "Requested"
 msgid "Requested file range cannot be served."
 msgstr "Requested file range cannot be served."
 
+#. js-lingui-id: /DWNP8
+#: src/engine/core-modules/auth/services/reset-password.service.ts
+msgid "Reset your Growth OS password"
+msgstr "Reset your Growth OS password"
+
 #. js-lingui-id: MU8Slt
 #: src/engine/core-modules/server-route-trigger/exceptions/server-route-trigger.exception.ts
 msgid "Resolver logic function returned an invalid result."
@@ -8873,14 +8665,6 @@ msgstr "Role name is invalid"
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-role-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-role-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-role-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
 msgid "Role not found"
 msgstr "Role not found"
 
@@ -8888,7 +8672,6 @@ msgstr "Role not found"
 #: src/engine/metadata-modules/ai/ai.exception.ts
 #: src/engine/metadata-modules/permissions/permissions.exception.ts
 #: src/engine/metadata-modules/role/exceptions/role-target.exception.ts
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
 #: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate.exception.ts
 msgid "Role not found."
 msgstr "Role not found."
@@ -8970,73 +8753,15 @@ msgctxt "fieldMetadata.label"
 msgid "Row cause"
 msgstr "Row cause"
 
-#. js-lingui-id: /ruB5e
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Row level permission predicate already exists"
-msgstr "Row level permission predicate already exists"
-
 #. js-lingui-id: RwBHMj
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
 #: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate.exception.ts
 msgid "Row level permission predicate feature is disabled."
 msgstr "Row level permission predicate feature is disabled."
-
-#. js-lingui-id: lG+q53
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Row level permission predicate group already exists"
-msgstr "Row level permission predicate group already exists"
-
-#. js-lingui-id: va8c5P
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Row level permission predicate group not found"
-msgstr "Row level permission predicate group not found"
-
-#. js-lingui-id: HBfLro
-#: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate-group.exception.ts
-msgid "Row level permission predicate group not found."
-msgstr "Row level permission predicate group not found."
-
-#. js-lingui-id: vMP7nZ
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Row level permission predicate group to delete not found"
-msgstr "Row level permission predicate group to delete not found"
-
-#. js-lingui-id: NhW7fb
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Row level permission predicate group to update not found"
-msgstr "Row level permission predicate group to update not found"
-
-#. js-lingui-id: j4iZI5
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-group-validator.service.ts
-msgid "Row level permission predicate group with this universal identifier already exists"
-msgstr "Row level permission predicate group with this universal identifier already exists"
 
 #. js-lingui-id: fEazMl
 #: src/engine/metadata-modules/row-level-permission-predicate/exceptions/row-level-permission-predicate.exception.ts
 msgid "Row level permission predicate not found."
 msgstr "Row level permission predicate not found."
-
-#. js-lingui-id: zdTUvE
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Row level permission predicate to delete not found"
-msgstr "Row level permission predicate to delete not found"
-
-#. js-lingui-id: aeNy7i
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Row level permission predicate to update not found"
-msgstr "Row level permission predicate to update not found"
-
-#. js-lingui-id: B4yoLq
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Row level permission predicate with this universal identifier already exists"
-msgstr "Row level permission predicate with this universal identifier already exists"
 
 #. js-lingui-id: 2feo6q
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-record-share-standard-flat-field-metadata.util.ts
@@ -9091,6 +8816,12 @@ msgstr "Save Dashboard"
 msgctxt "fieldMetadata.label"
 msgid "Scheduled"
 msgstr "Scheduled"
+
+#. js-lingui-id: jYVtFG
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-campaign-standard-flat-field-metadata.util.ts
+msgctxt "fieldMetadata.label"
+msgid "Scheduled at"
+msgstr "Scheduled at"
 
 #. js-lingui-id: V1y7Hg
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-blocklist-standard-flat-field-metadata.util.ts
@@ -9415,6 +9146,11 @@ msgstr "Server-level impersonation is not enabled for this user or workspace."
 msgid "Set up two-factor authentication before impersonating users in another workspace."
 msgstr "Set up two-factor authentication before impersonating users in another workspace."
 
+#. js-lingui-id: ftI+qm
+#: src/engine/core-modules/auth/services/reset-password.service.ts
+msgid "Set your Growth OS password"
+msgstr "Set your Growth OS password"
+
 #. js-lingui-id: vGWuPM
 #: src/engine/workspace-manager/twenty-standard-application/constants/standard-command-menu-item.constant.ts
 msgctxt "commandMenuItem.shortLabel"
@@ -9432,6 +9168,21 @@ msgstr "Settings"
 msgctxt "fieldMetadata.description"
 msgid "Shared record"
 msgstr "Shared record"
+
+#. js-lingui-id: 4FadYd
+#: src/engine/record-share/utils/validate-share-with-principals-or-throw.util.ts
+msgid "shareWith names a role that does not belong to this workspace"
+msgstr "shareWith names a role that does not belong to this workspace"
+
+#. js-lingui-id: 4PQnEW
+#: src/engine/record-share/utils/validate-share-with-principals-or-throw.util.ts
+msgid "shareWith names a workspace member that does not belong to this workspace"
+msgstr "shareWith names a workspace member that does not belong to this workspace"
+
+#. js-lingui-id: qTLqMS
+#: src/engine/record-share/utils/validate-share-with-arg-or-throw.util.ts
+msgid "shareWith names the same principal more than once"
+msgstr "shareWith names the same principal more than once"
 
 #. js-lingui-id: e1k+No
 #: src/engine/core-modules/auth/auth.exception.ts
@@ -9559,16 +9310,6 @@ msgstr "Spaces and comma"
 msgctxt "fieldMetadata.label"
 msgid "Spreadsheet"
 msgstr "Spreadsheet"
-
-#. js-lingui-id: IP+RN5
-#: src/engine/core-modules/sso/sso.exception.ts
-msgid "SSO configuration error."
-msgstr "SSO configuration error."
-
-#. js-lingui-id: NflMcG
-#: src/engine/core-modules/sso/sso.exception.ts
-msgid "SSO is disabled."
-msgstr "SSO is disabled."
 
 #. js-lingui-id: drcYgn
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-opportunity-standard-flat-field-metadata.util.ts
@@ -9718,26 +9459,6 @@ msgstr "Subject"
 msgctxt "fieldMetadata.label"
 msgid "Subject"
 msgstr "Subject"
-
-#. js-lingui-id: x0Vn7k
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Subscription is not in trial period."
-msgstr "Subscription is not in trial period."
-
-#. js-lingui-id: nnWIIb
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Subscription item not found."
-msgstr "Subscription item not found."
-
-#. js-lingui-id: uo7UmH
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Subscription not found."
-msgstr "Subscription not found."
-
-#. js-lingui-id: VNohoc
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Subscription phase not found."
-msgstr "Subscription phase not found."
 
 #. js-lingui-id: RUXdNM
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
@@ -10082,6 +9803,11 @@ msgstr "Text Document"
 msgid "Text response format should not have a schema"
 msgstr "Text response format should not have a schema"
 
+#. js-lingui-id: Ze27Ic
+#: src/engine/core-modules/growth-os/password/growth-os-sign-in-lockout.service.ts
+msgid "That email and password don’t match. After {remaining} more attempts we’ll pause sign-in for 15 minutes."
+msgstr "That email and password don’t match. After {remaining} more attempts we’ll pause sign-in for 15 minutes."
+
 #. js-lingui-id: kFsyD4
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/validate-flat-view-creation.util.ts
 msgid "The {reservedViewKey} view key is reserved for the default view"
@@ -10127,11 +9853,6 @@ msgstr "The application key-value entry could not be saved. Please try again."
 #: src/engine/core-modules/logic-function/logic-function-trigger/triggers/route/exceptions/route-trigger.exception.ts
 msgid "The application's production dependencies are too large to install. Move packages that are not imported by its logic functions (UI libraries, dev tooling) out of \"dependencies\"."
 msgstr "The application's production dependencies are too large to install. Move packages that are not imported by its logic functions (UI libraries, dev tooling) out of \"dependencies\"."
-
-#. js-lingui-id: IIdxjy
-#: src/modules/connected-account-sync-webhooks/calendar-event-webhook-sync/calendar-event-webhook-sync.exception.ts
-msgid "The calendar is already syncing."
-msgstr "The calendar is already syncing."
 
 #. js-lingui-id: KHtcGn
 #: src/modules/calendar/calendar-event-creation-manager/exceptions/calendar-event-creation.exception.ts
@@ -10239,11 +9960,6 @@ msgstr "The default role cannot be deleted."
 #: src/engine/metadata-modules/role/role.service.ts
 msgid "The default role for this workspace could not be found. Please contact support for assistance."
 msgstr "The default role for this workspace could not be found. Please contact support for assistance."
-
-#. js-lingui-id: hmg/aY
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "The development instance slot for this enterprise key is already in use on another server."
-msgstr "The development instance slot for this enterprise key is already in use on another server."
 
 #. js-lingui-id: 22Peto
 #: src/engine/core-modules/approved-access-domain/approved-access-domain.exception.ts
@@ -10786,20 +10502,10 @@ msgstr "This endpoint has moved. Call it at {publicFunctionUrl} instead."
 msgid "This endpoint is no longer available on /s/. Use the dedicated public domain URL instead."
 msgstr "This endpoint is no longer available on /s/. Use the dedicated public domain URL instead."
 
-#. js-lingui-id: i4wotH
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "This enterprise key is already in use on another server instance. Release it from that server, or transfer it to this one."
-msgstr "This enterprise key is already in use on another server instance. Release it from that server, or transfer it to this one."
-
 #. js-lingui-id: mjE4RD
 #: src/engine/metadata-modules/ai/ai-agent-monitor/services/agent-turn-grader.service.ts
 msgid "This evaluation target could not be found."
 msgstr "This evaluation target could not be found."
-
-#. js-lingui-id: uNp8ZA
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "This feature is complimentary up to {MAX_SEATS_WITHOUT_ENTERPRISE_KEY} seats. Your instance is above that, so an enterprise key is required."
-msgstr "This feature is complimentary up to {MAX_SEATS_WITHOUT_ENTERPRISE_KEY} seats. Your instance is above that, so an enterprise key is required."
 
 #. js-lingui-id: hsi+jf
 #: src/engine/core-modules/workspace/workspace.exception.ts
@@ -10831,6 +10537,11 @@ msgstr "This field permission is already set for the role"
 #: src/engine/metadata-modules/metadata-side-effect/handlers/field-metadata/utils/build-field-side-effect-parent-not-found-failure.util.ts
 msgid "This field references an object that could not be found"
 msgstr "This field references an object that could not be found"
+
+#. js-lingui-id: CIqMf4
+#: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-searchable-flat-field-metadata.util.ts
+msgid "This field type cannot be searched"
+msgstr "This field type cannot be searched"
 
 #. js-lingui-id: 5F02zD
 #: src/engine/core-modules/file/file-upload/services/file-upload-completion.service.ts
@@ -10867,16 +10578,6 @@ msgstr "This identifier is reserved by the system"
 msgid "This index does not exist or has already been deleted."
 msgstr "This index does not exist or has already been deleted."
 
-#. js-lingui-id: AGMd5o
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "This instance did not report a server identifier. Set SERVER_ID on this instance, then try again."
-msgstr "This instance did not report a server identifier. Set SERVER_ID on this instance, then try again."
-
-#. js-lingui-id: wQ3edW
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "This kind of credit grant cannot be created by hand."
-msgstr "This kind of credit grant cannot be created by hand."
-
 #. js-lingui-id: AFqkCe
 #: src/engine/core-modules/usage-limit/exceptions/usage-limit.exception.ts
 msgid "This limit cannot be saved."
@@ -10886,6 +10587,11 @@ msgstr "This limit cannot be saved."
 #: src/engine/metadata-modules/permissions/permissions.exception.ts
 msgid "This method is not allowed."
 msgstr "This method is not allowed."
+
+#. js-lingui-id: +AQIHh
+#: src/engine/core-modules/workspace/workspace.exception.ts
+msgid "This model cannot be used for this tier."
+msgstr "This model cannot be used for this tier."
 
 #. js-lingui-id: /XKGep
 #: src/engine/metadata-modules/field-metadata/field-metadata.exception.ts
@@ -10915,6 +10621,11 @@ msgstr "This object already has a default view"
 msgid "This object cannot be modified."
 msgstr "This object cannot be modified."
 
+#. js-lingui-id: I8RhBL
+#: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-searchable-flat-field-metadata.util.ts
+msgid "This object has no search vector"
+msgstr "This object has no search vector"
+
 #. js-lingui-id: X2Xp8v
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-permission-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-permission-validator.service.ts
@@ -10935,6 +10646,11 @@ msgstr "This operation is not supported."
 #: src/engine/api/graphql/workspace-query-runner/constants/postgres-error-messages.constants.ts
 msgid "This operation references a record that does not exist or cannot be modified due to existing relationships."
 msgstr "This operation references a record that does not exist or cannot be modified due to existing relationships."
+
+#. js-lingui-id: Prr3nD
+#: src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util.ts
+msgid "This password is too common. Try a short phrase only you would know."
+msgstr "This password is too common. Try a short phrase only you would know."
 
 #. js-lingui-id: 3q5jw3
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-role-permission-flag-validator.service.ts
@@ -11073,13 +10789,7 @@ msgstr "This version is not higher than the currently deployed version. Please b
 msgid "This version of the application is already installed in this workspace."
 msgstr "This version of the application is already installed in this workspace."
 
-#. js-lingui-id: o/Kt/Y
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "This workspace already has a subscription."
-msgstr "This workspace already has a subscription."
-
 #. js-lingui-id: aJq3VL
-#: src/engine/core-modules/billing/billing.exception.ts
 #: src/engine/core-modules/billing/constants/subscription-inactive-reason-user-friendly-message.constant.ts
 msgid "This workspace has no active subscription."
 msgstr "This workspace has no active subscription."
@@ -11336,6 +11046,11 @@ msgstr "To do"
 #: src/engine/metadata-modules/permissions/permissions.exception.ts
 msgid "Too many admin candidates found."
 msgstr "Too many admin candidates found."
+
+#. js-lingui-id: AMr6nW
+#: src/engine/core-modules/growth-os/password/growth-os-sign-in-lockout.service.ts
+msgid "Too many attempts. Try again in {minutes} minutes or reset your password."
+msgstr "Too many attempts. Try again in {minutes} minutes or reset your password."
 
 #. js-lingui-id: qSInGy
 #: src/engine/core-modules/tool/tools/email-tool/exceptions/email-tool.exception.ts
@@ -11637,11 +11352,6 @@ msgstr "URL must be a string"
 msgid "URL must be a string for widget \"{widgetTitle}\""
 msgstr "URL must be a string for widget \"{widgetTitle}\""
 
-#. js-lingui-id: P7NKk0
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Usage could not be read. Please try again later."
-msgstr "Usage could not be read. Please try again later."
-
 #. js-lingui-id: tGvlMG
 #: src/engine/core-modules/usage-limit/exceptions/usage-limit.exception.ts
 msgid "Usage quota exhausted for this period."
@@ -11658,6 +11368,16 @@ msgstr "Use as Draft"
 msgctxt "commandMenuItem.shortLabel"
 msgid "Use as Draft"
 msgstr "Use as Draft"
+
+#. js-lingui-id: Sowvku
+#: src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util.ts
+msgid "Use at least 8 characters."
+msgstr "Use at least 8 characters."
+
+#. js-lingui-id: h1O9Y0
+#: src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util.ts
+msgid "Use at most 128 characters."
+msgstr "Use at most 128 characters."
 
 #. js-lingui-id: GkcfmO
 #: src/engine/core-modules/auth/services/sign-in-up.service.ts
@@ -11718,7 +11438,6 @@ msgstr "User is not a member of the workspace."
 
 #. js-lingui-id: siJgSI
 #: src/engine/core-modules/auth/auth.exception.ts
-#: src/engine/core-modules/sso/sso.exception.ts
 #: src/engine/core-modules/user/user.exception.ts
 msgid "User not found."
 msgstr "User not found."
@@ -11779,13 +11498,11 @@ msgid "User's preferred time format"
 msgstr "User's preferred time format"
 
 #. js-lingui-id: sFN4Dx
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/get-invalid-view-filter-value-error.util.ts
 msgid "Value \"{stringifiedValue}\" is not valid for operand \"{operand}\" on field type \"{filterType}\"."
 msgstr "Value \"{stringifiedValue}\" is not valid for operand \"{operand}\" on field type \"{filterType}\"."
 
 #. js-lingui-id: ccqQWi
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/utils/get-invalid-view-filter-value-error.util.ts
 msgid "Value \"{stringifiedValue}\" is not valid for operand \"{operand}\" on field type \"{filterType}\". {hint}"
 msgstr "Value \"{stringifiedValue}\" is not valid for operand \"{operand}\" on field type \"{filterType}\". {hint}"
@@ -11799,11 +11516,6 @@ msgstr "Value \"{stringifiedValue}\" of a chart filter of widget \"{widgetTitle}
 #: src/engine/metadata-modules/flat-page-layout-widget/validators/utils/validate-chart-filter.util.ts
 msgid "Value \"{stringifiedValue}\" of a chart filter of widget \"{widgetTitle}\" is not valid for operand \"{operand}\" on field type \"{filterType}\". {hint}"
 msgstr "Value \"{stringifiedValue}\" of a chart filter of widget \"{widgetTitle}\" is not valid for operand \"{operand}\" on field type \"{filterType}\". {hint}"
-
-#. js-lingui-id: l+Dvh5
-#: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-row-level-permission-predicate-validator.service.ts
-msgid "Value \"{stringifiedValue}\" resolves to no record for operand \"{operand}\", the current record is not available to a row level permission predicate"
-msgstr "Value \"{stringifiedValue}\" resolves to no record for operand \"{operand}\", the current record is not available to a row level permission predicate"
 
 #. js-lingui-id: UBPzFQ
 #: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-enum-flat-field-metadata.util.ts
@@ -12311,11 +12023,6 @@ msgstr "Webhook not found."
 msgid "Wednesday"
 msgstr "Wednesday"
 
-#. js-lingui-id: TVkCrJ
-#: src/engine/core-modules/email-verification/services/email-verification.service.ts
-msgid "Welcome to Twenty: Please Confirm Your Email"
-msgstr "Welcome to Twenty: Please Confirm Your Email"
-
 #. js-lingui-id: lKboI8
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-record-share-standard-flat-field-metadata.util.ts
 msgctxt "fieldMetadata.description"
@@ -12333,6 +12040,12 @@ msgstr "What this list is for"
 msgctxt "fieldMetadata.description"
 msgid "When the campaign finished sending"
 msgstr "When the campaign finished sending"
+
+#. js-lingui-id: +tMBha
+#: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-campaign-standard-flat-field-metadata.util.ts
+msgctxt "fieldMetadata.description"
+msgid "When the campaign is due to start sending"
+msgstr "When the campaign is due to start sending"
 
 #. js-lingui-id: Kx3ltI
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-workspace-member-standard-flat-field-metadata.util.ts
@@ -12407,6 +12120,11 @@ msgstr "Widget header actions must belong to the same application as the widget"
 #: src/engine/metadata-modules/flat-page-layout-widget/validators/utils/validate-front-component-header-command-menu-items.util.ts
 msgid "Widget header command menu item references must be unique"
 msgstr "Widget header command menu item references must be unique"
+
+#. js-lingui-id: makoF6
+#: src/engine/metadata-modules/page-layout-widget/utils/validate-page-layout-widget-vertical-list-position.util.ts
+msgid "Widget height behavior is not supported"
+msgstr "Widget height behavior is not supported"
 
 #. js-lingui-id: +9R1ka
 #: src/engine/metadata-modules/page-layout-widget/utils/validate-page-layout-widget-vertical-list-position.util.ts
@@ -12748,18 +12466,6 @@ msgctxt "fieldMetadata.label"
 msgid "Workspace"
 msgstr "Workspace"
 
-#. js-lingui-id: bK8AyJ
-#: src/engine/core-modules/billing-webhook/services/billing-webhook-subscription.service.ts
-#: src/engine/core-modules/billing-webhook/services/billing-webhook-subscription.service.ts
-#: src/engine/core-modules/billing-webhook/services/billing-webhook-subscription.service.ts
-msgid "Workspace {workspaceId} is not found."
-msgstr "Workspace {workspaceId} is not found."
-
-#. js-lingui-id: lNgTSN
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Workspace cannot be deleted: subscription is not yet canceled."
-msgstr "Workspace cannot be deleted: subscription is not yet canceled."
-
 #. js-lingui-id: XsSVrR
 #: src/engine/core-modules/auth/services/sign-in-up.service.ts
 msgid "Workspace creation is restricted to admins"
@@ -12786,10 +12492,10 @@ msgstr "Workspace is not ready to welcome new members"
 msgid "Workspace is suspended."
 msgstr "Workspace is suspended."
 
-#. js-lingui-id: iN7doz
+#. js-lingui-id: POrXBh
 #: src/engine/core-modules/auth/services/sign-in-up.service.ts
-msgid "Workspace limit reached. A valid enterprise key is required to create more workspaces."
-msgstr "Workspace limit reached. A valid enterprise key is required to create more workspaces."
+msgid "Workspace limit reached on this server. Please contact support."
+msgstr "Workspace limit reached on this server. Please contact support."
 
 #. js-lingui-id: foYipq
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-message-participant-standard-flat-field-metadata.util.ts
@@ -12874,16 +12580,6 @@ msgstr "Workspace name is required"
 #: src/engine/core-modules/user-workspace/guards/upload-profile-picture-permission.guard.ts
 msgid "Workspace not found"
 msgstr "Workspace not found"
-
-#. js-lingui-id: eQwIyW
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Workspace not found for customer event."
-msgstr "Workspace not found for customer event."
-
-#. js-lingui-id: 5Io9Sh
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Workspace not found for subscription event."
-msgstr "Workspace not found for subscription event."
 
 #. js-lingui-id: EhVOPs
 #: src/engine/core-modules/auth/auth.exception.ts
@@ -13166,25 +12862,10 @@ msgstr "You don't have permission to create workspace-level views."
 msgid "You don't have permission to modify this view."
 msgstr "You don't have permission to modify this view."
 
-#. js-lingui-id: hMX1AE
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "You have exhausted your credits. Please upgrade your plan to continue."
-msgstr "You have exhausted your credits. Please upgrade your plan to continue."
-
 #. js-lingui-id: WCKl4k
 #: src/engine/core-modules/workspace-invitation/workspace-invitation.exception.ts
 msgid "You have reached the maximum number of invitations for this step."
 msgstr "You have reached the maximum number of invitations for this step."
-
-#. js-lingui-id: 4kMeNM
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "You have reached the maximum number of license refreshes allowed today for this enterprise key. Please try again later."
-msgstr "You have reached the maximum number of license refreshes allowed today for this enterprise key. Please try again later."
-
-#. js-lingui-id: 475gCs
-#: src/engine/core-modules/enterprise/enterprise.exception.ts
-msgid "You have reached the maximum number of server transfers allowed in the last 30 days for this enterprise key. Please try again later."
-msgstr "You have reached the maximum number of server transfers allowed in the last 30 days for this enterprise key. Please try again later."
 
 #. js-lingui-id: nq15cs
 #: src/modules/blocklist/query-hooks/blocklist-create-one.pre-query.hook.ts
@@ -13223,15 +12904,10 @@ msgstr "Your billing subscription is corrupted. Please contact support."
 msgid "Your GitHub account does not own the organization that publishes this package. If you are an owner, make sure you granted this app access to the organization on GitHub's authorization screen (Organization access section)."
 msgstr "Your GitHub account does not own the organization that publishes this package. If you are an owner, make sure you granted this app access to the organization on GitHub's authorization screen (Organization access section)."
 
-#. js-lingui-id: bTyBrW
+#. js-lingui-id: GJOibR
 #: src/engine/core-modules/auth/services/auth.service.ts
-msgid "Your Password Has Been Successfully Changed"
-msgstr "Your Password Has Been Successfully Changed"
-
-#. js-lingui-id: AKLZnk
-#: src/engine/core-modules/billing/billing.exception.ts
-msgid "Your payment method was declined. Please update it and try again."
-msgstr "Your payment method was declined. Please update it and try again."
+msgid "Your Growth OS password was changed"
+msgstr "Your Growth OS password was changed"
 
 #. js-lingui-id: XxkUFT
 #: src/engine/metadata-modules/permissions/permissions.service.ts
@@ -13246,22 +12922,12 @@ msgctxt "fieldMetadata.description"
 msgid "Your team member responsible for managing the company account"
 msgstr "Your team member responsible for managing the company account"
 
-#. js-lingui-id: sOfbGC
-#: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
-msgid "Your Twenty plan renews soon"
-msgstr "Your Twenty plan renews soon"
-
-#. js-lingui-id: qW+K5e
-#: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
-msgid "Your Twenty trial is ending soon"
-msgstr "Your Twenty trial is ending soon"
-
 #. js-lingui-id: ej/tZF
 #: src/engine/core-modules/graphql/hooks/use-graphql-error-handler.hook.ts
 msgid "Your workspace has been updated with a new data model. Please refresh the page."
 msgstr "Your workspace has been updated with a new data model. Please refresh the page."
 
-#. js-lingui-id: DmYwVp
+#. js-lingui-id: aIWQmz
 #: src/engine/workspace-manager/workspace-cleaner/services/cleaner.workspace-service.ts
-msgid "Your workspace is paused — reactivate to keep your data"
-msgstr "Your workspace is paused — reactivate to keep your data"
+msgid "Your workspace is paused"
+msgstr "Your workspace is paused"

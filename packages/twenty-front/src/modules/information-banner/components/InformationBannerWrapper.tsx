@@ -18,6 +18,7 @@ import { useSubscriptionStatus } from '@/workspace/hooks/useSubscriptionStatus';
 import { hasReachedCurrentBillingPeriodCapSelector } from '@/workspace/states/hasReachedCurrentBillingPeriodCapSelector';
 
 import { InformationBannerNoMoreCredits } from '@/information-banner/components/billing/InformationBannerNoMoreCredits';
+import { GrowthOsBillingBanner } from '~/growth-os/plan/GrowthOsBillingBanner';
 import {
   PermissionFlagType,
   SubscriptionStatus,
@@ -66,6 +67,7 @@ export const InformationBannerWrapper = () => {
     <StyledInformationBannerWrapper>
       <InformationBannerNonProductionInstance />
       <InformationBannerMaintenance />
+      <GrowthOsBillingBanner />
       {isAccountSyncEnabled && (
         <InformationBannerReconnectAccountInsufficientPermissions />
       )}

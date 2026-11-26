@@ -1,10 +1,12 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitButton,
+  KitEmail,
+  KitNote,
+  KitText,
+  kitFormatDate,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type BillingTrialEndingEmailProps = {
   userName: string;
@@ -15,64 +17,35 @@ type BillingTrialEndingEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-// Sent the day before a trial WITHOUT a credit card ends. Goal: get the user to
-// add a payment method so they keep their workspace and data. No card on file means
-// there is no surprise charge risk, only a data-loss risk, so the framing is helpful.
-export const BillingTrialEndingEmail = ({
-  userName,
-  workspaceDisplayName,
-  trialEndsAt,
-  dataRetentionDays,
-  link,
-  locale,
-}: BillingTrialEndingEmailProps) => {
-  const i18n = createI18nInstance(locale);
-  const formattedDate = i18n.date(trialEndsAt, {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
+export const BillingTrialEndingEmail = ({ userName, workspaceDisplayName, trialEndsAt, dataRetentionDays, link, locale }: BillingTrialEndingEmailProps) => {
+  const i18n = kitI18n(locale);
+  const formattedDate = kitFormatDate(trialEndsAt, locale);
+  const workspace = workspaceDisplayName ?? i18n._('your workspace');
 
   return (
-    <BaseEmail width={333} locale={locale}>
-      <Title value={i18n._('Your trial is ending soon')} />
-      <MainText>
-        {userName?.length > 1 ? (
-          <Trans id="Hi {userName}," values={{ userName }} />
-        ) : (
-          <Trans id="Hello," />
-        )}
-        <br />
-        <br />
-        <Trans
-          id="Your free trial of <0>{workspaceDisplayName}</0> ends on {formattedDate}."
-          values={{ workspaceDisplayName, formattedDate }}
-          components={{ 0: <b /> }}
-        />
-        <br />
-        <br />
-        <Trans id="To keep your workspace and everything you've built, add a payment method and pick a plan." />
-        <br />
-        <br />
-        <Trans
-          id="If you do nothing, we'll pause your workspace and keep your data safe for {dataRetentionDays} days in case you change your mind — no card will be charged."
-          values={{ dataRetentionDays }}
-        />
-      </MainText>
-      <br />
-      <CallToAction href={link} value={i18n._('Add a payment method')} />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Your trial ends on {formattedDate}', { formattedDate })}
+      preheader={i18n._('Add a payment method to keep everything you’ve built.')}
+      eyebrow={i18n._('Trial')}
+      heading={i18n._('Your trial ends on {formattedDate}', { formattedDate })}
+      reason="billing"
+    >
+      <KitText>
+        {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')} {i18n._('the free trial of {workspace} ends on {formattedDate}. To keep your pipeline, contacts and settings, add a payment method and pick a plan.', { workspace, formattedDate })}
+      </KitText>
+      <KitButton href={link} label={i18n._('Add a payment method')} />
+      <KitNote>{i18n._('If you do nothing, we pause the workspace and keep your data for {dataRetentionDays} days. No card is charged.', { dataRetentionDays })}</KitNote>
+    </KitEmail>
   );
 };
 
 BillingTrialEndingEmail.PreviewProps = {
-  userName: 'John Doe',
-  workspaceDisplayName: 'Acme Inc.',
-  trialEndsAt: new Date('2026-07-02'),
-  dataRetentionDays: 14,
-  link: 'https://acme.example.com/settings/billing',
+  userName: 'Lena',
+  workspaceDisplayName: 'Nordlicht Analytics',
+  trialEndsAt: new Date('2026-12-09'),
+  dataRetentionDays: 30,
+  link: 'https://crm.scalepoint-ventures.com/settings/billing',
   locale: 'en',
 } as BillingTrialEndingEmailProps;
 

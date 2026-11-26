@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { type SendMailOptions } from 'nodemailer';
+import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
 
 import { EMAIL_SEND_RETRY_BACKOFF } from 'src/engine/core-modules/email/constants/email-send-retry-backoff.constant';
 import { EmailSenderJob } from 'src/engine/core-modules/email/email-sender.job';
@@ -18,7 +19,8 @@ export class EmailService {
   async send(sendMailOptions: SendMailOptions): Promise<void> {
     await this.messageQueueService.add<SendMailOptions>(
       EmailSenderJob.name,
-      sendMailOptions,
+      // Growth OS: replies go to support, never to the no-reply sender.
+      { replyTo: GROWTH_OS_BRAND.supportEmail, ...sendMailOptions },
       { retryLimit: 3, backoff: EMAIL_SEND_RETRY_BACKOFF },
     );
   }

@@ -43,10 +43,10 @@ const StyledItem = styled.li`
 
 const StyledCard = styled(Link)`
   align-items: center;
-  background: #ffffff;
-  border: 1px solid #e3e8ee;
+  background: var(--gos-surface);
+  border: 1px solid var(--gos-line);
   border-radius: 8px;
-  box-shadow: 0 1px 2px 0 #111e320a;
+  box-shadow: var(--gos-card-shadow);
   color: inherit;
   display: flex;
   gap: 12px;
@@ -54,7 +54,7 @@ const StyledCard = styled(Link)`
   text-decoration: none;
 
   &:active {
-    background: #f7f9fa;
+    background: var(--gos-hover);
   }
 `;
 
@@ -67,7 +67,7 @@ const StyledBody = styled.div`
 `;
 
 const StyledName = styled.span`
-  color: #111e32;
+  color: var(--t-font-color-primary);
   font-size: 1rem;
   font-weight: 600;
   overflow: hidden;
@@ -76,7 +76,7 @@ const StyledName = styled.span`
 `;
 
 const StyledDetails = styled.span`
-  color: #65758b;
+  color: var(--gos-ink-muted);
   font-size: 0.85rem;
   line-height: 1.4;
   overflow: hidden;
@@ -142,7 +142,7 @@ const GrowthOsMobileRecordCard = ({
             <StyledDetails>{details.join(' · ')}</StyledDetails>
           )}
         </StyledBody>
-        <IconChevronRight size={16} color="#9aa8b8" />
+        <IconChevronRight size={16} color="var(--gos-ink-faint)" />
       </StyledCard>
     </StyledItem>
   );

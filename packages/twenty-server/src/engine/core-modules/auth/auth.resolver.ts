@@ -1,8 +1,23 @@
-import { Logger, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
+import {
+  Inject as GrowthOsInject,
+  Logger,
+  Optional as GrowthOsOptional,
+  UseFilters,
+  UseGuards,
+  UsePipes,
+} from '@nestjs/common';
 import { Args, Context, Mutation, Query } from '@nestjs/graphql';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import bytes from 'bytes';
+
+import { growthOsAssertPasswordPolicy } from 'src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util';
+import {
+  GROWTH_OS_NEUTRAL_USER_EXISTS,
+  GrowthOsAccountExistsMailService,
+  growthOsNeutralSignUpResult,
+  growthOsSpendHashTime,
+} from 'src/engine/core-modules/growth-os/password/growth-os-neutral-auth';
 import { type Request } from 'express';
 import GraphQLUpload from 'graphql-upload/GraphQLUpload.mjs';
 import omit from 'lodash.omit';
@@ -163,6 +178,9 @@ export class AuthResolver {
     private readonly fileCorePictureService: FileCorePictureService,
     private readonly userSessionService: UserSessionService,
     private readonly userSessionCookieService: UserSessionCookieService,
+    @GrowthOsOptional()
+    @GrowthOsInject(GrowthOsAccountExistsMailService)
+    private readonly growthOsAccountExistsMail?: GrowthOsAccountExistsMailService,
   ) {}
 
   @UseGuards(CaptchaGuard, PublicEndpointGuard, NoPermissionGuard)
@@ -170,6 +188,11 @@ export class AuthResolver {
   async checkUserExists(
     @Args() checkUserExistsInput: EmailAndCaptchaInput,
   ): Promise<CheckUserExistDTO> {
+    // Growth OS: never reveal whether an account exists for an email.
+    if (this.growthOsAccountExistsMail) {
+      return { ...GROWTH_OS_NEUTRAL_USER_EXISTS };
+    }
+
     return await this.authService.checkUserExists(
       checkUserExistsInput.email.toLowerCase(),
     );
@@ -443,6 +466,43 @@ export class AuthResolver {
     @Args() signUpInput: UserCredentialsInput,
     @Context() context: { req: Request },
   ): Promise<AvailableWorkspacesAndAccessTokensDTO> {
+    // Growth OS: while email verification is required, sign-up answers the
+    // same for new and existing emails and starts no session (that happens
+    // after the email is confirmed). The owner of an existing address gets an
+    // "you already have an account" mail instead.
+    if (this.growthOsAccountExistsMail?.isEmailVerificationRequired()) {
+      const email = signUpInput.email.trim().toLowerCase();
+
+      growthOsAssertPasswordPolicy(signUpInput.password, email);
+      const existing = await this.userService.findUserByEmail(email);
+
+      if (isDefined(existing)) {
+        await growthOsSpendHashTime(signUpInput.password);
+        await this.growthOsAccountExistsMail.notify(
+          email,
+          signUpInput.locale ?? SOURCE_LOCALE,
+        );
+
+        return growthOsNeutralSignUpResult();
+      }
+
+      const newUser = await this.signInUpService.signUpWithoutWorkspace(
+        { email, locale: signUpInput.locale },
+        { provider: AuthProviderEnum.Password, password: signUpInput.password },
+      );
+
+      await this.emailVerificationService.sendVerificationEmail({
+        userId: newUser.id,
+        email: newUser.email,
+        workspace: undefined,
+        locale: signUpInput.locale ?? SOURCE_LOCALE,
+        verifyEmailRedirectPath: signUpInput.verifyEmailRedirectPath,
+        verificationTrigger: EmailVerificationTrigger.SIGN_UP,
+      });
+
+      return growthOsNeutralSignUpResult();
+    }
+
     const user = await this.signInUpService.signUpWithoutWorkspace(
       {
         email: signUpInput.email,

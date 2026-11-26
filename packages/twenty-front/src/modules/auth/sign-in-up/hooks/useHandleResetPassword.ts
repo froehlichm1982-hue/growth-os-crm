@@ -10,6 +10,9 @@ import { useLingui } from '@lingui/react/macro';
 import { useMutation } from '@apollo/client/react';
 import { EmailPasswordResetLinkDocument } from '~/generated-metadata/graphql';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
+import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
+import { isDefined } from 'twenty-shared/utils';
+import { growthOsResetSentState } from '~/growth-os/auth/growthOsAuthAlertState';
 
 export const useHandleResetPassword = () => {
   const { enqueueErrorSnackBar, enqueueSuccessSnackBar } = useSnackBar();
@@ -20,6 +23,7 @@ export const useHandleResetPassword = () => {
   const { readCaptchaToken } = useReadCaptchaToken();
 
   const { t } = useLingui();
+  const setGrowthOsResetSent = useSetAtomState(growthOsResetSentState);
 
   const handleResetPassword = useCallback(
     (email = currentUser?.email) => {
@@ -48,9 +52,18 @@ export const useHandleResetPassword = () => {
           });
 
           if (data?.emailPasswordResetLink?.success === true) {
-            enqueueSuccessSnackBar({
-              message: t`If this email is registered, a password reset link has been sent`,
-            });
+            // Growth OS: the sign-in card shows the kit "reset sent" panel
+            // with a resend cooldown; signed-in settings keep the toast.
+            setGrowthOsResetSent((previous) => ({
+              email,
+              sentAt: Date.now(),
+              sends: previous?.email === email ? previous.sends + 1 : 1,
+            }));
+            if (isDefined(currentUser)) {
+              enqueueSuccessSnackBar({
+                message: t`We’ve sent a reset link to ${email}. It works for 60 minutes.`,
+              });
+            }
           } else {
             enqueueErrorSnackBar({});
           }
@@ -72,6 +85,7 @@ export const useHandleResetPassword = () => {
       emailPasswordResetLink,
       isCaptchaReady,
       readCaptchaToken,
+      setGrowthOsResetSent,
     ],
   );
 

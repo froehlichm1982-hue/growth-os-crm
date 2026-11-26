@@ -1,0 +1,52 @@
+/* Open-source licences page: a compact two-column list under the kit
+   system-page hero (kit tokens only). */
+.gos-sys .gos-lead p + p {
+  margin-top: 8px;
+}
+
+.gos-sys .gos-lic {
+  margin: 32px auto 0;
+  max-width: 560px;
+  text-align: left;
+}
+
+.gos-sys .gos-lic h2 {
+  color: var(--c-ink);
+  font-size: var(--fs-sm, 14px);
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.gos-sys .gos-lic ul {
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg, 12px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gos-sys .gos-lic li {
+  align-items: center;
+  border-top: 1px solid var(--c-line-2, var(--c-line));
+  color: var(--c-ink-2);
+  display: flex;
+  font-size: var(--fs-sm, 14px);
+  justify-content: space-between;
+  padding: 8px 14px;
+}
+
+.gos-sys .gos-lic li:first-child {
+  border-top: none;
+}
+
+.gos-sys .gos-lic code {
+  color: var(--c-ink-3);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--fs-xs, 12px);
+}
+
+.gos-sys .gos-lic p {
+  color: var(--c-ink-3);
+  font-size: var(--fs-xs, 12px);
+  margin: 10px 0 0;
+}

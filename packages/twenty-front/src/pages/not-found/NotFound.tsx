@@ -1,76 +1,39 @@
-import { Trans, useLingui } from '@lingui/react/macro';
-import { lazy, Suspense } from 'react';
-
-const BackgroundMockPage = lazy(() =>
-  import('@/sign-in-background-mock/components/BackgroundMockPage').then(
-    (module) => ({ default: module.BackgroundMockPage }),
-  ),
-);
+import { useLingui } from '@lingui/react/macro';
+import { useNavigate } from 'react-router-dom';
 import { AppPath } from 'twenty-shared/types';
 
-import { RootStackingContextZIndices } from '@/ui/layout/constants/RootStackingContextZIndices';
 import { PageTitle } from '@/ui/utilities/page-title/components/PageTitle';
-import { styled } from '@linaria/react';
-import { MainButton } from 'twenty-ui/input';
-import { themeCssVariables } from 'twenty-ui/theme-constants';
-import {
-  AnimatedPlaceholder,
-  AnimatedPlaceholderEmptyTextContainer,
-  AnimatedPlaceholderErrorContainer,
-  AnimatedPlaceholderErrorSubTitle,
-  AnimatedPlaceholderErrorTitle,
-} from 'twenty-ui/feedback';
-import { UndecoratedLink } from 'twenty-ui/navigation';
+import { GROWTH_OS_BRAND } from '~/growth-os/brand';
+import { GrowthOsSystemPage } from '~/growth-os/states/GrowthOsSystemPage';
 
-const StyledBackDrop = styled.div`
-  align-items: center;
-  backdrop-filter: ${themeCssVariables.blur.light};
-  background: ${themeCssVariables.background.transparent.secondary};
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: ${RootStackingContextZIndices.NotFound};
-`;
-
-const StyledButtonContainer = styled.div`
-  width: 200px;
-`;
-
+// Growth OS CRM: kit 404 (reference-kit/404.html).
 export const NotFound = () => {
   const { t } = useLingui();
+  const navigate = useNavigate();
 
   return (
     <>
-      <PageTitle title={t`Page Not Found | Twenty`} />
-      <StyledBackDrop>
-        <AnimatedPlaceholderErrorContainer>
-          <AnimatedPlaceholder type="error404" />
-          <AnimatedPlaceholderEmptyTextContainer>
-            <AnimatedPlaceholderErrorTitle>
-              <Trans>Off the beaten path</Trans>
-            </AnimatedPlaceholderErrorTitle>
-            <AnimatedPlaceholderErrorSubTitle>
-              <Trans>
-                The page you're seeking is either gone or never was. Let's get
-                you back on track
-              </Trans>
-            </AnimatedPlaceholderErrorSubTitle>
-          </AnimatedPlaceholderEmptyTextContainer>
-          <StyledButtonContainer>
-            <UndecoratedLink to={AppPath.Index}>
-              <MainButton title={t`Back to content`} fullWidth />
-            </UndecoratedLink>
-          </StyledButtonContainer>
-        </AnimatedPlaceholderErrorContainer>
-      </StyledBackDrop>
-      <Suspense fallback={null}>
-        <BackgroundMockPage />
-      </Suspense>
+      <PageTitle title={t`Page not found · Growth OS CRM`} />
+      <GrowthOsSystemPage
+        code={t`Error 404`}
+        title={t`This page doesn’t exist`}
+        lead={t`The link may be old, or the page has moved. Nothing is wrong with your account or data.`}
+        actions={
+          <>
+            <button type="button" className="gos-btn gos-btn-primary" onClick={() => navigate(AppPath.Index)}>
+              {t`Go to your workspace`}
+            </button>
+            <button type="button" className="gos-btn gos-btn-secondary" onClick={() => navigate(-1)}>
+              {t`Go back`}
+            </button>
+          </>
+        }
+        links={[
+          { href: '/objects/companies', title: t`Companies`, text: t`Find people and companies` },
+          { href: '/objects/opportunities', title: t`Pipeline`, text: t`Your open deals` },
+          { href: `mailto:${GROWTH_OS_BRAND.supportEmail}`, title: t`Support`, text: t`Write to a real person` },
+        ]}
+      />
     </>
   );
 };

@@ -1,10 +1,12 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitButton,
+  KitEmail,
+  KitNote,
+  KitText,
+  kitFormatDate,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type PasswordUpdateNotifyEmailProps = {
   userName: string;
@@ -13,47 +15,34 @@ type PasswordUpdateNotifyEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-export const PasswordUpdateNotifyEmail = ({
-  userName,
-  email,
-  link,
-  locale,
-}: PasswordUpdateNotifyEmailProps) => {
-  const i18n = createI18nInstance(locale);
-  const formattedDate = i18n.date(new Date());
+export const PasswordUpdateNotifyEmail = ({ userName, email, link, locale }: PasswordUpdateNotifyEmailProps) => {
+  const i18n = kitI18n(locale);
+  const formattedDate = kitFormatDate(new Date(), locale);
 
   return (
-    <BaseEmail locale={locale}>
-      <Title value={i18n._('Password updated')} />
-      <MainText>
-        {userName?.length > 1 ? (
-          <Trans id="Dear {userName}," values={{ userName }} />
-        ) : (
-          <Trans id="Hello," />
-        )}
-        <br />
-        <br />
-        <Trans
-          id="This is a confirmation that password for your account ({email}) was successfully changed on {formattedDate}."
-          values={{ email, formattedDate }}
-        />
-        <br />
-        <br />
-        <Trans id="If you did not initiate this change, please contact your workspace owner immediately." />
-        <br />
-      </MainText>
-      <br />
-      <CallToAction value={i18n._('Connect to Twenty')} href={link} />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Your Growth OS password was changed')}
+      preheader={i18n._('If this was you, there’s nothing to do.')}
+      eyebrow={i18n._('Security')}
+      heading={i18n._('Your password was changed')}
+      reason="security"
+    >
+      <KitText>
+        {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')}{' '}
+        {i18n._('the password for {email} was changed on {formattedDate}.', { email, formattedDate })}
+      </KitText>
+      <KitText>{i18n._('If this was you, there’s nothing to do.')}</KitText>
+      <KitButton href={link} label={i18n._('Open Growth OS CRM')} />
+      <KitNote tone="warn">{i18n._('Wasn’t you? Reset your password right away and tell your workspace owner. Reply to this email and we’ll help you secure your account.')}</KitNote>
+    </KitEmail>
   );
 };
 
 PasswordUpdateNotifyEmail.PreviewProps = {
-  userName: 'John Doe',
-  email: 'john.doe@example.com',
-  link: 'https://app.example.com',
+  userName: 'Lena',
+  email: 'lena@nordlicht-mail.io',
+  link: 'https://crm.scalepoint-ventures.com',
   locale: 'en',
 } as PasswordUpdateNotifyEmailProps;
 

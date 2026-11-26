@@ -138,7 +138,7 @@ export class ConfigVariables {
   })
   @IsPositiveDuration()
   @IsOptional()
-  PASSWORD_RESET_TOKEN_EXPIRES_IN = '5m';
+  PASSWORD_RESET_TOKEN_EXPIRES_IN = '60m'; // Growth OS: product standard (reset links work for 60 minutes, single use)
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.GOOGLE_AUTH,

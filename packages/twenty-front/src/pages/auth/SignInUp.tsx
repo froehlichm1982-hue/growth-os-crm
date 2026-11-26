@@ -1,3 +1,7 @@
+import { growthOsResetSentState } from '~/growth-os/auth/growthOsAuthAlertState';
+import { GrowthOsResetSentCard } from '~/growth-os/auth/GrowthOsResetSent';
+import { signInUpModeState } from '@/auth/states/signInUpModeState';
+import { SignInUpMode } from '@/auth/types/signInUpMode';
 import { useSignInUp } from '@/auth/sign-in-up/hooks/useSignInUp';
 import { useSignInUpForm } from '@/auth/sign-in-up/hooks/useSignInUpForm';
 import { isCreatingWorkspaceState } from '@/auth/states/isCreatingWorkspaceState';
@@ -8,6 +12,7 @@ import {
 import { workspacePublicDataState } from '@/auth/states/workspacePublicDataState';
 import { styled } from '@linaria/react';
 
+import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
 
@@ -24,7 +29,7 @@ import { isMultiWorkspaceEnabledState } from '@/client-config/states/isMultiWork
 import { useGetPublicWorkspaceDataByDomain } from '@/domain-manager/hooks/useGetPublicWorkspaceDataByDomain';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { useIsCurrentLocationOnDefaultDomain } from '@/domain-manager/hooks/useIsCurrentLocationOnDefaultDomain';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { SignInUpGlobalScopeFormEffect } from '@/auth/sign-in-up/components/internal/SignInUpGlobalScopeFormEffect';
 import { SignInUpSsoExchangeTokenEffect } from '@/auth/sign-in-up/components/internal/SignInUpSsoExchangeTokenEffect';
@@ -59,12 +64,22 @@ const StyledBackground = styled.div`
 `;
 
 export const SignInUp = () => {
+  const growthOsResetSent = useAtomStateValue(growthOsResetSentState);
   const { t } = useLingui();
   const setSignInUpStep = useSetAtomState(signInUpStepState);
   const clientConfigApiStatus = useAtomStateValue(clientConfigApiStatusState);
   const isCreatingWorkspace = useAtomStateValue(isCreatingWorkspaceState);
 
   const { form } = useSignInUpForm();
+  const [signInUpMode, setSignInUpModeFromUrl] = useAtomState(signInUpModeState);
+  const [modeSearchParams] = useSearchParams();
+  const modeParam = modeSearchParams.get('mode');
+
+  // Growth OS: /welcome?mode=signup opens the trial sign-up directly.
+  useEffect(() => {
+    if (modeParam === 'signup') setSignInUpModeFromUrl(SignInUpMode.SignUp);
+    if (modeParam === 'signin') setSignInUpModeFromUrl(SignInUpMode.SignIn);
+  }, [modeParam, setSignInUpModeFromUrl]);
   const { signInUpStep } = useSignInUp(form);
   const { isDefaultDomain } = useIsCurrentLocationOnDefaultDomain();
   const { isOnAWorkspace } = useIsCurrentLocationOnAWorkspace();
@@ -117,25 +132,47 @@ export const SignInUp = () => {
       return t`Verify code from the app`;
     }
 
-    if (isGlobalScope) {
-      return t`Welcome to Twenty`;
+    // Growth OS CRM: kit auth headings; the mode is the person's choice.
+    if (signInUpMode === SignInUpMode.SignUp) {
+      return t`Start your 14-day trial`;
     }
 
-    const workspaceName = workspacePublicData?.displayName;
-
-    if (!workspaceName) {
-      return t`Welcome to your workspace`;
-    }
-
-    return t`Welcome, ${workspaceName}.`;
+    return t`Welcome back`;
   }, [
     workspaceInviteHash,
     signInUpStep,
     workspacePublicData?.displayName,
-    isGlobalScope,
+    signInUpMode,
     t,
     workspaceFromInviteHash?.displayName,
   ]);
+
+  const subtitle = useMemo(() => {
+    if (isDefined(workspaceInviteHash)) {
+      return t`Sign in or create a password to join your team.`;
+    }
+
+    if (signInUpStep === SignInUpStep.Password) {
+      return signInUpMode === SignInUpMode.SignUp
+        ? t`No card needed. Choose a password to get started.`
+        : t`Enter your password to continue.`;
+    }
+
+    if (signInUpStep === SignInUpStep.WorkspaceSelection) {
+      return t`Pick the workspace you want to open.`;
+    }
+
+    if (
+      signInUpStep === SignInUpStep.Init ||
+      signInUpStep === SignInUpStep.Email
+    ) {
+      return signInUpMode === SignInUpMode.SignUp
+        ? t`No card needed. Start with your work email.`
+        : t`Sign in to your Growth OS workspace.`;
+    }
+
+    return undefined;
+  }, [workspaceInviteHash, signInUpStep, signInUpMode, t]);
 
   const signInUpForm = useMemo(() => {
     if (getPublicWorkspaceDataLoading || !clientConfigApiStatus.isLoadedOnce) {
@@ -213,7 +250,9 @@ export const SignInUp = () => {
   ) : (
     <GrowthOsAuthShell>
     <StyledBackground>
-      {signInUpStep === SignInUpStep.EmailVerification ? (
+      {isDefined(growthOsResetSent) ? (
+        <GrowthOsResetSentCard />
+      ) : signInUpStep === SignInUpStep.EmailVerification ? (
         <ModalContent isVerticallyCentered isHorizontallyCentered>
           <EmailVerificationSent email={searchParams.get('email')} />
         </ModalContent>
@@ -223,6 +262,7 @@ export const SignInUp = () => {
           signInUpForm={signInUpForm}
           signInUpStep={signInUpStep}
           title={title}
+          subtitle={subtitle}
           onClickOnLogo={onClickOnLogo}
         />
       )}

@@ -31,6 +31,8 @@ export type UseFindManyRecordsParams<T> = ObjectMetadataItemIdentifier &
     recordGqlFields?: RecordGqlOperationGqlRecordFields;
     fetchPolicy?: WatchQueryFetchPolicy;
     withSoftDeleted?: boolean;
+    // Growth OS: errors are shown inline (no toast).
+    growthOsInlineError?: boolean;
   };
 
 export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
@@ -45,6 +47,7 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
   cursorFilter,
   limit = QUERY_DEFAULT_LIMIT_RECORDS,
   withSoftDeleted = false,
+  growthOsInlineError = false,
 }: UseFindManyRecordsParams<T>) => {
   const { objectMetadataItem } = useObjectMetadataItem({
     objectNameSingular,
@@ -59,6 +62,7 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
   const { handleFindManyRecordsError } = useHandleFindManyRecordsError({
     objectMetadataItem,
     handleError: onError,
+    silent: growthOsInlineError,
   });
 
   const softDeleteFilter: RecordGqlOperationFilter = {

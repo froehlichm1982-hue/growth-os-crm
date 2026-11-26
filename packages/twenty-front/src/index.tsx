@@ -16,6 +16,8 @@ import 'twenty-ui/theme-dark.css';
 import '~/growth-os/growth-os-theme.css';
 import '~/growth-os/growth-os-product-tokens.css';
 import '~/growth-os/growth-os-shell.css';
+import '~/growth-os/growth-os-dark.css';
+import '~/growth-os/mobile/growth-os-touch.css';
 import './index.css';
 
 const renderApp = () => {

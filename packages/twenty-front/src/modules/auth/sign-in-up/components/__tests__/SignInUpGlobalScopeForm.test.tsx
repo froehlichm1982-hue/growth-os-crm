@@ -1,7 +1,7 @@
 import { MockedProvider } from '@apollo/client/testing/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider as JotaiProvider } from 'jotai';
 import { SOURCE_LOCALE } from 'twenty-shared/translations';
 import { ThemeProvider } from 'twenty-ui/theme-constants';
@@ -83,7 +83,9 @@ describe('SignInUpGlobalScopeForm', () => {
     handleResetPasswordMock.mockReturnValue(resetPasswordClickMock);
   });
 
-  it('renders forgot-password link on password step and triggers reset callback', () => {
+  // Growth OS: "Forgot password?" moved onto the password label row inside
+  // SignInUpWithCredentials (kit), so the form no longer renders its own link.
+  it('renders the credentials form without the legacy forgot-password link', () => {
     jotaiStore.set(signInUpStepState.atom, SignInUpStep.Password);
     jotaiStore.set(authProvidersState.atom, {
       google: false,
@@ -105,13 +107,7 @@ describe('SignInUpGlobalScopeForm', () => {
       </MockedProvider>,
     );
 
-    const forgotPasswordLink = screen.getByText('Forgot your password?');
-
-    expect(forgotPasswordLink).toBeInTheDocument();
-    expect(handleResetPasswordMock).toHaveBeenCalledWith('person@example.com');
-
-    fireEvent.click(forgotPasswordLink);
-
-    expect(resetPasswordClickMock).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('credentials-form')).toBeInTheDocument();
+    expect(screen.queryByText('Forgot your password?')).not.toBeInTheDocument();
   });
 });

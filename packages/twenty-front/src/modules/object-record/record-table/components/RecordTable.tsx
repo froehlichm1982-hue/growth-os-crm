@@ -1,3 +1,6 @@
+import { growthOsListLoadErrorState } from '~/growth-os/states/growthOsListLoadErrorState';
+import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
+import { isDefined } from 'twenty-shared/utils';
 import { isNonEmptyString } from '@sniptt/guards';
 import { useRef } from 'react';
 
@@ -59,8 +62,16 @@ export const RecordTable = () => {
 
   const { resetTableRowSelection } = useResetTableRowSelection(recordTableId);
 
+  // Growth OS: a failed list load shows the error card as soon as the one
+  // quick retry has failed, instead of waiting for further reloads.
+  const growthOsListLoadError = useAtomStateValue(growthOsListLoadErrorState);
+  const hasGrowthOsListLoadError =
+    isDefined(growthOsListLoadError) &&
+    growthOsListLoadError.objectNameSingular === objectNameSingular;
+
   const recordTableIsEmpty =
-    !isRecordTableInitialLoading && !recordTableHasRecords;
+    hasGrowthOsListLoadError ||
+    (!isRecordTableInitialLoading && !recordTableHasRecords);
 
   if (!isNonEmptyString(objectNameSingular)) {
     return <></>;
@@ -88,6 +99,7 @@ export const RecordTable = () => {
         </>
       )}
       {isRecordTableInitialLoading &&
+      !hasGrowthOsListLoadError &&
       isEmpty(visibleRecordFields) ? null : recordTableIsEmpty &&
         !hasRecordGroups &&
         !isRecordTableEmptyStateHidden ? (

@@ -225,6 +225,8 @@ export class ResetPasswordService {
       ),
       hasPassword,
       locale,
+      email: user.email,
+      userName: user.firstName ?? undefined,
     };
 
     const emailTemplate = PasswordResetLinkEmail(emailData);
@@ -234,8 +236,8 @@ export class ResetPasswordService {
 
     const i18n = this.i18nService.getI18nInstance(locale);
     const subjectTemplate = hasPassword
-      ? msg`Action Needed to Reset Password`
-      : msg`Action Needed to Set Password`;
+      ? msg`Reset your Growth OS password`
+      : msg`Set your Growth OS password`;
     const subject = i18n._(subjectTemplate);
 
     await this.emailService.send({

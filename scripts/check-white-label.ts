@@ -24,7 +24,8 @@ const allowedHits = new Map<string, number>();
 // Contexts where the upstream name is allowed, with the reason.
 const ALLOWLIST: Array<{ pattern: RegExp; reason: string }> = [
   { pattern: /Built on Twenty/i, reason: 'AGPL credit (upstream attribution)' },
-  { pattern: /upstreamName\s*:\s*["'`]Twenty["'`]/, reason: 'AGPL credit constant' },
+  { pattern: /upstreamName\s*:\s*["'`]Twenty["'`]/, reason: 'AGPL credit constant, rendered only on the open-source licences page (/licenses, OS Lead decision 26 Nov 2026)' },
+  { pattern: /built on the open-source \{?upstreamName\}? CRM|growth-os-licences-page/i, reason: 'open-source licences page (/licenses): the only UI that names the upstream project' },
   { pattern: /github\.com\/twentyhq\/twenty/i, reason: 'AGPL credit link to upstream source' },
   { pattern: /BEGIN: Twenty Config|END: Twenty Config/, reason: 'HTML comment markers the server uses to inject runtime config (not rendered)' },
   { pattern: /["'`]twenty["'`]\s*:\s*\{/, reason: 'internal object key (not rendered)' },
@@ -127,7 +128,7 @@ const checkEmails = async () => {
   const createElement = (reactModule as any).default?.createElement ?? (reactModule as any).createElement;
   let rendered = 0;
   for (const [name, component] of Object.entries(emails)) {
-    if (!/^[A-Z].*(Email|Validation)$/.test(name) || name === 'EmailRenderError' || typeof component !== 'function') continue;
+    if (!/^[A-Z].*(Email|Validation)$/.test(name) || name === 'EmailRenderError' || name.startsWith('Kit') || typeof component !== 'function') continue;
     const previewProps = (component as { PreviewProps?: Record<string, unknown> }).PreviewProps ?? {};
     // Same call shape as the server: render(Template(props)).
     const element = (component as (props: object) => unknown)({ locale: 'en', ...previewProps });

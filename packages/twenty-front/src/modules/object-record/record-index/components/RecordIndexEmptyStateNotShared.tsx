@@ -3,13 +3,7 @@ import { getNonReadableViewFieldSubTitle } from '@/object-record/record-index/ut
 import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
 import { isDefined } from 'twenty-shared/utils';
-import {
-  AnimatedPlaceholder,
-  AnimatedPlaceholderEmptyContainer,
-  AnimatedPlaceholderEmptySubTitle,
-  AnimatedPlaceholderEmptyTextContainer,
-  AnimatedPlaceholderEmptyTitle,
-} from 'twenty-ui/feedback';
+import { GrowthOsForbiddenState } from '~/growth-os/states/GrowthOsForbiddenState';
 
 const StyledEmptyPlaceholderOuterContainer = styled.div`
   height: 100%;
@@ -20,26 +14,20 @@ type RecordIndexEmptyStateNotSharedProps = {
   nonReadableViewFieldInfo?: NonReadableViewFieldInfo;
 };
 
+// Growth OS: kit 403 state.
 export const RecordIndexEmptyStateNotShared = ({
   nonReadableViewFieldInfo,
 }: RecordIndexEmptyStateNotSharedProps) => {
   return (
     <StyledEmptyPlaceholderOuterContainer>
-      <AnimatedPlaceholderEmptyContainer>
-        <AnimatedPlaceholder type="notShared" />
-        <AnimatedPlaceholderEmptyTextContainer>
-          <AnimatedPlaceholderEmptyTitle>
-            {isDefined(nonReadableViewFieldInfo)
-              ? t`View not shared`
-              : t`Object not shared`}
-          </AnimatedPlaceholderEmptyTitle>
-          <AnimatedPlaceholderEmptySubTitle>
-            {isDefined(nonReadableViewFieldInfo)
-              ? getNonReadableViewFieldSubTitle(nonReadableViewFieldInfo)
-              : t`You don't have access to this object.`}
-          </AnimatedPlaceholderEmptySubTitle>
-        </AnimatedPlaceholderEmptyTextContainer>
-      </AnimatedPlaceholderEmptyContainer>
+      <GrowthOsForbiddenState
+        title={isDefined(nonReadableViewFieldInfo) ? t`This view isn’t shared with you` : undefined}
+        description={
+          isDefined(nonReadableViewFieldInfo)
+            ? getNonReadableViewFieldSubTitle(nonReadableViewFieldInfo)
+            : undefined
+        }
+      />
     </StyledEmptyPlaceholderOuterContainer>
   );
 };

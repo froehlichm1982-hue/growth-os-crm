@@ -33,12 +33,14 @@ export const GROWTH_OS_BILLING_SESSION_MUTATION = gql`
     $plan: String
     $interval: String
     $returnUrl: String
+    $reason: String
   ) {
     growthOsBillingSessionUrl(
       kind: $kind
       plan: $plan
       interval: $interval
       returnUrl: $returnUrl
+      reason: $reason
     )
   }
 `;

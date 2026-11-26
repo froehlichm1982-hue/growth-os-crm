@@ -92,8 +92,8 @@ body {
 
 /* 4. Page header: white bar, serif title, more air. */
 .growth-os-page-card-header {
-  background: #ffffff !important;
-  border-bottom-color: #e8ecf0 !important;
+  background: var(--gos-surface) !important;
+  border-bottom-color: var(--gos-line) !important;
   min-height: 60px !important;
   padding-left: 20px !important;
   padding-right: 16px !important;
@@ -117,7 +117,7 @@ body {
 
 [data-testid='top-bar-title'] > div:first-child:not(:last-of-type),
 [data-testid='top-bar-title'] > div:first-child:not(:last-of-type) * {
-  color: #65758b;
+  color: var(--gos-ink-muted);
   font-family: var(--spv-font-ui);
   font-size: 0.95rem;
   font-weight: 500;
@@ -130,7 +130,7 @@ body {
 }
 
 [data-testid='top-bar-title'] > span:last-child {
-  color: #9aa8b8;
+  color: var(--gos-ink-faint);
   font-size: 0.8rem;
 }
 
@@ -141,29 +141,27 @@ body {
 /* 5. Tables: soft grid, calm header, quiet hover. */
 [data-page-surface='main'] .table-cell,
 [data-page-surface='main'] [data-testid^='row-id-'] > * {
-  border-color: #eef1f4 !important;
+  border-color: var(--gos-line-soft) !important;
 }
 
 [data-page-surface='main'] [data-testid^='row-id-']:hover > * {
-  background: #f7f9fa;
+  background: var(--gos-hover);
 }
 
 /* Placeholder avatars and record chips in calm brand tints instead of the
    upstream rainbow. */
 [data-page-surface='main']
   [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
-  background: #e6f2f0 !important;
-  color: #2f625d !important;
+  background: var(--gos-chip-bg) !important;
+  color: var(--gos-chip-fg) !important;
 }
 
 /* 6. Record page: field and relation widgets as cards on a warm column. */
 [data-record-show-page-body] .page-layout-scroll-wrapper .widget {
-  background: #ffffff;
-  border: 1px solid #e3e8ee;
+  background: var(--gos-surface);
+  border: 1px solid var(--gos-line);
   border-radius: 8px;
-  box-shadow:
-    0 1px 2px 0 #111e320a,
-    0 4px 16px -6px #111e320f;
+  box-shadow: var(--gos-card-shadow);
   box-sizing: border-box;
   margin: 0 12px 12px;
   width: calc(100% - 24px);
@@ -186,7 +184,7 @@ body {
 }
 
 [data-record-show-page-body] .page-layout-scroll-wrapper > div {
-  background: var(--spv-section-warm);
+  background: var(--gos-surface-warm);
 }
 
 [data-record-show-page-body] .widget-card-header {
@@ -201,16 +199,14 @@ body {
 
 /* 7. Settings: each section is a white card on the warm page. */
 [data-page-surface='main']:has(.growth-os-settings-page) > div > div {
-  background: var(--spv-section-warm);
+  background: var(--gos-surface-warm);
 }
 
 .growth-os-settings-page > [class*='_section_'] {
-  background: #ffffff;
-  border: 1px solid #e3e8ee;
+  background: var(--gos-surface);
+  border: 1px solid var(--gos-line);
   border-radius: 8px;
-  box-shadow:
-    0 1px 2px 0 #111e320a,
-    0 4px 16px -6px #111e320f;
+  box-shadow: var(--gos-card-shadow);
   box-sizing: border-box;
   padding: 20px 24px;
 }
@@ -236,12 +232,12 @@ body {
 }
 
 .growth-os-page-card-title [class*='_root_']:has(> svg.tabler-icon) {
-  background: #e6f2f0 !important;
+  background: var(--gos-chip-bg) !important;
 }
 
 .growth-os-page-card-title [class*='_root_']:has(> svg.tabler-icon) > svg {
-  color: #2f625d !important;
-  stroke: #2f625d !important;
+  color: var(--gos-chip-fg) !important;
+  stroke: var(--gos-chip-fg) !important;
 }
 
 /* Avatar initials stay in the UI font even inside serif titles. */
@@ -424,13 +420,93 @@ html:root .growth-os-record-hero h3 * {
   }
 }
 
-/* Primary text action in the page header (e.g. Send Email) in brand teal. */
-html:root [data-click-outside-id='page-action-container'] button[data-accent='default']:has([class*='_text_']) {
-  background: var(--c-link) !important;
-  border-color: var(--c-link) !important;
-  color: var(--c-bg) !important;
+/* 13. Kit consistency pass (PRODUCT-UX-STANDARD §2): one primary style
+   (kit .btn-primary navy; white on navy in dark mode), calm table rows,
+   kit tabs, kit field labels and checkboxes. */
+html:root button[data-variant='primary'][data-accent='blue'],
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] {
+  background: var(--c-navy) !important;
+  border-color: var(--c-navy) !important;
+  box-shadow: var(--sh-inset-btn), var(--sh-xs) !important;
+  color: var(--c-on-navy, #ffffff) !important;
 }
 
-html:root [data-click-outside-id='page-action-container'] button[data-accent='default']:has([class*='_text_']) * {
-  color: var(--c-bg) !important;
+html:root button[data-variant='primary'][data-accent='blue'] *,
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] * {
+  color: var(--c-on-navy, #ffffff) !important;
 }
+
+html:root button[data-variant='primary'][data-accent='blue']:hover:not(:disabled),
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:hover:not(:disabled) {
+  background: var(--c-navy-hover) !important;
+}
+
+/* Icon-only header actions (prev/next, favourite, AI, side panel, and the
+   compact mobile Send Email) are kit ghost buttons, not navy squares. */
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])),
+html:root [data-testid='page-header-side-panel-button'] {
+  background: transparent !important;
+  border: 1px solid var(--c-line) !important;
+  box-shadow: none !important;
+  color: var(--c-ink-2) !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])) *,
+html:root [data-testid='page-header-side-panel-button'] * {
+  color: var(--c-ink-2) !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])):hover:not(:disabled),
+html:root [data-testid='page-header-side-panel-button']:hover {
+  background: var(--c-bg-hover) !important;
+}
+
+/* Rows: kit hover and selection tints; the name column reads as the label. */
+html:root [data-testid^='row-id-']:hover > .table-cell,
+html:root [data-testid^='row-id-']:hover > [class*='table-cell-'] {
+  background: var(--c-bg-subtle) !important;
+}
+
+html:root [data-testid^='row-id-'][data-selected='true'] > *,
+html:root [data-testid^='row-id-'][aria-selected='true'] > * {
+  background: var(--c-bg-selected) !important;
+}
+
+html:root .record-table-column-field-0 [class*='_chip_'],
+html:root .record-table-column-field-0 [class*='_label_'] {
+  color: var(--c-ink) !important;
+  font-weight: 600;
+}
+
+html:root [data-testid^='row-id-'] input[type='checkbox'],
+html:root .header-cell input[type='checkbox'] {
+  accent-color: var(--c-navy);
+}
+
+/* Tabs: kit ink + teal accent rule instead of the upstream black. */
+html:root [class*='_tabButton_'] {
+  color: var(--c-ink-3);
+  font-weight: 500;
+}
+
+html:root [class*='_tabButton_'][data-active='true'] {
+  color: var(--c-ink);
+}
+
+html:root [class*='_tabButton_'][data-active='true']::after,
+html:root [class*='_tabButton_'][data-active='true'] > [class*='_indicator_'] {
+  background: var(--c-accent) !important;
+  border-color: var(--c-accent) !important;
+}
+
+/* Record field labels: kit muted 13px. */
+html:root [data-record-show-page-body] .widget [class*='_label_'],
+html:root [data-record-show-page-body] .widget [class*='Label'] {
+  color: var(--c-ink-3);
+}
+
+/* Board cards: kit card hover lift. */
+html:root .growth-os-board-card > div > div {
+  transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+

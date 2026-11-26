@@ -1,4 +1,5 @@
 import { styled } from '@linaria/react';
+import { t } from '@lingui/core/macro';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 
@@ -27,7 +28,7 @@ const StyledStatus = styled.div<{ tone: 'ok' | 'warn' | 'danger' }>`
 
   a,
   span.growth-os-cta {
-    color: #3a7872;
+    color: var(--c-link);
     font-weight: ${themeCssVariables.font.weight.medium};
   }
 `;
@@ -49,7 +50,7 @@ export const GrowthOsPlanStatus = () => {
       <span>{getGrowthOsStatusLine(plan)}</span>
       <UndecoratedLink to={getSettingsPath(SettingsPath.Billing)}>
         <span className="growth-os-cta">
-          {plan.status === 'trialing' ? 'See plans →' : 'Choose a plan →'}
+          {plan.status === 'trialing' ? t`See plans →` : t`Choose a plan →`}
         </span>
       </UndecoratedLink>
     </StyledStatus>

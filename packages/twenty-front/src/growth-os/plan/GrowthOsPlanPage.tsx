@@ -1,6 +1,11 @@
 import { styled } from '@linaria/react';
 import { useMutation } from '@apollo/client/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { t } from '@lingui/core/macro';
+import { i18n } from '@lingui/core';
+import { GROWTH_OS_PLAN_COPY } from '~/growth-os/plan/growthOsPlanCopy';
+import { GrowthOsCancelPlanModal } from '~/growth-os/plan/GrowthOsCancelPlanModal';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 
@@ -57,7 +62,7 @@ const StyledBadge = styled.span<{ tone: 'ok' | 'warn' | 'danger' }>`
     tone === 'ok' ? 'rgba(70,145,137,0.14)' : tone === 'warn' ? 'rgba(217,149,40,0.16)' : 'rgba(220,64,64,0.14)'};
   border-radius: 999px;
   color: ${({ tone }) =>
-    tone === 'ok' ? '#3A7872' : tone === 'warn' ? '#9a5f00' : '#b42318'};
+    tone === 'ok' ? 'var(--c-link)' : tone === 'warn' ? 'var(--c-warn)' : 'var(--c-danger)'};
   font-size: ${themeCssVariables.font.size.sm};
   font-weight: ${themeCssVariables.font.weight.medium};
   padding: 2px 10px;
@@ -205,7 +210,9 @@ export const GrowthOsPlanPage = () => {
   const [requestSession, { loading }] = useMutation<{
     growthOsBillingSessionUrl: string;
   }>(GROWTH_OS_BILLING_SESSION_MUTATION);
-  const { enqueueErrorSnackBar } = useSnackBar();
+  const { enqueueErrorSnackBar, enqueueInfoSnackBar } = useSnackBar();
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const navigate = useNavigate();
 
   const openSession = async (
     kind: 'checkout' | 'portal',
@@ -231,7 +238,7 @@ export const GrowthOsPlanPage = () => {
         message:
           error instanceof Error
             ? error.message
-            : 'Could not open billing. Please try again.',
+            : t`Couldn’t open billing. Try again in a moment.`,
       });
     }
   };
@@ -240,27 +247,27 @@ export const GrowthOsPlanPage = () => {
 
   return (
     <SettingsPageLayout
-      title="Plan & Billing"
+      title={t`Plan & Billing`}
       links={[
-        { children: 'Workspace', href: getSettingsPath(SettingsPath.General) },
-        { children: 'Plan & Billing' },
+        { children: t`Workspace`, href: getSettingsPath(SettingsPath.General) },
+        { children: t`Plan & Billing` },
       ]}
     >
       <SettingsPageContainer>
         {plan && (
           <Section>
             <H2Title
-              title="Current plan"
-              description="What your workspace can use right now."
+              title={t`Current plan`}
+              description={t`What your workspace can use right now.`}
             />
             <StyledCurrent data-testid="growth-os-current-plan">
               <StyledCurrentHeader>
                 <StyledPlanName>
                   {plan.isTrial
-                    ? `${GROWTH_OS_PLAN_LABELS[plan.effectivePlan]} trial`
+                    ? t`${GROWTH_OS_PLAN_LABELS[plan.effectivePlan]} trial`
                     : plan.status === 'active' || plan.status === 'past_due'
                       ? GROWTH_OS_PLAN_LABELS[plan.plan]
-                      : `${GROWTH_OS_PLAN_LABELS[plan.effectivePlan]} (no active plan)`}
+                      : t`${GROWTH_OS_PLAN_LABELS[plan.effectivePlan]} (no active plan)`}
                 </StyledPlanName>
                 <StyledBadge tone={toneFor(plan)}>
                   {getGrowthOsStatusLine(plan)}
@@ -268,32 +275,22 @@ export const GrowthOsPlanPage = () => {
               </StyledCurrentHeader>
               {plan.isTrial && (
                 <StyledNote>
-                  You are trying every Growth feature free until{' '}
-                  {formatGrowthOsDate(plan.trialEndsAt)}. No card needed. Pick
-                  a plan before then to keep email sync, workflows and more
-                  than 3 users.
+                  {t`You are trying every Growth feature free until ${formatGrowthOsDate(plan.trialEndsAt)}. No card needed. Pick a plan before then to keep email sync, workflows and more than 3 users.`}
                 </StyledNote>
               )}
               {!plan.isTrial && plan.effectivePlan !== plan.plan && !plan.isReadOnly && (
                 <StyledNote>
-                  Paid features are paused and nothing has been deleted. Your
-                  workspace uses Starter limits until{' '}
-                  {formatGrowthOsDate(plan.graceEndsAt)}, then becomes
-                  read-only (view and export only).
+                  {t`Paid features are paused and nothing has been deleted. Your workspace uses Starter limits until ${formatGrowthOsDate(plan.graceEndsAt)}, then becomes read-only (view and export only).`}
                 </StyledNote>
               )}
               {plan.status === 'past_due' && !plan.isReadOnly && (
                 <StyledNote>
-                  The last payment failed. Update your payment method by{' '}
-                  {formatGrowthOsDate(plan.graceEndsAt)} to avoid read-only
-                  mode.
+                  {t`The last payment failed. Update your payment method by ${formatGrowthOsDate(plan.graceEndsAt)} to avoid read-only mode.`}
                 </StyledNote>
               )}
               {plan.isReadOnly && (
                 <StyledNote tone="danger">
-                  This workspace is read-only. You can still view and export
-                  all data. Choose a plan to edit again. Nothing has been
-                  deleted.
+                  {t`This workspace is read-only. You can still view and export all data. Choose a plan to edit again. Nothing has been deleted.`}
                 </StyledNote>
               )}
               <StyledMeters>
@@ -302,30 +299,30 @@ export const GrowthOsPlanPage = () => {
                     {plan.seatsUsed}
                     {plan.seatsAllowed === null ? '' : ` / ${plan.seatsAllowed}`}
                   </strong>
-                  Users{plan.pendingInvitations > 0 ? ` (+${plan.pendingInvitations} invited)` : ''}
+                  {t`Users`}{plan.pendingInvitations > 0 ? ` ${t`(+${plan.pendingInvitations} invited)`}` : ''}
                 </StyledMeter>
                 <StyledMeter>
                   <strong>
                     {plan.pipelines}
                     {plan.maxPipelines === null ? '' : ` / ${plan.maxPipelines}`}
                   </strong>
-                  Pipelines
+                  {t`Pipelines`}
                 </StyledMeter>
                 <StyledMeter>
                   <strong>
-                    {plan.features.emailCalendarSync ? 'On' : 'Off'}
+                    {plan.features.emailCalendarSync ? t`On` : t`Off`}
                   </strong>
-                  Email & calendar sync
+                  {t`Email & calendar sync`}
                 </StyledMeter>
                 <StyledMeter>
-                  <strong>{plan.features.workflows ? 'On' : 'Off'}</strong>
-                  Workflows
+                  <strong>{plan.features.workflows ? t`On` : t`Off`}</strong>
+                  {t`Workflows`}
                 </StyledMeter>
                 <StyledMeter>
                   <strong>
                     {plan.apiRequestsPerMinute > 0
-                      ? `${plan.apiRequestsPerMinute}/min`
-                      : 'Off'}
+                      ? t`${plan.apiRequestsPerMinute}/min`
+                      : t`Off`}
                   </strong>
                   API
                 </StyledMeter>
@@ -333,7 +330,7 @@ export const GrowthOsPlanPage = () => {
               <StyledActions>
                 {isPaying ? (
                   <Button
-                    title="Manage billing"
+                    title={t`Manage billing`}
                     variant="primary"
                     accent="blue"
                     disabled={loading}
@@ -341,7 +338,7 @@ export const GrowthOsPlanPage = () => {
                   />
                 ) : (
                   <Button
-                    title="Upgrade to Growth"
+                    title={t`Upgrade to Growth`}
                     variant="primary"
                     accent="blue"
                     disabled={loading}
@@ -349,28 +346,55 @@ export const GrowthOsPlanPage = () => {
                   />
                 )}
               </StyledActions>
+              {plan.status === 'active' && !plan.isTrial && (
+                <button
+                  type="button"
+                  className="gos-linklike"
+                  style={{ alignSelf: 'flex-start', minHeight: 44 }}
+                  onClick={() => setIsCancelOpen(true)}
+                  data-testid="growth-os-cancel-plan"
+                >
+                  {t`Cancel plan`}
+                </button>
+              )}
+              {isCancelOpen && (
+                <GrowthOsCancelPlanModal
+                  plan={plan}
+                  onClose={() => {
+                    setIsCancelOpen(false);
+                    void refetch();
+                  }}
+                  onExport={() => {
+                    setIsCancelOpen(false);
+                    navigate('/objects/companies');
+                    enqueueInfoSnackBar({
+                      message: t`Open Options, then Export, on any list to download a CSV.`,
+                    });
+                  }}
+                />
+              )}
             </StyledCurrent>
           </Section>
         )}
         <Section>
           <H2Title
-            title="Plans"
-            description="Net prices per user and month. VAT is added at checkout, where you can enter your VAT ID. Yearly billing = 2 months free."
+            title={t`Plans`}
+            description={t`Net prices per user and month. VAT is added at checkout, where you can enter your VAT ID. Yearly billing = 2 months free.`}
           />
-          <StyledToggle role="group" aria-label="Billing interval">
+          <StyledToggle role="group" aria-label={t`Billing interval`}>
             <button
               type="button"
               aria-pressed={interval === 'month'}
               onClick={() => setInterval('month')}
             >
-              Monthly
+              {t`Monthly`}
             </button>
             <button
               type="button"
               aria-pressed={interval === 'year'}
               onClick={() => setInterval('year')}
             >
-              Yearly · 2 months free
+              {t`Yearly · 2 months free`}
             </button>
           </StyledToggle>
           <StyledPlans>
@@ -390,32 +414,35 @@ export const GrowthOsPlanPage = () => {
                   data-testid={`growth-os-plan-${entry.plan}`}
                 >
                   {entry.plan === 'growth' && (
-                    <StyledRibbon>Recommended</StyledRibbon>
+                    <StyledRibbon>{t`Recommended`}</StyledRibbon>
                   )}
-                  <H2Title title={entry.label} description={entry.tagline} />
+                  <H2Title
+                    title={entry.label}
+                    description={i18n._(GROWTH_OS_PLAN_COPY[entry.plan].tagline)}
+                  />
                   <StyledPrice>
                     €{Number.isInteger(monthly) ? monthly : monthly.toFixed(2)}
                     <span>
                       {' '}
-                      / user / month
+                      {t`/ user / month`}
                       {interval === 'year'
-                        ? ` · €${entry.priceYearlyEur} billed yearly`
+                        ? ` · ${t`€${entry.priceYearlyEur} billed yearly`}`
                         : ''}
                     </span>
                   </StyledPrice>
                   <StyledList>
-                    {entry.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
+                    {GROWTH_OS_PLAN_COPY[entry.plan].highlights.map((highlight) => (
+                      <li key={highlight.id}>{i18n._(highlight)}</li>
                     ))}
                   </StyledList>
                   <Button
                     fullWidth
                     title={
                       isCurrent
-                        ? 'Current plan'
+                        ? t`Current plan`
                         : isUpgrade
-                          ? `Choose ${entry.label}`
-                          : `Switch to ${entry.label}`
+                          ? t`Choose ${entry.label}`
+                          : t`Switch to ${entry.label}`
                     }
                     variant={entry.plan === 'growth' ? 'primary' : 'secondary'}
                     accent={entry.plan === 'growth' ? 'blue' : 'default'}
@@ -429,10 +456,7 @@ export const GrowthOsPlanPage = () => {
             })}
           </StyledPlans>
           <StyledFine>
-            {GROWTH_OS_PRICING.trialDays}-day Growth trial, no card required.
-            After the trial, unpaid workspaces keep Starter limits for 7 days
-            and then become read-only; data is never deleted automatically and
-            can always be exported. Billed by ScalePoint Ventures Oy.
+            {t`${GROWTH_OS_PRICING.trialDays}-day Growth trial, no card required. After the trial, unpaid workspaces keep Starter limits for 7 days and then become read-only; data is never deleted automatically and can always be exported. Billed by ScalePoint Ventures Oy.`}
           </StyledFine>
         </Section>
       </SettingsPageContainer>

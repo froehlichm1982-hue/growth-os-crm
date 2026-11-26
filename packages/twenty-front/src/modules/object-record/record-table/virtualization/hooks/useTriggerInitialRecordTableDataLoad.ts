@@ -177,11 +177,18 @@ export const useTriggerInitialRecordTableDataLoad = () => {
           [],
         );
 
-        const { records: findManyRecords, totalCount: findManyTotalCount } =
-          await findManyRecordsLazy();
+        // Growth OS: a failed load must not leave skeleton rows forever; with
+        // 0 rows the empty-state slot renders the kit error state instead.
+        try {
+          const { records: findManyRecords, totalCount: findManyTotalCount } =
+            await findManyRecordsLazy();
 
-        records = findManyRecords;
-        totalCount = findManyTotalCount;
+          records = findManyRecords ?? null;
+          totalCount = isDefined(findManyRecords) ? (findManyTotalCount ?? 0) : 0;
+        } catch {
+          records = null;
+          totalCount = 0;
+        }
 
         store.set(
           totalNumberOfRecordsToVirtualizeCallbackState,

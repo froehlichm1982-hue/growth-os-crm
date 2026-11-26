@@ -26,10 +26,13 @@ import {
   AuthExceptionCode,
 } from 'src/engine/core-modules/auth/auth.exception';
 import {
-  PASSWORD_REGEX,
   compareHash,
   hashPassword,
 } from 'src/engine/core-modules/auth/auth.util';
+import { Inject as GrowthOsInject, Optional as GrowthOsOptional } from '@nestjs/common';
+import { growthOsSpendHashTime } from 'src/engine/core-modules/growth-os/password/growth-os-neutral-auth';
+import { GrowthOsSignInLockoutService } from 'src/engine/core-modules/growth-os/password/growth-os-sign-in-lockout.service';
+import { growthOsAssertPasswordPolicy } from 'src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util';
 import { type AuthTokens } from 'src/engine/core-modules/auth/dto/auth-tokens.dto';
 import { type AuthorizeAppDTO } from 'src/engine/core-modules/auth/dto/authorize-app.dto';
 import { type AuthorizeAppInput } from 'src/engine/core-modules/auth/dto/authorize-app.input';
@@ -107,6 +110,9 @@ export class AuthService {
     private readonly featureFlagService: FeatureFlagService,
     private readonly createSsoConnectedAccountService: CreateSsoConnectedAccountService,
     private readonly userSessionService: UserSessionService,
+    @GrowthOsOptional()
+    @GrowthOsInject(GrowthOsSignInLockoutService)
+    private readonly growthOsSignInLockoutService?: GrowthOsSignInLockoutService,
   ) {}
 
   private async checkAccessAndUseInvitationOrThrow(
@@ -155,6 +161,10 @@ export class AuthService {
     input: UserCredentialsInput,
     targetWorkspace?: WorkspaceEntity,
   ) {
+    // Growth OS: lockout first, and the same answer (and cost) for an unknown
+    // email, a user without a password and a wrong password.
+    await this.growthOsSignInLockoutService?.assertNotLocked(input.email);
+
     const user = await this.userRepository.findOne({
       where: {
         email: input.email,
@@ -162,11 +172,32 @@ export class AuthService {
       relations: { userWorkspaces: true },
     });
 
-    if (!user) {
+    const failNeutral = async (): Promise<never> => {
+      if (this.growthOsSignInLockoutService) {
+        await this.growthOsSignInLockoutService.recordFailureAndThrow(
+          input.email,
+        );
+      }
+
       throw new AuthException(
-        'User not found',
-        AuthExceptionCode.USER_NOT_FOUND,
+        'Wrong email or password',
+        AuthExceptionCode.FORBIDDEN_EXCEPTION,
+        {
+          userFriendlyMessage: msg`That email and password don’t match.`,
+        },
       );
+    };
+
+    if (!user || !user.passwordHash) {
+      await growthOsSpendHashTime(input.password);
+
+      return await failNeutral();
+    }
+
+    const isValid = await compareHash(input.password, user.passwordHash);
+
+    if (!isValid) {
+      return await failNeutral();
     }
 
     if (targetWorkspace && !targetWorkspace.isPasswordAuthEnabled) {
@@ -188,27 +219,7 @@ export class AuthService {
       await this.checkAccessAndUseInvitationOrThrow(targetWorkspace, user);
     }
 
-    if (!user.passwordHash) {
-      throw new AuthException(
-        'Incorrect login method',
-        AuthExceptionCode.INVALID_INPUT,
-        {
-          userFriendlyMessage: msg`User was not created with email/password`,
-        },
-      );
-    }
-
-    const isValid = await compareHash(input.password, user.passwordHash);
-
-    if (!isValid) {
-      throw new AuthException(
-        'Wrong password',
-        AuthExceptionCode.FORBIDDEN_EXCEPTION,
-        {
-          userFriendlyMessage: msg`Wrong password.`,
-        },
-      );
-    }
+    await this.growthOsSignInLockoutService?.clear(input.email);
 
     await this.checkIsEmailVerified(user.isEmailVerified);
 
@@ -237,7 +248,10 @@ export class AuthService {
   ) {
     if (userData.type === 'newUser') {
       userData.newUserPayload.passwordHash =
-        await this.signInUpService.generateHash(authParams.password);
+        await this.signInUpService.generateHash(
+          authParams.password,
+          userData.newUserPayload.email,
+        );
     }
 
     if (userData.type === 'existingUser') {
@@ -701,17 +715,7 @@ export class AuthService {
       );
     }
 
-    const isPasswordValid = PASSWORD_REGEX.test(newPassword);
-
-    if (!isPasswordValid) {
-      throw new AuthException(
-        'Password is too weak',
-        AuthExceptionCode.INVALID_INPUT,
-        {
-          userFriendlyMessage: msg`Password is too weak.`,
-        },
-      );
-    }
+    growthOsAssertPasswordPolicy(newPassword, user.email);
 
     const newPasswordHash = await hashPassword(newPassword);
 
@@ -745,7 +749,7 @@ export class AuthService {
     const html = await renderEmail(emailTemplate, { pretty: true });
     const text = await renderEmail(emailTemplate, { plainText: true });
 
-    const passwordChangedMsg = msg`Your Password Has Been Successfully Changed`;
+    const passwordChangedMsg = msg`Your Growth OS password was changed`;
     const i18n = this.i18nService.getI18nInstance(firstUserWorkspace.locale);
     const subject = i18n._(passwordChangedMsg);
 

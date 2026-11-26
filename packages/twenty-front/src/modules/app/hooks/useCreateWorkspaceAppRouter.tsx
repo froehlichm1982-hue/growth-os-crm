@@ -21,6 +21,13 @@ import { DefaultLayout } from '@/ui/layout/page/components/DefaultLayout';
 import { MainAppLayoutWithSidePanel } from '@/ui/layout/page/components/MainAppLayoutWithSidePanel';
 import { Verify } from '~/pages/onboarding/Verify';
 import { lazyWithPreload } from '~/utils/lazyWithPreload';
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
+
+const GrowthOsLicencesPage = lazy(() =>
+  import('~/growth-os/licences/GrowthOsLicencesPage').then((module) => ({
+    default: module.GrowthOsLicencesPage,
+  })),
+);
 
 const SignInUp = lazy(() =>
   import('~/pages/auth/SignInUp').then((module) => ({
@@ -124,6 +131,14 @@ const createWorkspaceAppRouter = ({
           element: <WorkspaceAppProviders />,
           loader: async () => Promise.resolve(null),
           children: [
+            {
+              path: GROWTH_OS_LICENCES_PATH,
+              element: (
+                <LazyRoute fallback={null}>
+                  <GrowthOsLicencesPage />
+                </LazyRoute>
+              ),
+            },
             {
               element: <MinimalMetadataGate />,
               children: [

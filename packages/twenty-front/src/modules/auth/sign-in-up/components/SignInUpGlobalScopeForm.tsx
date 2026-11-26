@@ -1,18 +1,18 @@
+import { GrowthOsAuthDivider } from '~/growth-os/auth/GrowthOsAuthDivider';
 import { availableWorkspacesState } from '@/auth/states/availableWorkspacesState';
 import { returnToPathState } from '@/auth/states/returnToPathState';
 import { useBuildWorkspaceUrl } from '@/domain-manager/hooks/useBuildWorkspaceUrl';
 import { useQuery } from '@apollo/client/react';
 import { styled } from '@linaria/react';
-import { Trans, useLingui } from '@lingui/react/macro';
+import { useLingui } from '@lingui/react/macro';
 import { FormProvider } from 'react-hook-form';
-import { ClickToActionLink, UndecoratedLink } from 'twenty-ui/navigation';
+import { UndecoratedLink } from 'twenty-ui/navigation';
 
 import { StyledOnboardingContentContainer } from '@/auth/components/StyledOnboardingContentContainer';
 import { OnboardingStepAnimatedItem } from '@/onboarding/components/OnboardingStepAnimatedItem';
 import { SignInUpWithCredentials } from '@/auth/sign-in-up/components/internal/SignInUpWithCredentials';
 import { SignInUpWithGoogle } from '@/auth/sign-in-up/components/internal/SignInUpWithGoogle';
 import { SignInUpWithMicrosoft } from '@/auth/sign-in-up/components/internal/SignInUpWithMicrosoft';
-import { useHandleResetPassword } from '@/auth/sign-in-up/hooks/useHandleResetPassword';
 import { useSignInUpForm } from '@/auth/sign-in-up/hooks/useSignInUpForm';
 import {
   SignInUpStep,
@@ -28,7 +28,6 @@ import { isNonEmptyString } from '@sniptt/guards';
 import { useContext } from 'react';
 import { Avatar } from 'twenty-ui/data-display';
 import { IconChevronRight, IconPlus } from 'twenty-ui/icon';
-import { HorizontalSeparator } from 'twenty-ui/layout';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 import {
   type AvailableWorkspace,
@@ -117,12 +116,6 @@ const StyledChevronIcon = styled.div`
   display: flex;
 `;
 
-const StyledForgotPasswordLinkContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: ${themeCssVariables.spacing[4]};
-`;
-
 export const SignInUpGlobalScopeForm = () => {
   const { theme } = useContext(ThemeContext);
   const authProviders = useAtomStateValue(authProvidersState);
@@ -134,7 +127,6 @@ export const SignInUpGlobalScopeForm = () => {
   const { t } = useLingui();
 
   const { form } = useSignInUpForm();
-  const { handleResetPassword } = useHandleResetPassword();
   const returnToPath = useAtomStateValue(returnToPathState);
 
   useQuery(GetWorkspaceCreationDefaultsDocument, {
@@ -246,23 +238,13 @@ export const SignInUpGlobalScopeForm = () => {
             />
           )}
           {(authProviders.google || authProviders.microsoft) && (
-            <HorizontalSeparator
-              color={themeCssVariables.background.transparent.light}
-            />
+            <GrowthOsAuthDivider />
           )}
           {/* oxlint-disable-next-line react/jsx-props-no-spreading */}
           <FormProvider {...form}>
             <SignInUpWithCredentials isGlobalScope />
           </FormProvider>
-          {signInUpStep === SignInUpStep.Password && (
-            <StyledForgotPasswordLinkContainer>
-              <ClickToActionLink
-                onClick={handleResetPassword(form.getValues('email'))}
-              >
-                <Trans>Forgot your password?</Trans>
-              </ClickToActionLink>
-            </StyledForgotPasswordLinkContainer>
-          )}
+          {/* Growth OS: "Forgot password?" sits on the password label row. */}
         </StyledOnboardingContentContainer>
       )}
     </>

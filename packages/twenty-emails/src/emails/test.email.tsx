@@ -1,28 +1,31 @@
-import { BaseEmail } from 'src/components/BaseEmail';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitEmail,
+  KitText,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type TestEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-// This is a test email which isn't used in production
-// It's useful to do tests and play in a local environment
 export const TestEmail = ({ locale }: TestEmailProps) => {
-  const i18n = createI18nInstance(locale);
+  const i18n = kitI18n(locale);
 
   return (
-    <BaseEmail locale={locale}>
-      <Title value={i18n._('Test email')} />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Test email from Growth OS CRM')}
+      preheader={i18n._('If you can read this, sending works.')}
+      eyebrow={i18n._('Test')}
+      heading={i18n._('Sending works')}
+      reason="test"
+    >
+      <KitText>{i18n._('If you can read this, your workspace can send email. You don’t need to do anything.')}</KitText>
+    </KitEmail>
   );
 };
 
-TestEmail.PreviewProps = {
-  locale: 'en',
-};
+TestEmail.PreviewProps = { locale: 'en' } as TestEmailProps;
 
 export default TestEmail;

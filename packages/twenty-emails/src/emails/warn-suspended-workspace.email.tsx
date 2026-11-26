@@ -1,10 +1,12 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitButton,
+  KitDetails,
+  KitEmail,
+  KitNote,
+  KitText,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type WarnSuspendedWorkspaceEmailProps = {
   daysSinceInactive: number;
@@ -15,60 +17,37 @@ type WarnSuspendedWorkspaceEmailProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-export const WarnSuspendedWorkspaceEmail = ({
-  daysSinceInactive,
-  inactiveDaysBeforeDelete,
-  userName,
-  workspaceDisplayName,
-  link,
-  locale,
-}: WarnSuspendedWorkspaceEmailProps) => {
-  const i18n = createI18nInstance(locale);
-  const daysLeft = inactiveDaysBeforeDelete - daysSinceInactive;
-  const dayOrDays = daysLeft > 1 ? 'days' : 'day';
-  const remainingDays = daysLeft > 0 ? daysLeft : 0;
+export const WarnSuspendedWorkspaceEmail = ({ daysSinceInactive, inactiveDaysBeforeDelete, userName, workspaceDisplayName, link, locale }: WarnSuspendedWorkspaceEmailProps) => {
+  const i18n = kitI18n(locale);
+  const remainingDays = Math.max(0, inactiveDaysBeforeDelete - daysSinceInactive);
+  const workspace = workspaceDisplayName ?? i18n._('your workspace');
 
   return (
-    <BaseEmail width={333} locale={locale}>
-      <Title value={i18n._('Your workspace is paused')} />
-      <MainText>
-        {userName?.length > 1 ? (
-          <Trans id="Hi {userName}," values={{ userName }} />
-        ) : (
-          <Trans id="Hello," />
-        )}
-        <br />
-        <br />
-        <Trans
-          id="Good news first: your workspace <0>{workspaceDisplayName}</0> is only paused — none of your data is gone."
-          values={{ workspaceDisplayName }}
-          components={{ 0: <b /> }}
-        />
-        <br />
-        <br />
-        <Trans
-          id="Reactivate it within the next {remainingDays} {dayOrDays} and you'll pick up exactly where you left off, with every record, view and setting right where you left it."
-          values={{ remainingDays, dayOrDays }}
-        />
-        <br />
-        <br />
-        <Trans id="After that, the workspace and all of its data will be permanently deleted — and we won't be able to bring it back." />
-      </MainText>
-      <br />
-      <CallToAction href={link} value={i18n._('Reactivate workspace')} />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Your workspace is paused')}
+      preheader={i18n._('Your data is safe. Reactivate within {remainingDays} days to keep it.', { remainingDays })}
+      eyebrow={i18n._('Workspace paused')}
+      heading={i18n._('Your workspace is paused')}
+      reason="billing"
+    >
+      <KitText>
+        {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')} {i18n._('{workspace} is paused, but nothing is lost. Reactivate it and you pick up exactly where you left off.', { workspace })}
+      </KitText>
+      <KitDetails rows={[[i18n._('Paused for'), i18n._('{daysSinceInactive} days', { daysSinceInactive })], [i18n._('Deleted in'), i18n._('{remainingDays} days', { remainingDays })]]} />
+      <KitButton href={link} label={i18n._('Reactivate workspace')} />
+      <KitNote tone="warn">{i18n._('After that, the workspace and all its data are deleted for good. We can’t bring them back.')}</KitNote>
+    </KitEmail>
   );
 };
 
 WarnSuspendedWorkspaceEmail.PreviewProps = {
-  daysSinceInactive: 10,
-  inactiveDaysBeforeDelete: 14,
-  userName: 'John Doe',
-  workspaceDisplayName: 'Acme Inc.',
-  link: 'https://acme.example.com/settings/billing',
+  daysSinceInactive: 23,
+  inactiveDaysBeforeDelete: 30,
+  userName: 'Lena',
+  workspaceDisplayName: 'Nordlicht Analytics',
+  link: 'https://crm.scalepoint-ventures.com/settings/billing',
   locale: 'en',
-};
+} as WarnSuspendedWorkspaceEmailProps;
 
 export default WarnSuspendedWorkspaceEmail;

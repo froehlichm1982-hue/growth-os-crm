@@ -154,7 +154,9 @@ describe('ApolloFactory', () => {
     );
   });
 
-  it('should call onError when encountering "Unauthorized" error', async () => {
+  // Growth OS: unauthenticated responses skip the generic onError toast and go
+  // straight to onUnauthenticatedError (kit session-expired state on sign-in).
+  it('should call onUnauthenticatedError, not onError, on "Unauthorized"', async () => {
     const errors = [{ message: 'Unauthorized' }];
     fetchMock.mockResponse(() =>
       Promise.resolve({
@@ -169,11 +171,12 @@ describe('ApolloFactory', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(CombinedGraphQLErrors);
       expect((error as CombinedGraphQLErrors).message).toBe('Unauthorized');
-      expect(mockOnError).toHaveBeenCalledWith(errors);
+      expect(mockOnError).not.toHaveBeenCalled();
+      expect(mockOnUnauthenticatedError).toHaveBeenCalled();
     }
   }, 10000);
 
-  it('should call onError when encountering "UNAUTHENTICATED" error', async () => {
+  it('should call onUnauthenticatedError, not onError, on "UNAUTHENTICATED"', async () => {
     const errors = [
       {
         extensions: {
@@ -197,7 +200,8 @@ describe('ApolloFactory', () => {
       expect((error as CombinedGraphQLErrors).message).toBe(
         'Error message not found.',
       );
-      expect(mockOnError).toHaveBeenCalledWith(errors);
+      expect(mockOnError).not.toHaveBeenCalled();
+      expect(mockOnUnauthenticatedError).toHaveBeenCalled();
     }
   }, 10000);
 

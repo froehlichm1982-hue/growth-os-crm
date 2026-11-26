@@ -1,3 +1,5 @@
+import { t } from '@lingui/core/macro';
+import { growthOsAuthAlertState } from '~/growth-os/auth/growthOsAuthAlertState';
 import { InMemoryCache } from '@apollo/client';
 import { useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +26,7 @@ import { useUpdateEffect } from '~/hooks/useUpdateEffect';
 import { isMatchingLocation } from '~/utils/isMatchingLocation';
 
 export const useApolloFactory = (options: Partial<Options> = {}) => {
+  const setGrowthOsAuthAlert = useSetAtomState(growthOsAuthAlertState);
   // oxlint-disable-next-line twenty/no-state-useref
   const apolloRef = useRef<ApolloFactory | null>(null);
 
@@ -84,6 +87,11 @@ export const useApolloFactory = (options: Partial<Options> = {}) => {
           if (isValidReturnToPath(path)) {
             setReturnToPath(path);
           }
+          // Growth OS: say why the user is back on sign-in (kit session-expired state).
+          setGrowthOsAuthAlert({
+            tone: 'warn',
+            message: t`Your session expired. Sign in again to pick up where you left off.`,
+          });
           navigate(AppPath.SignInUp);
         }
       },

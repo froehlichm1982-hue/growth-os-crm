@@ -33,10 +33,10 @@ import {
   AuthExceptionCode,
 } from 'src/engine/core-modules/auth/auth.exception';
 import {
-  PASSWORD_REGEX,
   compareHash,
   hashPassword,
 } from 'src/engine/core-modules/auth/auth.util';
+import { growthOsAssertPasswordPolicy } from 'src/engine/core-modules/growth-os/password/growth-os-assert-password-policy.util';
 import { isWorkspaceCountWithinLimit } from 'src/engine/core-modules/auth/utils/is-workspace-count-within-limit.util';
 import { getSignUpWithoutWorkspaceDecision } from 'src/engine/core-modules/auth/utils/get-sign-up-without-workspace-decision.util';
 import { hasProvisionedSignUpDestination } from 'src/engine/core-modules/auth/utils/has-provisioned-sign-up-destination.util';
@@ -129,6 +129,7 @@ export class SignInUpService {
     if (authParams.provider === AuthProviderEnum.Password) {
       partialNewUser.passwordHash = await this.generateHash(
         authParams.password,
+        newUserPayload.email,
       );
     }
 
@@ -162,18 +163,9 @@ export class SignInUpService {
     return await this.signUpOnNewWorkspace(params.userData);
   }
 
-  async generateHash(password: string) {
-    const isPasswordValid = PASSWORD_REGEX.test(password);
-
-    if (!isPasswordValid) {
-      throw new AuthException(
-        'Password too weak',
-        AuthExceptionCode.INVALID_INPUT,
-        {
-          userFriendlyMessage: msg`Password too weak`,
-        },
-      );
-    }
+  async generateHash(password: string, email?: string | null) {
+    // Growth OS CRM: length + offline breached list + email name (no composition rules).
+    growthOsAssertPasswordPolicy(password, email);
 
     return await hashPassword(password);
   }

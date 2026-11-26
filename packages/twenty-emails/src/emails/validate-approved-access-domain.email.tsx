@@ -1,19 +1,12 @@
-import { Trans } from '@lingui/react';
-import { Img } from 'react-email';
-import { canvasTheme } from 'src/common-style';
-
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { HighlightedContainer } from 'src/components/HighlightedContainer';
-import { HighlightedText } from 'src/components/HighlightedText';
-import { Link } from 'src/components/Link';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { DEFAULT_WORKSPACE_LOGO } from 'src/constants/DefaultWorkspaceLogo';
-import { capitalize } from 'src/utils/capitalize';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
-import { getImageAbsoluteURI } from 'twenty-shared/utils';
+import {
+  KitButton,
+  KitEmail,
+  KitFallbackLink,
+  KitNote,
+  KitText,
+  kitI18n,
+} from 'src/components/kit/KitEmail';
 
 type SendApprovedAccessDomainValidationProps = {
   link: string;
@@ -28,71 +21,37 @@ type SendApprovedAccessDomainValidationProps = {
   locale: keyof typeof APP_LOCALES;
 };
 
-export const SendApprovedAccessDomainValidation = ({
-  link,
-  domain,
-  workspace,
-  sender,
-  serverUrl,
-  locale,
-}: SendApprovedAccessDomainValidationProps) => {
-  const i18n = createI18nInstance(locale);
-  const workspaceLogo = workspace.logo
-    ? getImageAbsoluteURI({ imageUrl: workspace.logo, baseUrl: serverUrl })
-    : null;
-
-  const senderName = capitalize(sender.firstName);
-  const senderEmail = sender.email;
+export const SendApprovedAccessDomainValidation = ({ link, domain, workspace, sender, locale }: SendApprovedAccessDomainValidationProps) => {
+  const i18n = kitI18n(locale);
+  const senderName = [sender.firstName, sender.lastName].filter(Boolean).join(' ') || sender.email;
+  const workspaceName = workspace.name ?? i18n._('your workspace');
 
   return (
-    <BaseEmail width={333} locale={locale}>
-      <Title value={i18n._('Validate domain')} />
-      <MainText>
-        <Trans
-          id="{senderName} (<0>{senderEmail}</0>): Please validate this domain to allow users with <1>@{domain}</1> email addresses to join your workspace without requiring an invitation."
-          values={{ senderName, senderEmail, domain }}
-          components={{
-            0: (
-              <Link
-                href={`mailto:${senderEmail}`}
-                value={senderEmail}
-                color={canvasTheme.font.colors.blue}
-              />
-            ),
-            1: <b />,
-          }}
-        />
-        <br />
-      </MainText>
-      <HighlightedContainer>
-        <Img
-          src={workspaceLogo ?? DEFAULT_WORKSPACE_LOGO}
-          width={40}
-          height={40}
-          alt={workspace.name ?? 'Workspace logo'}
-        />
-        {workspace.name ? <HighlightedText value={workspace.name} /> : <></>}
-        <CallToAction href={link} value={i18n._('Validate domain')} />
-      </HighlightedContainer>
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={i18n._('Approve {domain} for {workspaceName}', { domain, workspaceName })}
+      preheader={i18n._('Once approved, colleagues with this domain can join without an invite.')}
+      eyebrow={i18n._('Workspace access')}
+      heading={i18n._('Approve the domain @{domain}', { domain })}
+      reason="admin"
+    >
+      <KitText>
+        {i18n._('{senderName} wants anyone with an @{domain} email address to be able to join {workspaceName} without an invite.', { senderName, domain, workspaceName })}
+      </KitText>
+      <KitButton href={link} label={i18n._('Approve domain')} />
+      <KitFallbackLink href={link} i18n={i18n} />
+      <KitNote>{i18n._('Only approve domains your company owns. You can remove the domain later in Settings → Security.')}</KitNote>
+    </KitEmail>
   );
 };
 
 SendApprovedAccessDomainValidation.PreviewProps = {
-  link: 'https://app.example.com/validate-domain',
-  domain: 'example.com',
-  workspace: {
-    name: 'Acme Inc.',
-    logo: 'https://fakeimg.pl/200x200/?text=ACME&font=lobster',
-  },
-  sender: {
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-  },
-  serverUrl: 'https://app.example.com',
+  link: 'https://crm.scalepoint-ventures.com/settings/security/approved-domain/demo',
+  domain: 'nordlicht-mail.io',
+  workspace: { name: 'Nordlicht Analytics', logo: undefined },
+  sender: { email: 'lena@nordlicht-mail.io', firstName: 'Lena', lastName: 'Hartmann' },
+  serverUrl: 'https://crm.scalepoint-ventures.com',
   locale: 'en',
-};
+} as SendApprovedAccessDomainValidationProps;
 
 export default SendApprovedAccessDomainValidation;

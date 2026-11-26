@@ -17,6 +17,7 @@ import { getQueryIdentifier } from '@/object-record/utils/getQueryIdentifier';
 import { QUERY_DEFAULT_LIMIT_RECORDS } from 'twenty-shared/constants';
 import { isDefined } from 'twenty-shared/utils';
 import { useStore } from 'jotai';
+import { growthOsListLoadErrorState } from '~/growth-os/states/growthOsListLoadErrorState';
 
 type UseLazyFindManyRecordsParams<T> = Omit<
   UseFindManyRecordsParams<T>,
@@ -30,6 +31,7 @@ export const useLazyFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
   limit = QUERY_DEFAULT_LIMIT_RECORDS,
   recordGqlFields,
   fetchPolicy = 'cache-first',
+  growthOsInlineError = false,
 }: UseLazyFindManyRecordsParams<T>) => {
   const store = useStore();
   const { objectMetadataItem } = useObjectMetadataItem({
@@ -45,6 +47,7 @@ export const useLazyFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
 
   const { handleFindManyRecordsError } = useHandleFindManyRecordsError({
     objectMetadataItem,
+    silent: growthOsInlineError,
   });
 
   const queryIdentifier = getQueryIdentifier({
@@ -104,12 +107,36 @@ export const useLazyFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
     // the query document changes (e.g. metadata/permissions loading).
     // Calling .retain() keeps the query running to completion even if
     // the ObservableQuery is updated, preventing AbortError rejections.
-    const result = await findManyRecords({
-      variables: defaultVariables,
-    }).retain();
+    let result;
+
+    try {
+      result = await findManyRecords({
+        variables: defaultVariables,
+      }).retain();
+    } catch (thrownError) {
+      // Growth OS: a rejected load (network/5xx after the quick retry) must
+      // reach the inline error card too, not only resolved GraphQL errors.
+      if (growthOsInlineError) {
+        store.set(growthOsListLoadErrorState.atom, {
+          objectNameSingular,
+          error: thrownError as Error,
+        });
+      }
+
+      throw thrownError;
+    }
 
     if (isDefined(result?.error)) {
       handleFindManyRecordsError(result.error);
+    }
+
+    if (growthOsInlineError) {
+      store.set(
+        growthOsListLoadErrorState.atom,
+        isDefined(result?.error)
+          ? { objectNameSingular, error: result.error as Error }
+          : null,
+      );
     }
 
     const hasNextPage =

@@ -1,55 +1,59 @@
-import { Trans } from '@lingui/react';
-import { BaseEmail } from 'src/components/BaseEmail';
-import { CallToAction } from 'src/components/CallToAction';
-import { Link } from 'src/components/Link';
-import { MainText } from 'src/components/MainText';
-import { Title } from 'src/components/Title';
-import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
+import {
+  KitButton,
+  KitDetails,
+  KitEmail,
+  KitFallbackLink,
+  KitNote,
+  KitText,
+  kitI18n,
+  kitLocalizeDuration,
+} from 'src/components/kit/KitEmail';
 
 type PasswordResetLinkEmailProps = {
   duration: string;
   hasPassword: boolean;
   link: string;
   locale: keyof typeof APP_LOCALES;
+  email?: string;
+  userName?: string;
 };
 
-export const PasswordResetLinkEmail = ({
-  duration,
-  hasPassword,
-  link,
-  locale,
-}: PasswordResetLinkEmailProps) => {
-  const i18n = createI18nInstance(locale);
-  const headline = hasPassword
-    ? i18n._('Reset your password 🗝')
-    : i18n._('Set your password 🗝');
-  const ctaLabel = hasPassword ? i18n._('Reset') : i18n._('Set');
+export const PasswordResetLinkEmail = ({ duration, hasPassword, link, locale, email, userName }: PasswordResetLinkEmailProps) => {
+  const i18n = kitI18n(locale);
+  const expires = kitLocalizeDuration(duration, locale);
+  const heading = hasPassword ? i18n._('Choose a new password') : i18n._('Set your password');
 
   return (
-    <BaseEmail locale={locale}>
-      <Title value={headline} />
-      <MainText>
-        <Trans
-          id="This link is only valid for the next {duration}. If the link does not work, you can use the login verification link directly:"
-          values={{ duration }}
-        />
-        <br />
-        <Link href={link} value={link} />
-      </MainText>
-      <br />
-      <CallToAction href={link} value={ctaLabel} />
-      <br />
-      <br />
-    </BaseEmail>
+    <KitEmail
+      locale={locale}
+      title={hasPassword ? i18n._('Reset your Growth OS password') : i18n._('Set your Growth OS password')}
+      preheader={i18n._('This link works for {expires} and only once.', { expires })}
+      eyebrow={i18n._('Password reset')}
+      heading={heading}
+      reason="security"
+    >
+      <KitText>
+        {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')}{' '}
+        {email
+          ? i18n._('we got a request to reset the password for {email}. Click the button to choose a new one.', { email })
+          : i18n._('we got a request to reset the password for your account. Click the button to choose a new one.')}
+      </KitText>
+      <KitDetails rows={[[i18n._('Link expires'), i18n._('in {expires}', { expires })], [i18n._('Works'), i18n._('once')]]} />
+      <KitButton href={link} label={heading} />
+      <KitFallbackLink href={link} i18n={i18n} />
+      <KitNote>{i18n._('Didn’t ask for this? You can ignore this email. Your password stays the same. If you get these often, reply and we’ll take a look.')}</KitNote>
+    </KitEmail>
   );
 };
 
 PasswordResetLinkEmail.PreviewProps = {
-  duration: '24 hours',
+  duration: '60 minutes',
   hasPassword: true,
-  link: 'https://app.example.com/reset-password/123',
+  link: 'https://crm.scalepoint-ventures.com/reset-password/3b91c7c0d',
   locale: 'en',
+  email: 'lena@nordlicht-mail.io',
+  userName: 'Lena',
 } as PasswordResetLinkEmailProps;
 
 export default PasswordResetLinkEmail;
