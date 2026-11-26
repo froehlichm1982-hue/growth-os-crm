@@ -405,15 +405,14 @@
    in-form switch would duplicate it and can disagree with the URL, so it is hidden. */
 .gos-auth .gos-mode-switch { display: none; }
 
-/* §4 logout toast (DS .gos-toast: navy, shadow-lg, radius-lg, bottom right).
-   DS dark uses a raw #22304A; no token yet (DSR-CRM-04), so dark uses surface + line. */
+/* §4 logout toast (DS .gos-toast: --gos-surface-inverse + --gos-on-inverse, DS v2.7). */
 .gos-toast-region { bottom: var(--gos-space-5); position: fixed; right: var(--gos-space-5); width: min(380px, calc(100vw - 32px)); z-index: var(--gos-z-toast); }
 .gos-toast {
   align-items: center;
-  background: var(--gos-primary);
+  background: var(--gos-surface-inverse);
   border-radius: var(--gos-radius-lg);
   box-shadow: var(--gos-shadow-lg);
-  color: var(--gos-primary-ink);
+  color: var(--gos-on-inverse);
   display: flex;
   font-size: var(--gos-text-sm);
   font-weight: var(--gos-weight-medium);
@@ -421,7 +420,6 @@
   padding: var(--gos-space-3) var(--gos-space-4);
   animation: gos-toast-in var(--gos-duration-base) var(--gos-ease-out);
 }
-[data-theme='dark'] .gos-toast { background: var(--gos-surface); border: 1px solid var(--gos-line); color: var(--gos-text-strong); }
 @keyframes gos-toast-in { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) { .gos-toast { animation: none; } }
 
@@ -433,7 +431,7 @@
   .gos-auth-card { margin: 0 auto; padding-top: 16px; padding-bottom: 24px; }
 }
 
-/* DS v2.1 touch targets, ported: the CRM does not load css/gos.css, so the
+/* DS v2.1 touch targets, ported (PENDING: the DS has no CRM-scoped gos.css yet; drop this port when it ships): the CRM does not load css/gos.css, so the
    top switch link and footer links get the 44px hit area here. */
 @media (pointer: coarse), (max-width: 640px) {
   .gos-auth-top a,
