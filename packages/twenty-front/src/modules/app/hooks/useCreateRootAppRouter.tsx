@@ -15,6 +15,7 @@ import { OnboardingPageLoader } from '@/onboarding/components/OnboardingPageLoad
 import { OnboardingTransitionOutlet } from '@/onboarding/components/OnboardingTransitionOutlet';
 import { AuthFlowLayout } from '@/ui/layout/page/components/AuthFlowLayout';
 import { BlankLayout } from '@/ui/layout/page/components/BlankLayout';
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 
 const SignInUp = lazy(() =>
   import('~/pages/auth/SignInUp').then((module) => ({
@@ -25,6 +26,12 @@ const SignInUp = lazy(() =>
 const PasswordReset = lazy(() =>
   import('~/pages/auth/PasswordReset').then((module) => ({
     default: module.PasswordReset,
+  })),
+);
+
+const GrowthOsLicencesPage = lazy(() =>
+  import('~/growth-os/licences/GrowthOsLicencesPage').then((module) => ({
+    default: module.GrowthOsLicencesPage,
   })),
 );
 
@@ -64,6 +71,14 @@ const createRootAppRouter = () =>
           />
         </Route>
         <Route path={AppPath.Authorize} element={<RootAuthorizeRedirect />} />
+        <Route
+          path={GROWTH_OS_LICENCES_PATH}
+          element={
+            <LazyRoute fallback={null}>
+              <GrowthOsLicencesPage />
+            </LazyRoute>
+          }
+        />
         <Route
           path={AppPath.NotFoundWildcard}
           element={<Navigate to={AppPath.SignInUp} replace />}

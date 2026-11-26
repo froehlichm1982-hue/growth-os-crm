@@ -686,6 +686,11 @@ msgstr "{permissionLabel} Permission removed"
 msgid "{positionLabel} record holds priority"
 msgstr "{positionLabel} record holds priority"
 
+#. js-lingui-id: 9AcKa1
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "{productName} is built on the open-source {upstreamName} CRM and is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)."
+msgstr "{productName} is built on the open-source {upstreamName} CRM and is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)."
+
 #. js-lingui-id: 2V2T+0
 #. placeholder {0}: formatNumber(queuedCount)
 #. placeholder {1}: formatNumber(queuedCount)
@@ -12548,6 +12553,11 @@ msgstr "loop"
 msgid "Mail Account"
 msgstr "Mail Account"
 
+#. js-lingui-id: dqneVS
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Main third-party components"
+msgstr "Main third-party components"
+
 #. js-lingui-id: 6Dd2PM
 #: src/growth-os/states/GrowthOsMaintenancePage.tsx
 #: src/modules/settings/admin-panel/health-status/maintenance-mode/components/SettingsAdminMaintenanceMode.tsx
@@ -15189,11 +15199,24 @@ msgstr "Open records on a dedicated page"
 msgid "Open Replit with the Twenty remote server config."
 msgstr "Open Replit with the Twenty remote server config."
 
+#. js-lingui-id: v+Wp++
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Open source"
+msgstr "Open source"
+
 #. js-lingui-id: WFTzOb
 #: src/growth-os/auth/GrowthOsResetSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Open the email from ScalePoint Growth OS"
 msgstr "Open the email from ScalePoint Growth OS"
+
+#. js-lingui-id: a02pxq
+#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsSourceNotice.tsx
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
+msgid "Open-source licences"
+msgstr "Open-source licences"
 
 #. js-lingui-id: OV5wZZ
 #: src/modules/navigation-menu-item/display/sections/components/NavigationDrawerOpenedSection.tsx
@@ -16452,6 +16475,11 @@ msgstr "Read documentation"
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Read system prompts"
 msgstr "Read system prompts"
+
+#. js-lingui-id: jrnAlO
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Read the AGPL-3.0 licence"
+msgstr "Read the AGPL-3.0 licence"
 
 #. js-lingui-id: EKsFda
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
@@ -19179,6 +19207,11 @@ msgstr "Sorts"
 msgid "Source"
 msgstr "Source"
 
+#. js-lingui-id: joolK7
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Source code"
+msgstr "Source code"
+
 #. js-lingui-id: 5f1fxa
 #: src/modules/settings/accounts/components/SettingsAccountsNewEmailGroupChannel.tsx
 msgid "Source Email Address"
@@ -20109,6 +20142,11 @@ msgstr "The call recording could not be processed."
 msgid "The call recording is being processed…"
 msgstr "The call recording is being processed…"
 
+#. js-lingui-id: M1zxcg
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "The complete source code of the version we run is available on request from support."
+msgstr "The complete source code of the version we run is available on request from support."
+
 #. js-lingui-id: /kfzmx
 #: src/pages/settings/legal/SettingsLegalDpa.tsx
 msgid "The Data Processing Agreement could not be loaded. Please try again."
@@ -20153,6 +20191,11 @@ msgstr "The end time must be after the start time."
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
 msgid "The full agreement with fields resolved for your deployment."
 msgstr "The full agreement with fields resolved for your deployment."
+
+#. js-lingui-id: yXxzVD
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "The full list of components and their licence texts ships with the source code (LICENSE and NOTICE files)."
+msgstr "The full list of components and their licence texts ships with the source code (LICENSE and NOTICE files)."
 
 #. js-lingui-id: diO3fm
 #: src/modules/workflow/workflow-trigger/components/WorkflowEditTriggerManual.tsx
@@ -23510,6 +23553,11 @@ msgstr "You are trying every Growth feature free until {0}. No card needed. Pick
 #: src/pages/settings/applications/tabs/SettingsApplicationsDeveloperTab.tsx
 msgid "You can either create a private app or share it to others"
 msgstr "You can either create a private app or share it to others"
+
+#. js-lingui-id: sixDsQ
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "You can get the complete source code of the version we run, including our changes."
+msgstr "You can get the complete source code of the version we run, including our changes."
 
 #. js-lingui-id: VjaiWi
 #: src/growth-os/auth/GrowthOsResetSent.tsx

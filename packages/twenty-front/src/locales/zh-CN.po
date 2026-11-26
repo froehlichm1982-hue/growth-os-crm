@@ -691,6 +691,11 @@ msgstr ""
 msgid "{positionLabel} record holds priority"
 msgstr "{positionLabel} 记录具有优先级"
 
+#. js-lingui-id: 9AcKa1
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "{productName} is built on the open-source {upstreamName} CRM and is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0)."
+msgstr ""
+
 #. js-lingui-id: 2V2T+0
 #. placeholder {0}: formatNumber(queuedCount)
 #. placeholder {1}: formatNumber(queuedCount)
@@ -12530,6 +12535,11 @@ msgstr "循环"
 msgid "Mail Account"
 msgstr "邮件账户"
 
+#. js-lingui-id: dqneVS
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Main third-party components"
+msgstr ""
+
 #. js-lingui-id: 6Dd2PM
 #: src/growth-os/states/GrowthOsMaintenancePage.tsx
 #: src/modules/settings/admin-panel/health-status/maintenance-mode/components/SettingsAdminMaintenanceMode.tsx
@@ -15171,10 +15181,23 @@ msgstr "在专用页面中打开记录"
 msgid "Open Replit with the Twenty remote server config."
 msgstr "打开 Replit，并使用 Twenty 远程服务器配置。"
 
+#. js-lingui-id: v+Wp++
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Open source"
+msgstr ""
+
 #. js-lingui-id: WFTzOb
 #: src/growth-os/auth/GrowthOsResetSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Open the email from ScalePoint Growth OS"
+msgstr ""
+
+#. js-lingui-id: a02pxq
+#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsSourceNotice.tsx
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+#: src/growth-os/states/GrowthOsSystemPage.tsx
+msgid "Open-source licences"
 msgstr ""
 
 #. js-lingui-id: OV5wZZ
@@ -16434,6 +16457,11 @@ msgstr "阅读文档"
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Read system prompts"
 msgstr "阅读系统提示词"
+
+#. js-lingui-id: jrnAlO
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Read the AGPL-3.0 licence"
+msgstr ""
 
 #. js-lingui-id: EKsFda
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
@@ -19161,6 +19189,11 @@ msgstr "排序"
 msgid "Source"
 msgstr "来源"
 
+#. js-lingui-id: joolK7
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "Source code"
+msgstr ""
+
 #. js-lingui-id: 5f1fxa
 #: src/modules/settings/accounts/components/SettingsAccountsNewEmailGroupChannel.tsx
 msgid "Source Email Address"
@@ -20061,6 +20094,11 @@ msgstr "无法处理该通话录音。"
 msgid "The call recording is being processed…"
 msgstr "该通话录音正在处理中…"
 
+#. js-lingui-id: M1zxcg
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "The complete source code of the version we run is available on request from support."
+msgstr ""
+
 #. js-lingui-id: /kfzmx
 #: src/pages/settings/legal/SettingsLegalDpa.tsx
 msgid "The Data Processing Agreement could not be loaded. Please try again."
@@ -20105,6 +20143,11 @@ msgstr "结束时间必须晚于开始时间。"
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
 msgid "The full agreement with fields resolved for your deployment."
 msgstr "已为您的部署解析字段的完整协议。"
+
+#. js-lingui-id: yXxzVD
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "The full list of components and their licence texts ships with the source code (LICENSE and NOTICE files)."
+msgstr ""
 
 #. js-lingui-id: diO3fm
 #: src/modules/workflow/workflow-trigger/components/WorkflowEditTriggerManual.tsx
@@ -23460,6 +23503,11 @@ msgstr ""
 #: src/pages/settings/applications/tabs/SettingsApplicationsDeveloperTab.tsx
 msgid "You can either create a private app or share it to others"
 msgstr "您可以创建私有应用程序，或将其分享给他人。"
+
+#. js-lingui-id: sixDsQ
+#: src/growth-os/licences/GrowthOsLicencesPage.tsx
+msgid "You can get the complete source code of the version we run, including our changes."
+msgstr ""
 
 #. js-lingui-id: VjaiWi
 #: src/growth-os/auth/GrowthOsResetSent.tsx

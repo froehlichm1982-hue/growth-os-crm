@@ -1,11 +1,12 @@
 import { styled } from '@linaria/react';
+import { useLingui } from '@lingui/react/macro';
 
-import { GROWTH_OS_BRAND } from '~/growth-os/brand';
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
-// AGPL-3.0 section 13 source offer. Product standard (25 Nov 2026): no vendor
-// name in any pixel, so the upstream credit lives in LICENSE/NOTICE and the
-// source repository, not in the UI.
+// OS Lead decision (26 Nov 2026): no product/licence credit line in the UI.
+// The footers link the public open-source licences page instead, which
+// carries the AGPL-3.0 notice and the SOURCE_CODE_URL source offer.
 const StyledNotice = styled.div<{ align: 'left' | 'center' }>`
   color: ${themeCssVariables.font.color.light};
   font-size: ${themeCssVariables.font.size.xs};
@@ -14,12 +15,12 @@ const StyledNotice = styled.div<{ align: 'left' | 'center' }>`
 
   & > a {
     color: inherit;
-    text-decoration: underline;
-    text-decoration-color: ${themeCssVariables.border.color.strong};
-    text-underline-offset: 2px;
+    text-decoration: none;
 
     &:hover {
       color: ${themeCssVariables.font.color.secondary};
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
   }
 `;
@@ -32,23 +33,12 @@ type GrowthOsSourceNoticeProps = {
 export const GrowthOsSourceNotice = ({
   align = 'center',
   className,
-}: GrowthOsSourceNoticeProps) => (
-  <StyledNotice align={align} className={className}>
-    {/* No repository link until SOURCE_CODE_URL is configured (AGPL-3.0 s.13). */}
-    {GROWTH_OS_BRAND.productName}
-    {GROWTH_OS_BRAND.sourceCodeUrl ? (
-      <>
-        {' · '}
-        <a
-          href={GROWTH_OS_BRAND.sourceCodeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Source code (AGPL-3.0)
-        </a>
-      </>
-    ) : (
-      ' · AGPL-3.0'
-    )}
-  </StyledNotice>
-);
+}: GrowthOsSourceNoticeProps) => {
+  const { t } = useLingui();
+
+  return (
+    <StyledNotice align={align} className={className}>
+      <a href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
+    </StyledNotice>
+  );
+};

@@ -1,3 +1,4 @@
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 import { useLingui } from '@lingui/react/macro';
 import { type ReactNode } from 'react';
 
@@ -55,6 +56,7 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
           <a href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noopener noreferrer">{t`Privacy`}</a>
           <a href={GROWTH_OS_BRAND.legal.dpa} target="_blank" rel="noopener noreferrer">DPA</a>
           <a href={GROWTH_OS_BRAND.legal.notice} target="_blank" rel="noopener noreferrer">{t`Legal notice`}</a>
+          <a href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
           <a href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>{GROWTH_OS_BRAND.supportEmail}</a>
         </footer>
       </div>

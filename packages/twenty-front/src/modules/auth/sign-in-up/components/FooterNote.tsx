@@ -9,7 +9,6 @@ import {
   GROWTH_OS_LEGAL_URLS,
   GROWTH_OS_SIGNUP_CONSENT_PREFIX,
 } from '~/growth-os/brand';
-import { GrowthOsSourceNotice } from '~/growth-os/GrowthOsSourceNotice';
 
 const StyledCopyContainer = styled.div`
   align-items: center;
@@ -83,68 +82,66 @@ export const FooterNote = ({
   if (!isOnAWorkspace) {
     return (
       <StyledFooterStack>
-      <StyledCopyContainer>
-        {GROWTH_OS_SIGNUP_CONSENT_PREFIX}{' '}
-        <a
-          href={GROWTH_OS_LEGAL_URLS.terms}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Trans>Terms of Service</Trans>
-        </a>{' '}
-        <Trans>and</Trans>{' '}
-        {secondaryAgreement === 'dataProcessingAgreement' ? (
+        <StyledCopyContainer>
+          {GROWTH_OS_SIGNUP_CONSENT_PREFIX}{' '}
           <a
-            href={GROWTH_OS_LEGAL_URLS.dpa}
+            href={GROWTH_OS_LEGAL_URLS.terms}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Trans>Data Processing Agreement</Trans>
-          </a>
-        ) : (
-          <a
-            href={GROWTH_OS_LEGAL_URLS.privacy}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Trans>Privacy Policy</Trans>
-          </a>
-        )}
-        .
-      </StyledCopyContainer>
-      <GrowthOsSourceNotice />
+            <Trans>Terms of Service</Trans>
+          </a>{' '}
+          <Trans>and</Trans>{' '}
+          {secondaryAgreement === 'dataProcessingAgreement' ? (
+            <a
+              href={GROWTH_OS_LEGAL_URLS.dpa}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Trans>Data Processing Agreement</Trans>
+            </a>
+          ) : (
+            <a
+              href={GROWTH_OS_LEGAL_URLS.privacy}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Trans>Privacy Policy</Trans>
+            </a>
+          )}
+          .
+        </StyledCopyContainer>
       </StyledFooterStack>
     );
   }
 
   return (
     <StyledFooterStack>
-    <StyledLinksContainer>
-      {shouldOfferBypass && !shouldUseBypass && (
-        <>
-          <button type="button" onClick={enableBypass}>
-            <Trans>Bypass SSO</Trans>
-          </button>
-          <StyledSeparator>•</StyledSeparator>
-        </>
-      )}
-      <a
-        href={GROWTH_OS_LEGAL_URLS.privacy}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Trans>Privacy Policy</Trans>
-      </a>
-      <StyledSeparator>•</StyledSeparator>
-      <a
-        href={GROWTH_OS_LEGAL_URLS.terms}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Trans>Terms of Service</Trans>
-      </a>
-    </StyledLinksContainer>
-    <GrowthOsSourceNotice />
+      <StyledLinksContainer>
+        {shouldOfferBypass && !shouldUseBypass && (
+          <>
+            <button type="button" onClick={enableBypass}>
+              <Trans>Bypass SSO</Trans>
+            </button>
+            <StyledSeparator>•</StyledSeparator>
+          </>
+        )}
+        <a
+          href={GROWTH_OS_LEGAL_URLS.privacy}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Trans>Privacy Policy</Trans>
+        </a>
+        <StyledSeparator>•</StyledSeparator>
+        <a
+          href={GROWTH_OS_LEGAL_URLS.terms}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Trans>Terms of Service</Trans>
+        </a>
+      </StyledLinksContainer>
     </StyledFooterStack>
   );
 };

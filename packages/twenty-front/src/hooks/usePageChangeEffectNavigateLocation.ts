@@ -26,6 +26,7 @@ import {
   PageLayoutType,
 } from '~/generated-metadata/graphql';
 import { isMatchingLocation } from '~/utils/isMatchingLocation';
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 
 const readReturnToPathFromUrlSearchParams = (): string | null => {
   const value = new URLSearchParams(window.location.search).get('returnToPath');
@@ -84,6 +85,11 @@ export const usePageChangeEffectNavigateLocation = () => {
   const isOnboardingCheckoutPending = useAtomStateValue(
     isOnboardingCheckoutPendingState,
   );
+
+  // Growth OS: the open-source licences page is public in every state.
+  if (isDefined(matchPath(GROWTH_OS_LICENCES_PATH, location.pathname))) {
+    return;
+  }
 
   if (
     (!isLogged || !isOnAWorkspace || !isDefined(currentWorkspace)) &&

@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { type ReactNode } from 'react';
 
 import { GROWTH_OS_BRAND, GROWTH_OS_LOGO_LIGHT } from '~/growth-os/brand';
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 import '~/growth-os/auth/growth-os-auth-fields.css';
 import '~/growth-os/states/growth-os-system.css';
 
@@ -17,6 +18,7 @@ export const GrowthOsSystemPage = ({
   actions,
   links,
   testId,
+  children,
 }: {
   code: string;
   tone?: 'default' | 'danger' | 'warn';
@@ -25,6 +27,7 @@ export const GrowthOsSystemPage = ({
   actions: ReactNode;
   links?: GrowthOsSystemLink[];
   testId?: string;
+  children?: ReactNode;
 }) => {
   const { t } = useLingui();
 
@@ -57,12 +60,14 @@ export const GrowthOsSystemPage = ({
               ))}
             </nav>
           )}
+          {children}
         </div>
       </main>
       <footer className="gos-sys-foot">
         <span>© 2026 {GROWTH_OS_BRAND.companyLegalName}</span>
         <a href={GROWTH_OS_BRAND.legal.terms} target="_blank" rel="noopener noreferrer">{t`Terms`}</a>
         <a href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noopener noreferrer">{t`Privacy`}</a>
+        <a href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
         <a href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>{GROWTH_OS_BRAND.supportEmail}</a>
       </footer>
     </div>
