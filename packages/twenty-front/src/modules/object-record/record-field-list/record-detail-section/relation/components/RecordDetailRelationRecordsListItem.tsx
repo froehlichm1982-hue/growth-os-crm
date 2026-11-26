@@ -235,6 +235,7 @@ export const RecordDetailRelationRecordsListItem = ({
             dropdownPlacement="right-start"
             clickableComponent={
               <LightIconButton
+                aria-label={t`More options`}
                 className="displayOnHover"
                 Icon={IconDotsVertical}
                 accent="tertiary"

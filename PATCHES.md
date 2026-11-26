@@ -17,3 +17,13 @@ Paths are relative to `packages/twenty-front/src/`.
 | 9 | `modules/views/view-picker/components/ViewPickerDropdown.tsx` | View count colour → `font.color.tertiary` | `color-contrast` |
 | 10 | `modules/ui/feedback/snack-bar-manager/hooks/useSnackBar.ts` | Drop error snackbars while the session-expired modal is open | UX (duplicate "An error occurred") |
 | 11 | `modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx` | Mobile drawer `inert` / `aria-hidden` + focus trap (`growth-os/shell/useGrowthOsDrawerA11y.ts`); module switcher behind `GROWTH_OS_SHOW_MODULE_SWITCHER` | DS v2.2; white-label standalone |
+
+## Round 2 (axe: nested-interactive, aria-allowed-attr, aria-command-name)
+
+- `ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx`, `DragDropItemSortableHandle.tsx`: `role="group"` for enabled cells/handles too (dnd-kit would stamp `role="button"` around cards that contain buttons).
+- `ui/layout/dropdown/components/Dropdown.tsx`: optional `clickableAriaLabel`, set on the non-delegated trigger; used by `RecordTableColumnAggregateFooterWithDropdown.tsx` (field label).
+- `object-record/record-field/ui/components/FieldDescriptionTooltip.tsx`: `role="group"` + `aria-label` on the focusable span that carries `aria-describedby`.
+- `RecordDetailRelationRecordsListItem.tsx`: `aria-label` on the "More options" icon button.
+- `SettingsDeviceSessionRowDropdownMenu.tsx`: `aria-label` on the row actions button. `SortOrFilterChip.tsx`: `aria-label` on the remove (x) button.
+- `growth-os/shell/GrowthOsDndA11y.tsx` (our own file, mounted in `WorkspaceAppProviders.tsx`): strips `aria-pressed` / `aria-grabbed` / `aria-roledescription` that dnd-kit stamps on `role=group` draggables (axe aria-allowed-attr). No upstream component logic changed.
+- `gosOverrides.ts` (value override, not a patch): `--t-color-blue` -> `--gos-info-ink`, `--t-color-green` and the green tag text/background -> `--gos-success-ink` / `--gos-success-soft`, so chip and badge text reaches 4.5:1.

@@ -67,6 +67,11 @@ const GOS_BRIDGE: Record<string, string> = {
   '--t-border-color-blue': 'var(--gos-focus)',
   '--t-background-transparent-blue': 'var(--gos-selected)',
   '--t-buttons-secondary-text-color': 'var(--gos-info-ink)',
+  // AA on the tinted chips/badges (upstream blue/green text is 4.0-4.35:1).
+  '--t-color-blue': 'var(--gos-info-ink)',
+  '--t-color-green': 'var(--gos-success-ink)',
+  '--t-tag-text-green': 'var(--gos-success-ink)',
+  '--t-tag-background-green': 'var(--gos-success-soft)',
   '--t-snack-bar-info-color': 'var(--gos-info-ink)',
   '--t-snack-bar-info-background-color': 'var(--gos-info-soft)',
 
