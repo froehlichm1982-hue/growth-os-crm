@@ -1,4 +1,4 @@
-/* ScalePoint Growth OS Design System v2.5.0 · GENERATED from tokens/tokens.json · do not edit by hand
+/* ScalePoint Growth OS Design System v2.7.0 · GENERATED from tokens/tokens.json · do not edit by hand
    Web/React/Next/Vite: import once at the app root. Fonts resolve relative to generated/. */
 @font-face{font-family:"Geist";src:url("../fonts/Geist-Variable.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:"Geist Mono";src:url("../fonts/GeistMono-Variable.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
@@ -269,6 +269,9 @@
   --gos-bg-sunken: #F3F2EE;
   --gos-surface: #FFFFFF;
   --gos-surface-raised: #FFFFFF;
+  --gos-surface-inverse: #22304A;
+  --gos-on-inverse: #F6F8FB;
+  --gos-on-inverse-2: #B3BECD;
   --gos-hover: #F6F5F2;
   --gos-selected: #EEF3FF;
   --gos-line: #E7E5E0;
@@ -309,6 +312,9 @@
   --gos-bg-sunken: #0B1220;
   --gos-surface: #131D2F;
   --gos-surface-raised: #18243A;
+  --gos-surface-inverse: #22304A;
+  --gos-on-inverse: #F6F8FB;
+  --gos-on-inverse-2: #B3BECD;
   --gos-hover: rgba(186,205,235,.06);
   --gos-selected: rgba(76,141,255,.16);
   --gos-line: rgba(186,205,235,.11);
@@ -380,6 +386,9 @@
     --gos-bg-sunken: #0B1220;
     --gos-surface: #131D2F;
     --gos-surface-raised: #18243A;
+    --gos-surface-inverse: #22304A;
+    --gos-on-inverse: #F6F8FB;
+    --gos-on-inverse-2: #B3BECD;
     --gos-hover: rgba(186,205,235,.06);
     --gos-selected: rgba(76,141,255,.16);
     --gos-line: rgba(186,205,235,.11);

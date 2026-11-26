@@ -31,6 +31,8 @@ export type NavigationDrawerProps = {
   className?: string;
 };
 
+const GROWTH_OS_SHOW_MODULE_SWITCHER = false;
+
 const StyledAnimatedContainer = styled.div<{
   isExpanded: boolean;
   isResizing: boolean;
@@ -152,7 +154,8 @@ export const NavigationDrawer = ({
           <NavigationDrawerHeader
             showCollapseButton={isMobile || !isSettingsDrawer}
           />
-          {isExpanded && !isSettingsDrawer && <GrowthOsModuleSwitcher />}
+          {/* TODO(integrations): show GrowthOsModuleSwitcher with only the modules this workspace is entitled to. Hidden while the CRM ships standalone. */}
+          {GROWTH_OS_SHOW_MODULE_SWITCHER && isExpanded && !isSettingsDrawer && <GrowthOsModuleSwitcher />}
           <StyledContent>{children}</StyledContent>
           {isExpanded && <GrowthOsPlanStatus />}
           {isExpanded && (
