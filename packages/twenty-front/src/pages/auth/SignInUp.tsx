@@ -113,7 +113,7 @@ export const SignInUp = () => {
   const title = useMemo(() => {
     if (isDefined(workspaceInviteHash)) {
       const workspaceName = workspaceFromInviteHash?.displayName ?? '';
-      return t`Join ${workspaceName} team`;
+      return t`Join ${workspaceName}`;
     }
 
     if (signInUpStep === SignInUpStep.WorkspaceSelection) {
@@ -125,11 +125,11 @@ export const SignInUp = () => {
     }
 
     if (signInUpStep === SignInUpStep.TwoFactorAuthenticationProvision) {
-      return t`Setup your 2FA`;
+      return t`Set up two-step sign-in`;
     }
 
     if (signInUpStep === SignInUpStep.TwoFactorAuthenticationVerification) {
-      return t`Verify code from the app`;
+      return t`Enter your 6-digit code`;
     }
 
     // Growth OS CRM: kit auth headings; the mode is the person's choice.
@@ -149,7 +149,7 @@ export const SignInUp = () => {
 
   const subtitle = useMemo(() => {
     if (isDefined(workspaceInviteHash)) {
-      return t`Sign in or create a password to join your team.`;
+      return t`You’re invited to this workspace. Continue with Google, Microsoft or your work email.`;
     }
 
     if (signInUpStep === SignInUpStep.Password) {

@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import {
@@ -9,6 +9,10 @@ import {
 } from '~/growth-os/brand';
 import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
+import {
+  GROWTH_OS_SIGNED_OUT_KEY,
+  growthOsTake,
+} from '~/growth-os/session/growthOsSessionExpiredState';
 
 import './growth-os-auth.css';
 
@@ -32,6 +36,17 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
   const { t } = useLingui();
   const location = useLocation();
   const isSignUp = new URLSearchParams(location.search).get('mode') === 'signup';
+  const isInvite = location.pathname.startsWith('/invite');
+  // §4 logout: "You're signed out" toast once, after a sign-out.
+  const [signedOut, setSignedOut] = useState(false);
+
+  useEffect(() => {
+    if (growthOsTake(GROWTH_OS_SIGNED_OUT_KEY) !== '1') return;
+    setSignedOut(true);
+    const timer = window.setTimeout(() => setSignedOut(false), 6000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
     <div className="gos-auth" data-m="crm">
@@ -47,7 +62,7 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
           <h2>
             {t`Every deal,`} <span className="gos-accent">{t`one clear view.`}</span>
           </h2>
-          <p>{t`Pipeline, contacts and the next step for each, in one place, synced with Outreach, Connect and BookDesk24.`}</p>
+          <p>{t`Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed.`}</p>
         </div>
         <ul className="gos-auth-proof">
           <li><IconShield size={14} />{t`Hosted in the EU`}</li>
@@ -64,7 +79,7 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
           <a className="gos-auth-mobile-logo" href={GROWTH_OS_BRAND.marketingUrl} aria-label={t`ScalePoint Growth OS home`}>
             <Logo decorative />
           </a>
-          {isSignUp ? (
+          {isInvite ? null : isSignUp ? (
             <span>
               <span className="gos-hide-xs">{t`Already have an account?`} </span>
               <a href="/welcome">{t`Sign in`}</a>
@@ -87,6 +102,14 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
           <a href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
           <span>© 2026 {GROWTH_OS_BRAND.companyName}</span>
         </footer>
+        <div className="gos-toast-region" role="status" aria-live="polite">
+          {signedOut && (
+            <div className="gos-toast" data-testid="growth-os-signed-out-toast">
+              <IconCheck size={16} />
+              {t`You’re signed out`}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

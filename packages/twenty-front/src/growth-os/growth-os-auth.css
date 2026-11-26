@@ -404,3 +404,26 @@
 /* DS sign-in has one mode switch (top right of the form column). The upstream
    in-form switch would duplicate it and can disagree with the URL, so it is hidden. */
 .gos-auth .gos-mode-switch { display: none; }
+
+/* §4 logout toast (DS .gos-toast: navy, shadow-lg, radius-lg, bottom right).
+   DS dark uses a raw #22304A; no token yet (DSR-CRM-04), so dark uses surface + line. */
+.gos-toast-region { bottom: var(--gos-space-5); position: fixed; right: var(--gos-space-5); width: min(380px, calc(100vw - 32px)); z-index: var(--gos-z-toast); }
+.gos-toast {
+  align-items: center;
+  background: var(--gos-primary);
+  border-radius: var(--gos-radius-lg);
+  box-shadow: var(--gos-shadow-lg);
+  color: var(--gos-primary-ink);
+  display: flex;
+  font-size: var(--gos-text-sm);
+  font-weight: var(--gos-weight-medium);
+  gap: var(--gos-space-2);
+  padding: var(--gos-space-3) var(--gos-space-4);
+  animation: gos-toast-in var(--gos-duration-base) var(--gos-ease-out);
+}
+[data-theme='dark'] .gos-toast { background: var(--gos-surface); border: 1px solid var(--gos-line); color: var(--gos-text-strong); }
+@keyframes gos-toast-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { .gos-toast { animation: none; } }
+
+/* Quiet consequence line above a primary button (reset-new: other devices). */
+.gos-form-note { align-items: center; color: var(--gos-text-3); display: flex; font-size: var(--gos-text-sm); gap: var(--gos-space-2); margin: 0 0 var(--gos-space-4); }

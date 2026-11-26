@@ -1,4 +1,9 @@
 import {
+  GROWTH_OS_OAUTH_PROVIDER_KEY,
+  GROWTH_OS_SIGNED_OUT_KEY,
+  growthOsRemember,
+} from '~/growth-os/session/growthOsSessionExpiredState';
+import {
   useApolloClient,
   useLazyQuery,
   useMutation,
@@ -451,6 +456,8 @@ export const useAuth = () => {
 
     broadcastSignOutToOtherTabs();
     clearSession();
+    // Growth OS (§4 logout): the sign-in page shows "You're signed out".
+    growthOsRemember(GROWTH_OS_SIGNED_OUT_KEY, '1');
   }, [clearSession, signOutMutation, store]);
 
   const handleCredentialsSignUpInWorkspace = useCallback(
@@ -584,6 +591,7 @@ export const useAuth = () => {
       billingCheckoutSession?: BillingCheckoutSession;
       action: string;
     }) => {
+      growthOsRemember(GROWTH_OS_OAUTH_PROVIDER_KEY, 'google');
       redirect(buildRedirectUrl('/auth/google', params));
     },
     [buildRedirectUrl, redirect],
@@ -596,6 +604,7 @@ export const useAuth = () => {
       billingCheckoutSession?: BillingCheckoutSession;
       action: string;
     }) => {
+      growthOsRemember(GROWTH_OS_OAUTH_PROVIDER_KEY, 'microsoft');
       redirect(buildRedirectUrl('/auth/microsoft', params));
     },
     [buildRedirectUrl, redirect],

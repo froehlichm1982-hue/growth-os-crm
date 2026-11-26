@@ -53,7 +53,7 @@ export const GrowthOsAuthAlert = ({ onResetPassword }: { onResetPassword?: () =>
         ) : (
           <>
             <b>{alert.message}</b>
-            {alert.tone === 'danger' && onResetPassword && (
+            {alert.tone === 'danger' && alert.kind !== 'oauth' && onResetPassword && (
               <>
                 {' '}
                 {t`Check both and try again, or`}{' '}
