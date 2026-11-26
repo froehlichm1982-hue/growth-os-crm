@@ -108,6 +108,7 @@ export const EmailField = () => {
             <StyledActionButtonContainer>
               <Button
                 Icon={IconCheck}
+                ariaLabel={t`Save email`}
                 variant="secondary"
                 position="left"
                 size="medium"
@@ -119,6 +120,7 @@ export const EmailField = () => {
             <StyledActionButtonContainer>
               <Button
                 Icon={IconX}
+                ariaLabel={t`Cancel`}
                 variant="secondary"
                 position="right"
                 size="medium"
@@ -138,6 +140,7 @@ export const EmailField = () => {
             >
               <Button
                 Icon={IconPencil}
+                ariaLabel={t`Change email`}
                 variant="secondary"
                 size="medium"
                 onClick={handleStartEditing}
