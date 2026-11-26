@@ -55,7 +55,9 @@ export const RecordIndexEmptyState = ({
   });
 
   const { openObjectRecordsSpreadsheetImportDialog } =
-    useOpenObjectRecordsSpreadsheetImportDialog(objectMetadataItem.nameSingular);
+    useOpenObjectRecordsSpreadsheetImportDialog(
+      objectMetadataItem.nameSingular,
+    );
   const setCurrentRecordFilters = useSetAtomComponentState(
     currentRecordFiltersComponentState,
   );
@@ -72,13 +74,14 @@ export const RecordIndexEmptyState = ({
   };
   const objectLabelPlural = objectMetadataItem.labelPlural.toLowerCase();
 
+  // Growth OS: the table's own failed load shows the card at once.
+  const listLoadError = useAtomStateValue(growthOsListLoadErrorState);
   const { totalCount, error: ownLoadError } = useFindManyRecords({
     objectNameSingular: objectMetadataItem.nameSingular,
     limit: 1,
     growthOsInlineError: true,
+    skip: listLoadError?.objectNameSingular === objectMetadataItem.nameSingular,
   });
-  // Growth OS: the table's own failed load shows the card at once.
-  const listLoadError = useAtomStateValue(growthOsListLoadErrorState);
   const loadError =
     ownLoadError ??
     (listLoadError?.objectNameSingular === objectMetadataItem.nameSingular
@@ -184,7 +187,9 @@ export const RecordIndexEmptyState = ({
               )
         }
         buttonIcon={isImportable ? 'upload' : 'plus'}
-        buttonTitle={isImportable ? t`Import CSV` : t`Add a ${objectLabelSingular}`}
+        buttonTitle={
+          isImportable ? t`Import CSV` : t`Add a ${objectLabelSingular}`
+        }
         onButtonClick={
           canCreateRecords
             ? isImportable
