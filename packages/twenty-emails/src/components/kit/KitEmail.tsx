@@ -1,53 +1,44 @@
 import { type I18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { type CSSProperties, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { GROWTH_OS_BRAND } from 'twenty-shared/i18n';
 import { type APP_LOCALES } from 'twenty-shared/translations';
 
 import { createI18nInstance } from 'src/utils/i18n.utils';
 
-// Growth OS shared email template (product standard §6, reference-kit/emails):
-// 600px, #F5F7F9 canvas, white 16px card, eyebrow, DM Serif H1 30/36, one
-// navy bulletproof CTA with a fallback link, a note box, reason + support +
-// company footer, dark-mode classes and a logo swap, hidden preheader.
+import {
+  GOS_BILLING_PORTAL,
+  GOS_MAIL_BASE_HTML,
+  GOS_MAIL_CRM,
+  GOS_MAIL_LEGAL,
+  GOS_MAIL_STRINGS,
+  GOS_MAIL_TERMS_LIVE,
+} from 'src/gos/emailBaseV3.generated';
+import {
+  type MailCardSpec,
+  type MailChipTone,
+  escapeMailHtml,
+  mailProductCard,
+} from 'src/gos/emailCardsV3';
 
-export const KIT = {
-  canvas: '#F5F7F9',
-  card: '#FFFFFF',
-  line: '#E4E9EF',
-  ink: '#111E32',
-  ink2: '#3B4A5E',
-  ink3: '#5A687C',
-  link: '#3A7872',
-  danger: '#B42318',
-  dangerSoft: '#FEF3F2',
-  warnSoft: '#FFFAEB',
-  warn: '#93370D',
-  font: "Inter,'Segoe UI',Helvetica,Arial,sans-serif",
-  serif: "'DM Serif Display',Georgia,'Times New Roman',serif",
-} as const;
+// Growth OS mail base v3 (DS v2.8, design-system/email/EMAIL-BASE.md): header
+// art as CID image (light/dark swap), eyebrow "CRM · Topic" with the module dot,
+// 27/34 H1, 16/26 body, product cards, a navy 48px CTA with a fallback link,
+// info box, support line, footer with reason, company and live legal links.
+// The shell is the DS base.html filled with the CRM module slots (see
+// quality-gate/tools/sync-email-base.mjs); the Kit* parts below render the
+// body in the same markup. CRM violet is only the header, eyebrow, avatar,
+// chip, meter and info edge. Buttons stay navy.
+
+export { GOS_BILLING_PORTAL };
+
+// Demo only (previews, samples): same shape as the signed portal link, fake signature.
+export const GOS_DEMO_PORTAL_LINK = `${GOS_BILLING_PORTAL}?a=acc_demo&m=crm&exp=1796000000&sig=${'0'.repeat(64)}`;
 
 export type KitReason = 'security' | 'account' | 'billing' | 'invite' | 'product' | 'admin' | 'test';
 
-const KIT_STYLE = `
-:root{color-scheme:light dark;supported-color-schemes:light dark}
-body{margin:0;padding:0;width:100%!important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
-a{text-decoration:underline} .btn:hover{background:#09101B!important}
-.logo-dark{display:none;max-height:0;overflow:hidden;mso-hide:all}
-@media (max-width:520px){.card{border-radius:0!important;border-left:0!important;border-right:0!important;padding:32px 24px!important} .pad{padding-left:24px!important;padding-right:24px!important} h1{font-size:26px!important;line-height:32px!important} .btn{display:block!important;text-align:center!important;height:auto!important;line-height:22px!important;padding:13px 20px!important} .outer{padding:24px 0!important}}
-@media (prefers-color-scheme:dark){
- .bg{background:#0B1320!important} .card{background:#111E32!important;border-color:#24344B!important}
- .t1,h1{color:#F3F5F7!important} .t2{color:#C9D2DD!important} .t3{color:#9FADBE!important} .lk{color:#59C0B6!important}
- .bd{border-color:#24344B!important} .box{background:#1C2B40!important;color:#C9D2DD!important} .eb{color:#59C0B6!important}
- .boxd{background:#3A1714!important;color:#FDA29B!important} .boxw{background:#3A2A0C!important;color:#FEC84B!important}
- .btn{background:#FFFFFF!important;color:#111E32!important}
- .logo-light{display:none!important} .logo-dark{display:block!important;max-height:none!important}
-}
-[data-ogsc] .t1,[data-ogsc] h1{color:#F3F5F7!important} [data-ogsc] .t2{color:#C9D2DD!important} [data-ogsc] .lk{color:#59C0B6!important}
-[data-ogsb] .card{background:#111E32!important} [data-ogsb] .bg{background:#0B1320!important}
-`;
-
-const PREHEADER_PAD = '&#8199;&#65279;&#847;'.repeat(12);
+const PORTAL_HOST = new URL(GOS_BILLING_PORTAL).host;
 
 type KitEmailProps = {
   locale: keyof typeof APP_LOCALES;
@@ -81,6 +72,20 @@ export const kitReasonLine = (i18n: I18n, reason: KitReason) => {
   }
 };
 
+// Mustache-lite, same rules as email.mjs fill(): {{{raw}}}, {{escaped}}, {{#flag}}..{{/flag}}.
+const fill = (template: string, values: Record<string, unknown>) =>
+  template
+    .replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_m, key: string, inner: string) =>
+      values[key] ? inner : '',
+    )
+    .replace(/\{\{\{(\w+)\}\}\}/g, (_m, key: string) => String(values[key] ?? ''))
+    .replace(/\{\{(\w+)\}\}/g, (_m, key: string) => escapeMailHtml(values[key]));
+
+const headerSrc = (variant: 'light' | 'dark') =>
+  process.env.EMAIL_ASSET_MODE === 'url'
+    ? `${GROWTH_OS_BRAND.appUrl}/images/growth-os/email-header-crm-${variant}@2x.png`
+    : `cid:header-crm-${variant}@crm.scalepoint`;
+
 export const KitEmail = ({
   locale,
   title,
@@ -92,165 +97,234 @@ export const KitEmail = ({
   previewScheme,
 }: KitEmailProps) => {
   const i18n = createI18nInstance(locale);
-  const lang = String(locale).split('-')[0];
-  const logo = (variant: 'light' | 'dark') =>
-    `${GROWTH_OS_BRAND.appUrl}/images/growth-os/logo-${variant}@2x.png`;
-  const style = previewScheme === 'dark'
-    ? KIT_STYLE.replace('@media (prefers-color-scheme:dark){', '@media all{')
-    : KIT_STYLE;
+  const lang = (String(locale).split('-')[0] === 'de' ? 'de' : 'en') as 'en' | 'de';
+  const legal = GOS_MAIL_LEGAL[lang];
+  const strings = GOS_MAIL_STRINGS[lang];
+  const mod = GOS_MAIL_CRM;
+  const body = renderToStaticMarkup(
+    <I18nProvider i18n={i18n}>{children}</I18nProvider>,
+  );
+
+  let html = fill(GOS_MAIL_BASE_HTML, {
+    lang,
+    ...strings,
+    subject: title,
+    preheader,
+    eyebrow: `CRM · ${eyebrow}`,
+    title: heading,
+    body,
+    card: false,
+    cta: false,
+    info: false,
+    unsub: false,
+    c_link: '#0B6E66',
+    m_fill: mod.fill,
+    m_ink: mod.ink,
+    m_soft: mod.soft,
+    m_dark_ink: mod.darkInk,
+    m_dark_fill: mod.darkFill,
+    header_light: 'header-crm-light@2x.png',
+    header_dark: 'header-crm-dark@2x.png',
+    header_alt: 'ScalePoint Growth OS CRM',
+    footer_reason: kitReasonLine(i18n, reason),
+    terms: GOS_MAIL_TERMS_LIVE,
+    legal_terms: legal.terms[0],
+    legal_terms_url: legal.terms[1],
+    legal_privacy: legal.privacy[0],
+    legal_privacy_url: legal.privacy[1],
+    legal_notice: legal.notice[0],
+    legal_notice_url: legal.notice[1],
+  });
+
+  html = html
+    .split('src="assets/header-crm-light@2x.png"')
+    .join(`src="${headerSrc('light')}"`)
+    .split('src="assets/header-crm-dark@2x.png"')
+    .join(`src="${headerSrc('dark')}"`);
+
+  if (previewScheme === 'dark') {
+    html = html.replace('@media (prefers-color-scheme:dark){', '@media all{');
+  }
+
+  // The DS base is a whole document: the root <html> keeps its attributes, the
+  // rest goes in as markup so VML/MSO comments and the body class stay intact.
+  const inner = html.slice(html.indexOf('<head>'), html.lastIndexOf('</html>'));
 
   return (
-    <I18nProvider i18n={i18n}>
-      <html lang={lang}>
-        <head>
-          <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width,initial-scale=1" />
-          <meta name="x-apple-disable-message-reformatting" />
-          <meta name="color-scheme" content="light dark" />
-          <meta name="supported-color-schemes" content="light dark" />
-          <title>{title}</title>
-          <style dangerouslySetInnerHTML={{ __html: style }} />
-        </head>
-        <body className="bg" style={{ margin: 0, padding: 0, background: KIT.canvas }}>
-          <div
-            style={{ display: 'none', maxHeight: 0, overflow: 'hidden', fontSize: 1, lineHeight: '1px', color: KIT.canvas }}
-            dangerouslySetInnerHTML={{ __html: `${escapeHtml(preheader)}${PREHEADER_PAD}` }}
-          />
-          <table role="presentation" width="100%" cellPadding={0} cellSpacing={0} className="bg" style={{ background: KIT.canvas }}>
-            <tbody>
-              <tr>
-                <td align="center" className="outer" style={{ padding: '40px 16px' }}>
-                  <table role="presentation" width={600} cellPadding={0} cellSpacing={0} style={{ width: '100%', maxWidth: 600 }}>
-                    <tbody>
-                      <tr>
-                        <td className="pad" style={{ padding: '0 8px 20px' }}>
-                          <img className="logo-light" src={logo('light')} width={140} height={28} alt="ScalePoint Growth OS" style={{ display: 'block', border: 0, height: 28, width: 140 }} />
-                          <div className="logo-dark">
-                            <img src={logo('dark')} width={140} height={28} alt="ScalePoint Growth OS" style={{ display: 'block', border: 0, height: 28, width: 140 }} />
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="card" style={{ background: KIT.card, border: `1px solid ${KIT.line}`, borderRadius: 16, padding: '40px 48px', fontFamily: KIT.font }}>
-                          <p className="eb" style={{ margin: '0 0 12px', fontSize: 12, lineHeight: '16px', letterSpacing: '1.6px', textTransform: 'uppercase', fontWeight: 600, color: KIT.link }}>
-                            {eyebrow}
-                          </p>
-                          <h1 style={{ margin: '0 0 16px', fontFamily: KIT.serif, fontWeight: 400, fontSize: 30, lineHeight: '36px', letterSpacing: '-0.4px', color: KIT.ink }}>
-                            {heading}
-                          </h1>
-                          {children}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="pad" style={{ padding: '24px 8px 0', fontFamily: KIT.font, fontSize: 12, lineHeight: '19px', color: KIT.ink3 }}>
-                          <p className="t3" style={{ margin: '0 0 8px' }}>{kitReasonLine(i18n, reason)}</p>
-                          <p className="t3" style={{ margin: '0 0 8px' }}>
-                            {i18n._('Questions? Reply to this email or write to')}{' '}
-                            <a className="lk" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`} style={{ color: KIT.link }}>{GROWTH_OS_BRAND.supportEmail}</a>.
-                          </p>
-                          <p className="t3" style={{ margin: 0 }}>
-                            ScalePoint Ventures Oy · Almavägen 26, 65610 Mustasaari, Finland · {i18n._('Business ID')} 3620767-9
-                            <br />
-                            <a className="lk" href={GROWTH_OS_BRAND.legal.terms} style={{ color: KIT.link }}>{i18n._('Terms')}</a>
-                            {' · '}
-                            <a className="lk" href={GROWTH_OS_BRAND.legal.privacy} style={{ color: KIT.link }}>{i18n._('Privacy')}</a>
-                            {' · '}
-                            <a className="lk" href={GROWTH_OS_BRAND.legal.notice} style={{ color: KIT.link }}>{i18n._('Legal notice')}</a>
-                            {GROWTH_OS_BRAND.sourceCodeUrl ? (
-                              <>
-                                {' · '}
-                                <a className="lk" href={GROWTH_OS_BRAND.sourceCodeUrl} style={{ color: KIT.link }}>{i18n._('Source code (AGPL-3.0)')}</a>
-                              </>
-                            ) : null}
-                          </p>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </body>
-      </html>
-    </I18nProvider>
+    <html
+      lang={lang}
+      dir="ltr"
+      {...({
+        xmlns: 'http://www.w3.org/1999/xhtml',
+        'xmlns:v': 'urn:schemas-microsoft-com:vml',
+        'xmlns:o': 'urn:schemas-microsoft-com:office:office',
+      } as Record<string, string>)}
+      dangerouslySetInnerHTML={{ __html: inner }}
+    />
   );
 };
 
-export const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+export const escapeHtml = escapeMailHtml;
 
-const textStyle: CSSProperties = { margin: '0 0 16px', fontSize: 16, lineHeight: '26px', color: KIT.ink2 };
+const F = "Geist,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
 
 export const KitText = ({ children }: { children: ReactNode }) => (
-  <p className="t2" style={textStyle}>{children}</p>
+  <p className="t2" style={{ margin: '0 0 16px' }}>{children}</p>
 );
 
 export const KitStrong = ({ children }: { children: ReactNode }) => (
-  <b className="t1" style={{ color: KIT.ink }}>{children}</b>
+  <b className="tx" style={{ color: '#111E32', fontWeight: 600 }}>{children}</b>
 );
 
-// Bulletproof button: VML roundrect for Outlook, a styled link elsewhere.
-export const KitButton = ({ href, label, width = 260 }: { href: string; label: string; width?: number }) => {
-  const safeHref = escapeHtml(href);
-  const safeLabel = escapeHtml(label);
+const vmlWidth = (label: string) =>
+  Math.min(520, Math.max(180, Math.round(label.length * 9.2 + 76)));
+
+// DS v3 CTA: navy 48px button, arrow, VML roundrect for Outlook.
+export const KitButton = ({ href, label }: { href: string; label: string }) => {
+  const safeHref = escapeMailHtml(href);
+  const safeLabel = escapeMailHtml(label);
   const html =
-    `<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safeHref}" style="height:48px;v-text-anchor:middle;width:${width}px;" arcsize="17%" stroke="f" fillcolor="#111E32"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${safeLabel}</center></v:roundrect><![endif]-->` +
-    `<!--[if !mso]><!-- --><a href="${safeHref}" class="btn" style="display:inline-block;background:#111E32;color:#ffffff;font-family:Inter,Segoe UI,Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;line-height:48px;height:48px;padding:0 28px;border-radius:8px;text-decoration:none;mso-hide:all">${safeLabel}</a><!--<![endif]-->`;
+    `<tr><td align="center" bgcolor="#111E32" style="border-radius:10px">` +
+    `<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safeHref}" style="height:48px;v-text-anchor:middle;width:${vmlWidth(label)}px" arcsize="21%" stroke="f" fillcolor="#111E32"><w:anchorlock/><center style="color:#FFFFFF;font-family:'Segoe UI',Arial,sans-serif;font-size:16px;font-weight:bold">${safeLabel}&nbsp;&rarr;</center></v:roundrect><![endif]-->` +
+    `<!--[if !mso]><!--><a class="btn" href="${safeHref}" style="display:inline-block;background:#111E32;color:#FFFFFF;border:1px solid #111E32;font-family:${F};font-size:16px;line-height:48px;font-weight:600;text-decoration:none;padding:0 28px;border-radius:10px;mso-hide:all">${safeLabel}&nbsp;&rarr;</a><!--<![endif]-->` +
+    `</td></tr>`;
 
   return (
-    <table role="presentation" cellPadding={0} cellSpacing={0} style={{ margin: '8px 0 24px' }}>
+    <table role="presentation" className="btnt" cellPadding={0} cellSpacing={0} style={{ margin: '22px 0 18px' }}>
+      <tbody dangerouslySetInnerHTML={{ __html: html }} />
+    </table>
+  );
+};
+
+export const KitFallbackLink = ({ href, i18n }: { href: string; i18n: I18n }) => {
+  const lang = String(i18n.locale).startsWith('de') ? 'de' : 'en';
+
+  return (
+    <p className="mu" style={{ margin: '0 0 20px', fontFamily: F, fontSize: 13, lineHeight: '20px', color: '#4A5566' }}>
+      {GOS_MAIL_STRINGS[lang].t_fallback}
+      <br />
+      <a className="lk" href={href} style={{ color: '#0B6E66', textDecoration: 'underline', wordBreak: 'break-all' }}>{href}</a>
+    </p>
+  );
+};
+
+// DS info box: 4px edge in the module hue (violet), danger/warning edges for status.
+export const KitNote = ({ children, tone = 'neutral', title }: { children: ReactNode; tone?: 'neutral' | 'danger' | 'warn'; title?: string }) => {
+  const edge = tone === 'danger' ? '#D92D20' : tone === 'warn' ? '#F2A40E' : GOS_MAIL_CRM.fill;
+
+  return (
+    <table role="presentation" width="100%" cellPadding={0} cellSpacing={0} style={{ margin: '6px 0 26px', borderCollapse: 'separate' }}>
       <tbody>
         <tr>
-          <td dangerouslySetInnerHTML={{ __html: html }} />
+          <td
+            className="ib"
+            {...({ bgcolor: '#F4F7FB' } as Record<string, string>)}
+            style={{ background: '#F4F7FB', border: '1px solid #DCE3EC', borderLeft: `4px solid ${edge}`, borderRadius: 12, padding: '14px 18px', fontFamily: F, fontSize: 14, lineHeight: '22px', fontWeight: 400, color: '#3C4656' }}
+          >
+            {title ? (
+              <>
+                <b className="tx" style={{ color: '#111E32', fontWeight: 600 }}>{title}</b>
+                <br />
+              </>
+            ) : null}
+            <span className="t2" style={{ color: '#3C4656' }}>{children}</span>
+          </td>
         </tr>
       </tbody>
     </table>
   );
 };
 
-export const KitFallbackLink = ({ href, i18n }: { href: string; i18n: I18n }) => (
-  <p className="t3" style={{ margin: '0 0 24px', fontSize: 13, lineHeight: '20px', color: KIT.ink3 }}>
-    {i18n._('Button not working? Paste this link into your browser:')}
-    <br />
-    <a href={href} className="lk" style={{ color: KIT.link, wordBreak: 'break-all' }}>{href}</a>
-  </p>
+const CardHtml = ({ html }: { html: string }) => (
+  <div style={{ margin: '18px 0 8px' }} dangerouslySetInnerHTML={{ __html: html }} />
 );
 
-export const KitNote = ({ children, tone = 'neutral' }: { children: ReactNode; tone?: 'neutral' | 'danger' | 'warn' }) => {
-  const toneStyle =
-    tone === 'danger'
-      ? { background: KIT.dangerSoft, color: KIT.danger }
-      : tone === 'warn'
-        ? { background: KIT.warnSoft, color: KIT.warn }
-        : { background: KIT.canvas, color: KIT.ink2 };
-
-  return (
-    <p
-      className={tone === 'danger' ? 'boxd' : tone === 'warn' ? 'boxw' : 't2 box'}
-      style={{ margin: '0 0 16px', padding: '14px 16px', borderRadius: 8, fontSize: 14, lineHeight: '22px', ...toneStyle }}
-    >
-      {children}
-    </p>
-  );
-};
-
+// Rows-only card (what the old details table was): label left, value right.
 export const KitDetails = ({ rows }: { rows: Array<[string, ReactNode]> }) => (
-  <table role="presentation" width="100%" cellPadding={0} cellSpacing={0} className="bd" style={{ margin: '0 0 24px', borderBottom: `1px solid ${KIT.line}` }}>
-    <tbody>
-      {rows.map(([label, value]) => (
-        <tr key={label}>
-          <td className="t3 bd" style={{ padding: '10px 0', borderTop: `1px solid ${KIT.line}`, fontSize: 14, color: KIT.ink3 }}>{label}</td>
-          <td align="right" className="t1 bd" style={{ padding: '10px 0', borderTop: `1px solid ${KIT.line}`, fontSize: 14, fontWeight: 600, color: KIT.ink }}>{value}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
+  <CardHtml html={mailProductCard({ rows: rows.map(([label, value]) => [label, String(value)]) })} />
 );
+
+export const KitCard = ({ spec }: { spec: MailCardSpec }) => (
+  <CardHtml html={mailProductCard(spec)} />
+);
+
+// DS v3 invoice card: plan + invoice number, status chip, line, total, note.
+export const KitInvoiceCard = ({
+  plan,
+  invoiceNumber,
+  status,
+  tone = 'danger',
+  line,
+  amount,
+  totalLabel,
+  total,
+  note,
+  rows,
+}: {
+  plan: string;
+  invoiceNumber?: string;
+  status: string;
+  tone?: MailChipTone;
+  line?: string;
+  amount?: string;
+  totalLabel?: string;
+  total?: string;
+  note?: string;
+  rows?: Array<[string, string]>;
+}) => (
+  <CardHtml
+    html={mailProductCard({
+      title: plan,
+      sub: invoiceNumber,
+      chip: { label: status, tone },
+      rows: [...(line && amount ? ([[line, amount]] as Array<[string, string]>) : []), ...(rows ?? [])],
+      total: totalLabel && total ? [totalLabel, total] : undefined,
+      note,
+    })}
+  />
+);
+
+// DS v3 deal card: initials avatar, deal + company, stage chip, stage meter.
+export const KitDealCard = ({
+  initials,
+  deal,
+  company,
+  stage,
+  steps,
+  active,
+  rows,
+  demo,
+}: {
+  initials: string;
+  deal: string;
+  company?: string;
+  stage: string;
+  steps: string[];
+  active: number;
+  rows?: Array<[string, string]>;
+  demo?: string;
+}) => (
+  <CardHtml
+    html={mailProductCard({
+      initials,
+      title: deal,
+      sub: company,
+      chip: { label: stage, tone: 'module' },
+      meter: { steps, active },
+      rows,
+      demo,
+    })}
+  />
+);
+
+// Billing links only go through the signed portal (billing-service/docs/integration/portal-link.md).
+export const isKitPortalLink = (href: string) => {
+  try {
+    return new URL(href).host === PORTAL_HOST;
+  } catch {
+    return false;
+  }
+};
 
 export const kitI18n = (locale: keyof typeof APP_LOCALES) => createI18nInstance(locale);
 

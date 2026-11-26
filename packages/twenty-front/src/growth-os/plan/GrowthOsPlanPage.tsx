@@ -6,6 +6,7 @@ import { t } from '@lingui/core/macro';
 import { i18n } from '@lingui/core';
 import { GROWTH_OS_PLAN_COPY } from '~/growth-os/plan/growthOsPlanCopy';
 import { GrowthOsCancelPlanModal } from '~/growth-os/plan/GrowthOsCancelPlanModal';
+import { GrowthOsSeatsStepper } from '~/growth-os/plan/GrowthOsSeatsStepper';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 
@@ -63,7 +64,7 @@ const StyledBadge = styled.span<{ tone: 'ok' | 'warn' | 'danger' }>`
     tone === 'ok' ? 'var(--gos-success-soft)' : tone === 'warn' ? 'var(--gos-warning-soft)' : 'var(--gos-danger-soft)'};
   border-radius: 999px;
   color: ${({ tone }) =>
-    tone === 'ok' ? 'var(--c-link)' : tone === 'warn' ? 'var(--c-warn)' : 'var(--c-danger)'};
+    tone === 'ok' ? 'var(--gos-success-ink)' : tone === 'warn' ? 'var(--gos-warning-ink)' : 'var(--gos-danger-ink)'};
   font-size: ${themeCssVariables.font.size.sm};
   font-weight: ${themeCssVariables.font.weight.medium};
   padding: 2px 10px;
@@ -82,14 +83,15 @@ const StyledMeter = styled.div`
   strong {
     color: ${themeCssVariables.font.color.primary};
     display: block;
+    font-variant-numeric: tabular-nums;
     font-size: ${themeCssVariables.font.size.lg};
     font-weight: ${themeCssVariables.font.weight.semiBold};
   }
 `;
 
-const StyledNote = styled.div<{ tone?: 'warn' | 'danger' }>`
+const StyledNote = styled.div<{ tone?: 'info' | 'warn' | 'danger' }>`
   background: ${({ tone }) =>
-    tone === 'danger' ? 'var(--gos-danger-soft)' : 'var(--gos-warning-soft)'};
+    tone === 'danger' ? 'var(--gos-danger-soft)' : tone === 'info' ? 'var(--gos-info-soft)' : 'var(--gos-warning-soft)'};
   border-radius: 6px;
   color: ${themeCssVariables.font.color.primary};
   font-size: ${themeCssVariables.font.size.md};
@@ -280,7 +282,7 @@ export const GrowthOsPlanPage = () => {
                 </StyledBadge>
               </StyledCurrentHeader>
               {plan.isTrial && (
-                <StyledNote>
+                <StyledNote tone="info">
                   {t`You are trying every Growth feature free until ${formatGrowthOsDate(plan.trialEndsAt)}. No card needed. Pick a plan before then to keep email sync, workflows and more than 3 users.`}
                 </StyledNote>
               )}
@@ -352,6 +354,13 @@ export const GrowthOsPlanPage = () => {
                   />
                 )}
               </StyledActions>
+              {isPaying && (
+                <GrowthOsSeatsStepper
+                  plan={plan}
+                  loading={loading}
+                  onOpenPortal={() => openSession('portal')}
+                />
+              )}
               {plan.status === 'active' && !plan.isTrial && (
                 <button
                   type="button"

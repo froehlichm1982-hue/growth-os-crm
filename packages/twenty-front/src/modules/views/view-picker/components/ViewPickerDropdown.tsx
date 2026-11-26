@@ -32,7 +32,7 @@ const StyledIconContainer = styled.span`
 
 const StyledDropdownLabelAdornments = styled.span`
   align-items: center;
-  color: ${themeCssVariables.grayScale.gray8};
+  color: ${themeCssVariables.font.color.tertiary};
   display: flex;
   flex-shrink: 0;
   gap: ${themeCssVariables.spacing[1]};

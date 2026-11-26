@@ -844,6 +844,11 @@ msgstr "{unitCount, plural, other {週}}"
 msgid "{unitCount, plural, one {Year} other {Years}}"
 msgstr "{unitCount, plural, other {年}}"
 
+#. js-lingui-id: 5eC9uo
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
+msgstr ""
+
 #. js-lingui-id: YdwR4T
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownDefaultView.tsx
@@ -1350,6 +1355,8 @@ msgid "Activity visibility"
 msgstr "活動可見性"
 
 #. js-lingui-id: m16xKo
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailMorphRelationSectionDropdownOneToMany.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationSectionDropdownToMany.tsx
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
 msgid "Add"
 msgstr "添加"
@@ -1422,6 +1429,11 @@ msgstr "新增記錄"
 #: src/modules/activities/calendar/components/CalendarEventComposerTargetsInput.tsx
 msgid "Add a related record"
 msgstr "新增相關記錄"
+
+#. js-lingui-id: syuuw0
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Add a seat"
+msgstr ""
 
 #. js-lingui-id: eMc2xs
 #: src/modules/ai/components/suggested-prompts/contextual-suggested-prompts.ts
@@ -3903,6 +3915,7 @@ msgstr "無法掃描？ 複製"
 #: src/modules/settings/billing/components/UpdatePaymentMethodModal.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/modules/spreadsheet-import/provider/components/SpreadsheetImport.tsx
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/MatchColumnsStep.tsx
@@ -4099,6 +4112,11 @@ msgstr "副本/密件副本"
 #: src/modules/page-layout/widgets/standalone-rich-text/components/DashboardEditorSideMenu.tsx
 msgid "Change Color"
 msgstr "變更顏色"
+
+#. js-lingui-id: feCRNv
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Change email"
+msgstr ""
 
 #. js-lingui-id: qTyVHs
 #: src/modules/workflow/workflow-diagram/workflow-nodes/components/WorkflowDiagramStepNodeOptionsDropdown.tsx
@@ -7468,6 +7486,11 @@ msgstr "拖放到此處"
 msgid "Drag to add to navbar"
 msgstr "拖曳以新增到導覽列"
 
+#. js-lingui-id: KGi3u9
+#: src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
+msgid "Drag to reorder"
+msgstr ""
+
 #. js-lingui-id: VIbDgE
 #: src/modules/page-layout/widgets/fields/components/FieldsConfigurationGroupEditor.tsx
 msgid "Drop fields here"
@@ -7621,6 +7644,8 @@ msgstr "eddy@gmail.com, @apple.com"
 #. js-lingui-id: ePK91l
 #: src/modules/activities/emails/recipients/components/EmailRecipientChipMenuContent.tsx
 #: src/modules/navigation-menu-item/edit/side-panel/hooks/useNavigationMenuItemEditOrganizeActions.ts
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailMorphRelationSectionDropdownManyToOne.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationSectionDropdownToOne.tsx
 #: src/modules/object-record/record-field/ui/form-types/components/FormMultiSelectFieldInput.tsx
 #: src/modules/object-record/record-field/ui/meta-types/input/components/MultiItemFieldMenuItem.tsx
 #: src/modules/object-record/record-group/hooks/useRecordGroupActions.ts
@@ -8694,6 +8719,11 @@ msgstr ""
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getHoursDescription.ts
 msgid "every hour"
 msgstr "每小時"
+
+#. js-lingui-id: +5cr43
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
+msgstr ""
 
 #. js-lingui-id: a9EHxw
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/describeCronExpression.ts
@@ -11468,6 +11498,11 @@ msgstr "邀請您的團隊"
 msgid "Invoice amount may vary if you add members or credits between periods"
 msgstr "若在期間內新增成員或點數，發票金額可能會有所變動"
 
+#. js-lingui-id: F7nA5/
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Invoices"
+msgstr ""
+
 #. js-lingui-id: CUvG5b
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
 msgid "Iris"
@@ -12902,6 +12937,7 @@ msgid "Members & invitees"
 msgstr "成員與受邀者"
 
 #. js-lingui-id: UODtG8
+#: src/modules/object-record/record-field-list/record-detail-section/duplicate/components/RecordDetailDuplicatesSection.tsx
 #: src/modules/object-record/record-merge/components/MergeRecordsFooter.tsx
 msgid "Merge"
 msgstr "合併"
@@ -15741,6 +15777,11 @@ msgstr "我發送和接收電子郵件的人。"
 msgid "People I’ve sent emails to."
 msgstr "我發送電子郵件的人。"
 
+#. js-lingui-id: ThNYve
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "per month, net"
+msgstr ""
+
 #. js-lingui-id: qMTN0w
 #: src/pages/settings/ai/SettingsAiUsageUserDetail.tsx
 msgid "Per-day AI consumption."
@@ -16925,6 +16966,11 @@ msgstr "要移除 {0} 個導覽選單項目嗎？"
 msgid "Remove {0} navigation menu items?"
 msgstr "要移除 {0} 個導覽選單項目嗎？"
 
+#. js-lingui-id: IX+HWe
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Remove a seat"
+msgstr ""
+
 #. js-lingui-id: 1O32oy
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
 msgid "Remove account"
@@ -17627,6 +17673,11 @@ msgstr ""
 msgid "Save as new view"
 msgstr "另存為新視圖"
 
+#. js-lingui-id: LBkSp8
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Save email"
+msgstr ""
+
 #. js-lingui-id: 7byqGp
 #: src/modules/layout-customization/hooks/useEnterLayoutCustomizationMode.ts
 msgid "Save or cancel dashboard changes before editing the layout."
@@ -18041,6 +18092,7 @@ msgid "seats"
 msgstr "座位"
 
 #. js-lingui-id: grt0Pu
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 msgid "Seats"
@@ -18306,6 +18358,11 @@ msgstr "選擇所有列"
 #: src/modules/workflow/workflow-trigger/components/WorkflowEditTriggerDatabaseEventForm.tsx
 msgid "Select an option"
 msgstr "選擇一個選項"
+
+#. js-lingui-id: KplOCi
+#: src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
+msgid "Select card"
+msgstr ""
 
 #. js-lingui-id: 21YIUv
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/components/TemplateColumn.tsx
@@ -18816,6 +18873,11 @@ msgstr "顯示全部"
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationInstalledWorkspaces.tsx
 msgid "Show all"
 msgstr "顯示全部"
+
+#. js-lingui-id: BowKyI
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationRecordsListItem.tsx
+msgid "Show details"
+msgstr ""
 
 #. js-lingui-id: JObkI8
 #. placeholder {0}: groupValue ?? ''
@@ -21923,6 +21985,11 @@ msgstr "更新記錄"
 msgid "Update role"
 msgstr "更新角色"
 
+#. js-lingui-id: hB01Ly
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Update seats"
+msgstr ""
+
 #. js-lingui-id: DUqztb
 #: src/modules/views/components/UpdateViewButtonGroup.tsx
 msgid "Update view"
@@ -22105,6 +22172,11 @@ msgstr "上傳文件"
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
 msgid "Upload logo"
 msgstr "上傳標誌"
+
+#. js-lingui-id: XjTduw
+#: src/modules/ui/input/components/ImageInput.tsx
+msgid "Upload picture"
+msgstr ""
 
 #. js-lingui-id: sl/qWH
 #: src/modules/onboarding/components/OnboardingProfilePictureUploader.tsx
@@ -22624,6 +22696,7 @@ msgid "view group"
 msgstr "視圖組"
 
 #. js-lingui-id: B02hom
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "View invoices"
@@ -22935,6 +23008,11 @@ msgstr "我們將傳送一個連結給您以驗證網域所有權"
 #. js-lingui-id: 3eXKd8
 #: src/growth-os/states/GrowthOsMaintenancePage.tsx
 msgid "We’ll be right back"
+msgstr ""
+
+#. js-lingui-id: ULcgoq
+#: src/growth-os/session/GrowthOsOfflineNotice.tsx
+msgid "We’ll reconnect automatically. Wait with edits until you’re back."
 msgstr ""
 
 #. js-lingui-id: OAShZP
@@ -23686,6 +23764,11 @@ msgstr "您即將更改工作區子域名。此操作將會使所有用戶登出
 #. js-lingui-id: hKTFzG
 #: src/pages/auth/SignInUp.tsx
 msgid "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
+msgstr ""
+
+#. js-lingui-id: PbCtBI
+#: src/growth-os/session/GrowthOsOfflineNotice.tsx
+msgid "You’re offline."
 msgstr ""
 
 #. js-lingui-id: l+U9qC

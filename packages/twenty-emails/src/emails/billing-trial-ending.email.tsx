@@ -6,6 +6,7 @@ import {
   KitText,
   kitFormatDate,
   kitI18n,
+  GOS_DEMO_PORTAL_LINK,
 } from 'src/components/kit/KitEmail';
 
 type BillingTrialEndingEmailProps = {
@@ -45,7 +46,7 @@ BillingTrialEndingEmail.PreviewProps = {
   workspaceDisplayName: 'Nordlicht Analytics',
   trialEndsAt: new Date('2026-12-09'),
   dataRetentionDays: 30,
-  link: 'https://crm.scalepoint-ventures.com/settings/billing',
+  link: GOS_DEMO_PORTAL_LINK,
   locale: 'en',
 } as BillingTrialEndingEmailProps;
 

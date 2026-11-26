@@ -635,3 +635,52 @@ html:root .growth-os-board-card-field[data-growth-os-field-name='closeDate'] {
     transform: none;
   }
 }
+
+/* 10b. Stage chips in tables, record fields and mobile cards: the same DS
+   stage chip as the board header (dot in color.stage, text-2 label). */
+.growth-os-select { display: contents; }
+:where(.growth-os-select) { --stage: var(--gos-stage-new); }
+html:root .growth-os-select[data-growth-os-stage-value] span[class*='_tag_'] {
+  background: var(--gos-surface) !important;
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-full) !important;
+  color: var(--gos-text-2) !important;
+  font-size: var(--gos-text-xs) !important;
+  font-weight: var(--gos-weight-semibold);
+  gap: 6px;
+  height: 22px !important;
+  padding: 0 9px !important;
+}
+html:root .growth-os-select[data-growth-os-stage-value] span[class*='_tag_']::before {
+  background: var(--stage);
+  border-radius: 50%;
+  content: '';
+  flex: none;
+  height: 6px;
+  width: 6px;
+}
+:where(.growth-os-stage-pill) { --stage: var(--gos-stage-new); }
+.growth-os-stage-pill {
+  align-items: center;
+  align-self: flex-start;
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-full);
+  color: var(--gos-text-2);
+  display: inline-flex;
+  font-size: var(--gos-text-xs);
+  font-weight: var(--gos-weight-semibold);
+  gap: 6px;
+  height: 22px;
+  margin: 2px 0;
+  padding: 0 9px;
+  width: fit-content;
+}
+.growth-os-stage-pill::before { background: var(--stage); border-radius: 50%; content: ''; height: 6px; width: 6px; }
+
+
+/* WCAG 2.2 target size (24px min) for record link chips in tables and cards. */
+a[data-click-outside-id='link-chip-click-outside-id'] {
+  align-items: center;
+  display: inline-flex;
+  min-height: 24px;
+}

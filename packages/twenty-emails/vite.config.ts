@@ -14,7 +14,12 @@ import { defineConfig, type Plugin } from 'vite';
 // SSR/node build, so this is built with `build.ssr` + `ssr.target: 'node'`,
 // while `ssr.noExternal: true` keeps the npm deps bundled in. React stays
 // external as the host app provides it.
-const EXTERNAL_DEPENDENCIES = ['react', 'react-dom', 'react/jsx-runtime'];
+const EXTERNAL_DEPENDENCIES = [
+  'react',
+  'react-dom',
+  'react-dom/server',
+  'react/jsx-runtime',
+];
 
 const nodeBuiltins = new Set([
   ...builtinModules,

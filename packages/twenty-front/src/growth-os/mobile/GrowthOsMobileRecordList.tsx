@@ -111,7 +111,17 @@ const GrowthOsMobileRecordCard = ({
     : null;
   const name = labelValue ?? 'Untitled';
 
+  // DS stage chip (color.stage) on deal cards; the stage is not repeated in the details.
+  const stageField = objectMetadataItem.fields.find(
+    (field) => field.name === 'stage' && field.type === 'SELECT',
+  );
+  const stageValue = isDefined(stageField) ? record[stageField.name] : null;
+  const stageOption = isDefined(stageField)
+    ? stageField.options?.find((option) => option.value === stageValue)
+    : undefined;
+
   const details = detailFieldIds
+    .filter((fieldId) => fieldId !== stageField?.id)
     .map((fieldId) => {
       const field = fieldMetadataItemByFieldMetadataItemId[fieldId];
 
@@ -138,6 +148,14 @@ const GrowthOsMobileRecordCard = ({
         />
         <StyledBody>
           <StyledName>{name}</StyledName>
+          {isDefined(stageOption) && (
+            <span
+              className="growth-os-stage-pill"
+              data-growth-os-stage-value={String(stageValue)}
+            >
+              {stageOption.label}
+            </span>
+          )}
           {details.length > 0 && (
             <StyledDetails>{details.join(' · ')}</StyledDetails>
           )}

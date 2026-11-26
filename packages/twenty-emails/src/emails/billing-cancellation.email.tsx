@@ -1,12 +1,13 @@
 import { type APP_LOCALES } from 'twenty-shared/translations';
 import {
   KitButton,
-  KitDetails,
+  KitInvoiceCard,
   KitEmail,
   KitNote,
   KitText,
   kitFormatDate,
   kitI18n,
+  GOS_DEMO_PORTAL_LINK,
 } from 'src/components/kit/KitEmail';
 
 // Growth OS: confirmation after the 2-step cancel (product standard §5 Cancel).
@@ -44,11 +45,17 @@ export const BillingCancellationEmail = ({ userName, workspaceDisplayName, acces
       <KitText>
         {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')} {i18n._('we’ve cancelled {planName} for {workspace}. You won’t be charged again.', { planName, workspace })}
       </KitText>
-      <KitDetails rows={[[i18n._('Full access until'), formattedDate], [i18n._('Then read-only for'), i18n._('{readOnlyDays} days', { readOnlyDays })], [i18n._('Your data'), i18n._('not deleted during that time')]]} />
+      <KitInvoiceCard
+        plan={planName}
+        invoiceNumber={workspace}
+        status={i18n._('Cancelled')}
+        tone="neutral"
+        rows={[[i18n._('Full access until'), formattedDate], [i18n._('Then read-only for'), i18n._('{readOnlyDays} days', { readOnlyDays })], [i18n._('Your data'), i18n._('not deleted during that time')]]}
+      />
       <KitButton href={link} label={i18n._('Keep my plan')} />
       <KitText>
         {i18n._('Want a copy of your data?')}{' '}
-        <a className="lk" href={exportLink} style={{ color: '#3A7872' }}>{i18n._('Export contacts, companies and deals as CSV')}</a>.
+        <a className="lk" href={exportLink} style={{ color: '#0B6E66', textDecoration: 'underline' }}>{i18n._('Export contacts, companies and deals as CSV')}</a>.
       </KitText>
       <KitNote>{i18n._('Didn’t cancel? Reply to this email right away and we’ll restore the plan.')}</KitNote>
     </KitEmail>
@@ -61,7 +68,7 @@ BillingCancellationEmail.PreviewProps = {
   accessUntil: new Date('2026-12-31'),
   readOnlyDays: 30,
   planName: 'CRM Growth',
-  link: 'https://crm.scalepoint-ventures.com/settings/billing',
+  link: GOS_DEMO_PORTAL_LINK,
   exportLink: 'https://crm.scalepoint-ventures.com/settings/data',
   locale: 'en',
 } as BillingCancellationEmailProps;

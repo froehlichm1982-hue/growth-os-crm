@@ -133,7 +133,9 @@ export const DragDropItemSortableCell = ({
         // any registered draggable that declares neither, so a disabled cell
         // would join the tab order and make pointer automation resolve clicks
         // on its content to a disabled button. Declaring both opts out.
-        role={disabled ? 'none' : undefined}
+        // growth-os (PATCHES.md): an enabled cell is a group too, so cells that
+        // hold buttons are not a button-in-button (axe nested-interactive).
+        role="group"
         tabIndex={disabled ? -1 : undefined}
         onDragStart={
           disabled && allowNativeDragWhenDisabled

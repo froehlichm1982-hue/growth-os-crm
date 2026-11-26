@@ -33,6 +33,8 @@ import { DialogManager } from '@/ui/feedback/dialog-manager/components/DialogMan
 import { DialogComponentInstanceContext } from '@/ui/feedback/dialog-manager/contexts/DialogComponentInstanceContext';
 import { GrowthOsPlanLimitEffect } from '~/growth-os/plan/GrowthOsPlanLimitEffect';
 import { GrowthOsSessionExpiredModal } from '~/growth-os/session/GrowthOsSessionExpiredModal';
+import { GrowthOsDndA11y } from '~/growth-os/shell/GrowthOsDndA11y';
+import { GrowthOsOfflineNotice } from '~/growth-os/session/GrowthOsOfflineNotice';
 import { SnackBarProvider } from '@/ui/feedback/snack-bar-manager/components/SnackBarProvider';
 import { GlobalFilePreviewModal } from '@/ui/field/display/components/GlobalFilePreviewModal';
 import { UserThemeProviderEffect } from '@/ui/theme/components/UserThemeProviderEffect';
@@ -85,6 +87,8 @@ export const WorkspaceAppProviders = () => {
                                 <CommandMenuConfirmationModalManager />
                                 <CommandRunner />
                                 <GrowthOsSessionExpiredModal />
+                                <GrowthOsOfflineNotice />
+                                <GrowthOsDndA11y />
                               </RecordCreationFormProvider>
                             </StrictMode>
                           </DialogManager>

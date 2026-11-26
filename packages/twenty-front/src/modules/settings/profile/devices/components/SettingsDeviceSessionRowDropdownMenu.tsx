@@ -46,7 +46,11 @@ export const SettingsDeviceSessionRowDropdownMenu = ({
       dropdownId={dropdownId}
       dropdownPlacement="bottom-end"
       clickableComponent={
-        <LightIconButton Icon={IconDotsVertical} accent="tertiary" />
+        <LightIconButton
+          aria-label={t`More options`}
+          Icon={IconDotsVertical}
+          accent="tertiary"
+        />
       }
       dropdownComponents={
         <DropdownContent>

@@ -43,6 +43,8 @@ export const FieldDescriptionTooltip = ({
       <StyledLabel
         data-tooltip-id={context.tooltipId}
         aria-describedby={descriptionId}
+        role="group"
+        aria-label={label}
         tabIndex={0}
         onMouseEnter={handleEnter}
         onFocus={handleEnter}

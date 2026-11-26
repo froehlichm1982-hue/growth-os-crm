@@ -49,7 +49,7 @@ export const SendInviteLinkEmail = ({ link, workspace, sender, locale }: SendInv
 SendInviteLinkEmail.PreviewProps = {
   link: 'https://nordlicht.crm.scalepoint-ventures.com/invite/demo',
   workspace: { name: 'Nordlicht Analytics', logo: undefined },
-  sender: { email: 'lena@nordlicht-mail.io', firstName: 'Lena', lastName: 'Hartmann' },
+  sender: { email: 'lena@getnordlicht.example', firstName: 'Lena', lastName: 'Hartmann' },
   serverUrl: 'https://crm.scalepoint-ventures.com',
   locale: 'en',
 } as SendInviteLinkEmailProps;

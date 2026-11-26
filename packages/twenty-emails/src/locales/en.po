@@ -24,9 +24,24 @@ msgid "{actorName} changed server administrator access for {targetName} ({target
 msgstr "{actorName} changed server administrator access for {targetName} ({targetEmail})."
 
 #. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "{actorName} moved {dealName} from {fromStage} to {stage}."
+msgstr "{actorName} moved {dealName} from {fromStage} to {stage}."
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "{actorName} moved the deal in your pipeline."
+msgstr "{actorName} moved the deal in your pipeline."
+
+#. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "{daysSinceInactive} days"
 msgstr "{daysSinceInactive} days"
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "{dealName} moved to {stage}"
+msgstr "{dealName} moved to {stage}"
 
 #. js-lingui-explicit-id
 #: src/emails/export-ready.email.tsx
@@ -116,8 +131,8 @@ msgstr "Already synced"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-payment-failed.email.tsx
-msgid "Amount"
-msgstr "Amount"
+msgid "Amount due"
+msgstr "Amount due"
 
 #. js-lingui-explicit-id
 #: src/emails/validate-approved-access-domain.email.tsx
@@ -146,16 +161,6 @@ msgid "Billing · day {graceDay} of 7"
 msgstr "Billing · day {graceDay} of 7"
 
 #. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Business ID"
-msgstr "Business ID"
-
-#. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Button not working? Paste this link into your browser:"
-msgstr "Button not working? Paste this link into your browser:"
-
-#. js-lingui-explicit-id
 #: src/emails/sync-failed.email.tsx
 msgid "Calendar sync is paused"
 msgstr "Calendar sync is paused"
@@ -166,9 +171,19 @@ msgid "Calendar sync paused: reconnect your account"
 msgstr "Calendar sync paused: reconnect your account"
 
 #. js-lingui-explicit-id
+#: src/emails/billing-cancellation.email.tsx
+msgid "Cancelled"
+msgstr "Cancelled"
+
+#. js-lingui-explicit-id
 #: src/emails/password-reset-link.email.tsx
 msgid "Choose a new password"
 msgstr "Choose a new password"
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Close date"
+msgstr "Close date"
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
@@ -201,9 +216,24 @@ msgid "Connected account"
 msgstr "Connected account"
 
 #. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Deal"
+msgstr "Deal"
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Deal moved to {stage}"
+msgstr "Deal moved to {stage}"
+
+#. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
 msgid "Deleted in"
 msgstr "Deleted in"
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Demo data · test only, not a customer"
+msgstr "Demo data · test only, not a customer"
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
@@ -308,6 +338,7 @@ msgstr "Full admin panel"
 #: src/emails/billing-trial-converting.email.tsx
 #: src/emails/billing-trial-ending.email.tsx
 #: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/crm-deal-moved.email.tsx
 #: src/emails/export-ready.email.tsx
 #: src/emails/password-reset-link.email.tsx
 #: src/emails/password-update-notify.email.tsx
@@ -323,6 +354,7 @@ msgstr "Hi {userName},"
 #: src/emails/billing-trial-converting.email.tsx
 #: src/emails/billing-trial-ending.email.tsx
 #: src/emails/clean-suspended-workspace.email.tsx
+#: src/emails/crm-deal-moved.email.tsx
 #: src/emails/export-ready.email.tsx
 #: src/emails/password-reset-link.email.tsx
 #: src/emails/password-update-notify.email.tsx
@@ -384,11 +416,6 @@ msgid "Invited by"
 msgstr "Invited by"
 
 #. js-lingui-explicit-id
-#: src/emails/billing-payment-failed.email.tsx
-msgid "Invoice"
-msgstr "Invoice"
-
-#. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
 msgid "It was paused for {daysSinceInactive} days and not reactivated."
 msgstr "It was paused for {daysSinceInactive} days and not reactivated."
@@ -414,9 +441,9 @@ msgid "Last day: update payment by {formattedDate}"
 msgstr "Last day: update payment by {formattedDate}"
 
 #. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Legal notice"
-msgstr "Legal notice"
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Lead"
+msgstr "Lead"
 
 #. js-lingui-explicit-id
 #: src/emails/export-ready.email.tsx
@@ -496,9 +523,19 @@ msgid "Only people signed in to your workspace can open this link. Didn’t star
 msgstr "Only people signed in to your workspace can open this link. Didn’t start an export? Tell your workspace owner."
 
 #. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Open deal"
+msgstr "Open deal"
+
+#. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
 msgid "Open Growth OS CRM"
 msgstr "Open Growth OS CRM"
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Owner"
+msgstr "Owner"
 
 #. js-lingui-explicit-id
 #: src/emails/password-reset-link.email.tsx
@@ -512,18 +549,18 @@ msgstr "Paused for"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-payment-failed.email.tsx
-msgid "Plan"
-msgstr "Plan"
+msgid "Payment failed"
+msgstr "Payment failed"
 
 #. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Privacy"
-msgstr "Privacy"
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Proposal"
+msgstr "Proposal"
 
 #. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Questions? Reply to this email or write to"
-msgstr "Questions? Reply to this email or write to"
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Qualified"
+msgstr "Qualified"
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
@@ -602,11 +639,6 @@ msgid "Someone, probably you, tried to create a Growth OS CRM account with {emai
 msgstr "Someone, probably you, tried to create a Growth OS CRM account with {email}. This address already has an account, so we didn’t create a new one."
 
 #. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Source code (AGPL-3.0)"
-msgstr "Source code (AGPL-3.0)"
-
-#. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
 msgid "Start a new workspace"
 msgstr "Start a new workspace"
@@ -615,11 +647,6 @@ msgstr "Start a new workspace"
 #: src/emails/sync-failed.email.tsx
 msgid "Stopped"
 msgstr "Stopped"
-
-#. js-lingui-explicit-id
-#: src/components/kit/KitEmail.tsx
-msgid "Terms"
-msgstr "Terms"
 
 #. js-lingui-explicit-id
 #: src/emails/test.email.tsx
@@ -719,6 +746,11 @@ msgid "Update your payment method by {formattedDate} to keep full access."
 msgstr "Update your payment method by {formattedDate} to keep full access."
 
 #. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Value"
+msgstr "Value"
+
+#. js-lingui-explicit-id
 #: src/emails/billing-cancellation.email.tsx
 msgid "Want a copy of your data?"
 msgstr "Want a copy of your data?"
@@ -782,6 +814,11 @@ msgstr "Welcome"
 #: src/emails/billing-payment-failed.email.tsx
 msgid "What happens next: after 7 days the workspace becomes read-only. Your data is not deleted, and everything is back the moment the payment succeeds."
 msgstr "What happens next: after 7 days the workspace becomes read-only. Your data is not deleted, and everything is back the moment the payment succeeds."
+
+#. js-lingui-explicit-id
+#: src/emails/crm-deal-moved.email.tsx
+msgid "Won"
+msgstr "Won"
 
 #. js-lingui-explicit-id
 #: src/emails/password-reset-link.email.tsx

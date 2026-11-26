@@ -223,6 +223,7 @@ export const RecordDetailRelationRecordsListItem = ({
         />
         <StyledClickableZone onClick={handleClick} data-testid="expand-button">
           <LightIconButton
+            aria-label={t`Show details`}
             className="displayOnHover"
             Icon={AnimatedIconChevronDown}
             accent="tertiary"
@@ -234,6 +235,7 @@ export const RecordDetailRelationRecordsListItem = ({
             dropdownPlacement="right-start"
             clickableComponent={
               <LightIconButton
+                aria-label={t`More options`}
                 className="displayOnHover"
                 Icon={IconDotsVertical}
                 accent="tertiary"

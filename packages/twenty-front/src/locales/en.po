@@ -839,6 +839,11 @@ msgstr "{unitCount, plural, one {Week} other {Weeks}}"
 msgid "{unitCount, plural, one {Year} other {Years}}"
 msgstr "{unitCount, plural, one {Year} other {Years}}"
 
+#. js-lingui-id: 5eC9uo
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
+msgstr "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
+
 #. js-lingui-id: YdwR4T
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownDefaultView.tsx
@@ -1345,6 +1350,8 @@ msgid "Activity visibility"
 msgstr "Activity visibility"
 
 #. js-lingui-id: m16xKo
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailMorphRelationSectionDropdownOneToMany.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationSectionDropdownToMany.tsx
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
 msgid "Add"
 msgstr "Add"
@@ -1417,6 +1424,11 @@ msgstr "Add a record"
 #: src/modules/activities/calendar/components/CalendarEventComposerTargetsInput.tsx
 msgid "Add a related record"
 msgstr "Add a related record"
+
+#. js-lingui-id: syuuw0
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Add a seat"
+msgstr "Add a seat"
 
 #. js-lingui-id: eMc2xs
 #: src/modules/ai/components/suggested-prompts/contextual-suggested-prompts.ts
@@ -1663,7 +1675,7 @@ msgstr "Add new"
 #: src/modules/object-record/record-table-widget/components/RecordTableWidgetNestedRelationAddNewRow.tsx
 #: src/modules/object-record/record-table/components/RecordTableNoRecordGroupAddNew.tsx
 msgid "Add New"
-msgstr "Add New"
+msgstr "Add new"
 
 #. js-lingui-id: erHjaG
 #: src/modules/workflow/workflow-diagram/components/WorkflowDiagramRightClickCommandMenu.tsx
@@ -3230,7 +3242,7 @@ msgstr "Authenticator app"
 #. js-lingui-id: YZWcQL
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Authenticator App"
-msgstr "Authenticator App"
+msgstr "Authenticator app"
 
 #. js-lingui-id: 9aB4Rs
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
@@ -3898,6 +3910,7 @@ msgstr "Can't scan? Copy the"
 #: src/modules/settings/billing/components/UpdatePaymentMethodModal.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/modules/spreadsheet-import/provider/components/SpreadsheetImport.tsx
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/MatchColumnsStep.tsx
@@ -4095,6 +4108,11 @@ msgstr "Cc/Bcc"
 msgid "Change Color"
 msgstr "Change Color"
 
+#. js-lingui-id: feCRNv
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Change email"
+msgstr "Change email"
+
 #. js-lingui-id: qTyVHs
 #: src/modules/workflow/workflow-diagram/workflow-nodes/components/WorkflowDiagramStepNodeOptionsDropdown.tsx
 msgid "Change node"
@@ -4113,7 +4131,7 @@ msgstr "Change password"
 #. js-lingui-id: VhMDMg
 #: src/modules/settings/profile/components/SetOrChangePassword.tsx
 msgid "Change Password"
-msgstr "Change Password"
+msgstr "Change password"
 
 #. js-lingui-id: EYSFEW
 #: src/modules/settings/domains/components/SettingsSubdomain.tsx
@@ -6618,7 +6636,7 @@ msgstr "Deactivate this field"
 #: src/pages/settings/data-model/SettingsObjectTable.tsx
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Deactivated"
-msgstr "Deactivated"
+msgstr "Off"
 
 #. js-lingui-id: Iotuxe
 #: src/modules/ai/components/RoutingDebugDisplay.tsx
@@ -7463,6 +7481,11 @@ msgstr "Drag and Drop Here"
 msgid "Drag to add to navbar"
 msgstr "Drag to add to navbar"
 
+#. js-lingui-id: KGi3u9
+#: src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
+msgid "Drag to reorder"
+msgstr "Drag to reorder"
+
 #. js-lingui-id: VIbDgE
 #: src/modules/page-layout/widgets/fields/components/FieldsConfigurationGroupEditor.tsx
 msgid "Drop fields here"
@@ -7616,6 +7639,8 @@ msgstr "eddy@gmail.com, @apple.com"
 #. js-lingui-id: ePK91l
 #: src/modules/activities/emails/recipients/components/EmailRecipientChipMenuContent.tsx
 #: src/modules/navigation-menu-item/edit/side-panel/hooks/useNavigationMenuItemEditOrganizeActions.ts
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailMorphRelationSectionDropdownManyToOne.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationSectionDropdownToOne.tsx
 #: src/modules/object-record/record-field/ui/form-types/components/FormMultiSelectFieldInput.tsx
 #: src/modules/object-record/record-field/ui/meta-types/input/components/MultiItemFieldMenuItem.tsx
 #: src/modules/object-record/record-group/hooks/useRecordGroupActions.ts
@@ -8098,7 +8123,7 @@ msgstr "English"
 #. js-lingui-id: UXZry7
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Enhances security by requiring a code along with your password"
-msgstr "Enhances security by requiring a code along with your password"
+msgstr "Ask for a code from your authenticator app as well as your password."
 
 #. js-lingui-id: 6iUnle
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
@@ -8689,6 +8714,11 @@ msgstr "Every deal,"
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getHoursDescription.ts
 msgid "every hour"
 msgstr "every hour"
+
+#. js-lingui-id: +5cr43
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
+msgstr "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
 
 #. js-lingui-id: a9EHxw
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/describeCronExpression.ts
@@ -9758,7 +9788,7 @@ msgstr "First name"
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 #: src/pages/onboarding/CreateProfile.tsx
 msgid "First Name"
-msgstr "First Name"
+msgstr "First name"
 
 #. js-lingui-id: cgevMo
 #: src/pages/onboarding/CreateProfile.tsx
@@ -11486,6 +11516,11 @@ msgstr "Invite your team"
 msgid "Invoice amount may vary if you add members or credits between periods"
 msgstr "Invoice amount may vary if you add members or credits between periods"
 
+#. js-lingui-id: F7nA5/
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Invoices"
+msgstr "Invoices"
+
 #. js-lingui-id: CUvG5b
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
 msgid "Iris"
@@ -11975,7 +12010,7 @@ msgstr "Last name"
 #: src/modules/settings/profile/components/NameFields.tsx
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 msgid "Last Name"
-msgstr "Last Name"
+msgstr "Last name"
 
 #. js-lingui-id: PnMGfO
 #: src/pages/onboarding/CreateProfile.tsx
@@ -12920,6 +12955,7 @@ msgid "Members & invitees"
 msgstr "Members & invitees"
 
 #. js-lingui-id: UODtG8
+#: src/modules/object-record/record-field-list/record-detail-section/duplicate/components/RecordDetailDuplicatesSection.tsx
 #: src/modules/object-record/record-merge/components/MergeRecordsFooter.tsx
 msgid "Merge"
 msgstr "Merge"
@@ -15759,6 +15795,11 @@ msgstr "People I’ve sent emails to and received emails from."
 msgid "People I’ve sent emails to."
 msgstr "People I’ve sent emails to."
 
+#. js-lingui-id: ThNYve
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "per month, net"
+msgstr "per month, net"
+
 #. js-lingui-id: qMTN0w
 #: src/pages/settings/ai/SettingsAiUsageUserDetail.tsx
 msgid "Per-day AI consumption."
@@ -16943,6 +16984,11 @@ msgstr "Remove {0} navigation menu item?"
 msgid "Remove {0} navigation menu items?"
 msgstr "Remove {0} navigation menu items?"
 
+#. js-lingui-id: IX+HWe
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Remove a seat"
+msgstr "Remove a seat"
+
 #. js-lingui-id: 1O32oy
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
 msgid "Remove account"
@@ -17645,6 +17691,11 @@ msgstr "Save and sign in"
 msgid "Save as new view"
 msgstr "Save as new view"
 
+#. js-lingui-id: LBkSp8
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Save email"
+msgstr "Save email"
+
 #. js-lingui-id: 7byqGp
 #: src/modules/layout-customization/hooks/useEnterLayoutCustomizationMode.ts
 msgid "Save or cancel dashboard changes before editing the layout."
@@ -18059,6 +18110,7 @@ msgid "seats"
 msgstr "seats"
 
 #. js-lingui-id: grt0Pu
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 msgid "Seats"
@@ -18325,6 +18377,11 @@ msgstr "Select all rows"
 msgid "Select an option"
 msgstr "Select an option"
 
+#. js-lingui-id: KplOCi
+#: src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
+msgid "Select card"
+msgstr "Select card"
+
 #. js-lingui-id: 21YIUv
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/components/TemplateColumn.tsx
 msgid "Select column..."
@@ -18491,7 +18548,7 @@ msgstr "Send email"
 #: src/modules/activities/emails/components/EmptyInboxPlaceholder.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
 msgid "Send Email"
-msgstr "Send Email"
+msgstr "Send email"
 
 #. js-lingui-id: CqsED8
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
@@ -18834,6 +18891,11 @@ msgstr "show all"
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationInstalledWorkspaces.tsx
 msgid "Show all"
 msgstr "Show all"
+
+#. js-lingui-id: BowKyI
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationRecordsListItem.tsx
+msgid "Show details"
+msgstr "Show details"
 
 #. js-lingui-id: JObkI8
 #. placeholder {0}: groupValue ?? ''
@@ -20233,7 +20295,7 @@ msgstr "The email associated to this account"
 #. js-lingui-id: VGZYbZ
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "The email associated to your account"
-msgstr "The email associated to your account"
+msgstr "The email you sign in with."
 
 #. js-lingui-id: WGfnFh
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -21427,7 +21489,7 @@ msgstr "Two columns side by side"
 #: src/pages/settings/profile/SettingsProfile.tsx
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Two Factor Authentication"
-msgstr "Two Factor Authentication"
+msgstr "Two-step sign-in"
 
 #. js-lingui-id: MUIppF
 #: src/modules/auth/components/TwoFactorAuthenticationProvisionEffect.tsx
@@ -21973,6 +22035,11 @@ msgstr "Update records"
 msgid "Update role"
 msgstr "Update role"
 
+#. js-lingui-id: hB01Ly
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Update seats"
+msgstr "Update seats"
+
 #. js-lingui-id: DUqztb
 #: src/modules/views/components/UpdateViewButtonGroup.tsx
 msgid "Update view"
@@ -22155,6 +22222,11 @@ msgstr "Upload Files"
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
 msgid "Upload logo"
 msgstr "Upload logo"
+
+#. js-lingui-id: XjTduw
+#: src/modules/ui/input/components/ImageInput.tsx
+msgid "Upload picture"
+msgstr "Upload picture"
 
 #. js-lingui-id: sl/qWH
 #: src/modules/onboarding/components/OnboardingProfilePictureUploader.tsx
@@ -22674,6 +22746,7 @@ msgid "view group"
 msgstr "view group"
 
 #. js-lingui-id: B02hom
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "View invoices"
@@ -22950,7 +23023,7 @@ msgstr "We sent a confirmation link to {address}. Open it to activate your works
 #. js-lingui-id: id6ein
 #: src/modules/ui/input/components/ImageInput.tsx
 msgid "We support your square PNGs, JPEGs and GIFs under 10MB"
-msgstr "We support your square PNGs, JPEGs and GIFs under 10MB"
+msgstr "Square PNG, JPEG or GIF, up to 10 MB."
 
 #. js-lingui-id: Fui3cz
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -22986,6 +23059,11 @@ msgstr "We will send you a link to verify domain ownership"
 #: src/growth-os/states/GrowthOsMaintenancePage.tsx
 msgid "We’ll be right back"
 msgstr "We’ll be right back"
+
+#. js-lingui-id: ULcgoq
+#: src/growth-os/session/GrowthOsOfflineNotice.tsx
+msgid "We’ll reconnect automatically. Wait with edits until you’re back."
+msgstr "We’ll reconnect automatically. Wait with edits until you’re back."
 
 #. js-lingui-id: OAShZP
 #: src/pages/onboarding/PaymentSuccess.tsx
@@ -23738,6 +23816,11 @@ msgstr "You're about to change your workspace subdomain. This action will log ou
 msgid "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
 msgstr "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
 
+#. js-lingui-id: PbCtBI
+#: src/growth-os/session/GrowthOsOfflineNotice.tsx
+msgid "You’re offline."
+msgstr "You’re offline."
+
 #. js-lingui-id: l+U9qC
 #: src/growth-os/GrowthOsAuthShell.tsx
 msgid "You’re signed out"
@@ -23826,7 +23909,7 @@ msgstr "Your handler receives this object. The body is empty because GET request
 #. js-lingui-id: 9ivpwk
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Your name as it will be displayed"
-msgstr "Your name as it will be displayed"
+msgstr "How your name shows up for your team."
 
 #. js-lingui-id: Gfklgu
 #: src/pages/not-found/NotFound.tsx

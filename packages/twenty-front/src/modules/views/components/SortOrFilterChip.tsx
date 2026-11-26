@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { styled } from '@linaria/react';
 import { useContext, type ReactNode } from 'react';
 import { type IconComponent, IconX } from 'twenty-ui/icon';
@@ -172,6 +173,7 @@ export const SortOrFilterChip = ({
         variant={variant}
         onClick={handleDeleteClick}
         data-testid={'remove-icon-' + testId}
+        aria-label={t`Remove`}
       >
         <IconX size={theme.icon.size.sm} stroke={theme.icon.stroke.sm} />
       </StyledDelete>
