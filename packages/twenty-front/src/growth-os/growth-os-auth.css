@@ -427,3 +427,21 @@
 
 /* Quiet consequence line above a primary button (reset-new: other devices). */
 .gos-form-note { align-items: center; color: var(--gos-text-3); display: flex; font-size: var(--gos-text-sm); gap: var(--gos-space-2); margin: 0 0 var(--gos-space-4); }
+
+/* DS v2.2: at <=640px the auth form is top-aligned (gos.css .gos-auth-form). */
+@media (max-width: 640px) {
+  .gos-auth-card { margin: 0 auto; padding-top: 16px; padding-bottom: 24px; }
+}
+
+/* DS v2.1 touch targets, ported: the CRM does not load css/gos.css, so the
+   top switch link and footer links get the 44px hit area here. */
+@media (pointer: coarse), (max-width: 640px) {
+  .gos-auth-top a,
+  .gos-auth-foot a {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: var(--gos-size-touch-target);
+    min-width: var(--gos-size-touch-target);
+  }
+}
