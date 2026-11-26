@@ -3,12 +3,12 @@ import { join } from 'path';
 
 import { type SendMailOptions } from 'nodemailer';
 
-// Growth OS mail layout (same as the Connect mails): the header art travels
+// Growth OS mail base v3 (DS v2.8): the header art travels
 // inside the mail as inline attachments (Content-ID), so nothing has to be
-// hosted. The HTML refers to cid:header-{light,dark}@crm.scalepoint.
+// hosted. The HTML refers to cid:header-crm-{light,dark}@crm.scalepoint.
 const CID_FILES: Record<string, string> = {
-  'header-light@crm.scalepoint': 'email-header-light@2x.png',
-  'header-dark@crm.scalepoint': 'email-header-dark@2x.png',
+  'header-crm-light@crm.scalepoint': 'email-header-crm-light@2x.png',
+  'header-crm-dark@crm.scalepoint': 'email-header-crm-dark@2x.png',
 };
 
 const getAssetDir = () =>

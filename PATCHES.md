@@ -27,3 +27,9 @@ Paths are relative to `packages/twenty-front/src/`.
 - `SettingsDeviceSessionRowDropdownMenu.tsx`: `aria-label` on the row actions button. `SortOrFilterChip.tsx`: `aria-label` on the remove (x) button.
 - `growth-os/shell/GrowthOsDndA11y.tsx` (our own file, mounted in `WorkspaceAppProviders.tsx`): strips `aria-pressed` / `aria-grabbed` / `aria-roledescription` that dnd-kit stamps on `role=group` draggables (axe aria-allowed-attr). No upstream component logic changed.
 - `gosOverrides.ts` (value override, not a patch): `--t-color-blue` -> `--gos-info-ink`, `--t-color-green` and the green tag text/background -> `--gos-success-ink` / `--gos-success-soft`, so chip and badge text reaches 4.5:1.
+
+## Mail base v3 (not upstream patches, listed for the merge)
+
+- `packages/twenty-emails/src/components/kit/KitEmail.tsx` + `gos/emailBaseV3.generated.ts` (synced from `design-system/email/base.html`) + `gos/emailCardsV3.ts`: all 17 system mails plus the deal mail render through the DS v2.8 base. `vite.config.ts` keeps `react-dom/server` external.
+- `twenty-server/.../email/drivers/smtp.driver.ts`: nothing is sent unless `SEND_EMAILS=true` (default off); adds the CID header attachments (`get-growth-os-email-attachments.util.ts`). Transport stays SMTP (Resend SMTP with `EMAIL_SMTP_PASSWORD`/`RESEND_API_KEY` from env). No Resend API call exists in the code.
+- `twenty-server/.../growth-os/utils/billing-portal-link.util.ts`: signed `/portal` link builder (test vector from `billing-service/docs/integration/portal-link.md`).

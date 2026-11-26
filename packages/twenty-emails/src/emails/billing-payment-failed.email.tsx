@@ -1,7 +1,7 @@
 import { type APP_LOCALES } from 'twenty-shared/translations';
 import {
   KitButton,
-  KitDetails,
+  KitInvoiceCard,
   KitEmail,
   KitFallbackLink,
   KitNote,
@@ -9,6 +9,7 @@ import {
   KitText,
   kitFormatDate,
   kitI18n,
+  GOS_DEMO_PORTAL_LINK,
 } from 'src/components/kit/KitEmail';
 
 // Growth OS: dunning mail, sent on day 0, 3 and 6 of the 7-day grace period.
@@ -46,8 +47,7 @@ export const BillingPaymentFailedEmail = ({ userName, workspaceDisplayName, grac
       : graceDay === 3
         ? i18n._('Your payment is still due')
         : i18n._('Your payment didn’t go through');
-  const rows: Array<[string, string]> = [[i18n._('Plan'), planName], [i18n._('Amount'), amount]];
-  if (invoiceNumber) rows.push([i18n._('Invoice'), invoiceNumber]);
+  const rows: Array<[string, string]> = [];
   if (nextRetryAt && graceDay < 6) rows.push([i18n._('Next retry'), kitFormatDate(nextRetryAt, locale)]);
   rows.push([i18n._('Full access until'), formattedDate]);
 
@@ -71,7 +71,14 @@ export const BillingPaymentFailedEmail = ({ userName, workspaceDisplayName, grac
         <KitStrong>{i18n._('Update your payment method by {formattedDate} to keep full access.', { formattedDate })}</KitStrong>{' '}
         {i18n._('We retry automatically in the meantime.')}
       </KitText>
-      <KitDetails rows={rows} />
+      <KitInvoiceCard
+        plan={planName}
+        invoiceNumber={invoiceNumber}
+        status={i18n._('Payment failed')}
+        rows={rows}
+        totalLabel={i18n._('Amount due')}
+        total={amount}
+      />
       <KitButton href={link} label={i18n._('Update payment method')} />
       <KitFallbackLink href={link} i18n={i18n} />
       <KitNote tone={graceDay === 6 ? 'warn' : 'neutral'}>
@@ -91,7 +98,7 @@ BillingPaymentFailedEmail.PreviewProps = {
   amount: '€96.00 + VAT',
   invoiceNumber: 'GOS-2026-0418',
   cardLast4: '4242',
-  link: 'https://crm.scalepoint-ventures.com/settings/billing',
+  link: GOS_DEMO_PORTAL_LINK,
   locale: 'en',
 } as BillingPaymentFailedEmailProps;
 

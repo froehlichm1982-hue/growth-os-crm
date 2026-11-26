@@ -30,7 +30,7 @@ export const CleanSuspendedWorkspaceEmail = ({ daysSinceInactive, userName, work
       <KitText>
         {userName ? i18n._('Hi {userName},', { userName }) : i18n._('Hi,')} {i18n._('{workspace} was paused {daysSinceInactive} days ago and not reactivated, so we deleted it and its data as announced.', { workspace, daysSinceInactive })}
       </KitText>
-      <KitButton href="https://scalepoint-ventures.com/growthos/crm" label={i18n._('Start a new workspace')} />
+      <KitButton href="https://crm.scalepoint-ventures.com" label={i18n._('Start a new workspace')} />
       <KitNote>{i18n._('Think this is a mistake? Reply to this email and we’ll look into it.')}</KitNote>
     </KitEmail>
   );

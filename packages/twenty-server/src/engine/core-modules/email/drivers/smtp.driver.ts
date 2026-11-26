@@ -28,6 +28,15 @@ export class SmtpDriver implements EmailDriverInterface {
   }
 
   async send(sendMailOptions: SendMailOptions): Promise<void> {
+    // Growth OS: nothing leaves the server unless SEND_EMAILS=true (default off).
+    if (process.env.SEND_EMAILS !== 'true') {
+      this.logger.warn(
+        `SEND_EMAILS is not "true": email to '${sendMailOptions.to}' was not sent`,
+      );
+
+      return;
+    }
+
     const options =
       this.defaultReplyTo && !sendMailOptions.replyTo
         ? { ...sendMailOptions, replyTo: this.defaultReplyTo }

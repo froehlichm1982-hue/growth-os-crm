@@ -6,6 +6,7 @@ import {
   KitText,
   kitFormatDate,
   kitI18n,
+  GOS_DEMO_PORTAL_LINK,
 } from 'src/components/kit/KitEmail';
 
 type BillingSubscriptionRenewingEmailProps = {
@@ -43,7 +44,7 @@ BillingSubscriptionRenewingEmail.PreviewProps = {
   userName: 'Lena',
   workspaceDisplayName: 'Nordlicht Analytics',
   renewsAt: new Date('2026-12-09'),
-  link: 'https://crm.scalepoint-ventures.com/settings/billing',
+  link: GOS_DEMO_PORTAL_LINK,
   locale: 'en',
 } as BillingSubscriptionRenewingEmailProps;
 
