@@ -1,5 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { growthOsAuthAlertState } from '~/growth-os/auth/growthOsAuthAlertState';
+import { growthOsSessionExpiredState } from '~/growth-os/session/growthOsSessionExpiredState';
 import { InMemoryCache } from '@apollo/client';
 import { useMemo, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -39,7 +40,16 @@ export const useApolloFactory = (options: Partial<Options> = {}) => {
   const [currentWorkspaceMember, setCurrentWorkspaceMember] = useAtomState(
     currentWorkspaceMemberState,
   );
-  const setCurrentUser = useSetAtomState(currentUserState);
+  const [currentUser, setCurrentUser] = useAtomState(currentUserState);
+  const setGrowthOsSessionExpired = useSetAtomState(growthOsSessionExpiredState);
+  // Growth OS: who was signed in when a request came back unauthenticated
+  // (the Apollo client is created once, so read through a ref).
+  // oxlint-disable-next-line twenty/no-state-useref
+  const signedInEmailRef = useRef<string | null>(null);
+  signedInEmailRef.current =
+    isDefined(currentWorkspaceMember) && isDefined(currentUser?.email)
+      ? currentUser.email
+      : null;
   const setCurrentUserWorkspace = useSetAtomState(currentUserWorkspaceState);
 
   const setReturnToPath = useSetAtomState(returnToPathState);
@@ -71,6 +81,18 @@ export const useApolloFactory = (options: Partial<Options> = {}) => {
       currentWorkspace: currentWorkspace,
       appVersion,
       onUnauthenticatedError: () => {
+        // Growth OS (§4 session expired): mid-session, keep the page and ask
+        // for the password in a modal instead of navigating away.
+        if (
+          isDefined(signedInEmailRef.current) &&
+          ![...ONGOING_USER_CREATION_PATHS, AppPath.ResetPassword].some(
+            (path) => isMatchingLocation(locationRef.current, path),
+          )
+        ) {
+          setGrowthOsSessionExpired({ email: signedInEmailRef.current });
+
+          return;
+        }
         clearSessionGeneration();
         setIsCookieAuthActive(false);
         setCurrentUser(null);

@@ -1507,6 +1507,11 @@ msgstr "Legg til kort"
 msgid "Add CC"
 msgstr "Legg til CC"
 
+#. js-lingui-id: AgvHni
+#: src/modules/object-record/record-table/record-table-header/components/RecordTableHeaderAddColumnButton.tsx
+msgid "Add column"
+msgstr ""
+
 #. js-lingui-id: 3iIvQg
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
 msgid "Add conferencing"
@@ -7735,6 +7740,11 @@ msgstr "Rediger oppføringer på alle objekter"
 msgid "Edit relation"
 msgstr "Rediger relasjon"
 
+#. js-lingui-id: DpuBzU
+#: src/modules/navigation-menu-item/display/sections/workspace/components/WorkspaceSection.tsx
+msgid "Edit sidebar"
+msgstr ""
+
 #. js-lingui-id: /VLYQj
 #: src/modules/settings/translations/components/SettingsTranslationsButton.tsx
 msgid "Edit translations"
@@ -8328,9 +8338,19 @@ msgstr "Skriv inn verdi"
 msgid "Enter values, comma-separated"
 msgstr "Skriv inn verdier, separert med komma"
 
+#. js-lingui-id: RSmJ0Y
+#: src/pages/auth/SignInUp.tsx
+msgid "Enter your 6-digit code"
+msgstr ""
+
 #. js-lingui-id: nH66Il
 #: src/pages/auth/SignInUp.tsx
 msgid "Enter your password to continue."
+msgstr ""
+
+#. js-lingui-id: hGdxdS
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Enter your password."
 msgstr ""
 
 #. js-lingui-id: GDMzJS
@@ -9820,6 +9840,11 @@ msgstr ""
 msgid "for {objectLabel}"
 msgstr "for {objectLabel}"
 
+#. js-lingui-id: Q/rs74
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "For your security we signed you out. Sign in again to continue. Unsaved changes in this tab are kept."
+msgstr ""
+
 #. js-lingui-id: UNMVei
 #: src/modules/auth/sign-in-up/components/internal/SignInUpPasswordField.tsx
 msgid "Forgot password?"
@@ -10182,6 +10207,11 @@ msgstr "Geste av velvilje etter hendelsen i mars"
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Google"
 msgstr "Google"
+
+#. js-lingui-id: reJJvx
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "Google sign-in didn’t finish. Try again or continue with email."
+msgstr ""
 
 #. js-lingui-id: QlsrUj
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
@@ -11653,10 +11683,10 @@ msgstr "john.doe"
 msgid "john.doe@example.com"
 msgstr "john.doe@example.com"
 
-#. js-lingui-id: fSPjtl
+#. js-lingui-id: DE1A87
 #: src/pages/auth/SignInUp.tsx
-msgid "Join {workspaceName} team"
-msgstr "Bli med i {workspaceName} teamet"
+msgid "Join {workspaceName}"
+msgstr ""
 
 #. js-lingui-id: 31TuIx
 #: src/pages/settings/community/SettingsCommunity.tsx
@@ -12973,6 +13003,11 @@ msgstr "Mikrofontilgang er blokkert. Tillat den i nettleserinnstillingene for å
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Microsoft"
 msgstr "Microsoft"
+
+#. js-lingui-id: Dy8Lux
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "Microsoft sign-in didn’t finish. Try again or continue with email."
+msgstr ""
 
 #. js-lingui-id: eTUF28
 #: src/modules/object-record/record-board/record-board-column/utils/getAggregateOperationLabel.ts
@@ -15934,9 +15969,9 @@ msgstr ""
 msgid "Pipeline"
 msgstr ""
 
-#. js-lingui-id: +g+i2c
+#. js-lingui-id: ahs5u1
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Pipeline, contacts and the next step for each, in one place, synced with Outreach, Connect and BookDesk24."
+msgid "Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed."
 msgstr ""
 
 #. js-lingui-id: KQ93w+
@@ -17180,6 +17215,11 @@ msgstr "Tilbakestill alle overstyringer i dette oppsettet for å gå tilbake til
 #. js-lingui-id: ZziXsp
 #: src/pages/auth/PasswordReset.tsx
 msgid "Reset links work for 60 minutes and only once. Request a new one and we’ll send it straight away."
+msgstr ""
+
+#. js-lingui-id: RfwZxd
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Reset password"
 msgstr ""
 
 #. js-lingui-id: AASIAQ
@@ -18658,6 +18698,11 @@ msgstr "Sett opp videresending fra kildeadressen til denne destinasjonen."
 msgid "Set up MCP"
 msgstr "Konfigurer MCP"
 
+#. js-lingui-id: Ow+/9q
+#: src/pages/auth/SignInUp.tsx
+msgid "Set up two-step sign-in"
+msgstr ""
+
 #. js-lingui-id: 9HNKkV
 #: src/pages/settings/applications/tabs/SettingsApplicationDetailEnvironmentVariablesTable.tsx
 msgid "Set your application configuration variables"
@@ -18718,11 +18763,6 @@ msgstr "oppsett nøkkel"
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Setup key copied to clipboard"
 msgstr "Oppsettsnøkkel kopiert til utklippstavlen"
-
-#. js-lingui-id: NQNJjc
-#: src/pages/auth/SignInUp.tsx
-msgid "Setup your 2FA"
-msgstr "Konfigurer din 2FA"
 
 #. js-lingui-id: dsCM1m
 #: src/modules/object-record/record-merge/utils/getPositionWordLabel.ts
@@ -18868,15 +18908,11 @@ msgstr "Elementer i sidepanelet"
 
 #. js-lingui-id: 5lWFkC
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Sign in"
 msgstr "Logg inn"
-
-#. js-lingui-id: u6Higq
-#: src/pages/auth/SignInUp.tsx
-msgid "Sign in or create a password to join your team."
-msgstr ""
 
 #. js-lingui-id: Vt3mQ2
 #: src/utils/title-utils.ts
@@ -18886,6 +18922,11 @@ msgstr "Logg inn eller opprett en konto"
 #. js-lingui-id: tAErtX
 #: src/pages/auth/SignInUp.tsx
 msgid "Sign in to your Growth OS workspace."
+msgstr ""
+
+#. js-lingui-id: fcWrnU
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Sign out"
 msgstr ""
 
 #. js-lingui-id: mHC57v
@@ -20064,6 +20105,16 @@ msgstr "Tekst kopiert til utklippstavlen"
 msgid "Text Editor"
 msgstr "Tekstredigering"
 
+#. js-lingui-id: +zcP88
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "That email and password don’t match. Check both, or reset your password."
+msgstr ""
+
+#. js-lingui-id: ogCJkG
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "That sign-in didn’t finish. Try again or continue with email."
+msgstr ""
+
 #. js-lingui-id: Z4WP0F
 #: src/modules/settings/accounts/components/SettingsAccountsNewEmailGroupChannel.tsx
 msgid "The address your workspace will send and receive email from (e.g. support@mycompany.com). Outbound sending requires the domain to be verified in Outbound Domains."
@@ -20989,6 +21040,11 @@ msgstr ""
 #. js-lingui-id: 9MNPjf
 #: src/growth-os/auth/GrowthOsAuthAlert.tsx
 msgid "Too many attempts."
+msgstr ""
+
+#. js-lingui-id: u28rcj
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Too many attempts. Try again in {countdown} or reset your password."
 msgstr ""
 
 #. js-lingui-id: 1NhzqT
@@ -22463,11 +22519,6 @@ msgstr "Verifisert"
 msgid "Verify"
 msgstr "Verifiser"
 
-#. js-lingui-id: IoglDq
-#: src/pages/auth/SignInUp.tsx
-msgid "Verify code from the app"
-msgstr "Verifiser koden fra appen"
-
 #. js-lingui-id: zS/rMV
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Verify the code from the app"
@@ -23675,10 +23726,25 @@ msgstr "Du vil miste alle tilknytningene dine."
 msgid "You will stop receiving these emails."
 msgstr "Du vil slutte å motta disse e-postene."
 
+#. js-lingui-id: XhLLd3
+#: src/pages/auth/PasswordReset.tsx
+msgid "You’ll be signed out on your other devices."
+msgstr ""
+
 #. js-lingui-id: Cl+hUj
 #: src/modules/settings/domains/components/SettingsSubdomain.tsx
 msgid "You're about to change your workspace subdomain. This action will log out all users."
 msgstr "Du er i ferd med å endre arbeidsområdets subdomene. Denne handlingen vil logge ut alle brukere."
+
+#. js-lingui-id: hKTFzG
+#: src/pages/auth/SignInUp.tsx
+msgid "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
+msgstr ""
+
+#. js-lingui-id: l+U9qC
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "You’re signed out"
+msgstr ""
 
 #. js-lingui-id: 6x8lJe
 #: src/modules/ai/components/AIChatNoMoreBillingCreditsBanner.tsx
@@ -23804,6 +23870,11 @@ msgstr "API-nøkkelen til tilbyderen din for autentisering"
 #. js-lingui-id: MudEI1
 #: src/growth-os/states/GrowthOsForbiddenState.tsx
 msgid "Your role doesn’t include this area. Ask a workspace admin to give you access. Nothing is wrong with your data."
+msgstr ""
+
+#. js-lingui-id: MOiutB
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Your session expired"
 msgstr ""
 
 #. js-lingui-id: 3cPq25

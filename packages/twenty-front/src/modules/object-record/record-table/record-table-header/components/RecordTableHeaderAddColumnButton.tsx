@@ -1,3 +1,4 @@
+import { useLingui } from '@lingui/react/macro';
 import { styled } from '@linaria/react';
 
 import { hasRecordGroupsComponentSelector } from '@/object-record/record-group/states/selectors/hasRecordGroupsComponentSelector';
@@ -62,6 +63,7 @@ const StyledDropdownContainer = styled.div`
 `;
 
 export const RecordTableHeaderAddColumnButton = () => {
+  const { t } = useLingui();
   const { theme } = useContext(ThemeContext);
 
   const isRecordTableRowActive = useAtomComponentFamilyStateValue(
@@ -113,7 +115,7 @@ export const RecordTableHeaderAddColumnButton = () => {
         <Dropdown
           dropdownId={`${HIDDEN_TABLE_COLUMN_DROPDOWN_ID}-${recordTableId}`}
           clickableComponent={
-            <StyledPlusIconContainer>
+            <StyledPlusIconContainer aria-label={t`Add column`}>
               <IconPlus size={theme.icon.size.md} />
             </StyledPlusIconContainer>
           }

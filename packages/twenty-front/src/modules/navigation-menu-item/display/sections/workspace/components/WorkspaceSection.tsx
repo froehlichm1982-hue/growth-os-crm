@@ -218,6 +218,7 @@ export const WorkspaceSection = () => {
                     Icon={IconTool}
                     accent="tertiary"
                     size="small"
+                    aria-label={t`Edit sidebar`}
                     onClick={handleEditClick}
                   />
                 </div>

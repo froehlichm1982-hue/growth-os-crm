@@ -617,7 +617,7 @@ msgstr "{jobCount, plural, one {Dies wird es dauerhaft von der Warteschlange ent
 #. js-lingui-id: QJYN9L
 #: src/modules/settings/admin-panel/health-status/components/SettingsAdminRetryJobsConfirmationModal.tsx
 msgid "{jobCount, plural, one {This will retry the selected job. It will be re-executed from the beginning.} other {This will retry the selected jobs. They will be re-executed from the beginning.}}"
-msgstr "{jobCount, plural, one {Dies wird den ausgewählten Auftrag neu ausführen. Er wird von Anfang an neu ausgeführt.} other {Dies wird die ausgewählten Aufträge neu ausführen. Sie werden von Anfang an neu ausgeführt.}}"
+msgstr "{jobCount, plural, one {Der ausgewählte Auftrag wird erneut gestartet und von Anfang an ausgeführt.} other {Die ausgewählten Aufträge werden erneut gestartet und von Anfang an ausgeführt.}}"
 
 #. js-lingui-id: Oq2RUh
 #: src/modules/settings/ai/utils/getAiModelPinOptions.ts
@@ -1507,6 +1507,11 @@ msgstr "Karte hinzufügen"
 msgid "Add CC"
 msgstr "CC hinzufügen"
 
+#. js-lingui-id: AgvHni
+#: src/modules/object-record/record-table/record-table-header/components/RecordTableHeaderAddColumnButton.tsx
+msgid "Add column"
+msgstr "Spalte hinzufügen"
+
 #. js-lingui-id: 3iIvQg
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
 msgid "Add conferencing"
@@ -1629,7 +1634,7 @@ msgstr "Element zum Ordner hinzufügen"
 #: src/modules/navigation-menu-item/edit/components/WorkspaceSectionAddMenuItemButton.tsx
 #: src/modules/side-panel/utils/getSidePanelSubPageTitle.ts
 msgid "Add menu item"
-msgstr "Menüpunkt hinzufügen"
+msgstr "Menüeintrag hinzufügen"
 
 #. js-lingui-id: JbORSt
 #: src/modules/navigation-menu-item/edit/side-panel/components/SidePanelEditOrganizeActions.tsx
@@ -2803,7 +2808,7 @@ msgstr "Anwendungsprotokolle"
 #. js-lingui-id: l/T809
 #: src/pages/settings/applications/SettingsAvailableApplicationDetails.tsx
 msgid "Application not listed on the marketplace. It was shared via a direct link"
-msgstr "Diese Anwendung ist nicht auf dem Marktplatz gelistet. Sie wurde über einen Direktlink freigegeben"
+msgstr "Diese Anwendung ist nicht auf dem Marktplatz gelistet und wurde über einen Direktlink freigegeben"
 
 #. js-lingui-id: +tE2x9
 #: src/modules/settings/applications/hooks/useUninstallApplication.ts
@@ -6000,7 +6005,7 @@ msgstr "Guthaben"
 #. js-lingui-id: x4qjZw
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantModal.tsx
 msgid "Credits are added on top of the plan allowance and are spent only once it runs out. They carry over in full from one billing period to the next, and stay available until they are used up or, where an expiry is set, until the end of the billing period that expiry falls in."
-msgstr "Credits kommen zum Tarifkontingent hinzu und werden erst verbraucht, wenn dieses aufgebraucht ist. Sie werden vollständig in den nächsten Abrechnungszeitraum übertragen und bleiben verfügbar, bis sie aufgebraucht sind oder, falls ein Ablaufdatum gesetzt ist, bis zum Ende des Abrechnungszeitraums, in den dieses Datum fällt."
+msgstr "Credits kommen zum Tarifkontingent hinzu und werden erst verbraucht, wenn dieses aufgebraucht ist. Nicht verbrauchte Credits werden vollständig in den nächsten Abrechnungszeitraum übertragen und bleiben verfügbar, bis sie aufgebraucht sind oder, falls ein Ablaufdatum gesetzt ist, bis zum Ende des Abrechnungszeitraums, in den dieses Datum fällt."
 
 #. js-lingui-id: 0o2LpE
 #: src/modules/settings/billing/components/SettingsBillingCreditsSection.tsx
@@ -6020,7 +6025,7 @@ msgstr "Credits, die während der Testphase verfügbar sind"
 #. js-lingui-id: nbyiz/
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantsTable.tsx
 msgid "Credits handed out on top of the plan allowance. They stay spendable until used up."
-msgstr "Zusätzlich zum Tarifkontingent vergebene Credits. Sie bleiben nutzbar, bis sie aufgebraucht sind."
+msgstr "Zusätzlich zum Tarifkontingent vergebene Credits. Du kannst sie nutzen, bis sie aufgebraucht sind."
 
 #. js-lingui-id: iSuLEw
 #: src/modules/information-banner/components/billing/InformationBannerNoMoreCredits.tsx
@@ -7735,6 +7740,11 @@ msgstr "Datensätze auf allen Objekten bearbeiten"
 msgid "Edit relation"
 msgstr "Beziehung bearbeiten"
 
+#. js-lingui-id: DpuBzU
+#: src/modules/navigation-menu-item/display/sections/workspace/components/WorkspaceSection.tsx
+msgid "Edit sidebar"
+msgstr "Seitenleiste bearbeiten"
+
 #. js-lingui-id: /VLYQj
 #: src/modules/settings/translations/components/SettingsTranslationsButton.tsx
 msgid "Edit translations"
@@ -8328,10 +8338,20 @@ msgstr "Wert eingeben"
 msgid "Enter values, comma-separated"
 msgstr "Gib Werte kommagetrennt ein"
 
+#. js-lingui-id: RSmJ0Y
+#: src/pages/auth/SignInUp.tsx
+msgid "Enter your 6-digit code"
+msgstr "Gib deinen 6-stelligen Code ein"
+
 #. js-lingui-id: nH66Il
 #: src/pages/auth/SignInUp.tsx
 msgid "Enter your password to continue."
 msgstr "Gib dein Passwort ein, um fortzufahren."
+
+#. js-lingui-id: hGdxdS
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Enter your password."
+msgstr "Gib dein Passwort ein."
 
 #. js-lingui-id: GDMzJS
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
@@ -9820,6 +9840,11 @@ msgstr "Für"
 msgid "for {objectLabel}"
 msgstr "für {objectLabel}"
 
+#. js-lingui-id: Q/rs74
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "For your security we signed you out. Sign in again to continue. Unsaved changes in this tab are kept."
+msgstr "Zu deiner Sicherheit haben wir dich abgemeldet. Melde dich erneut an, um weiterzumachen. Nicht gespeicherte Änderungen in diesem Tab bleiben erhalten."
+
 #. js-lingui-id: UNMVei
 #: src/modules/auth/sign-in-up/components/internal/SignInUpPasswordField.tsx
 msgid "Forgot password?"
@@ -10182,6 +10207,11 @@ msgstr "Kulanzgeste nach dem Vorfall im März"
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Google"
 msgstr "Google"
+
+#. js-lingui-id: reJJvx
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "Google sign-in didn’t finish. Try again or continue with email."
+msgstr "Die Anmeldung mit Google wurde nicht abgeschlossen. Versuch es noch einmal oder melde dich mit E-Mail an."
 
 #. js-lingui-id: QlsrUj
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
@@ -11653,10 +11683,10 @@ msgstr "john.doe"
 msgid "john.doe@example.com"
 msgstr "john.doe@example.com"
 
-#. js-lingui-id: fSPjtl
+#. js-lingui-id: DE1A87
 #: src/pages/auth/SignInUp.tsx
-msgid "Join {workspaceName} team"
-msgstr "Dem {workspaceName} Team beitreten"
+msgid "Join {workspaceName}"
+msgstr "{workspaceName} beitreten"
 
 #. js-lingui-id: 31TuIx
 #: src/pages/settings/community/SettingsCommunity.tsx
@@ -12973,6 +13003,11 @@ msgstr "Der Mikrofonzugriff ist blockiert. Erlaube ihn in deinen Browsereinstell
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Microsoft"
 msgstr "Microsoft"
+
+#. js-lingui-id: Dy8Lux
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "Microsoft sign-in didn’t finish. Try again or continue with email."
+msgstr "Die Anmeldung mit Microsoft wurde nicht abgeschlossen. Versuch es noch einmal oder melde dich mit E-Mail an."
 
 #. js-lingui-id: eTUF28
 #: src/modules/object-record/record-board/record-board-column/utils/getAggregateOperationLabel.ts
@@ -15423,7 +15458,7 @@ msgstr "Ausfall"
 #. js-lingui-id: nvADne
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "Outbound mail from this channel is sent through this domain. It must be verified before email can be delivered."
-msgstr "Ausgehende E-Mails aus diesem Kanal werden über diese Domain gesendet. Sie muss verifiziert werden, bevor E-Mails zugestellt werden können."
+msgstr "Ausgehende E-Mails aus diesem Kanal werden über diese Domain gesendet. Verifiziere die Domain, bevor E-Mails zugestellt werden können."
 
 #. js-lingui-id: gh06VD
 #: src/modules/ai/components/CodeExecutionDisplay.tsx
@@ -15934,10 +15969,10 @@ msgstr "Auf ein bestimmtes Modell festgelegt"
 msgid "Pipeline"
 msgstr "Pipeline"
 
-#. js-lingui-id: +g+i2c
+#. js-lingui-id: ahs5u1
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Pipeline, contacts and the next step for each, in one place, synced with Outreach, Connect and BookDesk24."
-msgstr "Pipeline, Kontakte und der nächste Schritt für jeden Deal – an einem Ort, synchron mit Outreach, Connect und BookDesk24."
+msgid "Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed."
+msgstr "Pipeline, Kontakte und der nächste Schritt für jeden Deal, an einem Ort. In wenigen Minuten eingerichtet, ohne Karte."
 
 #. js-lingui-id: KQ93w+
 #: src/growth-os/plan/GrowthOsPlanPage.tsx
@@ -17181,6 +17216,11 @@ msgstr "Alle Überschreibungen in diesem Layout zurücksetzen, damit es wieder d
 #: src/pages/auth/PasswordReset.tsx
 msgid "Reset links work for 60 minutes and only once. Request a new one and we’ll send it straight away."
 msgstr "Links zum Zurücksetzen gelten 60 Minuten und nur einmal. Fordere einen neuen an und wir senden ihn sofort."
+
+#. js-lingui-id: RfwZxd
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Reset password"
+msgstr "Passwort zurücksetzen"
 
 #. js-lingui-id: AASIAQ
 #: src/modules/layout-customization/components/LayoutCustomizationBarMenuDropdown.tsx
@@ -18658,6 +18698,11 @@ msgstr "Richte die Weiterleitung von der Quelladresse an dieses Ziel ein."
 msgid "Set up MCP"
 msgstr "MCP einrichten"
 
+#. js-lingui-id: Ow+/9q
+#: src/pages/auth/SignInUp.tsx
+msgid "Set up two-step sign-in"
+msgstr "Zweistufige Anmeldung einrichten"
+
 #. js-lingui-id: 9HNKkV
 #: src/pages/settings/applications/tabs/SettingsApplicationDetailEnvironmentVariablesTable.tsx
 msgid "Set your application configuration variables"
@@ -18718,11 +18763,6 @@ msgstr "Setup-Schlüssel"
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Setup key copied to clipboard"
 msgstr "Setup-Schlüssel in die Zwischenablage kopiert"
-
-#. js-lingui-id: NQNJjc
-#: src/pages/auth/SignInUp.tsx
-msgid "Setup your 2FA"
-msgstr "Richte deine 2FA ein"
 
 #. js-lingui-id: dsCM1m
 #: src/modules/object-record/record-merge/utils/getPositionWordLabel.ts
@@ -18868,15 +18908,11 @@ msgstr "Menüpunkte der Seitenleiste"
 
 #. js-lingui-id: 5lWFkC
 #: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Sign in"
 msgstr "Anmelden"
-
-#. js-lingui-id: u6Higq
-#: src/pages/auth/SignInUp.tsx
-msgid "Sign in or create a password to join your team."
-msgstr "Melde dich an oder lege ein Passwort fest, um deinem Team beizutreten."
 
 #. js-lingui-id: Vt3mQ2
 #: src/utils/title-utils.ts
@@ -18887,6 +18923,11 @@ msgstr "Anmelden oder ein Konto erstellen"
 #: src/pages/auth/SignInUp.tsx
 msgid "Sign in to your Growth OS workspace."
 msgstr "Melde dich in deinem Growth-OS-Workspace an."
+
+#. js-lingui-id: fcWrnU
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Sign out"
+msgstr "Abmelden"
 
 #. js-lingui-id: mHC57v
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
@@ -20064,6 +20105,16 @@ msgstr "Text in die Zwischenablage kopiert"
 msgid "Text Editor"
 msgstr "Texteditor"
 
+#. js-lingui-id: +zcP88
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "That email and password don’t match. Check both, or reset your password."
+msgstr "Diese E-Mail und das Passwort passen nicht zusammen. Prüf beides oder setz dein Passwort zurück."
+
+#. js-lingui-id: ogCJkG
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "That sign-in didn’t finish. Try again or continue with email."
+msgstr "Die Anmeldung wurde nicht abgeschlossen. Versuch es noch einmal oder melde dich mit E-Mail an."
+
 #. js-lingui-id: Z4WP0F
 #: src/modules/settings/accounts/components/SettingsAccountsNewEmailGroupChannel.tsx
 msgid "The address your workspace will send and receive email from (e.g. support@mycompany.com). Outbound sending requires the domain to be verified in Outbound Domains."
@@ -20990,6 +21041,11 @@ msgstr "Zu teuer"
 #: src/growth-os/auth/GrowthOsAuthAlert.tsx
 msgid "Too many attempts."
 msgstr "Zu viele Versuche."
+
+#. js-lingui-id: u28rcj
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Too many attempts. Try again in {countdown} or reset your password."
+msgstr "Zu viele Versuche. Versuch es in {countdown} erneut oder setz dein Passwort zurück."
 
 #. js-lingui-id: 1NhzqT
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -22463,11 +22519,6 @@ msgstr "Verifiziert"
 msgid "Verify"
 msgstr "Verifizieren"
 
-#. js-lingui-id: IoglDq
-#: src/pages/auth/SignInUp.tsx
-msgid "Verify code from the app"
-msgstr "Bestätige den Code von der App"
-
 #. js-lingui-id: zS/rMV
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Verify the code from the app"
@@ -23675,10 +23726,25 @@ msgstr "Du wirst alle deine Zuordnungen verlieren."
 msgid "You will stop receiving these emails."
 msgstr "Du wirst diese E-Mails nicht mehr erhalten."
 
+#. js-lingui-id: XhLLd3
+#: src/pages/auth/PasswordReset.tsx
+msgid "You’ll be signed out on your other devices."
+msgstr "Auf deinen anderen Geräten wirst du abgemeldet."
+
 #. js-lingui-id: Cl+hUj
 #: src/modules/settings/domains/components/SettingsSubdomain.tsx
 msgid "You're about to change your workspace subdomain. This action will log out all users."
 msgstr "Du bist dabei, dein Workspace-Subdomain zu ändern. Dadurch werden alle Nutzer ausgeloggt."
+
+#. js-lingui-id: hKTFzG
+#: src/pages/auth/SignInUp.tsx
+msgid "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
+msgstr "Du bist zu diesem Workspace eingeladen. Mach weiter mit Google, Microsoft oder deiner geschäftlichen E-Mail."
+
+#. js-lingui-id: l+U9qC
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "You’re signed out"
+msgstr "Du bist abgemeldet"
 
 #. js-lingui-id: 6x8lJe
 #: src/modules/ai/components/AIChatNoMoreBillingCreditsBanner.tsx
@@ -23805,6 +23871,11 @@ msgstr "Dein Anbieter-API-Schlüssel zur Authentifizierung"
 #: src/growth-os/states/GrowthOsForbiddenState.tsx
 msgid "Your role doesn’t include this area. Ask a workspace admin to give you access. Nothing is wrong with your data."
 msgstr "Deine Rolle umfasst diesen Bereich nicht. Bitte einen Workspace-Admin, dir Zugriff zu geben. Mit deinen Daten ist alles in Ordnung."
+
+#. js-lingui-id: MOiutB
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Your session expired"
+msgstr "Deine Sitzung ist abgelaufen"
 
 #. js-lingui-id: 3cPq25
 #: src/modules/apollo/hooks/useApolloFactory.ts

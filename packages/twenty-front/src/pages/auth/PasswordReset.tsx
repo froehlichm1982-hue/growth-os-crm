@@ -29,6 +29,9 @@ import { GROWTH_OS_BRAND } from '~/growth-os/brand';
 import { useNavigateApp } from '~/hooks/useNavigateApp';
 import { getErrorMessageFromApolloError } from '~/utils/get-error-message-from-apollo-error.util';
 import { logError } from '~/utils/logError';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
+
+const GosLogOutIcon = createGosIcon('log-out', 'GosResetSignOut');
 
 // Growth OS: kit reset flow (reset-new.html / expired.html) inside the auth
 // shell. Invalid or used links get the expired state with a way forward
@@ -234,6 +237,12 @@ export const PasswordReset = () => {
           error={passwordError}
           autoFocus
         />
+        {isTargetUserPasswordSet && (
+          <p className="gos-form-note" data-testid="growth-os-reset-signout-note">
+            <GosLogOutIcon size={14} />
+            {t`You’ll be signed out on your other devices.`}
+          </p>
+        )}
         <button className="gos-btn gos-btn-primary gos-btn-block" type="submit" disabled={isUpdatingPassword} aria-busy={isUpdatingPassword || undefined}>
           {isUpdatingPassword && <span className="gos-spinner" aria-hidden="true" />}
           {isUpdatingPassword ? t`Saving…` : t`Save and sign in`}

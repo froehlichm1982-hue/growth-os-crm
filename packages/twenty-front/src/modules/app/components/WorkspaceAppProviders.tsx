@@ -32,6 +32,7 @@ import { SupportChatEffect } from '@/support/components/SupportChatEffect';
 import { DialogManager } from '@/ui/feedback/dialog-manager/components/DialogManager';
 import { DialogComponentInstanceContext } from '@/ui/feedback/dialog-manager/contexts/DialogComponentInstanceContext';
 import { GrowthOsPlanLimitEffect } from '~/growth-os/plan/GrowthOsPlanLimitEffect';
+import { GrowthOsSessionExpiredModal } from '~/growth-os/session/GrowthOsSessionExpiredModal';
 import { SnackBarProvider } from '@/ui/feedback/snack-bar-manager/components/SnackBarProvider';
 import { GlobalFilePreviewModal } from '@/ui/field/display/components/GlobalFilePreviewModal';
 import { UserThemeProviderEffect } from '@/ui/theme/components/UserThemeProviderEffect';
@@ -83,6 +84,7 @@ export const WorkspaceAppProviders = () => {
                                 <GlobalFilePreviewModal />
                                 <CommandMenuConfirmationModalManager />
                                 <CommandRunner />
+                                <GrowthOsSessionExpiredModal />
                               </RecordCreationFormProvider>
                             </StrictMode>
                           </DialogManager>
