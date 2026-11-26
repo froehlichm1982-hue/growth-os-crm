@@ -677,3 +677,10 @@ html:root .growth-os-select[data-growth-os-stage-value] span[class*='_tag_']::be
 }
 .growth-os-stage-pill::before { background: var(--stage); border-radius: 50%; content: ''; height: 6px; width: 6px; }
 
+
+/* WCAG 2.2 target size (24px min) for record link chips in tables and cards. */
+a[data-click-outside-id='link-chip-click-outside-id'] {
+  align-items: center;
+  display: inline-flex;
+  min-height: 24px;
+}

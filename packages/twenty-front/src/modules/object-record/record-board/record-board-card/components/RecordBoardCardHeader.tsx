@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { RecordBoardContext } from '@/object-record/record-board/contexts/RecordBoardContext';
 import { useRecordBoardSelection } from '@/object-record/record-board/hooks/useRecordBoardSelection';
 import { RecordBoardCardContext } from '@/object-record/record-board/record-board-card/contexts/RecordBoardCardContext';
@@ -118,6 +119,7 @@ export const RecordBoardCardHeader = () => {
         <StyledCheckboxContainer className="checkbox-container">
           <StopPropagationContainer>
             <Checkbox
+              aria-label={t`Select card`}
               hoverable
               checked={isRecordBoardCardSelected}
               onCheckedChange={(isChecked) => {
