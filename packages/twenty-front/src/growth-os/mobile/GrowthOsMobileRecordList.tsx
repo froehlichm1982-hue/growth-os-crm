@@ -46,7 +46,7 @@ const StyledCard = styled(Link)`
   background: var(--gos-surface);
   border: 1px solid var(--gos-line);
   border-radius: 8px;
-  box-shadow: var(--gos-card-shadow);
+  box-shadow: var(--gos-shadow-xs);
   color: inherit;
   display: flex;
   gap: 12px;
@@ -76,7 +76,7 @@ const StyledName = styled.span`
 `;
 
 const StyledDetails = styled.span`
-  color: var(--gos-ink-muted);
+  color: var(--gos-text-3);
   font-size: 0.85rem;
   line-height: 1.4;
   overflow: hidden;
@@ -142,7 +142,7 @@ const GrowthOsMobileRecordCard = ({
             <StyledDetails>{details.join(' · ')}</StyledDetails>
           )}
         </StyledBody>
-        <IconChevronRight size={16} color="var(--gos-ink-faint)" />
+        <IconChevronRight size={16} color="var(--gos-text-3)" />
       </StyledCard>
     </StyledItem>
   );

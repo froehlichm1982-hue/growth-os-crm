@@ -51,7 +51,18 @@ const StyledTile = styled.div`
   flex-direction: column;
   gap: 4px;
   min-width: 0;
+  overflow: hidden;
+  position: relative;
   transition: box-shadow var(--dur-2) var(--ease-out);
+
+  /* DS v2: CRM KPI edge (module tile gradient, 3px). */
+  &::before {
+    background: var(--gos-crm-tile);
+    content: '';
+    height: var(--gos-glow-edge-height);
+    inset: 0 0 auto;
+    position: absolute;
+  }
 
   &:hover {
     box-shadow: var(--sh-sm);
@@ -68,11 +79,11 @@ const StyledLabel = styled.span`
 const StyledValue = styled.span`
   color: var(--c-ink);
   font-family: var(--font-ui);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-size: var(--gos-text-3xl);
+  font-weight: var(--gos-kpi-weight);
+  letter-spacing: var(--gos-kpi-tracking);
   font-variant-numeric: lining-nums tabular-nums;
-  line-height: 1.15;
+  line-height: var(--gos-kpi-leading);
 `;
 
 const StyledHint = styled.span`

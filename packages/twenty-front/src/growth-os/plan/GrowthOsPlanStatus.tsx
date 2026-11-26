@@ -1,58 +1,61 @@
-import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 
-import { themeCssVariables } from 'twenty-ui/theme-constants';
-import { UndecoratedLink } from 'twenty-ui/navigation';
+import { Link } from 'react-router-dom';
 import {
   getGrowthOsStatusLine,
   useGrowthOsPlan,
 } from '~/growth-os/plan/useGrowthOsPlan';
 
-const StyledStatus = styled.div<{ tone: 'ok' | 'warn' | 'danger' }>`
-  background: ${({ tone }) =>
-    tone === 'ok'
-      ? 'rgba(70,145,137,0.10)'
-      : tone === 'warn'
-        ? 'rgba(217,149,40,0.12)'
-        : 'rgba(220,64,64,0.10)'};
-  border-radius: 6px;
-  color: ${themeCssVariables.font.color.primary};
-  display: flex;
-  flex-direction: column;
-  font-size: ${themeCssVariables.font.size.sm};
-  gap: 2px;
-  margin: 0 ${themeCssVariables.spacing[2]} ${themeCssVariables.spacing[2]};
-  padding: ${themeCssVariables.spacing[2]} ${themeCssVariables.spacing[3]};
-
-  a,
-  span.growth-os-cta {
-    color: var(--c-link);
-    font-weight: ${themeCssVariables.font.weight.medium};
-  }
-`;
-
-// Sidebar plan chip: trial days left, grace or read-only state + upgrade link.
+// DS v2 sidebar plan / usage card: plan or trial line, seats in use with an
+// aurora meter, and one secondary action ("Choose plan" / "Manage plan").
 export const GrowthOsPlanStatus = () => {
   const { plan } = useGrowthOsPlan();
 
-  if (!plan || (plan.status === 'active' && !plan.isReadOnly)) return null;
+  if (!plan) return null;
 
   const tone = plan.isReadOnly
     ? 'danger'
-    : plan.status === 'trialing'
+    : plan.status === 'trialing' || plan.status === 'active'
       ? 'ok'
       : 'warn';
 
+  const seatsAllowed = plan.seatsAllowed ?? null;
+  const seatsUsed = plan.seatsUsed ?? 0;
+  const seatShare =
+    seatsAllowed && seatsAllowed > 0
+      ? Math.min(100, Math.round((seatsUsed / seatsAllowed) * 100))
+      : null;
+  const seatLine =
+    seatsAllowed !== null
+      ? t`${seatsUsed} of ${seatsAllowed} seats in use`
+      : seatsUsed === 1
+        ? t`1 seat in use`
+        : t`${seatsUsed} seats in use`;
+
   return (
-    <StyledStatus tone={tone} data-testid="growth-os-plan-status">
-      <span>{getGrowthOsStatusLine(plan)}</span>
-      <UndecoratedLink to={getSettingsPath(SettingsPath.Billing)}>
-        <span className="growth-os-cta">
-          {plan.status === 'trialing' ? t`See plans →` : t`Choose a plan →`}
-        </span>
-      </UndecoratedLink>
-    </StyledStatus>
+    <div className="growth-os-plan" data-tone={tone} data-testid="growth-os-plan-status">
+      <b>{getGrowthOsStatusLine(plan)}</b>
+      {seatShare !== null && (
+        <div
+          className="growth-os-meter"
+          role="meter"
+          aria-valuemin={0}
+          aria-valuemax={seatsAllowed ?? 0}
+          aria-valuenow={seatsUsed}
+          aria-label={seatLine}
+        >
+          <i style={{ width: `${Math.max(seatShare, 4)}%` }} />
+        </div>
+      )}
+      <small>{seatLine}</small>
+      <Link
+        to={getSettingsPath(SettingsPath.Billing)}
+        className="growth-os-plan-btn"
+      >
+        {plan.status === 'active' && !plan.isReadOnly ? t`Manage plan` : t`Choose plan`}
+      </Link>
+    </div>
   );
 };

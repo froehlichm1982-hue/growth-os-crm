@@ -3,22 +3,18 @@ import ReactDOM from 'react-dom/client';
 import { App } from '@/app/components/App';
 import '@/app/utils/setupMonacoEnvironment';
 import { hydrateMetadataStore } from '@/metadata-store/storage/metadataStoreStorage';
-import '@fontsource/dm-mono/400.css';
-import '@fontsource/dm-mono/500.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'twenty-ui/style.css';
 import 'twenty-ui/theme-light.css';
 import 'twenty-ui/theme-dark.css';
-import '~/growth-os/growth-os-theme.css';
+import '~/gos/generated/tokens.css';
 import '~/growth-os/growth-os-product-tokens.css';
 import '~/growth-os/growth-os-shell.css';
-import '~/growth-os/growth-os-dark.css';
 import '~/growth-os/mobile/growth-os-touch.css';
 import './index.css';
+import { applyGosThemeOverrides } from '~/growth-os/theme/gosOverrides';
+
+applyGosThemeOverrides();
 
 const renderApp = () => {
   const root = ReactDOM.createRoot(

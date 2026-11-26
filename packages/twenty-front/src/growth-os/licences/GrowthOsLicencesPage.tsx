@@ -16,6 +16,7 @@ const THIRD_PARTY: Array<[string, string]> = [
   ['Jotai', 'MIT'],
   ['Lingui', 'MIT'],
   ['Linaria', 'MIT'],
+  ['Lucide (icons)', 'ISC'],
   ['Tabler Icons', 'MIT'],
   ['date-fns', 'MIT'],
   ['Zod', 'MIT'],
@@ -23,7 +24,7 @@ const THIRD_PARTY: Array<[string, string]> = [
   ['NestJS', 'MIT'],
   ['TypeORM', 'MIT'],
   ['BullMQ', 'MIT'],
-  ['Inter, DM Serif Display (fonts)', 'OFL-1.1'],
+  ['Geist, Geist Mono (fonts)', 'OFL-1.1'],
 ];
 
 // Growth OS CRM: the only place in the UI that names the upstream project

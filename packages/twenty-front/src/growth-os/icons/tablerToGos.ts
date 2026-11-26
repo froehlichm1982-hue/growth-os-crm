@@ -1,0 +1,99 @@
+/* oxlint-disable no-restricted-imports */
+// Growth OS DS v2: Lucide only (VISUAL-LANGUAGE §5). The front aliases
+// '@tabler/icons-react' to this module (vite.config.ts), so every upstream icon
+// that has a DS equivalent renders from the DS Lucide subset with stroke 1.75.
+// Icons outside the 74-icon subset fall back to the upstream set until the DS
+// adds them (DS request DSR-CRM-03, see ds-v2-report.md); the theme forces the
+// same 1.75 stroke on them.
+export * from '@tabler/icons-react/dist/esm/tabler-icons-react.mjs';
+
+import { createGosIcon } from './createGosIcon';
+
+export const IconAdjustments = createGosIcon('sliders-horizontal', 'IconAdjustments');
+export const IconAdjustmentsHorizontal = createGosIcon('sliders-horizontal', 'IconAdjustmentsHorizontal');
+export const IconAlertCircle = createGosIcon('circle-alert', 'IconAlertCircle');
+export const IconExclamationCircle = createGosIcon('circle-alert', 'IconExclamationCircle');
+export const IconAlertTriangle = createGosIcon('triangle-alert', 'IconAlertTriangle');
+export const IconArrowLeft = createGosIcon('arrow-left', 'IconArrowLeft');
+export const IconArrowRight = createGosIcon('arrow-right', 'IconArrowRight');
+export const IconArrowUpRight = createGosIcon('arrow-up-right', 'IconArrowUpRight');
+export const IconBell = createGosIcon('bell', 'IconBell');
+export const IconBolt = createGosIcon('zap', 'IconBolt');
+export const IconSettingsAutomation = createGosIcon('zap', 'IconSettingsAutomation');
+export const IconBuildingSkyscraper = createGosIcon('building-2', 'IconBuildingSkyscraper');
+export const IconCalendar = createGosIcon('calendar', 'IconCalendar');
+export const IconCalendarEvent = createGosIcon('calendar-check', 'IconCalendarEvent');
+export const IconCalendarDue = createGosIcon('calendar-clock', 'IconCalendarDue');
+export const IconCalendarTime = createGosIcon('calendar-clock', 'IconCalendarTime');
+export const IconChartBar = createGosIcon('chart-column', 'IconChartBar');
+export const IconChartLine = createGosIcon('chart-line', 'IconChartLine');
+export const IconCheck = createGosIcon('check', 'IconCheck');
+export const IconCheckbox = createGosIcon('circle-check', 'IconCheckbox');
+export const IconCircleCheck = createGosIcon('circle-check', 'IconCircleCheck');
+export const IconChevronDown = createGosIcon('chevron-down', 'IconChevronDown');
+export const IconChevronLeft = createGosIcon('chevron-left', 'IconChevronLeft');
+export const IconChevronRight = createGosIcon('chevron-right', 'IconChevronRight');
+export const IconChevronUp = createGosIcon('chevron-up', 'IconChevronUp');
+export const IconCircleX = createGosIcon('circle-x', 'IconCircleX');
+export const IconClock = createGosIcon('clock', 'IconClock');
+export const IconCommand = createGosIcon('command', 'IconCommand');
+export const IconCopy = createGosIcon('copy', 'IconCopy');
+export const IconCreditCard = createGosIcon('credit-card', 'IconCreditCard');
+export const IconDots = createGosIcon('more-horizontal', 'IconDots');
+export const IconDotsVertical = createGosIcon('more-vertical', 'IconDotsVertical');
+export const IconDownload = createGosIcon('download', 'IconDownload');
+export const IconEdit = createGosIcon('pencil', 'IconEdit');
+export const IconPencil = createGosIcon('pencil', 'IconPencil');
+export const IconExternalLink = createGosIcon('external-link', 'IconExternalLink');
+export const IconEye = createGosIcon('eye', 'IconEye');
+export const IconEyeOff = createGosIcon('eye-off', 'IconEyeOff');
+export const IconFileText = createGosIcon('file-text', 'IconFileText');
+export const IconNotes = createGosIcon('file-text', 'IconNotes');
+export const IconFilter = createGosIcon('filter', 'IconFilter');
+export const IconHelp = createGosIcon('circle-help', 'IconHelp');
+export const IconHelpCircle = createGosIcon('circle-help', 'IconHelpCircle');
+export const IconInbox = createGosIcon('inbox', 'IconInbox');
+export const IconInfoCircle = createGosIcon('info', 'IconInfoCircle');
+export const IconKey = createGosIcon('key-round', 'IconKey');
+export const IconLayoutDashboard = createGosIcon('layout-dashboard', 'IconLayoutDashboard');
+export const IconLayoutKanban = createGosIcon('kanban-square', 'IconLayoutKanban');
+export const IconTargetArrow = createGosIcon('kanban-square', 'IconTargetArrow');
+export const IconLayoutSidebar = createGosIcon('panel-left', 'IconLayoutSidebar');
+export const IconLayoutSidebarLeftCollapse = createGosIcon('panel-left', 'IconLayoutSidebarLeftCollapse');
+export const IconLayoutSidebarLeftExpand = createGosIcon('panel-left', 'IconLayoutSidebarLeftExpand');
+export const IconLink = createGosIcon('link-2', 'IconLink');
+export const IconLoader = createGosIcon('loader-circle', 'IconLoader');
+export const IconLoader2 = createGosIcon('loader-circle', 'IconLoader2');
+export const IconLock = createGosIcon('lock', 'IconLock');
+export const IconLogout = createGosIcon('log-out', 'IconLogout');
+export const IconMail = createGosIcon('mail', 'IconMail');
+export const IconMap = createGosIcon('map-pin', 'IconMap');
+export const IconMapPin = createGosIcon('map-pin', 'IconMapPin');
+export const IconMenu2 = createGosIcon('menu', 'IconMenu2');
+export const IconMessage = createGosIcon('message-square', 'IconMessage');
+export const IconMessageCircle = createGosIcon('message-square', 'IconMessageCircle');
+export const IconMinus = createGosIcon('minus', 'IconMinus');
+export const IconMoon = createGosIcon('moon', 'IconMoon');
+export const IconPhone = createGosIcon('phone', 'IconPhone');
+export const IconPlus = createGosIcon('plus', 'IconPlus');
+export const IconReceipt = createGosIcon('receipt', 'IconReceipt');
+export const IconRefresh = createGosIcon('refresh-cw', 'IconRefresh');
+export const IconReload = createGosIcon('refresh-cw', 'IconReload');
+export const IconSearch = createGosIcon('search', 'IconSearch');
+export const IconSend = createGosIcon('send', 'IconSend');
+export const IconSettings = createGosIcon('settings', 'IconSettings');
+export const IconShield = createGosIcon('shield-check', 'IconShield');
+export const IconSparkles = createGosIcon('sparkles', 'IconSparkles');
+export const IconStar = createGosIcon('star', 'IconStar');
+export const IconSun = createGosIcon('sun', 'IconSun');
+export const IconTrash = createGosIcon('trash-2', 'IconTrash');
+export const IconUpload = createGosIcon('upload', 'IconUpload');
+export const IconUser = createGosIcon('user', 'IconUser');
+export const IconUserCircle = createGosIcon('user', 'IconUserCircle');
+export const IconUserPlus = createGosIcon('user-plus', 'IconUserPlus');
+export const IconUsers = createGosIcon('users', 'IconUsers');
+export const IconVideo = createGosIcon('video', 'IconVideo');
+export const IconWorld = createGosIcon('globe', 'IconWorld');
+export const IconWorldWww = createGosIcon('globe', 'IconWorldWww');
+export const IconX = createGosIcon('x', 'IconX');
+export const IconHome = createGosIcon('layout-dashboard', 'IconHome');

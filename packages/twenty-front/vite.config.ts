@@ -282,6 +282,12 @@ export default defineConfig(({ mode }) => {
           replacement: path.resolve(__dirname, 'src/modules') + '/',
         },
         { find: /^~\//, replacement: path.resolve(__dirname, 'src') + '/' },
+        // Growth OS DS v2: Lucide only. Upstream icons resolve through the DS
+        // icon shim (src/growth-os/icons/tablerToGos.ts).
+        {
+          find: /^@tabler\/icons-react$/,
+          replacement: path.resolve(__dirname, 'src/growth-os/icons/tablerToGos.ts'),
+        },
         {
           find: 'path',
           replacement: 'rollup-plugin-node-polyfills/polyfills/path',

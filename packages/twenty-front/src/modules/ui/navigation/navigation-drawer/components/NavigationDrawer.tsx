@@ -22,6 +22,7 @@ import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomStat
 import { MOBILE_VIEWPORT, themeCssVariables } from 'twenty-ui/theme-constants';
 import { GrowthOsSourceNotice } from '~/growth-os/GrowthOsSourceNotice';
 import { GrowthOsPlanStatus } from '~/growth-os/plan/GrowthOsPlanStatus';
+import { GrowthOsModuleSwitcher } from '~/growth-os/shell/GrowthOsModuleSwitcher';
 import { NavigationDrawerHeader } from './NavigationDrawerHeader';
 
 export type NavigationDrawerProps = {
@@ -134,6 +135,7 @@ export const NavigationDrawer = ({
       <StyledAnimatedContainer
         className={className}
         data-click-outside-id={NAVIGATION_DRAWER_CLICK_OUTSIDE_ID}
+        data-m="crm"
         isExpanded={isExpanded}
         isResizing={isResizing}
       >
@@ -141,6 +143,7 @@ export const NavigationDrawer = ({
           <NavigationDrawerHeader
             showCollapseButton={isMobile || !isSettingsDrawer}
           />
+          {isExpanded && !isSettingsDrawer && <GrowthOsModuleSwitcher />}
           <StyledContent>{children}</StyledContent>
           {isExpanded && <GrowthOsPlanStatus />}
           {isExpanded && (

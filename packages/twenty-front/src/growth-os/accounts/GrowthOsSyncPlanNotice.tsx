@@ -7,7 +7,7 @@ import { UndecoratedLink } from 'twenty-ui/navigation';
 import { useGrowthOsPlan } from '~/growth-os/plan/useGrowthOsPlan';
 
 const StyledNotice = styled.div`
-  background: rgba(217, 149, 40, 0.12);
+  background: var(--gos-warning-soft);
   border-radius: 8px;
   color: ${themeCssVariables.font.color.primary};
   font-size: ${themeCssVariables.font.size.sm};
