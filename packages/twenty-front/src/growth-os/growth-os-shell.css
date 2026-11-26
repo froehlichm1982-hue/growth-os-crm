@@ -441,6 +441,26 @@ html:root [data-click-outside-id='page-action-container'] button[data-variant='p
   background: var(--c-navy-hover) !important;
 }
 
+/* Icon-only header actions (prev/next, favourite, AI, side panel, and the
+   compact mobile Send Email) are kit ghost buttons, not navy squares. */
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])),
+html:root [data-testid='page-header-side-panel-button'] {
+  background: transparent !important;
+  border: 1px solid var(--c-line) !important;
+  box-shadow: none !important;
+  color: var(--c-ink-2) !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])) *,
+html:root [data-testid='page-header-side-panel-button'] * {
+  color: var(--c-ink-2) !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])):hover:not(:disabled),
+html:root [data-testid='page-header-side-panel-button']:hover {
+  background: var(--c-bg-hover) !important;
+}
+
 /* Rows: kit hover and selection tints; the name column reads as the label. */
 html:root [data-testid^='row-id-']:hover > .table-cell,
 html:root [data-testid^='row-id-']:hover > [class*='table-cell-'] {

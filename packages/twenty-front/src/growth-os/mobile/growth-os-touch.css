@@ -20,6 +20,24 @@
     min-height: 44px;
   }
 
+  /* Pill/link chips (record fields, chips in cards) keep their visual
+     height; the 44 px hit area comes from an invisible ::after box. */
+  #root a[href][class*='_root_'] {
+    min-height: 0;
+    overflow: visible;
+    position: relative;
+  }
+
+  #root a[href][class*='_root_']::after {
+    content: '';
+    height: 44px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   /* Icon buttons stay square and centred when they grow. */
   #root button:has(> svg:only-child) {
     align-items: center;
