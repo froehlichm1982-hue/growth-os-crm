@@ -43,8 +43,8 @@ export const crmLight = {
     "red": "#D23A2F"
   },
   "accent": {
-    "primary": "#F0EAFF",
-    "secondary": "#5A33C4"
+    "primary": "#111E32",
+    "secondary": "#09101B"
   },
   "boxShadow": {
     "xs": "0 1px 2px rgba(40,36,30,.05)",
@@ -100,8 +100,8 @@ export const crmDark = {
     "red": "#D23A2F"
   },
   "accent": {
-    "primary": "#2A2150",
-    "secondary": "#CDBBFF"
+    "primary": "#F4F7FB",
+    "secondary": "#FFFFFF"
   },
   "boxShadow": {
     "xs": "inset 0 1px 0 rgba(255,255,255,.04)",

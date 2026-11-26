@@ -103,8 +103,8 @@
 .gos-btn-secondary { background: var(--c-bg); border-color: var(--c-line-strong); box-shadow: var(--sh-xs); color: var(--c-ink); font-weight: 500; }
 .gos-btn-secondary:hover:not(:disabled) { background: var(--c-bg-subtle); }
 .gos-btn-ghost { background: transparent; color: var(--c-link); font-weight: 500; }
-.gos-btn-danger { background: var(--gos-danger-fill); color: var(--gos-warm-0); }
-.gos-btn-danger:hover:not(:disabled) { filter: brightness(0.9); }
+.gos-btn-danger { background: var(--gos-danger-fill); color: var(--gos-on-danger); }
+.gos-btn-danger:hover:not(:disabled) { background: var(--gos-danger-hover); }
 
 .gos-spinner { animation: gos-spin 700ms linear infinite; border: 2px solid currentColor; border-radius: 50%; border-right-color: transparent; height: 16px; width: 16px; }
 @keyframes gos-spin { to { transform: rotate(360deg); } }
