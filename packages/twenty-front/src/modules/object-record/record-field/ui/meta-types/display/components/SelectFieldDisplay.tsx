@@ -13,7 +13,15 @@ export const SelectFieldDisplay = () => {
     return <></>;
   }
 
+  // Growth OS: stage chips use DS color.stage (growth-os-shell.css §10).
+  const isStage = fieldDefinition.metadata.fieldName === 'stage';
+
   return (
-    <SelectDisplay color={selectedOption.color} label={selectedOption.label} />
+    <span
+      className="growth-os-select"
+      data-growth-os-stage-value={isStage ? String(fieldValue) : undefined}
+    >
+      <SelectDisplay color={selectedOption.color} label={selectedOption.label} />
+    </span>
   );
 };
