@@ -844,6 +844,11 @@ msgstr "{unitCount, plural, one {Woche} other {Wochen}}"
 msgid "{unitCount, plural, one {Year} other {Years}}"
 msgstr "{unitCount, plural, one {Jahr} other {Jahre}}"
 
+#. js-lingui-id: 5eC9uo
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
+msgstr "{usedSeats} belegt. Weniger Plätze als Personen in deinem Arbeitsbereich geht nicht. Änderungen werden anteilig auf der nächsten Rechnung verrechnet."
+
 #. js-lingui-id: YdwR4T
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownDefaultView.tsx
@@ -1423,6 +1428,11 @@ msgstr "Einen Datensatz hinzufügen"
 msgid "Add a related record"
 msgstr "Verknüpften Datensatz hinzufügen"
 
+#. js-lingui-id: syuuw0
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Add a seat"
+msgstr "Einen Platz hinzufügen"
+
 #. js-lingui-id: eMc2xs
 #: src/modules/ai/components/suggested-prompts/contextual-suggested-prompts.ts
 #: src/modules/workflow/workflow-diagram/components/WorkflowDiagramCreateStepElement.tsx
@@ -1966,7 +1976,7 @@ msgstr "Administratoren"
 #: src/modules/settings/components/SettingsMorphRelationMultiSelect.tsx
 #: src/modules/ui/input/components/AdvancedSettingsSwitch.tsx
 msgid "Advanced"
-msgstr "Fortgeschritten"
+msgstr "Erweitert"
 
 #. js-lingui-id: cBdysG
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
@@ -3235,7 +3245,7 @@ msgstr "Authentifikator-App"
 #. js-lingui-id: YZWcQL
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Authenticator App"
-msgstr "Authentifikator-App"
+msgstr "Authenticator-App"
 
 #. js-lingui-id: 9aB4Rs
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
@@ -6378,7 +6388,7 @@ msgstr "Täglicher Verbrauch"
 #: src/pages/settings/data-model/SettingsObjectFieldEdit.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 msgid "Danger zone"
-msgstr "Gefahrenzone"
+msgstr "Gefahrenbereich"
 
 #. js-lingui-id: Fo2vDn
 #: src/localization/hooks/useLocaleOptions.ts
@@ -6623,7 +6633,7 @@ msgstr "Dieses Feld deaktivieren"
 #: src/pages/settings/data-model/SettingsObjectTable.tsx
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Deactivated"
-msgstr "Deaktiviert"
+msgstr "Aus"
 
 #. js-lingui-id: Iotuxe
 #: src/modules/ai/components/RoutingDebugDisplay.tsx
@@ -8103,7 +8113,7 @@ msgstr "Englisch"
 #. js-lingui-id: UXZry7
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Enhances security by requiring a code along with your password"
-msgstr "Verbessert die Sicherheit, indem zusätzlich zu deinem Passwort ein Code erforderlich ist"
+msgstr "Frag zusätzlich zum Passwort einen Code aus deiner Authenticator-App ab."
 
 #. js-lingui-id: 6iUnle
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
@@ -8694,6 +8704,11 @@ msgstr "Jeder Deal,"
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getHoursDescription.ts
 msgid "every hour"
 msgstr "jede Stunde"
+
+#. js-lingui-id: +5cr43
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
+msgstr "Jede Rechnung geht als PDF per E-Mail an den Rechnungskontakt. Frühere Rechnungen lädst du im Abrechnungsportal herunter, dort änderst du auch die Rechnungsadresse."
 
 #. js-lingui-id: a9EHxw
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/describeCronExpression.ts
@@ -11490,6 +11505,11 @@ msgstr "Lade dein Team ein"
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Invoice amount may vary if you add members or credits between periods"
 msgstr "Der Rechnungsbetrag kann variieren, wenn du zwischen den Zeiträumen Mitglieder oder Credits hinzufügst"
+
+#. js-lingui-id: F7nA5/
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Invoices"
+msgstr "Rechnungen"
 
 #. js-lingui-id: CUvG5b
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -15764,6 +15784,11 @@ msgstr "Personen, an die ich E-Mails gesendet habe und von denen ich E-Mails erh
 msgid "People I’ve sent emails to."
 msgstr "Personen, an die ich E-Mails gesendet habe."
 
+#. js-lingui-id: ThNYve
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "per month, net"
+msgstr "pro Monat, netto"
+
 #. js-lingui-id: qMTN0w
 #: src/pages/settings/ai/SettingsAiUsageUserDetail.tsx
 msgid "Per-day AI consumption."
@@ -16948,6 +16973,11 @@ msgstr "{0} Navigationsmenüelement entfernen?"
 msgid "Remove {0} navigation menu items?"
 msgstr "{0} Navigationsmenüelemente entfernen?"
 
+#. js-lingui-id: IX+HWe
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Remove a seat"
+msgstr "Einen Platz entfernen"
+
 #. js-lingui-id: 1O32oy
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
 msgid "Remove account"
@@ -18064,6 +18094,7 @@ msgid "seats"
 msgstr "Plätze"
 
 #. js-lingui-id: grt0Pu
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 msgid "Seats"
@@ -20238,7 +20269,7 @@ msgstr "Die mit diesem Konto verknüpfte E-Mail"
 #. js-lingui-id: VGZYbZ
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "The email associated to your account"
-msgstr "Die mit deinem Konto verknüpfte E-Mail"
+msgstr "Die E-Mail, mit der du dich anmeldest."
 
 #. js-lingui-id: WGfnFh
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -21430,7 +21461,7 @@ msgstr "Zwei Spalten nebeneinander"
 #: src/pages/settings/profile/SettingsProfile.tsx
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Two Factor Authentication"
-msgstr "Zwei-Faktor-Authentifizierung"
+msgstr "Anmeldung in zwei Schritten"
 
 #. js-lingui-id: MUIppF
 #: src/modules/auth/components/TwoFactorAuthenticationProvisionEffect.tsx
@@ -21975,6 +22006,11 @@ msgstr "Datensätze aktualisieren"
 #: src/modules/settings/members/components/MemberPermissionsTab.tsx
 msgid "Update role"
 msgstr "Rolle aktualisieren"
+
+#. js-lingui-id: hB01Ly
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Update seats"
+msgstr "Plätze aktualisieren"
 
 #. js-lingui-id: DUqztb
 #: src/modules/views/components/UpdateViewButtonGroup.tsx
@@ -22677,10 +22713,11 @@ msgid "view group"
 msgstr "ansichtsgruppe"
 
 #. js-lingui-id: B02hom
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "View invoices"
-msgstr "Rechnungen anzeigen"
+msgstr "Rechnungen ansehen"
 
 #. js-lingui-id: lh5BED
 #: src/modules/settings/admin-panel/health-status/components/SettingsAdminWorkerQueueMetricsSection.tsx
@@ -22953,7 +22990,7 @@ msgstr "Wir haben dir einen Bestätigungslink an {address} geschickt. Öffne ihn
 #. js-lingui-id: id6ein
 #: src/modules/ui/input/components/ImageInput.tsx
 msgid "We support your square PNGs, JPEGs and GIFs under 10MB"
-msgstr "Wir unterstützen deine quadratischen PNGs, JPEGs und GIFs unter 10MB"
+msgstr "Quadratisches PNG, JPEG oder GIF, bis 10 MB."
 
 #. js-lingui-id: Fui3cz
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -23829,7 +23866,7 @@ msgstr "Dein Handler erhält dieses Objekt. Der Body ist leer, da GET-Anfragen k
 #. js-lingui-id: 9ivpwk
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Your name as it will be displayed"
-msgstr "Dein Name, wie er angezeigt wird"
+msgstr "So sieht dein Team deinen Namen."
 
 #. js-lingui-id: Gfklgu
 #: src/pages/not-found/NotFound.tsx

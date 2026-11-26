@@ -844,6 +844,11 @@ msgstr "{unitCount, plural, one {Тиждень} few {Тижні} many {Тижн
 msgid "{unitCount, plural, one {Year} other {Years}}"
 msgstr "{unitCount, plural, one {Рік} few {Роки} many {Років} other {Років}}"
 
+#. js-lingui-id: 5eC9uo
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
+msgstr ""
+
 #. js-lingui-id: YdwR4T
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownDefaultView.tsx
@@ -1422,6 +1427,11 @@ msgstr "Додати запис"
 #: src/modules/activities/calendar/components/CalendarEventComposerTargetsInput.tsx
 msgid "Add a related record"
 msgstr "Додати пов’язаний запис"
+
+#. js-lingui-id: syuuw0
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Add a seat"
+msgstr ""
 
 #. js-lingui-id: eMc2xs
 #: src/modules/ai/components/suggested-prompts/contextual-suggested-prompts.ts
@@ -8695,6 +8705,11 @@ msgstr ""
 msgid "every hour"
 msgstr "кожну годину"
 
+#. js-lingui-id: +5cr43
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
+msgstr ""
+
 #. js-lingui-id: a9EHxw
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/describeCronExpression.ts
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getMinutesDescription.ts
@@ -11490,6 +11505,11 @@ msgstr "Запросіть свою команду"
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Invoice amount may vary if you add members or credits between periods"
 msgstr "Сума у рахунку може відрізнятися, якщо ви додаєте учасників або кредити між періодами"
+
+#. js-lingui-id: F7nA5/
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Invoices"
+msgstr ""
 
 #. js-lingui-id: CUvG5b
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -15764,6 +15784,11 @@ msgstr "Люди, яким я відправляв листи, і від яки�
 msgid "People I’ve sent emails to."
 msgstr "Люди, яким я відправляв листи."
 
+#. js-lingui-id: ThNYve
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "per month, net"
+msgstr ""
+
 #. js-lingui-id: qMTN0w
 #: src/pages/settings/ai/SettingsAiUsageUserDetail.tsx
 msgid "Per-day AI consumption."
@@ -16948,6 +16973,11 @@ msgstr "Видалити {0} пункт навігаційного меню?"
 msgid "Remove {0} navigation menu items?"
 msgstr "Видалити {0} пункти навігаційного меню?"
 
+#. js-lingui-id: IX+HWe
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Remove a seat"
+msgstr ""
+
 #. js-lingui-id: 1O32oy
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
 msgid "Remove account"
@@ -18064,6 +18094,7 @@ msgid "seats"
 msgstr "місця"
 
 #. js-lingui-id: grt0Pu
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 msgid "Seats"
@@ -21978,6 +22009,11 @@ msgstr "Оновити записи"
 msgid "Update role"
 msgstr "Оновити роль"
 
+#. js-lingui-id: hB01Ly
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Update seats"
+msgstr ""
+
 #. js-lingui-id: DUqztb
 #: src/modules/views/components/UpdateViewButtonGroup.tsx
 msgid "Update view"
@@ -22679,6 +22715,7 @@ msgid "view group"
 msgstr "група перегляду"
 
 #. js-lingui-id: B02hom
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "View invoices"
