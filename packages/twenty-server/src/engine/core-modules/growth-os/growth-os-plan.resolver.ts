@@ -6,7 +6,7 @@ import { PermissionFlagType } from 'twenty-shared/constants';
 import { MetadataResolver } from 'src/engine/api/graphql/graphql-config/decorators/metadata-resolver.decorator';
 import { PreventNestToAutoLogGraphqlErrorsFilter } from 'src/engine/core-modules/graphql/filters/prevent-nest-to-auto-log-graphql-errors.filter';
 import { UserInputError } from 'src/engine/core-modules/graphql/utils/graphql-errors.util';
-import { GrowthOsBillingClient } from 'src/engine/core-modules/growth-os/growth-os-billing.client';
+import { GrowthOsBillingService } from 'src/engine/core-modules/growth-os/growth-os-billing.service';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 import { GrowthOsSampleDataService } from 'src/engine/core-modules/growth-os/growth-os-sample-data.service';
 import {
@@ -27,7 +27,7 @@ import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
 
 export const buildGrowthOsCatalog = () => ({
   currency: 'EUR',
-  taxNote: 'Net prices per user. VAT is calculated at checkout (Stripe Tax); add your VAT ID there.',
+  taxNote: 'Net prices per user. VAT is calculated at checkout; add your VAT ID there.',
   trialDays: GROWTH_OS_TRIAL_DAYS,
   graceDays: GROWTH_OS_GRACE_DAYS,
   featureLabels: GROWTH_OS_FEATURE_LABELS,
@@ -63,7 +63,7 @@ export const buildGrowthOsCatalog = () => ({
 export class GrowthOsPlanResolver {
   constructor(
     private readonly growthOsEntitlementService: GrowthOsEntitlementService,
-    private readonly growthOsBillingClient: GrowthOsBillingClient,
+    private readonly growthOsBillingService: GrowthOsBillingService,
     private readonly growthOsSampleDataService: GrowthOsSampleDataService,
   ) {}
 
@@ -93,6 +93,7 @@ export class GrowthOsPlanResolver {
       trialDaysLeft: entitlement.trialDaysLeft,
       graceEndsAt: entitlement.graceEndsAt,
       isReadOnly: entitlement.isReadOnly,
+      cancelAtPeriodEnd: entitlement.cancelAtPeriodEnd,
       interval: entitlement.interval,
       currentPeriodEnd: entitlement.currentPeriodEnd,
       seatsAllowed: entitlement.seatsAllowed,
@@ -121,15 +122,22 @@ export class GrowthOsPlanResolver {
     @Args('reason', { type: () => String, nullable: true })
     reason?: string,
   ): Promise<string> {
-    if (kind !== 'checkout' && kind !== 'portal' && kind !== 'cancel') {
-      throw new UserInputError('kind must be checkout, portal or cancel');
+    if (
+      kind !== 'checkout' &&
+      kind !== 'portal' &&
+      kind !== 'cancel' &&
+      kind !== 'payment_method'
+    ) {
+      throw new UserInputError(
+        'kind must be checkout, portal, cancel or payment_method',
+      );
     }
     const entitlement = await this.growthOsEntitlementService.getEntitlement(
       workspace.id,
     );
     const usage = await this.growthOsEntitlementService.getUsage(workspace.id);
 
-    return this.growthOsBillingClient.getSessionUrl({
+    return this.growthOsBillingService.getSessionUrl({
       kind,
       workspaceId: workspace.id,
       plan: isGrowthOsPlan(plan) ? plan : entitlement.plan,

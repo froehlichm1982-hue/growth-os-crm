@@ -68,14 +68,17 @@ export const parseGrowthOsEntitlementEvent = (
     return { ok: false, error: 'data.interval must be month|year' };
   }
 
-  const createdAt = toDate(event.createdAt) ?? new Date();
+  const createdAt = toDate(event.createdAt ?? event.created_at) ?? new Date();
   const trialEndsAt = toDate(data.trialEndsAt);
   const currentPeriodEnd = toDate(data.currentPeriodEnd);
+
+  const graceUntil = toDate(data.graceUntil);
 
   if (
     createdAt === 'invalid' ||
     trialEndsAt === 'invalid' ||
-    currentPeriodEnd === 'invalid'
+    currentPeriodEnd === 'invalid' ||
+    graceUntil === 'invalid'
   ) {
     return { ok: false, error: 'Invalid date' };
   }
@@ -91,9 +94,21 @@ export const parseGrowthOsEntitlementEvent = (
     }
   }
 
+  const rawVersion = event.version ?? data.version;
+  const version =
+    Number.isInteger(rawVersion) && rawVersion >= 0 ? (rawVersion as number) : null;
+
   return {
     ok: true,
     update: {
+      version,
+      readOnly: typeof data.readOnly === 'boolean' ? data.readOnly : null,
+      graceUntil,
+      cancelAtPeriodEnd:
+        typeof data.cancelAtPeriodEnd === 'boolean'
+          ? data.cancelAtPeriodEnd
+          : null,
+      lookupKey: typeof data.lookupKey === 'string' ? data.lookupKey : null,
       eventId: event.id,
       eventCreatedAt: createdAt,
       workspaceId: data.workspaceId,

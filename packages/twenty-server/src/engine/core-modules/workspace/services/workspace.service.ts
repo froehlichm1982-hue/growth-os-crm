@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject as GrowthOsInject, Injectable, Logger, Optional as GrowthOsOptional } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 
@@ -35,6 +35,7 @@ import { type AuthContextUser } from 'src/engine/core-modules/auth/types/auth-co
 import { BillingSubscriptionService } from 'src/engine/core-modules/billing/services/billing-subscription.service';
 import { BillingService } from 'src/engine/core-modules/billing/services/billing.service';
 import { DnsManagerService } from 'src/engine/core-modules/dns-manager/services/dns-manager.service';
+import { GrowthOsBillingService } from 'src/engine/core-modules/growth-os/growth-os-billing.service';
 import { isGrowthOsSampleDataPrefilledOnSignup } from 'src/engine/core-modules/growth-os/growth-os-sample-data.service';
 import { CustomDomainManagerService } from 'src/engine/core-modules/domain/custom-domain-manager/services/custom-domain-manager.service';
 import { SubdomainManagerService } from 'src/engine/core-modules/domain/subdomain-manager/services/subdomain-manager.service';
@@ -116,6 +117,11 @@ const WORKSPACE_APPLICATION_UNINSTALL_RETRY_LIMIT = 3;
 // oxlint-disable-next-line twenty/inject-workspace-repository
 export class WorkspaceService {
   protected readonly logger = new Logger(WorkspaceService.name);
+
+  // Growth OS CRM: billing account creation on activation (optional so upstream specs still build).
+  @GrowthOsOptional()
+  @GrowthOsInject(GrowthOsBillingService)
+  private readonly growthOsBillingService?: GrowthOsBillingService;
 
   private readonly WORKSPACE_FIELD_PERMISSIONS: Record<
     string,
@@ -470,6 +476,12 @@ export class WorkspaceService {
 
       throw error;
     }
+
+    // Growth OS CRM: create the billing account (14-day Growth trial, no card).
+    // Best effort: signup never depends on the billing service being reachable.
+    void this.growthOsBillingService
+      ?.ensureAccountBestEffort(workspace.id)
+      .catch(() => undefined);
 
     try {
       await this.sdkClientGenerationService.enqueueSdkClientGenerationForWorkspace(

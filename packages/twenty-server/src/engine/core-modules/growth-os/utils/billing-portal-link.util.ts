@@ -18,14 +18,21 @@ export const buildBillingPortalLink = (
   } = {},
 ): string => {
   const secret =
-    options.secret ?? process.env.GROWTH_OS_BILLING_WEBHOOK_SECRET ?? '';
+    options.secret ??
+    process.env.GROWTH_OS_BILLING_WEBHOOK_SECRET ??
+    process.env.GROWTH_OS_BILLING_SECRET ??
+    '';
 
   if (secret === '') {
-    throw new Error('GROWTH_OS_BILLING_WEBHOOK_SECRET is not set');
+    throw new Error('The billing module secret is not set');
   }
 
   const module = options.module ?? 'crm';
-  const base = (options.base ?? GROWTH_OS_BILLING_PORTAL_BASE).replace(/\/+$/, '');
+  const base = (
+    options.base ??
+    process.env.GROWTH_OS_BILLING_URL ??
+    GROWTH_OS_BILLING_PORTAL_BASE
+  ).replace(/\/+$/, '');
   const exp =
     (options.nowSeconds ?? Math.floor(Date.now() / 1000)) +
     (options.ttlSeconds ?? 7 * 86400);

@@ -1,7 +1,10 @@
 // Growth OS env config, read directly from process.env so the fork does not
 // touch upstream config-variables.ts (merge-friendly). Never commit values.
 //
-// GROWTH_OS_BILLING_WEBHOOK_SECRET  HMAC secret shared with growth-os-billing (required to accept webhooks)
+// BILLING_PROVIDER                  mock (default: local demo, static fallback links) | growth-os (shared billing service)
+// GROWTH_OS_BILLING_WEBHOOK_SECRET  HMAC secret shared with growth-os-billing (MODULE_CRM_WEBHOOK_SECRET; signs calls both ways)
+// GROWTH_OS_BILLING_SECRET          alias of the above (either one works; server env only, never in git)
+// GROWTH_OS_BILLING_MAILS           off (default: the billing service sends dunning mail) | crm (the CRM sends payment-failed and cancellation mail)
 // GROWTH_OS_BILLING_URL             base URL of growth-os-billing (optional; enables checkout/portal sessions + seat push)
 // GROWTH_OS_CHECKOUT_URL            fallback checkout page (default: marketing pricing page)
 // GROWTH_OS_PORTAL_URL              fallback billing portal page (default: mailto support)
@@ -20,7 +23,16 @@ const env = (key: string) => {
 };
 
 export const getGrowthOsConfig = () => ({
-  webhookSecret: env('GROWTH_OS_BILLING_WEBHOOK_SECRET'),
+  webhookSecret:
+    env('GROWTH_OS_BILLING_WEBHOOK_SECRET') ?? env('GROWTH_OS_BILLING_SECRET'),
+  billingProvider:
+    env('BILLING_PROVIDER') === 'growth-os'
+      ? ('growth-os' as const)
+      : ('mock' as const),
+  billingMails:
+    env('GROWTH_OS_BILLING_MAILS') === 'crm'
+      ? ('crm' as const)
+      : ('off' as const),
   billingUrl: env('GROWTH_OS_BILLING_URL')?.replace(/\/+$/, ''),
   checkoutUrl:
     env('GROWTH_OS_CHECKOUT_URL') ??

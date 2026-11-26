@@ -26,6 +26,10 @@ export type GrowthOsStoredEntitlement = {
   aiMonthlyCap: number | null;
   aiUsageCount: number;
   aiUsagePeriod: string | null;
+  // From growth-os-billing (null = not sent: the CRM's own grace clock decides).
+  readOnly?: boolean | null;
+  graceUntil?: Date | null;
+  cancelAtPeriodEnd?: boolean | null;
 };
 
 export type GrowthOsEffectiveEntitlement = {
@@ -40,6 +44,7 @@ export type GrowthOsEffectiveEntitlement = {
   trialDaysLeft: number | null;
   graceEndsAt: Date | null;
   isReadOnly: boolean;
+  cancelAtPeriodEnd: boolean;
   interval: GrowthOsBillingInterval | null;
   currentPeriodEnd: Date | null;
   seatsPurchased: number | null;
@@ -112,9 +117,19 @@ export const computeEffectiveEntitlement = ({
     graceEndsAt = addDays(lapseDate, GROWTH_OS_GRACE_DAYS);
   }
 
+  // The billing service knows the dunning clock: its grace date and readOnly
+  // flag win over the local 7-day clock whenever they were sent.
+  if (stored?.graceUntil && !isTrialRecord) {
+    graceEndsAt = new Date(stored.graceUntil);
+  }
+
   const isPastGrace = graceEndsAt !== null && now >= graceEndsAt;
-  const isReadOnly =
+  const localReadOnly =
     isPastGrace && (status === 'past_due' || unpaidAccess === 'read_only');
+  const isReadOnly =
+    stored && !isTrialRecord && typeof stored.readOnly === 'boolean'
+      ? stored.readOnly
+      : localReadOnly;
 
   const definition = GROWTH_OS_PLAN_DEFINITIONS[effectivePlan];
   const isPaying = status === 'active' || status === 'past_due';
@@ -145,6 +160,7 @@ export const computeEffectiveEntitlement = ({
         : null,
     graceEndsAt,
     isReadOnly,
+    cancelAtPeriodEnd: stored?.cancelAtPeriodEnd === true,
     interval: stored?.interval ?? null,
     currentPeriodEnd: stored?.currentPeriodEnd ?? null,
     seatsPurchased,

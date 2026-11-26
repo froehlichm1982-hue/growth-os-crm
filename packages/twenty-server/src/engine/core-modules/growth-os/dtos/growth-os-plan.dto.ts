@@ -28,6 +28,9 @@ export class GrowthOsPlanDTO {
   @Field(() => Boolean)
   isReadOnly: boolean;
 
+  @Field(() => Boolean)
+  cancelAtPeriodEnd: boolean;
+
   @Field(() => String, { nullable: true })
   interval: string | null;
 
