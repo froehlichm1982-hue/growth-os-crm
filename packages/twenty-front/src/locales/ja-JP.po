@@ -666,6 +666,11 @@ msgstr ""
 msgid "{morphRelationCount} Objects"
 msgstr "{morphRelationCount} 個のオブジェクト"
 
+#. js-lingui-id: YADzWb
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "{name} (current module)"
+msgstr ""
+
 #. js-lingui-id: g9mDO3
 #: src/utils/format/getOrdinalNumber.ts
 msgid "{num, selectordinal, one {{num}st} two {{num}nd} few {{num}rd} other {{num}th}}"
@@ -739,6 +744,16 @@ msgstr "{roleTargetName}が「{newRoleName}」役割に割り当てられます�
 msgid "{scopeCount} scopes"
 msgstr "{scopeCount} 件のスコープ"
 
+#. js-lingui-id: TaUM+g
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "{seatsUsed} of {seatsAllowed} seats in use"
+msgstr ""
+
+#. js-lingui-id: 5dui3o
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "{seatsUsed} seats in use"
+msgstr ""
+
 #. js-lingui-id: iL/HBr
 #: src/modules/page-layout/widgets/call-recording-transcript/components/CallRecordingAudioPlayer.tsx
 msgid "{seconds, plural, one {# second} other {# seconds}}"
@@ -788,11 +803,6 @@ msgstr "{tabCount} 個のタブ"
 #: src/modules/side-panel/pages/page-layout/components/record-page/SidePanelRecordPageFieldsSettings.tsx
 msgid "{totalFieldsCount} visible fields"
 msgstr "表示中のフィールド {totalFieldsCount}"
-
-#. js-lingui-id: 1yIgOW
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "{trialDays}-day Growth trial, no card. Then from €{fromPrice} per user / month, plus VAT."
-msgstr ""
 
 #. js-lingui-id: fzpQ2b
 #: src/modules/ui/input/components/internal/date/components/RelativeDatePickerHeader.tsx
@@ -927,11 +937,6 @@ msgstr ""
 msgid "€{0} billed yearly"
 msgstr ""
 
-#. js-lingui-id: HwzlJs
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "€173k open"
-msgstr ""
-
 #. js-lingui-id: Cx0xl3
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -964,6 +969,11 @@ msgstr "1 回リトライ"
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
 msgid "1 scope"
 msgstr "1 件のスコープ"
+
+#. js-lingui-id: 3tk/X8
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "1 seat in use"
+msgstr ""
 
 #. js-lingui-id: W/OU4i
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
@@ -2482,6 +2492,7 @@ msgid "alphabetical"
 msgstr "アルファベット順"
 
 #. js-lingui-id: 8wYDMp
+#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Already have an account?"
 msgstr ""
@@ -3573,11 +3584,6 @@ msgstr "AI モデル別の内訳。"
 msgid "Brief explanation of this output field"
 msgstr "この出力フィールドの簡単な説明"
 
-#. js-lingui-id: 61AulK
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Brightwater Labs · moved to Proposal"
-msgstr ""
-
 #. js-lingui-id: IjfaX/
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterFieldSelect.tsx
 msgid "Broken field reference. Select the field again to fix this condition."
@@ -4273,11 +4279,6 @@ msgstr ""
 msgid "Choose a plan"
 msgstr ""
 
-#. js-lingui-id: k4gjQW
-#: src/growth-os/plan/GrowthOsPlanStatus.tsx
-msgid "Choose a plan →"
-msgstr ""
-
 #. js-lingui-id: NFfUic
 #: src/pages/auth/SignInUp.tsx
 msgid "Choose a Workspace"
@@ -4299,6 +4300,7 @@ msgid "Choose folders to sync"
 msgstr ""
 
 #. js-lingui-id: 5EMoSo
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingPlansWithoutSubscription.tsx
 msgid "Choose plan"
 msgstr "プランを選択"
@@ -5728,6 +5730,11 @@ msgstr "ワークスペースを作成"
 msgid "Create account"
 msgstr ""
 
+#. js-lingui-id: 3T8ziB
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Create an account"
+msgstr ""
+
 #. js-lingui-id: dpwEnu
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
 msgid "Create an all-day event"
@@ -6256,7 +6263,6 @@ msgid "Custom views"
 msgstr "カスタムビュー"
 
 #. js-lingui-id: 876pfE
-#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
 msgid "Customer"
 msgstr "顧客"
@@ -8657,9 +8663,9 @@ msgstr "{stepNumStr} か月ごと、{startMonth} から {endMonth} まで"
 msgid "every day"
 msgstr "毎日"
 
-#. js-lingui-id: zE4NHg
+#. js-lingui-id: yFXg1h
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Every deal in one place."
+msgid "Every deal,"
 msgstr ""
 
 #. js-lingui-id: XWj/lX
@@ -8675,11 +8681,6 @@ msgstr "毎時"
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getMinutesDescription.ts
 msgid "every minute"
 msgstr "毎分"
-
-#. js-lingui-id: vajYIZ
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Every next step obvious."
-msgstr ""
 
 #. js-lingui-id: PsQmAw
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownVisibilityContent.tsx
@@ -9759,11 +9760,6 @@ msgstr "Enterprise 機能を有効のままに保つには、支払いの問題�
 msgid "Fix the payment issue to restore your enterprise features."
 msgstr ""
 
-#. js-lingui-id: ZZ3//Z
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Fjordline Software · support plan won"
-msgstr ""
-
 #. js-lingui-id: Xgkhyj
 #: src/modules/settings/admin-panel/chats/components/SettingsAdminChatsTable.tsx
 msgid "Flags"
@@ -10014,6 +10010,11 @@ msgstr "関数の実行"
 #: src/utils/title-utils.ts
 msgid "Functions - Settings"
 msgstr "機能 - 設定"
+
+#. js-lingui-id: wqo9S3
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "GDPR-ready"
+msgstr ""
 
 #. js-lingui-id: e4FdDl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
@@ -10343,6 +10344,11 @@ msgstr "{objectLabel} をグループ化中"
 msgid "Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own."
 msgstr ""
 
+#. js-lingui-id: sYa8ZV
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "Growth OS modules"
+msgstr ""
+
 #. js-lingui-id: R4r4XO
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -10619,6 +10625,11 @@ msgstr ""
 "```\n"
 "\n"
 "詳しい手順は[入門ガイド](https://twenty.com/developers/extend/apps/getting-started)を参照し、`defineApplication` / `defineEntity` API については[アプリの構築](https://twenty.com/developers/extend/apps/building)を参照してください。},{"
+
+#. js-lingui-id: 454El1
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Hosted in the EU"
+msgstr ""
 
 #. js-lingui-id: yY8wAv
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -10972,6 +10983,11 @@ msgstr "インポート中"
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 msgid "Importing Data ..."
 msgstr "データをインポート中 ..."
+
+#. js-lingui-id: 5n8FKh
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Imprint"
+msgstr ""
 
 #. js-lingui-id: HiyKEP
 #: src/modules/settings/developers/utils/formatExpiration.ts
@@ -11701,11 +11717,6 @@ msgstr "このノードが失敗しても次のノードの実行を続行する
 msgid "Keep my plan"
 msgstr ""
 
-#. js-lingui-id: JlHMbZ
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Kestrel Logistics · renewal review tomorrow, 10:00"
-msgstr ""
-
 #. js-lingui-id: 7sMeHQ
 #: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/KeyValuePairInput.tsx
 msgid "Key"
@@ -12121,11 +12132,6 @@ msgstr "法務"
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
 msgid "Legal entity name"
 msgstr "法的主体名"
-
-#. js-lingui-id: elNrJ0
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Legal notice"
-msgstr ""
 
 #. js-lingui-id: MP1v+1
 #: src/modules/side-panel/pages/page-layout/constants/settings/ChartConfigurationSettingLabels.ts
@@ -12634,6 +12640,11 @@ msgstr "メンバー管理"
 msgid "Manage objects, fields and relationships"
 msgstr "オブジェクト、フィールド、リレーションシップを管理"
 
+#. js-lingui-id: rkcRqy
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "Manage plan"
+msgstr ""
+
 #. js-lingui-id: eGGH1l
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Manage security policies"
@@ -12841,11 +12852,6 @@ msgstr "自分"
 #: src/modules/advanced-text-editor/extensions/slash-command/DefaultSlashCommands.ts
 msgid "Medium section heading"
 msgstr "中見出し"
-
-#. js-lingui-id: oE8Gmu
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Meeting"
-msgstr ""
 
 #. js-lingui-id: Sma10A
 #: src/modules/ui/navigation/navigation-drawer/components/MultiWorkspaceDropdown/internal/components/WorkspacesForSignIn.tsx
@@ -13878,6 +13884,11 @@ msgstr "このカレンダーイベントには、まだ通話録音が存在し
 #: src/modules/object-record/record-field/ui/form-types/components/FormCallingCodeSelectInput.tsx
 msgid "No calling code"
 msgstr "国番号なし"
+
+#. js-lingui-id: HIcbjH
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "No card for the trial"
+msgstr ""
 
 #. js-lingui-id: LHCGJf
 #: src/pages/auth/SignInUp.tsx
@@ -15032,6 +15043,11 @@ msgstr "オンボーディングパック"
 msgid "Onboarding reward"
 msgstr "オンボーディング特典"
 
+#. js-lingui-id: nBm8Jm
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "one clear view."
+msgstr ""
+
 #. js-lingui-id: qaG+Ug
 #: src/modules/side-panel/pages/page-layout/components/ChartFiltersDeletedFieldsWarning.tsx
 msgid "One or more filters reference deactivated or deleted fields and will be automatically removed on save."
@@ -15126,6 +15142,11 @@ msgstr "あなた以外はメールやイベントを見ることができませ
 #: src/pages/settings/members/tabs/SettingsWorkspaceMembersTeamTab.tsx
 msgid "Open"
 msgstr "開く"
+
+#. js-lingui-id: T9mwDN
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "Open {name}"
+msgstr ""
 
 #. js-lingui-id: Kkq3xr
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
@@ -15275,16 +15296,16 @@ msgstr "Webhookペイロード用HMAC署名の計算に使用するオプショ�
 msgid "Options"
 msgstr "オプション"
 
-#. js-lingui-id: BzEFor
-#: src/growth-os/auth/GrowthOsAuthDivider.tsx
-msgid "or"
-msgstr ""
-
 #. js-lingui-id: ZAVklK
 #: src/modules/settings/unsubscribers/components/SettingsUnsubscribePreview.tsx
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterLogicalOperatorCell.tsx
 msgid "Or"
 msgstr "または"
+
+#. js-lingui-id: 1//reV
+#: src/growth-os/auth/GrowthOsAuthDivider.tsx
+msgid "or with email"
+msgstr ""
 
 #. js-lingui-id: 4OE5Sf
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -15913,9 +15934,9 @@ msgstr ""
 msgid "Pipeline"
 msgstr ""
 
-#. js-lingui-id: 7u7suu
+#. js-lingui-id: +g+i2c
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Pipeline · Nordlicht Analytics"
+msgid "Pipeline, contacts and the next step for each, in one place, synced with Outreach, Connect and BookDesk24."
 msgstr ""
 
 #. js-lingui-id: KQ93w+
@@ -17610,11 +17631,6 @@ msgstr "表示倍率"
 msgid "ScalePoint Growth OS home"
 msgstr ""
 
-#. js-lingui-id: 8Itxh8
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "ScalePoint Ventures Oy · Finland · B2B only"
-msgstr ""
-
 #. js-lingui-id: gmB6oO
 #: src/modules/workflow/workflow-trigger/components/CronExpressionHelper.tsx
 msgid "Schedule"
@@ -18119,16 +18135,6 @@ msgstr "マーケットプレイスで表示"
 #. js-lingui-id: J9KzMI
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "See our"
-msgstr ""
-
-#. js-lingui-id: ruKb0q
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "See plans"
-msgstr ""
-
-#. js-lingui-id: v3WFkz
-#: src/growth-os/plan/GrowthOsPlanStatus.tsx
-msgid "See plans →"
 msgstr ""
 
 #. js-lingui-id: vn4aKq
@@ -18861,6 +18867,7 @@ msgid "Sidebar items"
 msgstr "サイドバー項目"
 
 #. js-lingui-id: 5lWFkC
+#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Sign in"
@@ -23761,11 +23768,6 @@ msgstr "表示名"
 #. js-lingui-id: Gfklgu
 #: src/pages/not-found/NotFound.tsx
 msgid "Your open deals"
-msgstr ""
-
-#. js-lingui-id: OAPgqn
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Your own workspace and web address"
 msgstr ""
 
 #. js-lingui-id: 8mfOAZ

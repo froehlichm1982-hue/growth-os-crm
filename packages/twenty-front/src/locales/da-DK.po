@@ -666,6 +666,11 @@ msgstr ""
 msgid "{morphRelationCount} Objects"
 msgstr "{morphRelationCount} objekter"
 
+#. js-lingui-id: YADzWb
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "{name} (current module)"
+msgstr ""
+
 #. js-lingui-id: g9mDO3
 #: src/utils/format/getOrdinalNumber.ts
 msgid "{num, selectordinal, one {{num}st} two {{num}nd} few {{num}rd} other {{num}th}}"
@@ -739,6 +744,16 @@ msgstr "{roleTargetName} vil blive tildelt \"{newRoleName}\" rollen."
 msgid "{scopeCount} scopes"
 msgstr "{scopeCount} tilladelsesområder"
 
+#. js-lingui-id: TaUM+g
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "{seatsUsed} of {seatsAllowed} seats in use"
+msgstr ""
+
+#. js-lingui-id: 5dui3o
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "{seatsUsed} seats in use"
+msgstr ""
+
 #. js-lingui-id: iL/HBr
 #: src/modules/page-layout/widgets/call-recording-transcript/components/CallRecordingAudioPlayer.tsx
 msgid "{seconds, plural, one {# second} other {# seconds}}"
@@ -788,11 +803,6 @@ msgstr "{tabCount} faner"
 #: src/modules/side-panel/pages/page-layout/components/record-page/SidePanelRecordPageFieldsSettings.tsx
 msgid "{totalFieldsCount} visible fields"
 msgstr "{totalFieldsCount, plural, one {# synligt felt} other {# synlige felter}}"
-
-#. js-lingui-id: 1yIgOW
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "{trialDays}-day Growth trial, no card. Then from €{fromPrice} per user / month, plus VAT."
-msgstr ""
 
 #. js-lingui-id: fzpQ2b
 #: src/modules/ui/input/components/internal/date/components/RelativeDatePickerHeader.tsx
@@ -927,11 +937,6 @@ msgstr ""
 msgid "€{0} billed yearly"
 msgstr ""
 
-#. js-lingui-id: HwzlJs
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "€173k open"
-msgstr ""
-
 #. js-lingui-id: Cx0xl3
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -964,6 +969,11 @@ msgstr "1 genforsøg"
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
 msgid "1 scope"
 msgstr "1 tilladelsesområde"
+
+#. js-lingui-id: 3tk/X8
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "1 seat in use"
+msgstr ""
 
 #. js-lingui-id: W/OU4i
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
@@ -2482,6 +2492,7 @@ msgid "alphabetical"
 msgstr "alfabetisk"
 
 #. js-lingui-id: 8wYDMp
+#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Already have an account?"
 msgstr ""
@@ -3573,11 +3584,6 @@ msgstr "Fordeling på tværs af AI-modeller."
 msgid "Brief explanation of this output field"
 msgstr "Kort forklaring af dette outputfelt"
 
-#. js-lingui-id: 61AulK
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Brightwater Labs · moved to Proposal"
-msgstr ""
-
 #. js-lingui-id: IjfaX/
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterFieldSelect.tsx
 msgid "Broken field reference. Select the field again to fix this condition."
@@ -4273,11 +4279,6 @@ msgstr ""
 msgid "Choose a plan"
 msgstr ""
 
-#. js-lingui-id: k4gjQW
-#: src/growth-os/plan/GrowthOsPlanStatus.tsx
-msgid "Choose a plan →"
-msgstr ""
-
 #. js-lingui-id: NFfUic
 #: src/pages/auth/SignInUp.tsx
 msgid "Choose a Workspace"
@@ -4299,6 +4300,7 @@ msgid "Choose folders to sync"
 msgstr ""
 
 #. js-lingui-id: 5EMoSo
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingPlansWithoutSubscription.tsx
 msgid "Choose plan"
 msgstr "Vælg plan"
@@ -5728,6 +5730,11 @@ msgstr "Opret et arbejdsområde"
 msgid "Create account"
 msgstr ""
 
+#. js-lingui-id: 3T8ziB
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Create an account"
+msgstr ""
+
 #. js-lingui-id: dpwEnu
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
 msgid "Create an all-day event"
@@ -6256,7 +6263,6 @@ msgid "Custom views"
 msgstr "Brugerdefinerede visninger"
 
 #. js-lingui-id: 876pfE
-#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
 msgid "Customer"
 msgstr "Kunde"
@@ -8657,9 +8663,9 @@ msgstr "hver {stepNumStr} måned, mellem {startMonth} og {endMonth}"
 msgid "every day"
 msgstr "hverdage"
 
-#. js-lingui-id: zE4NHg
+#. js-lingui-id: yFXg1h
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Every deal in one place."
+msgid "Every deal,"
 msgstr ""
 
 #. js-lingui-id: XWj/lX
@@ -8675,11 +8681,6 @@ msgstr "hver time"
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getMinutesDescription.ts
 msgid "every minute"
 msgstr "hvert minut"
-
-#. js-lingui-id: vajYIZ
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Every next step obvious."
-msgstr ""
 
 #. js-lingui-id: PsQmAw
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownVisibilityContent.tsx
@@ -9759,11 +9760,6 @@ msgstr "Løs betalingsproblemet for at holde dine Enterprise-funktioner aktive."
 msgid "Fix the payment issue to restore your enterprise features."
 msgstr ""
 
-#. js-lingui-id: ZZ3//Z
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Fjordline Software · support plan won"
-msgstr ""
-
 #. js-lingui-id: Xgkhyj
 #: src/modules/settings/admin-panel/chats/components/SettingsAdminChatsTable.tsx
 msgid "Flags"
@@ -10014,6 +10010,11 @@ msgstr "Funktionskørsel"
 #: src/utils/title-utils.ts
 msgid "Functions - Settings"
 msgstr "Funktioner - Indstillinger"
+
+#. js-lingui-id: wqo9S3
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "GDPR-ready"
+msgstr ""
 
 #. js-lingui-id: e4FdDl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
@@ -10343,6 +10344,11 @@ msgstr "Grupperer {objectLabel}"
 msgid "Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own."
 msgstr ""
 
+#. js-lingui-id: sYa8ZV
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "Growth OS modules"
+msgstr ""
+
 #. js-lingui-id: R4r4XO
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -10619,6 +10625,11 @@ msgstr ""
 "```\n"
 "\n"
 "Se [Kom godt i gang-guiden](https://twenty.com/developers/extend/apps/getting-started) for den fulde gennemgang, og [Byg apps](https://twenty.com/developers/extend/apps/building) for `defineApplication` / `defineEntity` API'er."
+
+#. js-lingui-id: 454El1
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Hosted in the EU"
+msgstr ""
 
 #. js-lingui-id: yY8wAv
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -10972,6 +10983,11 @@ msgstr "Importere"
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 msgid "Importing Data ..."
 msgstr "Importere Data ..."
+
+#. js-lingui-id: 5n8FKh
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Imprint"
+msgstr ""
 
 #. js-lingui-id: HiyKEP
 #: src/modules/settings/developers/utils/formatExpiration.ts
@@ -11701,11 +11717,6 @@ msgstr "Fortsæt med at køre de næste noder, selv hvis denne fejler"
 msgid "Keep my plan"
 msgstr ""
 
-#. js-lingui-id: JlHMbZ
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Kestrel Logistics · renewal review tomorrow, 10:00"
-msgstr ""
-
 #. js-lingui-id: 7sMeHQ
 #: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/KeyValuePairInput.tsx
 msgid "Key"
@@ -12121,11 +12132,6 @@ msgstr "Juridisk"
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
 msgid "Legal entity name"
 msgstr "Navn på juridisk enhed"
-
-#. js-lingui-id: elNrJ0
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Legal notice"
-msgstr ""
 
 #. js-lingui-id: MP1v+1
 #: src/modules/side-panel/pages/page-layout/constants/settings/ChartConfigurationSettingLabels.ts
@@ -12634,6 +12640,11 @@ msgstr "Administrer medlemmer"
 msgid "Manage objects, fields and relationships"
 msgstr "Administrer objekter, felter og relationer"
 
+#. js-lingui-id: rkcRqy
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "Manage plan"
+msgstr ""
+
 #. js-lingui-id: eGGH1l
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Manage security policies"
@@ -12840,11 +12851,6 @@ msgstr "Mig"
 #. js-lingui-id: IAcjOi
 #: src/modules/advanced-text-editor/extensions/slash-command/DefaultSlashCommands.ts
 msgid "Medium section heading"
-msgstr ""
-
-#. js-lingui-id: oE8Gmu
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Meeting"
 msgstr ""
 
 #. js-lingui-id: Sma10A
@@ -13878,6 +13884,11 @@ msgstr "Der findes endnu ingen opkaldsoptagelse for denne kalenderbegivenhed."
 #: src/modules/object-record/record-field/ui/form-types/components/FormCallingCodeSelectInput.tsx
 msgid "No calling code"
 msgstr "Uden landekode"
+
+#. js-lingui-id: HIcbjH
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "No card for the trial"
+msgstr ""
 
 #. js-lingui-id: LHCGJf
 #: src/pages/auth/SignInUp.tsx
@@ -15032,6 +15043,11 @@ msgstr "Introduktionspakker"
 msgid "Onboarding reward"
 msgstr "Onboarding-belønning"
 
+#. js-lingui-id: nBm8Jm
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "one clear view."
+msgstr ""
+
 #. js-lingui-id: qaG+Ug
 #: src/modules/side-panel/pages/page-layout/components/ChartFiltersDeletedFieldsWarning.tsx
 msgid "One or more filters reference deactivated or deleted fields and will be automatically removed on save."
@@ -15126,6 +15142,11 @@ msgstr "Kun du vil kunne se dine e-mails og begivenheder"
 #: src/pages/settings/members/tabs/SettingsWorkspaceMembersTeamTab.tsx
 msgid "Open"
 msgstr "Åben"
+
+#. js-lingui-id: T9mwDN
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "Open {name}"
+msgstr ""
 
 #. js-lingui-id: Kkq3xr
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
@@ -15275,16 +15296,16 @@ msgstr "Valgfri hemmelighed brugt til at beregne HMAC-signatur for webhook-indho
 msgid "Options"
 msgstr "Muligheder"
 
-#. js-lingui-id: BzEFor
-#: src/growth-os/auth/GrowthOsAuthDivider.tsx
-msgid "or"
-msgstr ""
-
 #. js-lingui-id: ZAVklK
 #: src/modules/settings/unsubscribers/components/SettingsUnsubscribePreview.tsx
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterLogicalOperatorCell.tsx
 msgid "Or"
 msgstr "Eller"
+
+#. js-lingui-id: 1//reV
+#: src/growth-os/auth/GrowthOsAuthDivider.tsx
+msgid "or with email"
+msgstr ""
 
 #. js-lingui-id: 4OE5Sf
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -15913,9 +15934,9 @@ msgstr ""
 msgid "Pipeline"
 msgstr ""
 
-#. js-lingui-id: 7u7suu
+#. js-lingui-id: +g+i2c
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Pipeline · Nordlicht Analytics"
+msgid "Pipeline, contacts and the next step for each, in one place, synced with Outreach, Connect and BookDesk24."
 msgstr ""
 
 #. js-lingui-id: KQ93w+
@@ -17610,11 +17631,6 @@ msgstr "Skalering"
 msgid "ScalePoint Growth OS home"
 msgstr ""
 
-#. js-lingui-id: 8Itxh8
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "ScalePoint Ventures Oy · Finland · B2B only"
-msgstr ""
-
 #. js-lingui-id: gmB6oO
 #: src/modules/workflow/workflow-trigger/components/CronExpressionHelper.tsx
 msgid "Schedule"
@@ -18119,16 +18135,6 @@ msgstr "Se på markedspladsen"
 #. js-lingui-id: J9KzMI
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "See our"
-msgstr ""
-
-#. js-lingui-id: ruKb0q
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "See plans"
-msgstr ""
-
-#. js-lingui-id: v3WFkz
-#: src/growth-os/plan/GrowthOsPlanStatus.tsx
-msgid "See plans →"
 msgstr ""
 
 #. js-lingui-id: vn4aKq
@@ -18861,6 +18867,7 @@ msgid "Sidebar items"
 msgstr "Elementer i sidebjælken"
 
 #. js-lingui-id: 5lWFkC
+#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Sign in"
@@ -23763,11 +23770,6 @@ msgstr "Dit navn som det vil blive vist"
 #. js-lingui-id: Gfklgu
 #: src/pages/not-found/NotFound.tsx
 msgid "Your open deals"
-msgstr ""
-
-#. js-lingui-id: OAPgqn
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Your own workspace and web address"
 msgstr ""
 
 #. js-lingui-id: 8mfOAZ
