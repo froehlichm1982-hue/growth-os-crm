@@ -71,3 +71,23 @@ export const verifyGrowthOsSignature = ({
 
   return { ok: true };
 };
+
+// growth-os-billing signs pushes with one HMAC and sends two header styles:
+//   X-Growth-OS-Signature: t=<unix>,v1=<hex>   or   X-GOS-Timestamp + X-GOS-Signature: v1=<hex>
+// This returns the first style, building it from the second when needed.
+export const pickGrowthOsSignatureHeader = (
+  headers: Record<string, string | string[] | undefined>,
+): string | undefined => {
+  const first = (value: string | string[] | undefined) =>
+    Array.isArray(value) ? value[0] : value;
+  const primary = first(headers['x-growth-os-signature']);
+
+  if (primary) return primary;
+
+  const timestamp = first(headers['x-gos-timestamp']);
+  const signature = first(headers['x-gos-signature']);
+
+  return timestamp && signature?.startsWith('v1=')
+    ? `t=${timestamp},v1=${signature.slice(3)}`
+    : undefined;
+};

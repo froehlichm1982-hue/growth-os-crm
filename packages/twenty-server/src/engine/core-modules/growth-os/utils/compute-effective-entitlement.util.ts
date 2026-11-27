@@ -26,6 +26,11 @@ export type GrowthOsStoredEntitlement = {
   aiMonthlyCap: number | null;
   aiUsageCount: number;
   aiUsagePeriod: string | null;
+  // From growth-os-billing (null = not sent: the CRM's own grace clock decides).
+  readOnly?: boolean | null;
+  graceUntil?: Date | null;
+  lookupKey?: string | null;
+  cancelAtPeriodEnd?: boolean | null;
 };
 
 export type GrowthOsEffectiveEntitlement = {
@@ -40,6 +45,8 @@ export type GrowthOsEffectiveEntitlement = {
   trialDaysLeft: number | null;
   graceEndsAt: Date | null;
   isReadOnly: boolean;
+  cancelAtPeriodEnd: boolean;
+  hasSubscription: boolean;
   interval: GrowthOsBillingInterval | null;
   currentPeriodEnd: Date | null;
   seatsPurchased: number | null;
@@ -83,6 +90,9 @@ export const computeEffectiveEntitlement = ({
       stored?.trialEndsAt ?? addDays(workspaceCreatedAt, GROWTH_OS_TRIAL_DAYS);
     plan = stored?.plan ?? GROWTH_OS_TRIAL_PLAN;
 
+    // trialEndsAt in the past is an expired trial, never an active one: the service keeps
+    // pushing status `trialing` for an expired card-free trial (with graceUntil set) until the
+    // grace is over, then pushes canceled + readOnly.
     if (now < trialEndsAt) {
       status = 'trialing';
       effectivePlan = plan;
@@ -112,12 +122,30 @@ export const computeEffectiveEntitlement = ({
     graceEndsAt = addDays(lapseDate, GROWTH_OS_GRACE_DAYS);
   }
 
+  // The billing service knows the dunning clock: its grace date and readOnly
+  // flag win over the local 7-day clock whenever they were sent.
+  if (stored?.graceUntil && (!isTrialRecord || status === 'trial_expired')) {
+    graceEndsAt = new Date(stored.graceUntil);
+  }
+
   const isPastGrace = graceEndsAt !== null && now >= graceEndsAt;
-  const isReadOnly =
+  const localReadOnly =
     isPastGrace && (status === 'past_due' || unpaidAccess === 'read_only');
+  const isReadOnly =
+    stored && !isTrialRecord && typeof stored.readOnly === 'boolean'
+      ? stored.readOnly
+      : status === 'trial_expired'
+        ? stored?.readOnly === true || localReadOnly
+        : localReadOnly;
 
   const definition = GROWTH_OS_PLAN_DEFINITIONS[effectivePlan];
-  const isPaying = status === 'active' || status === 'past_due';
+  // The service keeps the remaining no-card trial days when a plan is bought with more than
+  // ~2 days left: status stays `trialing` but a subscription (lookupKey) exists. The purchased
+  // seats and features apply from then on; billing starts when the trial ends.
+  const hasSubscription =
+    stored?.status === 'trialing' && !!stored.lookupKey && status === 'trialing';
+  const isPaying =
+    status === 'active' || status === 'past_due' || hasSubscription;
   const seatsPurchased = isPaying ? (stored?.seats ?? null) : null;
 
   const seatsAllowed =
@@ -145,6 +173,8 @@ export const computeEffectiveEntitlement = ({
         : null,
     graceEndsAt,
     isReadOnly,
+    cancelAtPeriodEnd: stored?.cancelAtPeriodEnd === true,
+    hasSubscription,
     interval: stored?.interval ?? null,
     currentPeriodEnd: stored?.currentPeriodEnd ?? null,
     seatsPurchased,

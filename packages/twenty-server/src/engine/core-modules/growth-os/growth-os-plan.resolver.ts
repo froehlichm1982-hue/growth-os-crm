@@ -1,12 +1,12 @@
 import { UseFilters, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query } from '@nestjs/graphql';
 
 import { PermissionFlagType } from 'twenty-shared/constants';
 
 import { MetadataResolver } from 'src/engine/api/graphql/graphql-config/decorators/metadata-resolver.decorator';
 import { PreventNestToAutoLogGraphqlErrorsFilter } from 'src/engine/core-modules/graphql/filters/prevent-nest-to-auto-log-graphql-errors.filter';
 import { UserInputError } from 'src/engine/core-modules/graphql/utils/graphql-errors.util';
-import { GrowthOsBillingClient } from 'src/engine/core-modules/growth-os/growth-os-billing.client';
+import { GrowthOsBillingService } from 'src/engine/core-modules/growth-os/growth-os-billing.service';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 import { GrowthOsSampleDataService } from 'src/engine/core-modules/growth-os/growth-os-sample-data.service';
 import {
@@ -27,7 +27,7 @@ import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
 
 export const buildGrowthOsCatalog = () => ({
   currency: 'EUR',
-  taxNote: 'Net prices per user. VAT is calculated at checkout (Stripe Tax); add your VAT ID there.',
+  taxNote: 'Net prices per user. VAT is calculated at checkout; add your VAT ID there.',
   trialDays: GROWTH_OS_TRIAL_DAYS,
   graceDays: GROWTH_OS_GRACE_DAYS,
   featureLabels: GROWTH_OS_FEATURE_LABELS,
@@ -63,7 +63,7 @@ export const buildGrowthOsCatalog = () => ({
 export class GrowthOsPlanResolver {
   constructor(
     private readonly growthOsEntitlementService: GrowthOsEntitlementService,
-    private readonly growthOsBillingClient: GrowthOsBillingClient,
+    private readonly growthOsBillingService: GrowthOsBillingService,
     private readonly growthOsSampleDataService: GrowthOsSampleDataService,
   ) {}
 
@@ -93,6 +93,8 @@ export class GrowthOsPlanResolver {
       trialDaysLeft: entitlement.trialDaysLeft,
       graceEndsAt: entitlement.graceEndsAt,
       isReadOnly: entitlement.isReadOnly,
+      cancelAtPeriodEnd: entitlement.cancelAtPeriodEnd,
+      hasSubscription: entitlement.hasSubscription,
       interval: entitlement.interval,
       currentPeriodEnd: entitlement.currentPeriodEnd,
       seatsAllowed: entitlement.seatsAllowed,
@@ -116,25 +118,33 @@ export class GrowthOsPlanResolver {
     @Args('plan', { type: () => String, nullable: true }) plan?: string,
     @Args('interval', { type: () => String, nullable: true })
     interval?: string,
+    @Args('seats', { type: () => Int, nullable: true }) seats?: number,
     @Args('returnUrl', { type: () => String, nullable: true })
     returnUrl?: string,
     @Args('reason', { type: () => String, nullable: true })
     reason?: string,
   ): Promise<string> {
-    if (kind !== 'checkout' && kind !== 'portal' && kind !== 'cancel') {
-      throw new UserInputError('kind must be checkout, portal or cancel');
+    if (
+      kind !== 'checkout' &&
+      kind !== 'portal' &&
+      kind !== 'cancel' &&
+      kind !== 'payment_method'
+    ) {
+      throw new UserInputError(
+        'kind must be checkout, portal, cancel or payment_method',
+      );
     }
     const entitlement = await this.growthOsEntitlementService.getEntitlement(
       workspace.id,
     );
     const usage = await this.growthOsEntitlementService.getUsage(workspace.id);
 
-    return this.growthOsBillingClient.getSessionUrl({
+    return this.growthOsBillingService.getSessionUrl({
       kind,
       workspaceId: workspace.id,
       plan: isGrowthOsPlan(plan) ? plan : entitlement.plan,
       interval: interval === 'year' ? 'year' : 'month',
-      seats: Math.max(1, usage.seatsUsed),
+      seats: Math.max(1, Math.min(seats ?? usage.seatsUsed, 500)),
       returnUrl: returnUrl ?? '',
       reason: reason?.slice(0, 80),
     });

@@ -1,5 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 
+import { GrowthOsBillingService } from 'src/engine/core-modules/growth-os/growth-os-billing.service';
 import { GrowthOsBillingClient } from 'src/engine/core-modules/growth-os/growth-os-billing.client';
 import { GrowthOsBillingWebhookController } from 'src/engine/core-modules/growth-os/growth-os-billing-webhook.controller';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
@@ -16,9 +17,14 @@ import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permi
   providers: [
     GrowthOsEntitlementService,
     GrowthOsBillingClient,
+    GrowthOsBillingService,
     GrowthOsPlanResolver,
     GrowthOsSampleDataService,
   ],
-  exports: [GrowthOsEntitlementService, GrowthOsBillingClient],
+  exports: [
+    GrowthOsEntitlementService,
+    GrowthOsBillingClient,
+    GrowthOsBillingService,
+  ],
 })
 export class GrowthOsModule {}

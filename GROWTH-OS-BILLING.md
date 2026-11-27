@@ -2,7 +2,7 @@
 
 This fork enforces Growth OS CRM plans **inside the CRM** (AGPL side) and
 receives plan changes from the separate, closed **growth-os-billing** service
-over a signed webhook. The CRM contains **no Stripe SDK, no Stripe keys and no
+over a signed webhook. The CRM contains **no payment-provider SDK, no provider keys and no
 checkout code**. Upstream Enterprise billing stays off (`IS_BILLING_ENABLED=false`).
 
 Code: `packages/twenty-server/src/engine/core-modules/growth-os/`
@@ -17,7 +17,7 @@ Prices/copy are single-sourced in `packages/twenty-shared/src/i18n/growth-os-whi
 |---|---|---|---|
 | Price (net, per user / month) | €12 | €24 | €39 |
 | Yearly (per user / year, = 10 × monthly) | €120 | €240 | €390 |
-| Stripe lookup keys (billing service) | `crm_starter_m` / `crm_starter_y` | `crm_growth_m` / `crm_growth_y` | `crm_scale_m` / `crm_scale_y` |
+| Price lookup keys (billing service) | `crm_starter_m` / `crm_starter_y` | `crm_growth_m` / `crm_growth_y` | `crm_scale_m` / `crm_scale_y` |
 | Users (seats) | 3 | 25 | unlimited |
 | Pipelines (Kanban views on Opportunities) | 1 | unlimited | unlimited |
 | Custom fields per object | 10 | unlimited | unlimited |
@@ -38,111 +38,142 @@ Prices/copy are single-sourced in `packages/twenty-shared/src/i18n/growth-os-whi
 * AI cap = per workspace per calendar month (`GROWTH_OS_AI_MONTHLY_CAP`, or
   `aiMonthlyCap` in the event).
 
-## Status handling ("pause, don't delete")
+## Providers: `BILLING_PROVIDER=mock | growth-os` (v1)
 
-| Billing status | Effective plan | After 7-day grace |
+| | `mock` (default) | `growth-os` |
 |---|---|---|
-| `trialing` (before `trialEndsAt`) | Growth | – |
-| trial ended, no paid plan | Starter limits | **read-only** |
-| `active` | paid plan | – |
-| `past_due` | paid plan | **read-only** until paid |
-| `canceled` / `unpaid` | Starter limits | **read-only** (or Starter with `GROWTH_OS_UNPAID_ACCESS=starter`) |
-| no entitlement row after trial | Starter (safe default) | read-only |
+| Purpose | local demo, no service needed | shared **growth-os-billing** service (test mode first) |
+| Account | none | `POST /v1/accounts` on workspace activation, `account_id` stored |
+| Checkout / portal links | static fallback URLs (or the legacy `/crm/sessions` if `GROWTH_OS_BILLING_URL` is set) | `POST /v1/checkout-sessions`, signed `/portal` link, `POST /v1/portal-sessions` |
+| Plan changes | `scripts/growth-os-billing-mock.ts` pushes | signed pushes from the service |
+| Seat sync | `/crm/seats` | `POST /v1/seats` |
 
-Grace starts at `currentPeriodEnd` (if in the past) or at the status change.
-Read-only blocks every record write (GraphQL and REST) and metadata changes;
-**reading and CSV export keep working**. Nothing is deleted: paused sync jobs
-skip their run, workflows don't run, data and settings stay in place and come
-back when the plan is upgraded. Over-limit data (e.g. a 2nd pipeline created
-during the trial) stays; only new creations are blocked.
-
-Blocked actions return HTTP 403 / GraphQL `FORBIDDEN` with
-`error: GROWTH_OS_PLAN_LIMIT` and a message ending in
-"Upgrade in Settings → Plan & Billing."
-
-Enforcement points: invitations + invite accept/sign-up, custom object create,
-custom field create, Kanban view create on Opportunities, role create, API key
-and webhook create, API-key requests, IMAP/SMTP/CalDAV connect, Google/Microsoft
-OAuth connect, messaging/calendar sync jobs, workflow activation and run, AI
-chat, and the common record query runner (read-only + API rate limit).
+`growth-os` needs `GROWTH_OS_BILLING_URL` and the module secret; without both, it behaves like `mock`.
+The webhook endpoint is the same in both modes.
 
 ## Environment variables (CRM)
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `GROWTH_OS_BILLING_WEBHOOK_SECRET` | – (webhook rejects everything) | HMAC secret shared with growth-os-billing |
-| `GROWTH_OS_BILLING_URL` | – | Base URL of growth-os-billing (`/crm/sessions`, `/crm/seats`). Unset → static checkout URL fallback |
-| `GROWTH_OS_CHECKOUT_URL` | `https://scalepoint-ventures.com/growthos/crm#pricing` | Placeholder checkout/pricing URL (gets `product`, `workspace`, `lookup_key`, `seats` params) |
-| `GROWTH_OS_PORTAL_URL` | `mailto:support@scalepoint-ventures.com` | "Manage billing" fallback |
-| `GROWTH_OS_UNPAID_ACCESS` | `read_only` | `read_only` or `starter` after cancel/unpaid grace |
+| `BILLING_PROVIDER` | `mock` | `mock` or `growth-os` |
+| `GROWTH_OS_BILLING_URL` | – | Base URL of the service, e.g. `https://billing.scalepoint-ventures.com` (https required; `http` only for loopback stubs) |
+| `MODULE_CRM_WEBHOOK_SECRET_FILE` (alias `GROWTH_OS_BILLING_SECRET_FILE`) | – | **Preferred.** Path of a `600` file holding the CRM module secret (`MODULE_CRM_WEBHOOK_SECRET` of the service); handed over at deploy. If set, the file is used; a missing/unreadable/empty file means *no secret* (calls and pushes are rejected, **no fallback to env**). A file readable by group/other logs a warning (path only). Re-read at most every 30 s |
+| `MODULE_CRM_WEBHOOK_SECRET` (aliases `GROWTH_OS_BILLING_WEBHOOK_SECRET`, `GROWTH_OS_BILLING_SECRET`) | – | The same secret as an env value, used only when no `*_FILE` is set. One secret signs API calls (both ways), pushes and `/portal` links. Never in git, never logged |
+| `GROWTH_OS_CHECKOUT_URL` / `GROWTH_OS_PORTAL_URL` | pricing page / mailto | `mock` fallbacks |
+| `GROWTH_OS_UNPAID_ACCESS` | `read_only` | `read_only` or `starter` after cancel/unpaid grace (local clock fallback only) |
 | `GROWTH_OS_AI_MONTHLY_CAP` | `500` | Default AI requests / workspace / month on Scale |
-| `GROWTH_OS_ENTITLEMENTS_DISABLED` | `false` | `true` disables all gates (self-host / emergency) |
+| `GROWTH_OS_ENTITLEMENTS_DISABLED` | `false` | `true` disables all gates |
+| `SEND_EMAILS` | `false` | Gates every send in the mail driver (true only against the local catcher here) |
 
-Never commit real values. The CRM never needs a Stripe key.
+## Signup and account creation
 
-## Webhook contract
+Workspace activation (`WorkspaceService.activateWorkspace`) calls `POST /v1/accounts`
+`{product:"crm", external_user_id:<workspace uuid>, email, name, locale, trial:true}`:
+a **14-day Growth trial without a card**. The call is idempotent in the service (one
+account per product + workspace id): a repeat call returns the existing account with **200** (a new one is 201),
+updates email/name only if they are sent, and **never restarts the trial** even with `trial:true`. The CRM therefore
+treats any 2xx with an `account_id` as success, stores the answer as it is (the trial end is the service's), and calls
+the endpoint once per workspace (a known `growthOsBillingAccount` row short-circuits it). The answer `{account_id, organisation_id, version, data}`
+is stored in `core."growthOsBillingAccount"`, and `data` is applied as the first entitlement.
+It is best effort: signup never fails because billing is down, and the account is
+created lazily on the first checkout/portal request (`ensureAccount`).
 
-`POST /webhooks/growth-os-billing` (public, no auth header other than the signature)
+## Links (checkout, portal, cancel, payment method)
 
-Header: `X-Growth-OS-Signature: t=<unix seconds>,v1=<hex>` where
-`v1 = HMAC_SHA256(secret, "<t>.<raw request body>")`. Timestamps older or
-newer than 300 s are rejected (replay protection).
+* **Checkout** – `POST /v1/checkout-sessions` `{product, external_user_id, price_lookup_key: crm_<tier>_<m|y>, quantity, success_url: <workspace host>/settings/billing?checkout=success, cancel_url, email, locale}` → `{url, mode}`. The CRM **sends no `mode`**: the service always builds a subscription session and keeps the remaining no-card trial days when more than about 2 days are left. The answer's `mode` is `checkout` (hosted payment page), `confirm` (the service's plan-change confirm page, the org already has a subscription) or `noop` (nothing to pay, `url` is our `success_url`). **The CRM redirects to `url` in all three cases.** `409 interval_conflict` (interval switched inside a combined plan) shows "contact support": EN "The billing interval can’t be changed here … contact support@scalepoint-ventures.com", DE (du) "Das Abrechnungsintervall lässt sich hier nicht ändern … Schreib uns an support@scalepoint-ventures.com" (language of the billing account). Any other error: "Billing is unavailable right now".
+* **Manage billing** – only the signed link `GET {billing}/portal?a=<account_id>&m=crm&exp=<now+7d>&sig=<hex>` with `sig = HMAC_SHA256(secret, "portal.crm.<account_id>.<exp>")` (`portal-link.md`; test vector in the unit tests). Built on the server per request; never stored.
+* **Cancel** – two steps in the CRM (what happens + reason, then confirm), then `POST /v1/portal-sessions {flow:"cancel", reason}` opens the service's confirmation page. Nothing changes until the service pushes `cancelAtPeriodEnd:true`. "Keep my plan" uses the same call (the service returns its undo page).
+* **Payment method** – `POST /v1/portal-sessions {flow:"payment_method"}`.
+* Return URLs are limited to `crm.scalepoint-ventures.com` and its workspace subdomains `<workspace>.crm.scalepoint-ventures.com` (loopback only for the local stub); anything else is replaced by `https://crm.scalepoint-ventures.com/settings/billing`. Every checkout call passes `success_url=<workspace host>/settings/billing?checkout=success` (the v1 field name; the legacy `/crm/sessions` calls it `successUrl`) and a `cancel_url` on the same host.
+* All requests: `X-Growth-OS-Signature: t=<unix>,v1=HMAC_SHA256(secret, "<t>.<raw body>")` (a GET signs the empty body), 8 s timeout. If the service fails, checkout/cancel show "Billing is unavailable right now" (no static fallback in `growth-os` mode).
+* The UI never names the payment provider.
+
+## Entitlements come from the service state
+
+`POST /webhooks/growth-os-billing` (public; the signature is the auth).
+
+Signature: `X-Growth-OS-Signature: t=<unix>,v1=<hex>` **or** `X-GOS-Timestamp` + `X-GOS-Signature: v1=<hex>`
+(the service sends both; either is accepted); `v1 = HMAC_SHA256(secret, "<t>.<raw body>")`, ±300 s.
 
 ```json
 {
-  "id": "evt_01J…",                     // unique, used for idempotency
+  "id": "evt_gos_<account>_<version>",
   "type": "entitlement.updated",
-  "createdAt": "2026-11-25T17:00:00Z",   // ordering; older events are ignored
+  "version": 7,                         // pushes with a LOWER version than stored are ignored
+  "createdAt": "2026-11-25T17:00:00Z",
   "data": {
-    "workspaceId": "0b5c…-uuid",
-    "plan": "growth",                    // starter | growth | scale
-    "status": "active",                  // trialing | active | past_due | canceled | unpaid
-    "seats": 10,                         // purchased seats, or null
-    "interval": "month",                 // month | year | null
-    "trialEndsAt": null,                 // ISO, optional
-    "currentPeriodEnd": "2026-12-25T17:00:00Z",
-    "customerRef": "cus_…",              // opaque, stored for support only
-    "features": { "ai": true },          // optional per-feature overrides (paid states only)
-    "aiMonthlyCap": 1000                 // optional
+    "workspaceId": "<workspace uuid>",
+    "plan": "growth",                   // starter | growth | scale
+    "status": "active",                 // trialing | active | past_due | canceled (read-only is sent as the underlying status + readOnly:true)
+    "seats": 10, "interval": "month",
+    "trialEndsAt": null, "currentPeriodEnd": "2026-12-25T17:00:00Z",
+    "customerRef": "org_…",
+    "readOnly": false,                  // authoritative when present (true OR false)
+    "graceUntil": null,                 // service dunning clock, replaces the local 7-day clock
+    "cancelAtPeriodEnd": false,         // paid plan stays until currentPeriodEnd
+    "lookupKey": "crm_growth_m"
   }
 }
 ```
 
-Responses: `200 {received, result: applied|duplicate|stale, workspaceId,
-effectivePlan, status, seatsAllowed, isReadOnly}`, `401` bad/missing
-signature, `400` invalid payload, `404` unknown workspace. The billing service
-should retry non-2xx (except 400/404) with backoff. Changes apply within ~5 s
-(per-process cache) — no restart.
+**One URL for all workspaces.** The service registers the webhook once, at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing`. The handler routes each event by `data.workspaceId` (the id the account was created with) and never by the request host, so it works behind any host; a unit test covers two workspaces, mixed hosts and a stale version for one of them.
 
-Storage: `core."growthOsPlanEntitlement"` (one row per workspace, created on
-boot with `CREATE TABLE IF NOT EXISTS`, cascade-deleted with the workspace).
+Responses: `200 {received, result: applied|duplicate|stale, …}`, `401` bad/missing signature,
+`400` invalid payload, `404` unknown workspace (not retried by the service). Idempotent by event id.
+Ordering: `version` first, `createdAt` for senders without one. Seat caps, features, trial and
+read-only come from the stored state: `seatsAllowed = min(plan cap, purchased seats)`; with
+`readOnly` present, the local grace clock is not used. Changes apply within ~5 s (per-process cache).
 
-## Calls from the CRM to growth-os-billing (expected API)
+Storage: `core."growthOsPlanEntitlement"` (+ `version, readOnly, graceUntil, cancelAtPeriodEnd, lookupKey`),
+`core."growthOsBillingAccount"` – created on boot with
+`CREATE TABLE IF NOT EXISTS` / `ADD COLUMN IF NOT EXISTS`, cascade-deleted with the workspace.
 
-Both signed with the same header scheme, 5 s timeout, best effort:
+## Mails: the billing service sends all of them
 
-* `POST {GROWTH_OS_BILLING_URL}/crm/sessions` `{kind: checkout|portal, workspaceId, plan, interval, lookupKey, seats, returnUrl}` → `{url}` (Stripe Checkout / Customer Portal session created by billing).
-* `POST {GROWTH_OS_BILLING_URL}/crm/seats` `{workspaceId, seatsUsed}` after a member joins.
+The CRM sends **no billing mail**: payment failed (day 0/3/6), cancellation, invoice and receipt mail all come
+from growth-os-billing (decided 27 Nov). There is no mail code, no sender dependency and no mail sweep in the CRM
+billing path (a unit test guards this). The mail templates in `twenty-emails` (payment failed, cancellation, …) stay
+for previews and the mail base only. The former `GROWTH_OS_BILLING_MAILS=crm` option and its hourly sweep were removed.
 
-## Local test
+Read-only is **not** flipped by a job: it is derived when entitlements are read, from the service's `readOnly` /
+`graceUntil` fields (local 7-day clock only for senders that omit them). Nothing runs in the background.
+
+## Status handling ("pause, don't delete")
+
+| Service state | Effective plan | Read-only |
+|---|---|---|
+| `trialing` (no card) | Growth | after trial end + grace |
+| `trialing` + `lookupKey` (plan bought with more than 2 days + 1 h of trial left; with less the service sets no trial end and pushes `active` at once) | the bought plan, **bought seats apply**, still shown as a trial ("billing starts <trial end>") | – (the service pushes `active` at the first payment) |
+| `trialing` with `trialEndsAt` in the past (expired card-free trial, `graceUntil` set) | **Starter limits, shown as "Trial ended", never as a trial**; the service's `graceUntil` is the grace end | when `readOnly:true`, or (fail closed) once `graceUntil` has passed; the service then pushes `canceled` + `readOnly:true` |
+| `active` (also with `cancelAtPeriodEnd`) | paid plan until period end | – |
+| `past_due` | paid plan | when the service sends `readOnly:true` (after 7 days) |
+| `canceled` (period ended) | Starter limits | when the service sends `readOnly:true` (7 days later) |
+
+Read-only blocks every record write and metadata change; **reading and CSV export keep working**.
+Nothing is deleted. Blocked actions return `GROWTH_OS_PLAN_LIMIT` ("… Plan & Billing.").
+Enforcement points: invitations and invite accept, custom objects and fields, Kanban views on Opportunities, roles, API keys and webhooks, API-key requests, IMAP/Google/Microsoft connect, sync jobs, workflow activation and run, AI chat, and the record query runner (read-only + API rate limit). Over-limit data stays; only new creations are blocked.
+
+## Local test (no real service)
 
 ```bash
-export GROWTH_OS_BILLING_WEBHOOK_SECRET=<same as the server>
-npx tsx scripts/growth-os-billing-mock.ts subscribe --workspace <uuid> --plan starter
-npx tsx scripts/growth-os-billing-mock.ts upgrade   --workspace <uuid> --plan growth --seats 10
-npx tsx scripts/growth-os-billing-mock.ts cancel    --workspace <uuid> --period-end 2026-01-01T00:00:00Z
-npx tsx scripts/growth-os-billing-mock.ts trial     --workspace <uuid> --trial-ends 2026-01-01T00:00:00Z
-npx tsx scripts/growth-os-billing-mock.ts upgrade   --workspace <uuid> --bad-signature   # → 401
+# 1) the fake service (implements the documented endpoints, signatures, pushes; no network beyond loopback)
+STUB_SECRET=<local test secret> STUB_PUSH_URL=http://127.0.0.1:3000/webhooks/growth-os-billing \
+  npx tsx scripts/growth-os-billing-stub.ts
+# 2) the CRM
+BILLING_PROVIDER=growth-os GROWTH_OS_BILLING_URL=http://127.0.0.1:4010 \
+MODULE_CRM_WEBHOOK_SECRET_FILE=<600 file with the same local test secret>
+# 3) unit tests
+cd packages/twenty-server && npx jest --config jest.config.mjs src/engine/core-modules/growth-os/__tests__
 ```
 
-The mock never talks to Stripe.
+Stub controls (stand-ins for the payment provider and for time): `POST /__stub/checkout/{id}/pay`,
+`POST /__stub/{workspace}/fail-payment | recover | advance {days} | replay-last | push-stale`,
+`POST /l/{token}` (cancel confirmation page), `GET /__stub/log`. The legacy mock
+(`scripts/growth-os-billing-mock.ts`) still works with `BILLING_PROVIDER=mock`.
+Run against the **real** test-mode service: `TEST-CASES-billing.md`.
 
 ## Tax (decided 2026-11-25)
 
-- Stripe Tax is **automatic** on checkout sessions (`automatic_tax: { enabled: true }`)
-  with **tax ID collection** on (`tax_id_collection: { enabled: true }`), so business
-  customers can enter their VAT ID and reverse charge applies where valid.
-- All list prices are **net**. VAT is added at checkout. Copy in the app (plan page,
-  signup pricing panel, `taxNote`) says "VAT is added at checkout".
-- This is configured in growth-os-billing (the checkout service), not in the CRM.
-  The CRM never calls Stripe.
+* Tax is **automatic** at checkout in the billing service, with tax-ID collection, so business
+  customers can enter a VAT ID (reverse charge where valid). All list prices are **net**; copy says
+  "VAT is added at checkout". Configured in the service, not in the CRM.

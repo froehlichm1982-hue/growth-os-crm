@@ -26,9 +26,16 @@ import {
 } from 'src/engine/core-modules/growth-os/utils/compute-effective-entitlement.util';
 
 const TABLE = 'core."growthOsPlanEntitlement"';
+const ACCOUNT_TABLE = 'core."growthOsBillingAccount"';
 const CACHE_TTL_MS = 5_000;
 
 export type GrowthOsEntitlementUpdate = {
+  // growth-os-billing version counter (null: older mock events, ordered by createdAt).
+  version: number | null;
+  readOnly: boolean | null;
+  graceUntil: Date | null;
+  cancelAtPeriodEnd: boolean | null;
+  lookupKey: string | null;
   eventId: string;
   eventCreatedAt: Date;
   workspaceId: string;
@@ -104,6 +111,24 @@ export class GrowthOsEntitlementService implements OnModuleInit {
         "createdAt" timestamptz NOT NULL DEFAULT now(),
         "updatedAt" timestamptz NOT NULL DEFAULT now()
       )`);
+    // growth-os-billing fields (version ordering, authoritative read-only / grace).
+    await this.coreDataSource.query(`
+      ALTER TABLE ${TABLE}
+        ADD COLUMN IF NOT EXISTS "version" integer NULL,
+        ADD COLUMN IF NOT EXISTS "readOnly" boolean NULL,
+        ADD COLUMN IF NOT EXISTS "graceUntil" timestamptz NULL,
+        ADD COLUMN IF NOT EXISTS "cancelAtPeriodEnd" boolean NULL,
+        ADD COLUMN IF NOT EXISTS "lookupKey" varchar(64) NULL`);
+    await this.coreDataSource.query(`
+      CREATE TABLE IF NOT EXISTS ${ACCOUNT_TABLE} (
+        "workspaceId" uuid PRIMARY KEY REFERENCES core."workspace"("id") ON DELETE CASCADE,
+        "accountId" varchar(80) NOT NULL,
+        "organisationId" varchar(80) NULL,
+        "email" varchar(255) NULL,
+        "name" varchar(255) NULL,
+        "locale" varchar(8) NOT NULL DEFAULT 'en',
+        "createdAt" timestamptz NOT NULL DEFAULT now()
+      )`);
   }
 
   isDisabled() {
@@ -116,7 +141,7 @@ export class GrowthOsEntitlementService implements OnModuleInit {
 
   async getStored(
     workspaceId: string,
-  ): Promise<(GrowthOsStoredEntitlement & { lastEventId: string | null; lastEventAt: Date | null; customerRef: string | null }) | null> {
+  ): Promise<(GrowthOsStoredEntitlement & { lastEventId: string | null; lastEventAt: Date | null; customerRef: string | null; version: number | null }) | null> {
     const rows = await this.coreDataSource.query(
       `SELECT * FROM ${TABLE} WHERE "workspaceId" = $1`,
       [workspaceId],
@@ -357,7 +382,14 @@ export class GrowthOsEntitlementService implements OnModuleInit {
 
     if (existing?.lastEventId === update.eventId) return 'duplicate';
 
+    // Version counter first (growth-os-billing), event time for older senders.
     if (
+      update.version !== null &&
+      existing?.version !== null &&
+      existing?.version !== undefined
+    ) {
+      if (update.version < existing.version) return 'stale';
+    } else if (
       existing?.lastEventAt &&
       new Date(existing.lastEventAt) > update.eventCreatedAt
     ) {
@@ -372,8 +404,9 @@ export class GrowthOsEntitlementService implements OnModuleInit {
     await this.coreDataSource.query(
       `INSERT INTO ${TABLE} ("workspaceId", "plan", "status", "seats", "interval",
           "trialEndsAt", "currentPeriodEnd", "statusChangedAt", "customerRef",
-          "featureOverrides", "aiMonthlyCap", "lastEventId", "lastEventAt", "rawHash")
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+          "featureOverrides", "aiMonthlyCap", "lastEventId", "lastEventAt", "rawHash",
+          "version", "readOnly", "graceUntil", "cancelAtPeriodEnd", "lookupKey")
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
        ON CONFLICT ("workspaceId") DO UPDATE SET
           "plan" = EXCLUDED."plan", "status" = EXCLUDED."status",
           "seats" = EXCLUDED."seats", "interval" = EXCLUDED."interval",
@@ -385,7 +418,11 @@ export class GrowthOsEntitlementService implements OnModuleInit {
           "aiMonthlyCap" = EXCLUDED."aiMonthlyCap",
           "lastEventId" = EXCLUDED."lastEventId",
           "lastEventAt" = EXCLUDED."lastEventAt",
-          "rawHash" = EXCLUDED."rawHash", "updatedAt" = now()`,
+          "rawHash" = EXCLUDED."rawHash",
+          "version" = EXCLUDED."version", "readOnly" = EXCLUDED."readOnly",
+          "graceUntil" = EXCLUDED."graceUntil",
+          "cancelAtPeriodEnd" = EXCLUDED."cancelAtPeriodEnd",
+          "lookupKey" = EXCLUDED."lookupKey", "updatedAt" = now()`,
       [
         update.workspaceId,
         update.plan,
@@ -401,11 +438,87 @@ export class GrowthOsEntitlementService implements OnModuleInit {
         update.eventId,
         update.eventCreatedAt,
         createHash('sha256').update(update.rawBody).digest('hex'),
+        update.version,
+        update.readOnly,
+        update.graceUntil,
+        update.cancelAtPeriodEnd,
+        update.lookupKey,
       ],
     );
 
     this.invalidate(update.workspaceId);
 
     return 'applied';
+  }
+
+  // ---- billing account (growth-os-billing) -----------------------------------
+
+  async getBillingAccount(workspaceId: string): Promise<{
+    workspaceId: string;
+    accountId: string;
+    organisationId: string | null;
+    email: string | null;
+    name: string | null;
+    locale: string;
+  } | null> {
+    const rows = await this.coreDataSource.query(
+      `SELECT * FROM ${ACCOUNT_TABLE} WHERE "workspaceId" = $1`,
+      [workspaceId],
+    );
+
+    return rows[0] ?? null;
+  }
+
+  async saveBillingAccount(account: {
+    workspaceId: string;
+    accountId: string;
+    organisationId: string | null;
+    email: string | null;
+    name: string | null;
+    locale: string;
+  }) {
+    await this.coreDataSource.query(
+      `INSERT INTO ${ACCOUNT_TABLE} ("workspaceId", "accountId", "organisationId", "email", "name", "locale")
+       VALUES ($1,$2,$3,$4,$5,$6)
+       ON CONFLICT ("workspaceId") DO UPDATE SET
+         "accountId" = EXCLUDED."accountId", "organisationId" = EXCLUDED."organisationId",
+         "email" = EXCLUDED."email", "name" = EXCLUDED."name", "locale" = EXCLUDED."locale"`,
+      [
+        account.workspaceId,
+        account.accountId,
+        account.organisationId,
+        account.email,
+        account.name,
+        account.locale,
+      ],
+    );
+  }
+
+  // First owner of the workspace: the billing contact for the account (the billing service sends all billing mail).
+  async getBillingContact(workspaceId: string): Promise<{
+    email: string;
+    name: string;
+    locale: string;
+    workspaceName: string;
+  } | null> {
+    const rows = await this.coreDataSource.query(
+      `SELECT u."email", u."firstName", u."lastName", uw."locale", w."displayName"
+         FROM core."userWorkspace" uw
+         JOIN core."user" u ON u."id" = uw."userId"
+         JOIN core."workspace" w ON w."id" = uw."workspaceId"
+        WHERE uw."workspaceId" = $1 AND uw."deletedAt" IS NULL
+        ORDER BY uw."createdAt" ASC LIMIT 1`,
+      [workspaceId],
+    );
+    const row = rows[0];
+
+    if (!row) return null;
+
+    return {
+      email: row.email,
+      name: `${row.firstName ?? ''} ${row.lastName ?? ''}`.trim(),
+      locale: String(row.locale ?? 'en').startsWith('de') ? 'de' : 'en',
+      workspaceName: row.displayName ?? '',
+    };
   }
 }

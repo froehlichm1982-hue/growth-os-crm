@@ -14,9 +14,11 @@ import { type Request } from 'express';
 
 import { getGrowthOsConfig } from 'src/engine/core-modules/growth-os/growth-os.config';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
-import { GROWTH_OS_SIGNATURE_HEADER } from 'src/engine/core-modules/growth-os/growth-os-plan.constants';
 import { parseGrowthOsEntitlementEvent } from 'src/engine/core-modules/growth-os/utils/parse-growth-os-entitlement-event.util';
-import { verifyGrowthOsSignature } from 'src/engine/core-modules/growth-os/utils/growth-os-signature.util';
+import {
+  pickGrowthOsSignatureHeader,
+  verifyGrowthOsSignature,
+} from 'src/engine/core-modules/growth-os/utils/growth-os-signature.util';
 import { NoPermissionGuard } from 'src/engine/guards/no-permission.guard';
 import { PublicEndpointGuard } from 'src/engine/guards/public-endpoint.guard';
 
@@ -32,14 +34,12 @@ export class GrowthOsBillingWebhookController {
   @UseGuards(PublicEndpointGuard, NoPermissionGuard)
   async handle(@Req() request: RawBodyRequest<Request>) {
     const rawBody = request.rawBody?.toString('utf-8');
-    const signatureHeader = request.headers[GROWTH_OS_SIGNATURE_HEADER];
 
     const check = verifyGrowthOsSignature({
       secret: getGrowthOsConfig().webhookSecret,
       rawBody,
-      header: Array.isArray(signatureHeader)
-        ? signatureHeader[0]
-        : signatureHeader,
+      // Both header styles of growth-os-billing are accepted.
+      header: pickGrowthOsSignatureHeader(request.headers),
     });
 
     if (!check.ok) {
@@ -60,6 +60,10 @@ export class GrowthOsBillingWebhookController {
       throw new NotFoundException('Unknown workspace');
     }
 
+    // Routed by the workspace id inside the event (data.workspaceId = the id the
+    // account was created with), never by the request host: the service has ONE
+    // webhook URL for all workspaces. The CRM sends no billing mail: the billing
+    // service owns payment-failed, cancellation, invoice and receipt mail.
     const result = await this.growthOsEntitlementService.applyUpdate(
       parsed.update,
     );

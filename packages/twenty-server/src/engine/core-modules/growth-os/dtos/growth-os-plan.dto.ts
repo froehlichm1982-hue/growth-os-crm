@@ -28,6 +28,13 @@ export class GrowthOsPlanDTO {
   @Field(() => Boolean)
   isReadOnly: boolean;
 
+  @Field(() => Boolean)
+  cancelAtPeriodEnd: boolean;
+
+  // A plan is bought but the no-card trial days are kept (billing starts when the trial ends).
+  @Field(() => Boolean)
+  hasSubscription: boolean;
+
   @Field(() => String, { nullable: true })
   interval: string | null;
 

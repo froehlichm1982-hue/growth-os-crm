@@ -629,6 +629,12 @@ msgstr "{label} list"
 msgid "{label} plan"
 msgstr "{label} plan"
 
+#. js-lingui-id: oXqEdr
+#. placeholder {0}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "{label} plan · billing starts {0}"
+msgstr "{label} plan · billing starts {0}"
+
 #. js-lingui-id: 9vQZL3
 #. placeholder {0}: plan.trialDaysLeft ?? 0
 #: src/growth-os/plan/useGrowthOsPlan.ts
@@ -1685,7 +1691,7 @@ msgstr "Add new"
 #: src/modules/object-record/record-table-widget/components/RecordTableWidgetNestedRelationAddNewRow.tsx
 #: src/modules/object-record/record-table/components/RecordTableNoRecordGroupAddNew.tsx
 msgid "Add New"
-msgstr "Add new"
+msgstr "Add New"
 
 #. js-lingui-id: erHjaG
 #: src/modules/workflow/workflow-diagram/components/WorkflowDiagramRightClickCommandMenu.tsx
@@ -3257,7 +3263,7 @@ msgstr "Authenticator app"
 #. js-lingui-id: YZWcQL
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Authenticator App"
-msgstr "Authenticator app"
+msgstr "Authenticator App"
 
 #. js-lingui-id: 9aB4Rs
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
@@ -4151,7 +4157,7 @@ msgstr "Change password"
 #. js-lingui-id: VhMDMg
 #: src/modules/settings/profile/components/SetOrChangePassword.tsx
 msgid "Change Password"
-msgstr "Change password"
+msgstr "Change Password"
 
 #. js-lingui-id: EYSFEW
 #: src/modules/settings/domains/components/SettingsSubdomain.tsx
@@ -6642,7 +6648,7 @@ msgstr "Deactivate this field"
 #: src/pages/settings/data-model/SettingsObjectTable.tsx
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Deactivated"
-msgstr "Off"
+msgstr "Deactivated"
 
 #. js-lingui-id: Iotuxe
 #: src/modules/ai/components/RoutingDebugDisplay.tsx
@@ -7252,6 +7258,11 @@ msgstr "Discovery call"
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Discovery on {defaultDomain}"
 msgstr "Discovery on {defaultDomain}"
+
+#. js-lingui-id: 1QfxQT
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Dismiss"
+msgstr "Dismiss"
 
 #. js-lingui-id: Ldgs6e
 #: src/modules/side-panel/pages/page-layout/components/record-page/SidePanelRecordPageFieldsSettings.tsx
@@ -8140,7 +8151,7 @@ msgstr "English"
 #. js-lingui-id: UXZry7
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Enhances security by requiring a code along with your password"
-msgstr "Ask for a code from your authenticator app as well as your password."
+msgstr "Enhances security by requiring a code along with your password"
 
 #. js-lingui-id: 6iUnle
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
@@ -9805,7 +9816,7 @@ msgstr "First name"
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 #: src/pages/onboarding/CreateProfile.tsx
 msgid "First Name"
-msgstr "First name"
+msgstr "First Name"
 
 #. js-lingui-id: cgevMo
 #: src/pages/onboarding/CreateProfile.tsx
@@ -11791,6 +11802,7 @@ msgstr "Keep executing the next nodes even if this one fails"
 #. js-lingui-id: uHdpk+
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 msgid "Keep my plan"
 msgstr "Keep my plan"
 
@@ -12027,7 +12039,7 @@ msgstr "Last name"
 #: src/modules/settings/profile/components/NameFields.tsx
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 msgid "Last Name"
-msgstr "Last name"
+msgstr "Last Name"
 
 #. js-lingui-id: PnMGfO
 #: src/pages/onboarding/CreateProfile.tsx
@@ -18578,7 +18590,7 @@ msgstr "Send email"
 #: src/modules/activities/emails/components/EmptyInboxPlaceholder.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
 msgid "Send Email"
-msgstr "Send email"
+msgstr "Send Email"
 
 #. js-lingui-id: CqsED8
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
@@ -20210,6 +20222,16 @@ msgstr "Text copied to clipboard"
 msgid "Text Editor"
 msgstr "Text Editor"
 
+#. js-lingui-id: NtbV1G
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Thank you. We are activating your plan. This takes a few seconds."
+msgstr "Thank you. We are activating your plan. This takes a few seconds."
+
+#. js-lingui-id: dgVkix
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Thank you. Your plan is active."
+msgstr "Thank you. Your plan is active."
+
 #. js-lingui-id: +zcP88
 #: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
 msgid "That email and password don’t match. Check both, or reset your password."
@@ -20343,7 +20365,7 @@ msgstr "The email associated to this account"
 #. js-lingui-id: VGZYbZ
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "The email associated to your account"
-msgstr "The email you sign in with."
+msgstr "The email associated to your account"
 
 #. js-lingui-id: WGfnFh
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -21538,7 +21560,7 @@ msgstr "Two columns side by side"
 #: src/pages/settings/profile/SettingsProfile.tsx
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Two Factor Authentication"
-msgstr "Two-step sign-in"
+msgstr "Two Factor Authentication"
 
 #. js-lingui-id: MUIppF
 #: src/modules/auth/components/TwoFactorAuthenticationProvisionEffect.tsx
@@ -23073,7 +23095,7 @@ msgstr "We sent a verification link to <0>{address}</0>. It works once, for 30 m
 #. js-lingui-id: id6ein
 #: src/modules/ui/input/components/ImageInput.tsx
 msgid "We support your square PNGs, JPEGs and GIFs under 10MB"
-msgstr "Square PNG, JPEG or GIF, up to 10 MB."
+msgstr "We support your square PNGs, JPEGs and GIFs under 10MB"
 
 #. js-lingui-id: Fui3cz
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -23881,6 +23903,13 @@ msgstr "You’re signed out"
 msgid "You’ve reached your AI usage limit."
 msgstr "You’ve reached your AI usage limit."
 
+#. js-lingui-id: JpFMK5
+#. placeholder {0}: GROWTH_OS_PLAN_LABELS[plan.plan]
+#. placeholder {1}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Your {0} plan is set up. Your free trial continues until {1}, then billing starts."
+msgstr "Your {0} plan is set up. Your free trial continues until {1}, then billing starts."
+
 #. js-lingui-id: tOPGvO
 #: src/modules/apollo/services/apollo.factory.ts
 msgid "Your app version is out of date. Please refresh the page."
@@ -23959,7 +23988,7 @@ msgstr "Your handler receives this object. The body is empty because GET request
 #. js-lingui-id: 9ivpwk
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Your name as it will be displayed"
-msgstr "How your name shows up for your team."
+msgstr "Your name as it will be displayed"
 
 #. js-lingui-id: Gfklgu
 #: src/pages/not-found/NotFound.tsx
@@ -23981,6 +24010,12 @@ msgstr "Your payment didn’t go through."
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 msgid "Your plan ends on {periodEnd}. Email sync, workflows and extra seats stop then. We’ll email you a confirmation."
 msgstr "Your plan ends on {periodEnd}. Email sync, workflows and extra seats stop then. We’ll email you a confirmation."
+
+#. js-lingui-id: upvAhb
+#. placeholder {0}: formatGrowthOsDate(plan.currentPeriodEnd)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Your plan is cancelled. You keep full access until {0}, then your workspace becomes read-only after 7 days. Nothing is deleted."
+msgstr "Your plan is cancelled. You keep full access until {0}, then your workspace becomes read-only after 7 days. Nothing is deleted."
 
 #. js-lingui-id: IxG5gy
 #: src/modules/settings/billing/hooks/useBillingWording.ts

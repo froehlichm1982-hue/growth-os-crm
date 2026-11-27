@@ -634,6 +634,12 @@ msgstr "{label} listesi"
 msgid "{label} plan"
 msgstr ""
 
+#. js-lingui-id: oXqEdr
+#. placeholder {0}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "{label} plan · billing starts {0}"
+msgstr ""
+
 #. js-lingui-id: 9vQZL3
 #. placeholder {0}: plan.trialDaysLeft ?? 0
 #: src/growth-os/plan/useGrowthOsPlan.ts
@@ -7258,6 +7264,11 @@ msgstr ""
 msgid "Discovery on {defaultDomain}"
 msgstr "Keşif {defaultDomain} üzerinde"
 
+#. js-lingui-id: 1QfxQT
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Dismiss"
+msgstr ""
+
 #. js-lingui-id: Ldgs6e
 #: src/modules/side-panel/pages/page-layout/components/record-page/SidePanelRecordPageFieldsSettings.tsx
 msgid "Display \"More fields\" button"
@@ -11796,6 +11807,7 @@ msgstr "Bu düğüm başarısız olsa bile sonraki düğümleri yürütmeye deva
 #. js-lingui-id: uHdpk+
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
 msgid "Keep my plan"
 msgstr ""
 
@@ -20215,6 +20227,16 @@ msgstr "Metin panoya kopyalandı"
 msgid "Text Editor"
 msgstr "Metin Düzenleyici"
 
+#. js-lingui-id: NtbV1G
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Thank you. We are activating your plan. This takes a few seconds."
+msgstr ""
+
+#. js-lingui-id: dgVkix
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Thank you. Your plan is active."
+msgstr ""
+
 #. js-lingui-id: +zcP88
 #: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
 msgid "That email and password don’t match. Check both, or reset your password."
@@ -23884,6 +23906,13 @@ msgstr ""
 msgid "You’ve reached your AI usage limit."
 msgstr ""
 
+#. js-lingui-id: JpFMK5
+#. placeholder {0}: GROWTH_OS_PLAN_LABELS[plan.plan]
+#. placeholder {1}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Your {0} plan is set up. Your free trial continues until {1}, then billing starts."
+msgstr ""
+
 #. js-lingui-id: tOPGvO
 #: src/modules/apollo/services/apollo.factory.ts
 msgid "Your app version is out of date. Please refresh the page."
@@ -23983,6 +24012,12 @@ msgstr ""
 #. js-lingui-id: M/Scb8
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 msgid "Your plan ends on {periodEnd}. Email sync, workflows and extra seats stop then. We’ll email you a confirmation."
+msgstr ""
+
+#. js-lingui-id: upvAhb
+#. placeholder {0}: formatGrowthOsDate(plan.currentPeriodEnd)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Your plan is cancelled. You keep full access until {0}, then your workspace becomes read-only after 7 days. Nothing is deleted."
 msgstr ""
 
 #. js-lingui-id: IxG5gy
