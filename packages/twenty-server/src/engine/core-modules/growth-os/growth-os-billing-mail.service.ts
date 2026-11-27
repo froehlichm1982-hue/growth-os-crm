@@ -55,7 +55,7 @@ export class GrowthOsBillingMailService implements OnModuleInit, OnModuleDestroy
     if (getGrowthOsConfig().billingMails !== 'crm') return;
     this.timer = setInterval(
       () => this.sweepDunning().catch((e) => this.logger.warn(`Dunning sweep failed: ${e}`)),
-      60 * 60 * 1000,
+      getGrowthOsConfig().billingSweepSeconds * 1000,
     );
     this.timer.unref();
   }
@@ -76,7 +76,7 @@ export class GrowthOsBillingMailService implements OnModuleInit, OnModuleDestroy
     const sent: GrowthOsMailKind[] = [];
 
     if (after.status === 'past_due' && before?.status !== 'past_due') {
-      if (await this.send(workspaceId, 'payment-failed-0', `pd:${new Date(after.statusChangedAt ?? Date.now()).toISOString()}`)) {
+      if (await this.send(workspaceId, 'payment-failed-0', this.episodeKey(after))) {
         sent.push('payment-failed-0');
       }
     }
@@ -98,6 +98,11 @@ export class GrowthOsBillingMailService implements OnModuleInit, OnModuleDestroy
     return sent;
   }
 
+  // One dunning episode = one grace date (the service's, else the status change).
+  private episodeKey(row: { statusChangedAt: Date | null; graceUntil?: Date | null }) {
+    return `pd:${new Date(row.graceUntil ?? row.statusChangedAt ?? 0).toISOString()}`;
+  }
+
   // Day 3 and day 6 reminders (the service pushes on state changes only).
   async sweepDunning(now = new Date()): Promise<GrowthOsMailKind[]> {
     if (getGrowthOsConfig().billingMails !== 'crm') return [];
@@ -105,7 +110,7 @@ export class GrowthOsBillingMailService implements OnModuleInit, OnModuleDestroy
 
     for (const row of await this.entitlementService.listPastDueWorkspaces()) {
       const ageDays = (now.getTime() - new Date(row.statusChangedAt).getTime()) / DAY_MS;
-      const key = `pd:${new Date(row.statusChangedAt).toISOString()}`;
+      const key = this.episodeKey(row);
 
       for (const day of [3, 6] as const) {
         if (ageDays >= day && ageDays < GROWTH_OS_GRACE_DAYS) {

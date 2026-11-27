@@ -550,10 +550,10 @@ export class GrowthOsEntitlementService implements OnModuleInit {
   }
 
   async listPastDueWorkspaces(): Promise<
-    Array<{ workspaceId: string; statusChangedAt: Date }>
+    Array<{ workspaceId: string; statusChangedAt: Date; graceUntil: Date | null }>
   > {
     return this.coreDataSource.query(
-      `SELECT "workspaceId", "statusChangedAt" FROM ${TABLE}
+      `SELECT "workspaceId", "statusChangedAt", "graceUntil" FROM ${TABLE}
         WHERE "status" = 'past_due' AND "statusChangedAt" IS NOT NULL`,
     );
   }

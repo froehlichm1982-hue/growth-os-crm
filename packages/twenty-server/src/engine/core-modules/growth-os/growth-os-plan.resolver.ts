@@ -1,5 +1,5 @@
 import { UseFilters, UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query } from '@nestjs/graphql';
 
 import { PermissionFlagType } from 'twenty-shared/constants';
 
@@ -117,6 +117,7 @@ export class GrowthOsPlanResolver {
     @Args('plan', { type: () => String, nullable: true }) plan?: string,
     @Args('interval', { type: () => String, nullable: true })
     interval?: string,
+    @Args('seats', { type: () => Int, nullable: true }) seats?: number,
     @Args('returnUrl', { type: () => String, nullable: true })
     returnUrl?: string,
     @Args('reason', { type: () => String, nullable: true })
@@ -142,7 +143,7 @@ export class GrowthOsPlanResolver {
       workspaceId: workspace.id,
       plan: isGrowthOsPlan(plan) ? plan : entitlement.plan,
       interval: interval === 'year' ? 'year' : 'month',
-      seats: Math.max(1, usage.seatsUsed),
+      seats: Math.max(1, Math.min(seats ?? usage.seatsUsed, 500)),
       returnUrl: returnUrl ?? '',
       reason: reason?.slice(0, 80),
     });

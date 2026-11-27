@@ -1,7 +1,7 @@
 import { styled } from '@linaria/react';
 import { useMutation } from '@apollo/client/react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { t } from '@lingui/core/macro';
 import { i18n } from '@lingui/core';
 import { GROWTH_OS_PLAN_COPY } from '~/growth-os/plan/growthOsPlanCopy';
@@ -221,9 +221,23 @@ export const GrowthOsPlanPage = () => {
   const { enqueueErrorSnackBar, enqueueInfoSnackBar } = useSnackBar();
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isReturningFromCheckout = searchParams.get('checkout') === 'success';
+
+  // After checkout the plan flips when the signed billing event lands: poll for a minute.
+  useEffect(() => {
+    if (!isReturningFromCheckout) return;
+    const timer = window.setInterval(() => void refetch(), 3000);
+    const stop = window.setTimeout(() => window.clearInterval(timer), 60000);
+
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(stop);
+    };
+  }, [isReturningFromCheckout, refetch]);
 
   const openSession = async (
-    kind: 'checkout' | 'portal',
+    kind: 'checkout' | 'portal' | 'cancel',
     targetPlan?: GrowthOsPlanName,
   ) => {
     try {
@@ -281,6 +295,36 @@ export const GrowthOsPlanPage = () => {
                   {getGrowthOsStatusLine(plan)}
                 </StyledBadge>
               </StyledCurrentHeader>
+              {isReturningFromCheckout && (
+                <StyledNote tone="info" data-testid="growth-os-checkout-return">
+                  {plan.status === 'active'
+                    ? t`Thank you. Your plan is active.`
+                    : t`Thank you. We are activating your plan. This takes a few seconds.`}
+                  {plan.status === 'active' && (
+                    <button
+                      type="button"
+                      className="gos-linklike"
+                      onClick={() => setSearchParams({}, { replace: true })}
+                    >
+                      {t`Dismiss`}
+                    </button>
+                  )}
+                </StyledNote>
+              )}
+              {plan.cancelAtPeriodEnd && !plan.isReadOnly && (
+                <StyledNote data-testid="growth-os-cancel-scheduled">
+                  {t`Your plan is cancelled. You keep full access until ${formatGrowthOsDate(plan.currentPeriodEnd)}, then your workspace becomes read-only after 7 days. Nothing is deleted.`}{' '}
+                  <button
+                    type="button"
+                    className="gos-linklike"
+                    style={{ minHeight: 44 }}
+                    onClick={() => openSession('cancel')}
+                    data-testid="growth-os-keep-plan"
+                  >
+                    {t`Keep my plan`}
+                  </button>
+                </StyledNote>
+              )}
               {plan.isTrial && (
                 <StyledNote tone="info">
                   {t`You are trying every Growth feature free until ${formatGrowthOsDate(plan.trialEndsAt)}. No card needed. Pick a plan before then to keep email sync, workflows and more than 3 users.`}
@@ -361,7 +405,7 @@ export const GrowthOsPlanPage = () => {
                   onOpenPortal={() => openSession('portal')}
                 />
               )}
-              {plan.status === 'active' && !plan.isTrial && (
+              {plan.status === 'active' && !plan.isTrial && !plan.cancelAtPeriodEnd && (
                 <button
                   type="button"
                   className="gos-linklike"

@@ -15,7 +15,7 @@ import {
 import { buildBillingPortalLink } from 'src/engine/core-modules/growth-os/utils/billing-portal-link.util';
 import { parseGrowthOsEntitlementEvent } from 'src/engine/core-modules/growth-os/utils/parse-growth-os-entitlement-event.util';
 
-const DEFAULT_RETURN_URL = 'https://crm.scalepoint-ventures.com/settings/billing/plans';
+const DEFAULT_RETURN_URL = 'https://crm.scalepoint-ventures.com/settings/billing';
 
 // Return targets are limited to our own hosts (the service enforces it too).
 export const resolveBillingReturnUrl = (value?: string): string => {
@@ -135,7 +135,7 @@ export class GrowthOsBillingService {
           external_user_id: input.workspaceId,
           price_lookup_key: getGrowthOsLookupKey(input.plan, input.interval),
           quantity: input.seats,
-          success_url: `${origin}/welcome`,
+          success_url: `${origin}/settings/billing?checkout=success`,
           cancel_url: returnUrl,
           ...(account?.email ? { email: account.email } : {}),
           locale: account?.locale ?? 'en',

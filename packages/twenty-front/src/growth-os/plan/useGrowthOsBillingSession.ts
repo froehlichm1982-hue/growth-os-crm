@@ -7,7 +7,11 @@ import {
   type GrowthOsPlanName,
 } from '~/growth-os/plan/growthOsPlanGraphql';
 
-export type GrowthOsBillingSessionKind = 'checkout' | 'portal' | 'cancel';
+export type GrowthOsBillingSessionKind =
+  | 'checkout'
+  | 'portal'
+  | 'cancel'
+  | 'payment_method';
 
 // Opens a billing session URL from growth-os-billing (the CRM never talks to
 // Stripe). Returns true when a window was opened.
