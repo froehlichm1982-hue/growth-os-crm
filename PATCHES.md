@@ -33,3 +33,37 @@ Paths are relative to `packages/twenty-front/src/`.
 - `packages/twenty-emails/src/components/kit/KitEmail.tsx` + `gos/emailBaseV3.generated.ts` (synced from `design-system/email/base.html`) + `gos/emailCardsV3.ts`: all 17 system mails plus the deal mail render through the DS v2.8 base. `vite.config.ts` keeps `react-dom/server` external.
 - `twenty-server/.../email/drivers/smtp.driver.ts`: nothing is sent unless `SEND_EMAILS=true` (default off); adds the CID header attachments (`get-growth-os-email-attachments.util.ts`). Transport stays SMTP (Resend SMTP with `EMAIL_SMTP_PASSWORD`/`RESEND_API_KEY` from env). No Resend API call exists in the code.
 - `twenty-server/.../growth-os/utils/billing-portal-link.util.ts`: signed `/portal` link builder (test vector from `billing-service/docs/integration/portal-link.md`).
+
+## Design System v2.9 (PR 3: auth + CRM-scoped CSS)
+
+**CSS rebuild step (never hand-edit `gos.scoped.css`).** The Design System ships one sheet for the CRM, `css/gos.scoped.css` (every rule under `.gos`; `html`/`body`/`:root` map to `.gos`; fonts renamed "GOS Geist*"). It is generated, not written:
+
+```
+bash scripts/growth-os-sync-design-system.sh        # DS=/workspace/projects/growth-os/design-system by default
+```
+
+The script runs `python3 $DS/scripts/build_scoped.py --root .gos --out packages/twenty-front/src/gos/css/gos.scoped.css`, copies the fonts, `crm-theme.mjs`/`tokens.mjs`/`tokens.email.json`, the CRM auth art (`public/images/growth-os/auth/r-col|r-time`, avif + webp) and the CRM mail headers, and writes `src/gos/DS-VERSION`. To move to a new DS release: pull the DS, run the script, run tsgo + vite build + `check-white-label`, re-shoot. `gos.css` and `tokens.css` are never loaded (`generated/tokens.css` is gone).
+
+**How the sheet is mounted (decision for review).**
+- `index.html` carries `class="light gos" data-theme="light" data-m="crm"` on `<html>`, not on a wrapper, because the app's whole theme bridge (`--t-*` in `gosOverrides.ts`) is declared on `html:root` and must resolve `--gos-*`; body portals (modals, dropdowns, snack bars) inherit it for free. `<body class="gos">` is gone.
+- `src/index.tsx` imports `~/gos/css/gos.scoped.css` first, so the app's own (linaria) classes win ties against the DS element resets (`.gos :where(a|button|input)`).
+- `src/index.css` re-asserts the app's root look on `html.gos` (13px, `line-height: normal`, tertiary background).
+- `setGosDataTheme()` keeps `html[data-theme]` / `data-m` in step with ThemeProvider (which only toggles `light`/`dark`).
+- Local legacy classes that clashed with the DS (`gos-icon`, `gos-spinner`, `gos-linklike`, `gos-form-note`, `gos-toast-region`, ...) are renamed `growth-os-*`; `gos-btn-*` / `gos-alert-*` use the DS modifiers (`--secondary`, `--lg`, `--ok`, ...). `growth-os-icon` (createGosIcon) is deliberately not `gos-icon`, so app icons are not resized by the DS 20px rule.
+- Removed: the local PENDING touch / drawer / top-align port in `growth-os-auth.css` and `growth-os-auth-fields.css` (deleted), the local `[data-m]` role block in `growth-os-shell.css`. `growth-os-auth.css` is now glue only (zoom-safe auth height, link-like buttons, spinner, form note, OTP slots).
+- `gos.js` is not loaded. Its drawer behaviour exists as the React hook `growth-os/shell/useGrowthOsDrawerA11y.ts` (patch 11); the DS pattern behaviour for the password toggle, caps-lock hint, meter and rules is implemented in `GrowthOsAuthFields.tsx` with the DS markup and classes.
+
+**Upstream components touched by the auth screens** (all under `packages/twenty-front/src/`):
+
+| # | File | Change |
+|---|---|---|
+| 12 | `modules/auth/sign-in-up/components/SignInUpStandardContent.tsx` | Renders the DS `.head` (h1 + `.sub`) + form; the 2FA challenge renders as a `.gos-auth-status` card; workspace logo/title props unused |
+| 13 | `modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx` | DS-styled challenge: 6-digit input-otp with `aria-label`, `autocomplete=one-time-code`, "Verify", "Back to sign in" returns to the e-mail step (it used to jump to the provisioning step) |
+| 14 | `modules/auth/sign-in-up/components/EmailVerificationSent.tsx`, `pages/auth/PasswordReset.tsx`, `pages/auth/SignInUp.tsx` | DS status layout, copy with the real token lifetimes, CTA "Save and sign in", 2FA title/subtitle; the full-height `StyledBackground` / `ModalContent` wrappers are dropped (the shell owns layout) |
+| 15 | `modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx`, `SignInUpPasswordField.tsx`, `SignInUpWithGoogle.tsx`, `SignInUpWithMicrosoft.tsx` | DS form/field/button classes; forgot-password and mode-switch links on 44px `.gos-tap` targets; the invisible separator between the provider buttons is gone |
+| 16 | `modules/auth/components/StyledOnboardingContentContainer.ts` | `display: grid; gap: 10px; width: 100%` (DS `.gos-stack` rhythm for the upstream onboarding screens) |
+| 17 | `twenty-server/.../twenty-config/config-variables.ts` + `.env.example` | `EMAIL_VERIFICATION_TOKEN_EXPIRES_IN` default `1h` → `30m` so the screen and the mail ("works once, for 30 minutes") are true; `PASSWORD_RESET_TOKEN_EXPIRES_IN` stays `60m` |
+
+Mail: `send-email-verification-link.email.tsx` preheader now says "The link works once, for 30 minutes." (EN source + all `.po`, DE translated).
+
+**Not adopted from the DS auth patterns (product decisions, not omissions).** No magic link and no sign-in code (Markus: not for the CRM). The two-factor pattern's "trust this device for 30 days" and "use a recovery code" are not offered (upstream Twenty has neither). The locked state stays the inline alert with the live countdown, not a separate page. TOTP 2FA stays optional.
