@@ -77,7 +77,7 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="gos-auth-stage">
           <GrowthOsArtPipelineCard style={{ '--x': '2%', '--y': '2%', '--w': '42%', zIndex: 2 } as React.CSSProperties} />
-          <GrowthOsArtTimelineCard style={{ '--x': '34%', '--y': '50%', '--w': '64%', zIndex: 3 } as React.CSSProperties} />
+          <GrowthOsArtTimelineCard style={{ '--x': '39%', '--y': '43%', '--w': '61%', zIndex: 3 } as React.CSSProperties} />
           <span className="demo">{t`Demo data · Nordlicht Analytics`}</span>
         </div>
         <ul className="proof">

@@ -26,7 +26,7 @@ export const GrowthOsArtPipelineCard = ({ style }: { style: React.CSSProperties 
   const { t } = useLingui();
 
   return (
-    <div className="gos-auth-card" data-m="crm" style={style}>
+    <div className="gos-auth-card growth-os-art-card" data-m="crm" style={style}>
       <div className="growth-os-art-ui growth-os-art-ui--col" data-theme="light">
         <div className="growth-os-art-head">
           <span className="growth-os-art-stage">{t`Meeting`}</span>
@@ -44,7 +44,7 @@ export const GrowthOsArtTimelineCard = ({ style }: { style: React.CSSProperties 
   const { t } = useLingui();
 
   return (
-    <div className="gos-auth-card" data-m="crm" style={style}>
+    <div className="gos-auth-card growth-os-art-card" data-m="crm" style={style}>
       <div className="growth-os-art-ui growth-os-art-ui--time" data-theme="light">
         <div className="growth-os-art-date">{t`November 2026`}</div>
         <div className="growth-os-art-event"><span className="growth-os-art-dot" />{t`Task linked`} <u>{t`Send pricing`}</u></div>

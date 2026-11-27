@@ -15,7 +15,11 @@
 /* DS art column needs ~954px at the default 500px stage; on shorter desktop windows shrink the stage
    (the DS --stage variable) so the claim, cards and proof line all stay in view. */
 @media (min-width: 1024px) and (max-height: 959px) {
-  .gos .growth-os-auth .gos-auth-art { --stage: min(100%, 440px); }
+  .gos .growth-os-auth .gos-auth-art { --stage: min(100%, clamp(200px, calc(58dvh - 135px), 440px)); }
+}
+/* narrower art column (1024 to 1300px): the proof line wraps to two rows, so give it more room */
+@media (min-width: 1024px) and (max-width: 1300px) and (max-height: 959px) {
+  .gos .growth-os-auth .gos-auth-art { --stage: min(100%, clamp(200px, calc(58dvh - 190px), 440px)); }
 }
 
 /* Phones: the whole terms row is the 44px target (DS .gos-check is a 24px row); links in it stay inline text. */
@@ -107,12 +111,13 @@
    Light theme on purpose (the DS card surface stays light in dark mode, data-theme="light" on the
    wrapper re-applies the light tokens). Sizes in container units so the card scales with the stage;
    no truncation, no ellipsis, tag clearance in the top padding. */
+.gos .growth-os-art-card { container-type: inline-size; }
+/* cqw resolves against the nearest ancestor container, so the container is the card, not the element that uses the units. */
 .growth-os-art-ui {
   background: var(--gos-surface);
   border-radius: 13px;
   box-sizing: border-box;
   color: var(--gos-text-strong);
-  container-type: inline-size;
   display: grid;
   font-size: 6.6cqw;
   gap: 2.4cqw;
