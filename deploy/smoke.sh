@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only smoke test of a running stack. Usage: ./smoke.sh [https://crm.scalepoint-ventures.com] [https://billing.scalepoint-ventures.com]
+# Read-only smoke test of a running stack. Usage: ./smoke.sh [https://crm.scalepoint-ventures.com] [https://billing.scalepoint-ventures.com] [existing-workspace-subdomain]
 # Automatic checks only; the human journey is human-tests/crm.md.
 set -u
 BASE="${1:-https://crm.scalepoint-ventures.com}"; BILLING="${2:-https://billing.scalepoint-ventures.com}"
@@ -13,7 +13,9 @@ check "front page has no upstream branding"             '! curl -sS -m 15 "$BASE
 check "webhook rejects an unsigned push (401)"           '[ "$(code -X POST -H "content-type: application/json" -d "{}" "$BASE/webhooks/growth-os-billing")" = 401 ]'
 check "webhook rejects a bad signature (401)"            '[ "$(code -X POST -H "content-type: application/json" -H "X-Growth-OS-Signature: t=1,v1=00" -d "{}" "$BASE/webhooks/growth-os-billing")" = 401 ]'
 check "client config: billing/analytics/telemetry off"   'curl -sS -m 15 "$BASE/client-config" 2>/dev/null | grep -qvE "\"isBillingEnabled\":true|\"analyticsEnabled\":true|\"telemetry\":true"'
-check "wildcard DNS + TLS for a workspace host"          '[ "$(code "https://smoke-$RANDOM.${BASE#https://}/healthz")" != 000 ]'
+check "unknown workspace host gets NO certificate (tls-ask refuses)" '[ "$(code "https://smoke-$RANDOM.${BASE#https://}/healthz")" = 000 ]'
+[ -n "${3:-}" ] && check "existing workspace host ($3) serves TLS"  '[ "$(code "https://$3.${BASE#https://}/healthz")" = 200 ]'
+check "tls-ask is not reachable through the public host"   '[ "$(code "$BASE/internal/tls-ask?domain=${BASE#https://}")" != 200 ]'
 check "plain http redirects to https"                    '[ "$(code "http://${BASE#https://}/")" = 301 ] || [ "$(code "http://${BASE#https://}/")" = 308 ]'
 check "billing service reachable, test/live as expected" 'curl -sS -m 15 "$BILLING/healthz" | grep -q "\"ok\":true"'
 echo "smoke: $fails FAIL"; [ "$fails" -eq 0 ]
