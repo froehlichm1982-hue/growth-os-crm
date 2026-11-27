@@ -79,6 +79,8 @@ export class GrowthOsPlanResolver {
   async growthOsPlan(
     @AuthWorkspace() workspace: WorkspaceEntity,
   ): Promise<GrowthOsPlanDTO> {
+    this.growthOsBillingService.ensureAccountSoon(workspace.id);
+
     const [entitlement, usage] = await Promise.all([
       this.growthOsEntitlementService.getEntitlement(workspace.id),
       this.growthOsEntitlementService.getUsage(workspace.id),

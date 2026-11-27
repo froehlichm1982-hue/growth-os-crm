@@ -103,6 +103,20 @@ export class GrowthOsBillingService {
     return account;
   }
 
+  private readonly lastEnsureAttempt = new Map<string, number>();
+
+  // Self-healing: a workspace without a billing account (the service was down at signup, or the
+  // workspace is older than the billing hook) gets one when its plan page is read. Fire and
+  // forget, at most one attempt per workspace every 5 minutes; the next read shows the result.
+  ensureAccountSoon(workspaceId: string) {
+    if (!this.client.isLive()) return;
+    const last = this.lastEnsureAttempt.get(workspaceId) ?? 0;
+
+    if (Date.now() - last < 5 * 60_000) return;
+    this.lastEnsureAttempt.set(workspaceId, Date.now());
+    void this.ensureAccountBestEffort(workspaceId);
+  }
+
   // Never throws: signup must not depend on the billing service being up.
   ensureAccountBestEffort(workspaceId: string) {
     return this.ensureAccount(workspaceId).catch((error) => {
