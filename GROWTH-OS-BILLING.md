@@ -70,14 +70,17 @@ The webhook endpoint is the same in both modes.
 Workspace activation (`WorkspaceService.activateWorkspace`) calls `POST /v1/accounts`
 `{product:"crm", external_user_id:<workspace uuid>, email, name, locale, trial:true}`:
 a **14-day Growth trial without a card**. The call is idempotent in the service (one
-account per product + workspace id). The answer `{account_id, organisation_id, version, data}`
+account per product + workspace id): a repeat call returns the existing account with **200** (a new one is 201),
+updates email/name only if they are sent, and **never restarts the trial** even with `trial:true`. The CRM therefore
+treats any 2xx with an `account_id` as success, stores the answer as it is (the trial end is the service's), and calls
+the endpoint once per workspace (a known `growthOsBillingAccount` row short-circuits it). The answer `{account_id, organisation_id, version, data}`
 is stored in `core."growthOsBillingAccount"`, and `data` is applied as the first entitlement.
 It is best effort: signup never fails because billing is down, and the account is
 created lazily on the first checkout/portal request (`ensureAccount`).
 
 ## Links (checkout, portal, cancel, payment method)
 
-* **Checkout** – `POST /v1/checkout-sessions` `{product, external_user_id, price_lookup_key: crm_<tier>_<m|y>, quantity, success_url: <workspace host>/settings/billing?checkout=success, cancel_url, email, locale}` → `{url, mode}`. `mode=noop` returns the success URL.
+* **Checkout** – `POST /v1/checkout-sessions` `{product, external_user_id, price_lookup_key: crm_<tier>_<m|y>, quantity, success_url: <workspace host>/settings/billing?checkout=success, cancel_url, email, locale}` → `{url, mode}`. The CRM **sends no `mode`**: the service always builds a subscription session and keeps the remaining no-card trial days when more than about 2 days are left. The answer's `mode` is `checkout` (hosted payment page), `confirm` (the service's plan-change confirm page, the org already has a subscription) or `noop` (nothing to pay, `url` is our `success_url`). **The CRM redirects to `url` in all three cases.** `409 interval_conflict` (interval switched inside a combined plan) shows "contact support": EN "The billing interval can’t be changed here … contact support@scalepoint-ventures.com", DE (du) "Das Abrechnungsintervall lässt sich hier nicht ändern … Schreib uns an support@scalepoint-ventures.com" (language of the billing account). Any other error: "Billing is unavailable right now".
 * **Manage billing** – only the signed link `GET {billing}/portal?a=<account_id>&m=crm&exp=<now+7d>&sig=<hex>` with `sig = HMAC_SHA256(secret, "portal.crm.<account_id>.<exp>")` (`portal-link.md`; test vector in the unit tests). Built on the server per request; never stored.
 * **Cancel** – two steps in the CRM (what happens + reason, then confirm), then `POST /v1/portal-sessions {flow:"cancel", reason}` opens the service's confirmation page. Nothing changes until the service pushes `cancelAtPeriodEnd:true`. "Keep my plan" uses the same call (the service returns its undo page).
 * **Payment method** – `POST /v1/portal-sessions {flow:"payment_method"}`.
@@ -139,7 +142,8 @@ Read-only is **not** flipped by a job: it is derived when entitlements are read,
 
 | Service state | Effective plan | Read-only |
 |---|---|---|
-| `trialing` | Growth | after trial end + grace |
+| `trialing` (no card) | Growth | after trial end + grace |
+| `trialing` + `lookupKey` (plan bought, trial days kept) | the bought plan, **bought seats apply**, still shown as a trial ("billing starts <trial end>") | – (the service pushes `active` at the first payment) |
 | `active` (also with `cancelAtPeriodEnd`) | paid plan until period end | – |
 | `past_due` | paid plan | when the service sends `readOnly:true` (after 7 days) |
 | `canceled` (period ended) | Starter limits | when the service sends `readOnly:true` (7 days later) |

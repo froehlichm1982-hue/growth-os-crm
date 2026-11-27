@@ -291,8 +291,10 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
       const e = Number(exp);
       let status = 'ok';
 
-      if (!sig || a.length > 80 || !Number.isFinite(e) || !safeEq(expected, sig.toLowerCase()) || e > now() + 14 * DAY) status = 'invalid';
-      else if (e < now()) status = 'expired';
+      const real = Math.floor(Date.now() / 1000); // link expiry runs on the real clock, like the service
+
+      if (!sig || a.length > 80 || !Number.isFinite(e) || !safeEq(expected, sig.toLowerCase()) || e > real + 14 * DAY) status = 'invalid';
+      else if (e < real) status = 'expired';
       record({ event: 'portal', status, account: a, module: mod });
       const headers = { 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'X-Frame-Options': 'DENY' };
 
