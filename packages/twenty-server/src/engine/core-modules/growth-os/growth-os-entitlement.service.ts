@@ -27,7 +27,6 @@ import {
 
 const TABLE = 'core."growthOsPlanEntitlement"';
 const ACCOUNT_TABLE = 'core."growthOsBillingAccount"';
-const MAIL_LOG_TABLE = 'core."growthOsBillingMailLog"';
 const CACHE_TTL_MS = 5_000;
 
 export type GrowthOsEntitlementUpdate = {
@@ -129,14 +128,6 @@ export class GrowthOsEntitlementService implements OnModuleInit {
         "name" varchar(255) NULL,
         "locale" varchar(8) NOT NULL DEFAULT 'en',
         "createdAt" timestamptz NOT NULL DEFAULT now()
-      )`);
-    await this.coreDataSource.query(`
-      CREATE TABLE IF NOT EXISTS ${MAIL_LOG_TABLE} (
-        "workspaceId" uuid NOT NULL REFERENCES core."workspace"("id") ON DELETE CASCADE,
-        "kind" varchar(40) NOT NULL,
-        "dedupeKey" varchar(80) NOT NULL,
-        "sentAt" timestamptz NOT NULL DEFAULT now(),
-        PRIMARY KEY ("workspaceId", "kind", "dedupeKey")
       )`);
   }
 
@@ -460,7 +451,7 @@ export class GrowthOsEntitlementService implements OnModuleInit {
     return 'applied';
   }
 
-  // ---- billing account (growth-os-billing) and mail log ---------------------
+  // ---- billing account (growth-os-billing) -----------------------------------
 
   async getBillingAccount(workspaceId: string): Promise<{
     workspaceId: string;
@@ -503,7 +494,7 @@ export class GrowthOsEntitlementService implements OnModuleInit {
     );
   }
 
-  // First owner of the workspace: the billing contact for the account and its mails.
+  // First owner of the workspace: the billing contact for the account (the billing service sends all billing mail).
   async getBillingContact(workspaceId: string): Promise<{
     email: string;
     name: string;
@@ -529,32 +520,5 @@ export class GrowthOsEntitlementService implements OnModuleInit {
       locale: String(row.locale ?? 'en').startsWith('de') ? 'de' : 'en',
       workspaceName: row.displayName ?? '',
     };
-  }
-
-  // True only for the caller that claimed the slot: each mail goes out once.
-  async claimBillingMail(workspaceId: string, kind: string, dedupeKey: string) {
-    const rows = await this.coreDataSource.query(
-      `INSERT INTO ${MAIL_LOG_TABLE} ("workspaceId", "kind", "dedupeKey")
-       VALUES ($1,$2,$3) ON CONFLICT DO NOTHING RETURNING 1`,
-      [workspaceId, kind, dedupeKey.slice(0, 80)],
-    );
-
-    return rows.length > 0;
-  }
-
-  async releaseBillingMail(workspaceId: string, kind: string, dedupeKey: string) {
-    await this.coreDataSource.query(
-      `DELETE FROM ${MAIL_LOG_TABLE} WHERE "workspaceId" = $1 AND "kind" = $2 AND "dedupeKey" = $3`,
-      [workspaceId, kind, dedupeKey.slice(0, 80)],
-    );
-  }
-
-  async listPastDueWorkspaces(): Promise<
-    Array<{ workspaceId: string; statusChangedAt: Date; graceUntil: Date | null }>
-  > {
-    return this.coreDataSource.query(
-      `SELECT "workspaceId", "statusChangedAt", "graceUntil" FROM ${TABLE}
-        WHERE "status" = 'past_due' AND "statusChangedAt" IS NOT NULL`,
-    );
   }
 }

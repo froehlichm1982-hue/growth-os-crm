@@ -14,7 +14,6 @@ import { type Request } from 'express';
 
 import { getGrowthOsConfig } from 'src/engine/core-modules/growth-os/growth-os.config';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
-import { GrowthOsBillingMailService } from 'src/engine/core-modules/growth-os/growth-os-billing-mail.service';
 import { parseGrowthOsEntitlementEvent } from 'src/engine/core-modules/growth-os/utils/parse-growth-os-entitlement-event.util';
 import {
   pickGrowthOsSignatureHeader,
@@ -28,7 +27,6 @@ import { PublicEndpointGuard } from 'src/engine/guards/public-endpoint.guard';
 export class GrowthOsBillingWebhookController {
   constructor(
     private readonly growthOsEntitlementService: GrowthOsEntitlementService,
-    private readonly growthOsBillingMailService: GrowthOsBillingMailService,
   ) {}
 
   @Post('growth-os-billing')
@@ -62,19 +60,13 @@ export class GrowthOsBillingWebhookController {
       throw new NotFoundException('Unknown workspace');
     }
 
-    const before = await this.growthOsEntitlementService.getStored(
-      parsed.update.workspaceId,
-    );
+    // Routed by the workspace id inside the event (data.workspaceId = the id the
+    // account was created with), never by the request host: the service has ONE
+    // webhook URL for all workspaces. The CRM sends no billing mail: the billing
+    // service owns payment-failed, cancellation, invoice and receipt mail.
     const result = await this.growthOsEntitlementService.applyUpdate(
       parsed.update,
     );
-
-    if (result === 'applied') {
-      // Billing mails never block or fail the push (retries would double-send otherwise).
-      void this.growthOsBillingMailService
-        .onEntitlementApplied(parsed.update.workspaceId, before)
-        .catch(() => undefined);
-    }
 
     const entitlement = await this.growthOsEntitlementService.getEntitlement(
       parsed.update.workspaceId,

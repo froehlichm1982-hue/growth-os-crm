@@ -147,7 +147,7 @@ const ensureAccount = (ext: string, b: Record<string, any>) => {
 const allowedReturn = (value?: string) => {
   if (!value) return null;
   const u = new URL(value);
-  const own = u.hostname === 'scalepoint-ventures.com' || u.hostname.endsWith('.scalepoint-ventures.com');
+  const own = u.hostname === 'crm.scalepoint-ventures.com' || u.hostname.endsWith('.crm.scalepoint-ventures.com');
   const loop = ['127.0.0.1', 'localhost'].includes(u.hostname);
 
   if ((u.protocol === 'https:' && own) || loop) return value;

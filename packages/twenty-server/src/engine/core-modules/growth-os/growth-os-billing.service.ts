@@ -15,14 +15,16 @@ import {
 import { buildBillingPortalLink } from 'src/engine/core-modules/growth-os/utils/billing-portal-link.util';
 import { parseGrowthOsEntitlementEvent } from 'src/engine/core-modules/growth-os/utils/parse-growth-os-entitlement-event.util';
 
-const DEFAULT_RETURN_URL = 'https://crm.scalepoint-ventures.com/settings/billing';
+const APP_HOST = 'crm.scalepoint-ventures.com';
+const DEFAULT_RETURN_URL = `https://${APP_HOST}/settings/billing`;
 
-// Return targets are limited to our own hosts (the service enforces it too).
+// Return targets are limited to the CRM host and its workspace subdomains
+// (crm.scalepoint-ventures.com, <workspace>.crm.scalepoint-ventures.com); the service checks it too.
 export const resolveBillingReturnUrl = (value?: string): string => {
   try {
     const url = new URL(value ?? '');
     const host = url.hostname;
-    const own = host === 'scalepoint-ventures.com' || host.endsWith('.scalepoint-ventures.com');
+    const own = host === APP_HOST || host.endsWith(`.${APP_HOST}`);
     const loopback = ['localhost', '127.0.0.1'].includes(host);
 
     if ((url.protocol === 'https:' && own) || (url.protocol === 'http:' && loopback)) {

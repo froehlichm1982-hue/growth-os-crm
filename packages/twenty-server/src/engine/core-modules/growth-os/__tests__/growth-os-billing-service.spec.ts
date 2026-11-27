@@ -238,11 +238,15 @@ describe('transport and return-url safety', () => {
     expect(() => assertSafeBillingBaseUrl('http://billing.scalepoint-ventures.com')).toThrow();
   });
 
-  it('limits return urls to our own hosts', () => {
+  it('limits return urls to the CRM host and its workspace subdomains', () => {
+    const fallback = 'https://crm.scalepoint-ventures.com/settings/billing';
+
     expect(resolveBillingReturnUrl('https://spv.crm.scalepoint-ventures.com/settings/billing')).toBe('https://spv.crm.scalepoint-ventures.com/settings/billing');
-    expect(resolveBillingReturnUrl('https://evil.example.com/x')).toBe('https://crm.scalepoint-ventures.com/settings/billing');
-    expect(resolveBillingReturnUrl('https://scalepoint-ventures.com.evil.com/')).toBe('https://crm.scalepoint-ventures.com/settings/billing');
-    expect(resolveBillingReturnUrl('javascript:alert(1)')).toBe('https://crm.scalepoint-ventures.com/settings/billing');
-    expect(resolveBillingReturnUrl(undefined)).toBe('https://crm.scalepoint-ventures.com/settings/billing');
+    expect(resolveBillingReturnUrl('https://crm.scalepoint-ventures.com/x')).toBe('https://crm.scalepoint-ventures.com/x');
+    expect(resolveBillingReturnUrl('https://scalepoint-ventures.com/x')).toBe(fallback);
+    expect(resolveBillingReturnUrl('https://evil.example.com/x')).toBe(fallback);
+    expect(resolveBillingReturnUrl('https://crm.scalepoint-ventures.com.evil.com/')).toBe(fallback);
+    expect(resolveBillingReturnUrl('javascript:alert(1)')).toBe(fallback);
+    expect(resolveBillingReturnUrl(undefined)).toBe(fallback);
   });
 });

@@ -1,5 +1,7 @@
 import { createHmac } from 'crypto';
 
+import { readGrowthOsBillingSecret } from 'src/engine/core-modules/growth-os/growth-os.config';
+
 // Signed "Manage billing" link for module mails
 // (billing-service/docs/integration/portal-link.md). Server side only: the
 // secret never leaves the server, and the link goes only to the account's own
@@ -18,10 +20,7 @@ export const buildBillingPortalLink = (
   } = {},
 ): string => {
   const secret =
-    options.secret ??
-    process.env.GROWTH_OS_BILLING_WEBHOOK_SECRET ??
-    process.env.GROWTH_OS_BILLING_SECRET ??
-    '';
+    options.secret ?? readGrowthOsBillingSecret() ?? '';
 
   if (secret === '') {
     throw new Error('The billing module secret is not set');
