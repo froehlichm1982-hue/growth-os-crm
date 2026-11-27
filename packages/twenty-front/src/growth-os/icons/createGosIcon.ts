@@ -31,7 +31,9 @@ export const createGosIcon = (lucideName: string, displayName: string) => {
           strokeWidth: GOS_ICON_STROKE,
           strokeLinecap: 'round',
           strokeLinejoin: 'round',
-          className: ['gos-icon', `gos-icon-${lucideName}`, className].filter(Boolean).join(' '),
+          // `growth-os-icon`, not `gos-icon`: the scoped DS sheet sizes `.gos .gos-icon` (20px) and would override the app's own
+          // icon sizes. DS markup (auth screens) opts in with className="gos-icon [sm|lg]".
+          className: ['growth-os-icon', `growth-os-icon-${lucideName}`, className].filter(Boolean).join(' '),
           'aria-hidden': title ? undefined : true,
           ...rest,
         },

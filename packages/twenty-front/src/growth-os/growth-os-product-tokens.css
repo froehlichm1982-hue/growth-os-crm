@@ -1,6 +1,6 @@
 /* Growth OS CRM: v1 kit token names → Growth OS Design System v2 roles.
    The kit components from product-standard-v1 keep their --c-* / --fs-* names;
-   every value now comes from ~/gos/generated/tokens.css (semantic roles only,
+   every value now comes from the DS tokens (~/gos/css/gos.scoped.css, .gos on <html>) (semantic roles only,
    no hex). Light/dark switch with html[data-theme] (set from the user's colour
    scheme). Re-run scripts/growth-os-sync-design-system.sh to update the DS. */
 :root,

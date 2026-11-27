@@ -109,7 +109,7 @@ const GOS_BRIDGE: Record<string, string> = {
   '--t-border-color-danger': 'var(--gos-danger-line)',
   '--t-code-font-family': 'var(--gos-font-mono)',
 
-  // Elevation and radius (tokens.css): card xs, popover md, modal xl.
+  // Elevation and radius (DS tokens): card xs, popover md, modal xl.
   '--t-box-shadow-light': 'var(--gos-shadow-sm)',
   '--t-box-shadow-strong': 'var(--gos-shadow-md)',
   '--t-box-shadow-super-heavy': 'var(--gos-shadow-xl)',

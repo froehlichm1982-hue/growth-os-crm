@@ -1,5 +1,5 @@
 /* Growth OS CRM app shell · Design System v2 "Polar Light Day".
-   Values only (tokens from ~/gos/generated/tokens.css, semantic roles, no hex).
+   Values only (DS tokens from ~/gos/css/gos.scoped.css, semantic roles, no hex).
    Keyed on stable hooks (data attributes, upstream global class names and the
    growth-os-* class names we add), so upstream merges stay cheap.
    Reference: design-system/docs/index.html#c-shell, patterns/app-dashboard.html. */
@@ -27,12 +27,6 @@ html:root body {
 .growth-os-num {
   font-variant-numeric: lining-nums tabular-nums;
 }
-
-/* Module colour roles (css/gos.css [data-m]): CRM on the shell, any module on a tile. */
-[data-m='outreach'] { --m-fill: var(--gos-outreach-fill); --m-ink: var(--gos-outreach-ink); --m-soft: var(--gos-outreach-soft); --m-tile: var(--gos-outreach-tile); --m-glyph: var(--gos-outreach-glyph); }
-[data-m='connect'] { --m-fill: var(--gos-connect-fill); --m-ink: var(--gos-connect-ink); --m-soft: var(--gos-connect-soft); --m-tile: var(--gos-connect-tile); --m-glyph: var(--gos-connect-glyph); }
-[data-m='booking'] { --m-fill: var(--gos-booking-fill); --m-ink: var(--gos-booking-ink); --m-soft: var(--gos-booking-soft); --m-tile: var(--gos-booking-tile); --m-glyph: var(--gos-booking-glyph); }
-[data-m='crm'] { --m-fill: var(--gos-crm-fill); --m-ink: var(--gos-crm-ink); --m-soft: var(--gos-crm-soft); --m-tile: var(--gos-crm-tile); --m-glyph: var(--gos-crm-glyph); }
 
 /* 2. Sidebar: 232px on bg-sunken (default width in NavigationDrawerConstraints). */
 
