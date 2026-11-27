@@ -18,6 +18,8 @@ const makeService = (request: jest.Mock, account: Record<string, unknown> | null
     getBillingContact: jest.fn(async () => ({ email: 'owner@example.test', name: 'Owner', workspaceName: 'SPV', locale: 'de' })),
     saveBillingAccount: jest.fn(async () => undefined),
     applyUpdate: jest.fn(async () => undefined),
+    getSyncedAt: jest.fn(async () => null as Date | null),
+    markSynced: jest.fn(async () => undefined),
   };
 
   return { service: new GrowthOsBillingService(client, entitlements as unknown as GrowthOsEntitlementService), entitlements };
@@ -168,6 +170,74 @@ describe('a workspace without a billing account gets one when the plan page is r
     const service = new GrowthOsBillingService(client, {} as GrowthOsEntitlementService);
 
     service.ensureAccountSoon(WS);
+    expect(request).not.toHaveBeenCalled();
+  });
+});
+
+describe('reconcile: GET /v1/entitlements when the plan page opens and the stored state is old', () => {
+  const state = { version: 9, data: { workspaceId: WS, plan: 'growth', status: 'active', interval: 'month', seats: 4, lookupKey: 'crm_growth_m' } };
+  const flush = async () => { for (let i = 0; i < 30; i += 1) await Promise.resolve(); };
+
+  it('reads the service state once and applies it (same version ordering as a push)', async () => {
+    const request = jest.fn(async () => state);
+    const { service, entitlements } = makeService(request);
+
+    entitlements.getSyncedAt.mockResolvedValue(new Date(Date.now() - 11 * 60_000));
+    service.reconcileSoon(WS);
+    await flush();
+    expect(request).toHaveBeenCalledWith('GET', '/v1/entitlements', { product: 'crm', external_user_id: WS });
+    const applied = (entitlements.applyUpdate.mock.calls[0] as unknown[])[0] as { version: number; status: string; seats: number };
+
+    expect(applied).toMatchObject({ version: 9, status: 'active', seats: 4 });
+    expect(entitlements.markSynced).toHaveBeenCalledWith(WS);
+  });
+
+  it('does nothing while the stored state is younger than 10 minutes', async () => {
+    const request = jest.fn(async () => state);
+    const { service, entitlements } = makeService(request);
+
+    entitlements.getSyncedAt.mockResolvedValue(new Date(Date.now() - 9 * 60_000));
+    service.reconcileSoon(WS);
+    await flush();
+    expect(request).not.toHaveBeenCalled();
+  });
+
+  it('at most one read per workspace per window, even when the page is opened again and again', async () => {
+    const request = jest.fn(async () => state);
+    const { service, entitlements } = makeService(request);
+
+    entitlements.getSyncedAt.mockResolvedValue(null);
+    for (let i = 0; i < 5; i += 1) service.reconcileSoon(WS);
+    service.reconcileSoon('another-workspace');
+    await flush();
+    expect(request).toHaveBeenCalledTimes(2); // one per workspace
+  });
+
+  it('a workspace never synced (no stored state) is reconciled; no billing account means no read', async () => {
+    const withAccount = makeService(jest.fn(async () => state));
+
+    withAccount.entitlements.getSyncedAt.mockResolvedValue(null);
+    expect(await withAccount.service.reconcile(WS)).toBe('reconciled');
+    const noAccount = makeService(jest.fn(), null);
+
+    expect(await noAccount.service.reconcile(WS)).toBe('no-account');
+  });
+
+  it('an error from the service never throws out of the page read and leaves the state alone', async () => {
+    const { service, entitlements } = makeService(jest.fn(async () => { throw new GrowthOsBillingHttpError(404, 'unknown_account', '/v1/entitlements'); }));
+
+    expect(() => service.reconcileSoon(WS)).not.toThrow();
+    await flush();
+    expect(entitlements.applyUpdate).not.toHaveBeenCalled();
+    expect(entitlements.markSynced).not.toHaveBeenCalled();
+  });
+
+  it('does nothing in mock mode', () => {
+    const request = jest.fn();
+    const client = { isLive: () => false, request } as unknown as GrowthOsBillingClient;
+    const service = new GrowthOsBillingService(client, {} as GrowthOsEntitlementService);
+
+    service.reconcileSoon(WS);
     expect(request).not.toHaveBeenCalled();
   });
 });

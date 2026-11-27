@@ -118,7 +118,8 @@ export class GrowthOsEntitlementService implements OnModuleInit {
         ADD COLUMN IF NOT EXISTS "readOnly" boolean NULL,
         ADD COLUMN IF NOT EXISTS "graceUntil" timestamptz NULL,
         ADD COLUMN IF NOT EXISTS "cancelAtPeriodEnd" boolean NULL,
-        ADD COLUMN IF NOT EXISTS "lookupKey" varchar(64) NULL`);
+        ADD COLUMN IF NOT EXISTS "lookupKey" varchar(64) NULL,
+        ADD COLUMN IF NOT EXISTS "syncedAt" timestamptz NULL`);
     await this.coreDataSource.query(`
       CREATE TABLE IF NOT EXISTS ${ACCOUNT_TABLE} (
         "workspaceId" uuid PRIMARY KEY REFERENCES core."workspace"("id") ON DELETE CASCADE,
@@ -365,6 +366,24 @@ export class GrowthOsEntitlementService implements OnModuleInit {
   }
 
   // ---- webhook writes ------------------------------------------------------
+
+  // When the stored state was last confirmed by the service: the later of the last applied
+  // push and the last successful reconcile (GET /v1/entitlements). Null = never.
+  async getSyncedAt(workspaceId: string): Promise<Date | null> {
+    const rows = await this.coreDataSource.query(
+      `SELECT GREATEST("updatedAt", "syncedAt") AS "at" FROM ${TABLE} WHERE "workspaceId" = $1`,
+      [workspaceId],
+    );
+
+    return rows[0]?.at ? new Date(rows[0].at) : null;
+  }
+
+  async markSynced(workspaceId: string) {
+    await this.coreDataSource.query(
+      `UPDATE ${TABLE} SET "syncedAt" = now() WHERE "workspaceId" = $1`,
+      [workspaceId],
+    );
+  }
 
   async workspaceExists(workspaceId: string) {
     const rows = await this.coreDataSource.query(

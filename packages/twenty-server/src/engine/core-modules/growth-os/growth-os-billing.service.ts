@@ -21,6 +21,8 @@ export const INTERVAL_CONFLICT_MESSAGE_EN =
 export const INTERVAL_CONFLICT_MESSAGE_DE =
   'Das Abrechnungsintervall lässt sich hier nicht ändern, weil dein Tarif mit einem weiteren Growth-OS-Produkt kombiniert ist. Schreib uns an support@scalepoint-ventures.com, dann stellen wir es für dich um.';
 
+const RECONCILE_WINDOW_MS = 10 * 60_000;
+
 const APP_HOST = 'crm.scalepoint-ventures.com';
 const DEFAULT_RETURN_URL = `https://${APP_HOST}/settings/billing`;
 
@@ -87,20 +89,64 @@ export class GrowthOsBillingService {
 
     await this.entitlementService.saveBillingAccount(account);
 
-    if (result.data) {
-      const raw = JSON.stringify({
-        id: `evt_gos_${account.accountId}_${result.version ?? 0}`,
-        type: 'entitlement.updated',
-        version: result.version,
-        createdAt: new Date().toISOString(),
-        data: result.data,
-      });
-      const parsed = parseGrowthOsEntitlementEvent(raw);
-
-      if (parsed.ok) await this.entitlementService.applyUpdate(parsed.update);
-    }
+    await this.applyServiceState(account.accountId, result);
 
     return account;
+  }
+
+  // The service's answer (`{version, data}`) is the same state a push carries: apply it with the
+  // same version ordering, so an older answer never overwrites a newer push.
+  private async applyServiceState(
+    accountId: string,
+    result: { version?: number; data?: unknown } | undefined,
+  ) {
+    if (!result?.data) return;
+    const raw = JSON.stringify({
+      id: `evt_gos_${accountId}_${result.version ?? 0}`,
+      type: 'entitlement.updated',
+      version: result.version,
+      createdAt: new Date().toISOString(),
+      data: result.data,
+    });
+    const parsed = parseGrowthOsEntitlementEvent(raw);
+
+    if (parsed.ok) await this.entitlementService.applyUpdate(parsed.update);
+  }
+
+  private readonly lastReconcile = new Map<string, number>();
+
+  // Reconcile: pushes are the main channel, this catches a push that was lost (the outbox gave
+  // up, the CRM was down for more than a day). When the plan page opens and the stored state is
+  // older than 10 minutes, read GET /v1/entitlements once. Fire and forget, at most one read per
+  // workspace per window; the next page read shows the result.
+  reconcileSoon(workspaceId: string) {
+    if (!this.client.isLive()) return;
+    const last = this.lastReconcile.get(workspaceId) ?? 0;
+
+    if (Date.now() - last < RECONCILE_WINDOW_MS) return;
+    this.lastReconcile.set(workspaceId, Date.now());
+    void this.reconcile(workspaceId).catch((error) => {
+      this.logger.warn(`Reconcile failed for ${workspaceId}: ${error}`);
+    });
+  }
+
+  async reconcile(workspaceId: string) {
+    const syncedAt = await this.entitlementService.getSyncedAt(workspaceId);
+
+    if (syncedAt && Date.now() - syncedAt.getTime() < RECONCILE_WINDOW_MS) return 'fresh';
+    const account = await this.entitlementService.getBillingAccount(workspaceId);
+
+    if (!account) return 'no-account'; // ensureAccountSoon creates it
+
+    const result = await this.client.request('GET', '/v1/entitlements', {
+      product: 'crm',
+      external_user_id: workspaceId,
+    });
+
+    await this.applyServiceState(account.accountId, result);
+    await this.entitlementService.markSynced(workspaceId);
+
+    return 'reconciled';
   }
 
   private readonly lastEnsureAttempt = new Map<string, number>();

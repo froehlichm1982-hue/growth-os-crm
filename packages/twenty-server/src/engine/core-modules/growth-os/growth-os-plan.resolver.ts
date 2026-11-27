@@ -80,6 +80,7 @@ export class GrowthOsPlanResolver {
     @AuthWorkspace() workspace: WorkspaceEntity,
   ): Promise<GrowthOsPlanDTO> {
     this.growthOsBillingService.ensureAccountSoon(workspace.id);
+    this.growthOsBillingService.reconcileSoon(workspace.id);
 
     const [entitlement, usage] = await Promise.all([
       this.growthOsEntitlementService.getEntitlement(workspace.id),
