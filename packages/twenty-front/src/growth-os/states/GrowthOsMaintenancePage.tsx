@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { useLingui } from '@lingui/react/macro';
 
 import { GROWTH_OS_BRAND } from '~/growth-os/brand';
@@ -5,7 +6,7 @@ import { GrowthOsSystemPage } from '~/growth-os/states/GrowthOsSystemPage';
 
 // Growth OS CRM: shown when the back end cannot be reached (maintenance or
 // outage). No router here: this renders before the app shell.
-export const GrowthOsMaintenancePage = () => {
+const GrowthOsMaintenancePageInner = () => {
   const { t } = useLingui();
 
   return (
@@ -17,10 +18,10 @@ export const GrowthOsMaintenancePage = () => {
       lead={t`Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own.`}
       actions={
         <>
-          <button type="button" className="gos-btn gos-btn-primary" onClick={() => window.location.reload()}>
+          <button type="button" className="gos-btn gos-btn--primary" onClick={() => window.location.reload()}>
             {t`Try again`}
           </button>
-          <a className="gos-btn gos-btn-secondary" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>
+          <a className="gos-btn gos-btn--secondary" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>
             {t`Contact support`}
           </a>
         </>
@@ -28,3 +29,5 @@ export const GrowthOsMaintenancePage = () => {
     />
   );
 };
+
+export const GrowthOsMaintenancePage = withGosScope(GrowthOsMaintenancePageInner);

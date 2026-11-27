@@ -6,7 +6,7 @@ export const GrowthOsAuthDivider = () => {
 
   return (
     <div className="gos-divider" role="separator">
-      {t`or`}
+      {t`or with email`}
     </div>
   );
 };

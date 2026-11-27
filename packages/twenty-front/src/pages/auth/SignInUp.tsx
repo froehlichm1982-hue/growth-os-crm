@@ -37,7 +37,6 @@ import { SignInUpTwoFactorAuthenticationProvision } from '@/auth/sign-in-up/comp
 import { SignInUpTOTPVerification } from '@/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification';
 import { useWorkspaceFromInviteHash } from '@/auth/sign-in-up/hooks/useWorkspaceFromInviteHash';
 import { clientConfigApiStatusState } from '@/client-config/states/clientConfigApiStatusState';
-import { ModalContent } from 'twenty-ui/surfaces';
 import { useLingui } from '@lingui/react/macro';
 import { useSearchParams } from 'react-router-dom';
 import { isDefined } from 'twenty-shared/utils';
@@ -51,15 +50,6 @@ const StyledLoaderContainer = styled.div`
   justify-content: center;
   margin-bottom: ${themeCssVariables.spacing[8]};
   margin-top: ${themeCssVariables.spacing[8]};
-  width: 100%;
-`;
-
-const StyledBackground = styled.div`
-  background: ${themeCssVariables.background.secondary};
-  display: flex;
-  flex-direction: column;
-  height: calc(100dvh / var(--t-zoom, 1));
-  overflow-y: auto;
   width: 100%;
 `;
 
@@ -113,7 +103,7 @@ export const SignInUp = () => {
   const title = useMemo(() => {
     if (isDefined(workspaceInviteHash)) {
       const workspaceName = workspaceFromInviteHash?.displayName ?? '';
-      return t`Join ${workspaceName} team`;
+      return t`Join ${workspaceName}`;
     }
 
     if (signInUpStep === SignInUpStep.WorkspaceSelection) {
@@ -125,11 +115,11 @@ export const SignInUp = () => {
     }
 
     if (signInUpStep === SignInUpStep.TwoFactorAuthenticationProvision) {
-      return t`Setup your 2FA`;
+      return t`Set up two-step sign-in`;
     }
 
     if (signInUpStep === SignInUpStep.TwoFactorAuthenticationVerification) {
-      return t`Verify code from the app`;
+      return t`Enter your authenticator code`;
     }
 
     // Growth OS CRM: kit auth headings; the mode is the person's choice.
@@ -149,7 +139,7 @@ export const SignInUp = () => {
 
   const subtitle = useMemo(() => {
     if (isDefined(workspaceInviteHash)) {
-      return t`Sign in or create a password to join your team.`;
+      return t`You’re invited to this workspace. Continue with Google, Microsoft or your work email.`;
     }
 
     if (signInUpStep === SignInUpStep.Password) {
@@ -160,6 +150,10 @@ export const SignInUp = () => {
 
     if (signInUpStep === SignInUpStep.WorkspaceSelection) {
       return t`Pick the workspace you want to open.`;
+    }
+
+    if (signInUpStep === SignInUpStep.TwoFactorAuthenticationVerification) {
+      return t`Open your authenticator app and enter the 6-digit code for Growth OS.`;
     }
 
     if (
@@ -249,13 +243,10 @@ export const SignInUp = () => {
     </OnboardingLayout>
   ) : (
     <GrowthOsAuthShell>
-    <StyledBackground>
       {isDefined(growthOsResetSent) ? (
         <GrowthOsResetSentCard />
       ) : signInUpStep === SignInUpStep.EmailVerification ? (
-        <ModalContent isVerticallyCentered isHorizontallyCentered>
-          <EmailVerificationSent email={searchParams.get('email')} />
-        </ModalContent>
+        <EmailVerificationSent email={searchParams.get('email')} />
       ) : (
         <SignInUpStandardContent
           workspacePublicData={workspacePublicData}
@@ -266,7 +257,6 @@ export const SignInUp = () => {
           onClickOnLogo={onClickOnLogo}
         />
       )}
-    </StyledBackground>
     </GrowthOsAuthShell>
   );
 };

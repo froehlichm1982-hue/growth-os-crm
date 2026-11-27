@@ -122,6 +122,7 @@ export const ImageInput = ({
   return (
     <StyledContainer className={className}>
       <StyledPicture
+        aria-label={t`Upload picture`}
         withPicture={!!pictureURI}
         disabled={disabled}
         onClick={onUploadButtonClick}

@@ -6,6 +6,7 @@ import { t } from '@lingui/core/macro';
 import { i18n } from '@lingui/core';
 import { GROWTH_OS_PLAN_COPY } from '~/growth-os/plan/growthOsPlanCopy';
 import { GrowthOsCancelPlanModal } from '~/growth-os/plan/GrowthOsCancelPlanModal';
+import { GrowthOsSeatsStepper } from '~/growth-os/plan/GrowthOsSeatsStepper';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 
@@ -52,17 +53,18 @@ const StyledCurrentHeader = styled.div`
 
 const StyledPlanName = styled.div`
   color: ${themeCssVariables.font.color.primary};
-  font-family: var(--spv-font-display);
-  font-size: 24px;
-  line-height: 1.1;
+  font-size: var(--gos-page-title-size);
+  font-weight: var(--gos-page-title-weight);
+  letter-spacing: var(--gos-page-title-tracking);
+  line-height: var(--gos-page-title-leading);
 `;
 
 const StyledBadge = styled.span<{ tone: 'ok' | 'warn' | 'danger' }>`
   background: ${({ tone }) =>
-    tone === 'ok' ? 'rgba(70,145,137,0.14)' : tone === 'warn' ? 'rgba(217,149,40,0.16)' : 'rgba(220,64,64,0.14)'};
+    tone === 'ok' ? 'var(--gos-success-soft)' : tone === 'warn' ? 'var(--gos-warning-soft)' : 'var(--gos-danger-soft)'};
   border-radius: 999px;
   color: ${({ tone }) =>
-    tone === 'ok' ? 'var(--c-link)' : tone === 'warn' ? 'var(--c-warn)' : 'var(--c-danger)'};
+    tone === 'ok' ? 'var(--gos-success-ink)' : tone === 'warn' ? 'var(--gos-warning-ink)' : 'var(--gos-danger-ink)'};
   font-size: ${themeCssVariables.font.size.sm};
   font-weight: ${themeCssVariables.font.weight.medium};
   padding: 2px 10px;
@@ -81,14 +83,15 @@ const StyledMeter = styled.div`
   strong {
     color: ${themeCssVariables.font.color.primary};
     display: block;
+    font-variant-numeric: tabular-nums;
     font-size: ${themeCssVariables.font.size.lg};
     font-weight: ${themeCssVariables.font.weight.semiBold};
   }
 `;
 
-const StyledNote = styled.div<{ tone?: 'warn' | 'danger' }>`
+const StyledNote = styled.div<{ tone?: 'info' | 'warn' | 'danger' }>`
   background: ${({ tone }) =>
-    tone === 'danger' ? 'rgba(220,64,64,0.08)' : 'rgba(217,149,40,0.10)'};
+    tone === 'danger' ? 'var(--gos-danger-soft)' : tone === 'info' ? 'var(--gos-info-soft)' : 'var(--gos-warning-soft)'};
   border-radius: 6px;
   color: ${themeCssVariables.font.color.primary};
   font-size: ${themeCssVariables.font.size.md};
@@ -135,10 +138,15 @@ const StyledPlans = styled.div`
 `;
 
 const StyledPlanCard = styled.div<{ highlighted: boolean }>`
-  background: ${themeCssVariables.background.primary};
+  /* DS: the recommended plan carries the aurora edge. */
+  background: ${({ highlighted }) =>
+    highlighted
+      ? 'linear-gradient(var(--gos-surface), var(--gos-surface)) padding-box, var(--gos-gradient-aurora) border-box'
+      : 'var(--gos-surface)'};
   border: ${({ highlighted }) =>
-    highlighted ? '2px solid #469189' : `1px solid var(--t-border-color-medium)`};
-  border-radius: 8px;
+    highlighted ? '2px solid transparent' : '1px solid var(--gos-line)'};
+  border-radius: var(--gos-radius-xl);
+  box-shadow: var(--gos-shadow-xs);
   display: flex;
   flex-direction: column;
   gap: ${themeCssVariables.spacing[2]};
@@ -147,9 +155,9 @@ const StyledPlanCard = styled.div<{ highlighted: boolean }>`
 `;
 
 const StyledRibbon = styled.span`
-  background: #469189;
-  border-radius: 999px;
-  color: #ffffff;
+  background: var(--gos-primary);
+  border-radius: var(--gos-radius-full);
+  color: var(--gos-primary-ink);
   font-size: ${themeCssVariables.font.size.xs};
   font-weight: ${themeCssVariables.font.weight.semiBold};
   letter-spacing: 0.04em;
@@ -274,7 +282,7 @@ export const GrowthOsPlanPage = () => {
                 </StyledBadge>
               </StyledCurrentHeader>
               {plan.isTrial && (
-                <StyledNote>
+                <StyledNote tone="info">
                   {t`You are trying every Growth feature free until ${formatGrowthOsDate(plan.trialEndsAt)}. No card needed. Pick a plan before then to keep email sync, workflows and more than 3 users.`}
                 </StyledNote>
               )}
@@ -346,10 +354,17 @@ export const GrowthOsPlanPage = () => {
                   />
                 )}
               </StyledActions>
+              {isPaying && (
+                <GrowthOsSeatsStepper
+                  plan={plan}
+                  loading={loading}
+                  onOpenPortal={() => openSession('portal')}
+                />
+              )}
               {plan.status === 'active' && !plan.isTrial && (
                 <button
                   type="button"
-                  className="gos-linklike"
+                  className="growth-os-linklike"
                   style={{ alignSelf: 'flex-start', minHeight: 44 }}
                   onClick={() => setIsCancelOpen(true)}
                   data-testid="growth-os-cancel-plan"

@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { useLingui } from '@lingui/react/macro';
 
 import { GROWTH_OS_BRAND } from '~/growth-os/brand';
@@ -16,6 +17,7 @@ const THIRD_PARTY: Array<[string, string]> = [
   ['Jotai', 'MIT'],
   ['Lingui', 'MIT'],
   ['Linaria', 'MIT'],
+  ['Lucide (icons)', 'ISC'],
   ['Tabler Icons', 'MIT'],
   ['date-fns', 'MIT'],
   ['Zod', 'MIT'],
@@ -23,12 +25,12 @@ const THIRD_PARTY: Array<[string, string]> = [
   ['NestJS', 'MIT'],
   ['TypeORM', 'MIT'],
   ['BullMQ', 'MIT'],
-  ['Inter, DM Serif Display (fonts)', 'OFL-1.1'],
+  ['Geist, Geist Mono (fonts)', 'OFL-1.1'],
 ];
 
 // Growth OS CRM: the only place in the UI that names the upstream project
 // (OS Lead decision, 26 Nov 2026). Allowlisted in scripts/check-white-label.ts.
-export const GrowthOsLicencesPage = () => {
+const GrowthOsLicencesPageInner = () => {
   const { t } = useLingui();
   const productName = GROWTH_OS_BRAND.productName;
   const upstreamName = GROWTH_OS_BRAND.upstreamName;
@@ -55,7 +57,7 @@ export const GrowthOsLicencesPage = () => {
         <>
           {sourceCodeUrl && (
             <a
-              className="gos-btn gos-btn-primary"
+              className="gos-btn gos-btn--primary"
               href={sourceCodeUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -64,7 +66,7 @@ export const GrowthOsLicencesPage = () => {
             </a>
           )}
           <a
-            className={`gos-btn ${sourceCodeUrl ? 'gos-btn-secondary' : 'gos-btn-primary'}`}
+            className={`gos-btn ${sourceCodeUrl ? 'gos-btn--secondary' : 'gos-btn--primary'}`}
             href={AGPL_TEXT_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -89,3 +91,5 @@ export const GrowthOsLicencesPage = () => {
     </GrowthOsSystemPage>
   );
 };
+
+export const GrowthOsLicencesPage = withGosScope(GrowthOsLicencesPageInner);

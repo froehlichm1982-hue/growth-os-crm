@@ -23,3 +23,4 @@ export * from './emails/sync-failed.email';
 export * from './emails/test.email';
 export * from './components/kit/KitEmail';
 export * from './emails/account-exists.email';
+export * from './emails/crm-deal-moved.email';

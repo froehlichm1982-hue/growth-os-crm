@@ -29,6 +29,11 @@ import { GROWTH_OS_BRAND } from '~/growth-os/brand';
 import { useNavigateApp } from '~/hooks/useNavigateApp';
 import { getErrorMessageFromApolloError } from '~/utils/get-error-message-from-apollo-error.util';
 import { logError } from '~/utils/logError';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
+
+const GosLogOutIcon = createGosIcon('log-out', 'GosResetSignOut');
+const GosArrowLeft = createGosIcon('arrow-left', 'GosResetBack');
+const GosAlertIcon = createGosIcon('circle-alert', 'GosResetAlert');
 
 // Growth OS: kit reset flow (reset-new.html / expired.html) inside the auth
 // shell. Invalid or used links get the expired state with a way forward
@@ -54,33 +59,39 @@ const ExpiredLink = () => {
   };
 
   return (
-    <div className="gos-flow" data-testid="growth-os-reset-expired">
-      <GrowthOsStateIcon tone="danger" kind="clock" />
-      <h1 className="gos-auth-title">{t`This link has expired`}</h1>
-      <p className="gos-auth-sub">
-        {t`Reset links work for 60 minutes and only once. Request a new one and we’ll send it straight away.`}
-      </p>
-      <form onSubmit={onSubmit} noValidate>
+    <div className="gos-auth-status" data-testid="growth-os-reset-expired">
+      <GrowthOsStateIcon tone="warn" kind="clock" />
+      <div className="head">
+        <h1>{t`This link has expired`}</h1>
+        <p className="sub">
+          {t`Reset links work once, for 60 minutes. Request a new one, it takes a few seconds.`}
+        </p>
+      </div>
+      <form className="gos-stack" style={{ width: '100%' }} onSubmit={onSubmit} noValidate>
         <GrowthOsEmailInput value={email} onChange={setEmail} error={error} autoFocus />
-        <button className="gos-btn gos-btn-primary gos-btn-block" type="submit" disabled={isSending} aria-busy={isSending || undefined}>
-          {isSending && <span className="gos-spinner" aria-hidden="true" />}
+        <button className="gos-btn gos-btn--primary gos-btn--block gos-btn--lg" type="submit" disabled={isSending} aria-busy={isSending || undefined}>
+          {isSending && <span className="growth-os-spinner" aria-hidden="true" />}
           {isSending ? t`Sending link…` : t`Send a new link`}
         </button>
       </form>
-      <p className="gos-legal-line">
+      <a className="gos-link gos-tap gos-back" href="/welcome">
+        <GosArrowLeft className="gos-icon sm" />
+        {t`Back to sign in`}
+      </a>
+      <p className="gos-small gos-muted">
         {t`Still stuck? Write to`}{' '}
-        <a href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>{GROWTH_OS_BRAND.supportEmail}</a>.
+        <a className="gos-link" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>{GROWTH_OS_BRAND.supportEmail}</a>.
       </p>
     </div>
   );
 };
 
 const LoadingCard = () => (
-  <div className="gos-flow" aria-busy="true" aria-live="polite">
+  <div className="gos-stack" aria-busy="true" aria-live="polite">
     <div className="gos-skel" style={{ height: 34, width: '70%' }} />
-    <div className="gos-skel" style={{ height: 16, width: '90%', marginTop: 12 }} />
-    <div className="gos-skel" style={{ height: 44, width: '100%', marginTop: 28 }} />
-    <div className="gos-skel" style={{ height: 44, width: '100%', marginTop: 24 }} />
+    <div className="gos-skel" style={{ height: 16, width: '90%' }} />
+    <div className="gos-skel" style={{ height: 44, width: '100%', marginTop: 12 }} />
+    <div className="gos-skel" style={{ height: 44, width: '100%' }} />
   </div>
 );
 
@@ -207,20 +218,21 @@ export const PasswordReset = () => {
   }
 
   return (
-    <div className="gos-flow" data-testid="growth-os-reset-new">
-      <h1 className="gos-auth-title">
-        {isTargetUserPasswordSet ? t`Choose a new password` : t`Set your password`}
-      </h1>
-      <p className="gos-auth-sub">
-        {t`For`} <b>{email}</b>.{' '}
-        {t`Use at least 8 characters. A short phrase is easy to remember and hard to guess.`}
-      </p>
+    <div className="gos-stack" style={{ gap: 18 }} data-testid="growth-os-reset-new">
+      <div className="head">
+        <h1>{isTargetUserPasswordSet ? t`Choose a new password` : t`Set your password`}</h1>
+        <p className="sub">
+          {t`For`} <b>{email}</b>.{' '}
+          {t`Use at least 8 characters. A short phrase is easy to remember and hard to guess.`}
+        </p>
+      </div>
       {formError && (
-        <div className="gos-alert gos-alert-danger" role="alert">
+        <div className="gos-alert" role="alert">
+          <GosAlertIcon className="gos-icon" />
           <div><b>{formError}</b></div>
         </div>
       )}
-      <form onSubmit={onSubmit} noValidate>
+      <form className="gos-stack" onSubmit={onSubmit} noValidate>
         <input type="email" name="username" autoComplete="username" value={email} readOnly hidden />
         <GrowthOsPasswordInput
           value={newPassword}
@@ -234,8 +246,14 @@ export const PasswordReset = () => {
           error={passwordError}
           autoFocus
         />
-        <button className="gos-btn gos-btn-primary gos-btn-block" type="submit" disabled={isUpdatingPassword} aria-busy={isUpdatingPassword || undefined}>
-          {isUpdatingPassword && <span className="gos-spinner" aria-hidden="true" />}
+        {isTargetUserPasswordSet && (
+          <p className="gos-small gos-muted growth-os-form-note" data-testid="growth-os-reset-signout-note">
+            <GosLogOutIcon size={14} />
+            {t`You’ll be signed out on your other devices.`}
+          </p>
+        )}
+        <button className="gos-btn gos-btn--primary gos-btn--block gos-btn--lg" type="submit" disabled={isUpdatingPassword} aria-busy={isUpdatingPassword || undefined}>
+          {isUpdatingPassword && <span className="growth-os-spinner" aria-hidden="true" />}
           {isUpdatingPassword ? t`Saving…` : t`Save and sign in`}
         </button>
       </form>

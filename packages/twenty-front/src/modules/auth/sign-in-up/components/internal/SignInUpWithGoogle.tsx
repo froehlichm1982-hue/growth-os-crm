@@ -10,7 +10,6 @@ import { type SocialSsoSignInUpActionType } from '@/auth/types/socialSsoSignInUp
 import { useLingui } from '@lingui/react/macro';
 import { memo, useContext } from 'react';
 import { IconGoogle } from 'twenty-ui/icon';
-import { HorizontalSeparator } from 'twenty-ui/layout';
 import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { LastUsedPill } from './LastUsedPill';
@@ -48,7 +47,7 @@ export const SignInUpWithGoogle = ({
       <StyledSsoButtonContainer>
         <button
           type="button"
-          className="gos-btn gos-btn-oauth gos-btn-block"
+          className="gos-btn gos-btn--secondary gos-btn--block gos-btn--lg"
           onClick={handleClick}
         >
           <GoogleIcon />
@@ -58,7 +57,6 @@ export const SignInUpWithGoogle = ({
           <LastUsedPill />
         )}
       </StyledSsoButtonContainer>
-      <HorizontalSeparator visible={false} />
     </>
   );
 };

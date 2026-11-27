@@ -39,6 +39,7 @@ export const DragDropItemSortableHandle = ({
       $fill={fill}
       $disabled={disabled}
       data-dnd-sortable-handle
+      role="group"
     >
       {children}
     </StyledSortableHandle>

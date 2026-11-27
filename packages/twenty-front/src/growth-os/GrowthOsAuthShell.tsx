@@ -1,99 +1,128 @@
-import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 import { useLingui } from '@lingui/react/macro';
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import { GROWTH_OS_PRICING } from 'twenty-shared/i18n';
-
-import { GROWTH_OS_BRAND, GROWTH_OS_LOGO_LIGHT } from '~/growth-os/brand';
+import {
+  GROWTH_OS_BRAND,
+  GROWTH_OS_LOGO_DARK,
+  GROWTH_OS_LOGO_LIGHT,
+} from '~/growth-os/brand';
+import { GrowthOsArtPipelineCard, GrowthOsArtTimelineCard } from '~/growth-os/GrowthOsAuthArt';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
+import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
+import {
+  GROWTH_OS_SIGNED_OUT_KEY,
+  growthOsTake,
+} from '~/growth-os/session/growthOsSessionExpiredState';
 
 import './growth-os-auth.css';
 
-// Growth OS CRM auth frame, built on the product reference kit (auth.html):
-// form column on the left (logo + module chip, switch link, legal footer) and
-// the navy proof panel on the right (≥ 1024px only). Demo data is the
-// Nordlicht Analytics cast only.
+// Growth OS CRM auth frame on the Design System v2.9 auth kit
+// (patterns/auth/crm/<lang>/sign-in.html). All layout and look come from the
+// CRM-scoped DS sheet (`.gos` is the <html> element, see index.html); the only
+// local CSS is growth-os-auth.css (upstream glue, zoom-safe height).
+// Art panel: Pipeline + Timeline demo product cards (GrowthOsAuthArt.tsx,
+// Nordlicht Analytics demo data, live DOM, no photo or raster crop). Magic link and login code are not offered (owner decision).
 
-const Check = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path
-      d="M13.3 4.3L6.5 11.1 3 7.6"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
+const IconCrm = createGosIcon('kanban-square', 'GosAuthCrm');
+const IconShield = createGosIcon('shield-check', 'GosAuthShield');
+const IconLock = createGosIcon('lock', 'GosAuthLock');
+const IconCheck = createGosIcon('circle-check', 'GosAuthCheck');
+
+const Logos = ({ decorative = false }: { decorative?: boolean }) => (
+  <>
+    <img className="gos-logo gos-logo--light" src={GROWTH_OS_LOGO_LIGHT} width={150} height={30} alt={decorative ? '' : 'ScalePoint Ventures'} />
+    <img className="gos-logo gos-logo--dark" src={GROWTH_OS_LOGO_DARK} width={150} height={30} alt="" aria-hidden="true" />
+  </>
+);
+
+const ModChip = ({ className = '' }: { className?: string }) => (
+  <span className={`mod-chip ${className}`.trim()}>
+    <span className="gos-mt gos-mt--sm" data-m="crm">
+      <IconCrm className="gos-icon sm" />
+    </span>
+    CRM
+  </span>
 );
 
 export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
   const { t } = useLingui();
-  const trialDays = GROWTH_OS_PRICING.trialDays;
-  const fromPrice = GROWTH_OS_PRICING.plans[0].priceMonthlyEur;
+  const location = useLocation();
+  const isSignUp = new URLSearchParams(location.search).get('mode') === 'signup';
+  const isInvite = location.pathname.startsWith('/invite');
+  // §4 logout: "You're signed out" toast once, after a sign-out.
+  const [signedOut, setSignedOut] = useState(false);
+
+  useEffect(() => {
+    if (growthOsTake(GROWTH_OS_SIGNED_OUT_KEY) !== '1') return;
+    setSignedOut(true);
+    const timer = window.setTimeout(() => setSignedOut(false), 6000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
-    <div className="gos-auth">
-      <div className="gos-auth-main">
-        <header className="gos-auth-top">
-          <div className="gos-auth-brand">
-            <a href={GROWTH_OS_BRAND.marketingUrl} aria-label={t`ScalePoint Growth OS home`}>
-              <img src={GROWTH_OS_LOGO_LIGHT} alt="ScalePoint" width={140} height={28} />
-            </a>
-            <span className="gos-module-chip">CRM</span>
-          </div>
-          <p className="gos-top-link">
-            <span className="gos-hide-xs">{t`New here?`} </span>
-            <a href={`${GROWTH_OS_BRAND.marketingUrl}#pricing`} target="_blank" rel="noopener noreferrer">
-              {t`See plans`}
-            </a>
-          </p>
-        </header>
-        <main id="main" className="gos-auth-card">
+    <div className="gos" data-m="crm">
+    <a className="gos-skip" href="#main">{t`Skip to content`}</a>
+    <div className="gos-auth growth-os-auth" data-m="crm">
+      <section className="gos-auth-art" aria-hidden="true">
+        <div className="aurora"><i /><i /><i /></div>
+        <Logos decorative />
+        <div className="claim">
+          <ModChip />
+          <h2>
+            {t`Every deal,`} <span className="gos-accent">{t`one clear view.`}</span>
+          </h2>
+          <p>{t`Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed.`}</p>
+        </div>
+        <div className="gos-auth-stage">
+          <GrowthOsArtPipelineCard style={{ '--x': '2%', '--y': '2%', '--w': '42%', zIndex: 2 } as React.CSSProperties} />
+          <GrowthOsArtTimelineCard style={{ '--x': '39%', '--y': '43%', '--w': '61%', zIndex: 3 } as React.CSSProperties} />
+          <span className="demo">{t`Demo data · Nordlicht Analytics`}</span>
+        </div>
+        <ul className="proof">
+          <li><IconShield className="gos-icon sm" />{t`Hosted in the EU`}</li>
+          <li><IconLock className="gos-icon sm" />{t`GDPR-ready`}</li>
+          <li><IconCheck className="gos-icon sm" />{t`No card for the trial`}</li>
+        </ul>
+      </section>
+      <main className="gos-auth-main" id="main">
+        <div className="gos-auth-top">
+          <a className="gos-mobile-logo" style={{ marginRight: 'auto' }} href={GROWTH_OS_BRAND.marketingUrl} aria-label={t`ScalePoint Growth OS home`}>
+            <Logos decorative />
+          </a>
+          {isInvite ? null : isSignUp ? (
+            <span>
+              {t`Already have an account?`} <a className="gos-link gos-tap" href="/welcome">{t`Sign in`}</a>
+            </span>
+          ) : (
+            <span>
+              {t`New here?`} <a className="gos-link gos-tap" href="/welcome?mode=signup">{t`Create an account`}</a>
+            </span>
+          )}
+        </div>
+        <div className="gos-auth-form">
+          <ModChip className="gos-mobile-chip" />
           {children}
-        </main>
-        <footer className="gos-auth-foot">
-          <span>© 2026 {GROWTH_OS_BRAND.companyLegalName}</span>
-          <a href={GROWTH_OS_BRAND.legal.terms} target="_blank" rel="noopener noreferrer">{t`Terms`}</a>
-          <a href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noopener noreferrer">{t`Privacy`}</a>
-          <a href={GROWTH_OS_BRAND.legal.dpa} target="_blank" rel="noopener noreferrer">DPA</a>
-          <a href={GROWTH_OS_BRAND.legal.notice} target="_blank" rel="noopener noreferrer">{t`Legal notice`}</a>
-          <a href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
-          <a href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>{GROWTH_OS_BRAND.supportEmail}</a>
-        </footer>
+        </div>
+        <div className="gos-auth-foot">
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noopener noreferrer">{t`Privacy`}</a>
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.terms} target="_blank" rel="noopener noreferrer">{t`Terms`}</a>
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.notice} target="_blank" rel="noopener noreferrer">{t`Imprint`}</a>
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.dpa} target="_blank" rel="noopener noreferrer">DPA</a>
+          <a className="gos-tap" href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
+          <span>© 2026 {GROWTH_OS_BRAND.companyName}</span>
+        </div>
+      </main>
+      <div className="gos-toasts" role="status" aria-live="polite">
+        {signedOut && (
+          <div className="gos-toast" data-testid="growth-os-signed-out-toast">
+            <IconCheck className="gos-icon" />
+            <span>{t`You’re signed out`}</span>
+          </div>
+        )}
       </div>
-      <aside className="gos-auth-side" aria-hidden="true">
-        <div>
-          <p className="gos-quote">
-            {t`Every deal in one place.`} <em>{t`Every next step obvious.`}</em>
-          </p>
-          <ul>
-            <li><Check /> {t`Your own workspace and web address`}</li>
-            <li><Check /> {GROWTH_OS_BRAND.hostingClaim}</li>
-            <li><Check /> {t`${trialDays}-day Growth trial, no card. Then from €${fromPrice} per user / month, plus VAT.`}</li>
-          </ul>
-        </div>
-        <div className="gos-preview-card">
-          <div className="gos-pc-h">
-            <b>{t`Pipeline · Nordlicht Analytics`}</b>
-            <span className="gos-badge gos-badge-success">{t`€173k open`}</span>
-          </div>
-          <div className="gos-pc-row">
-            <span className="gos-av">KV</span>
-            <div><b>Katrin Vogel</b><div className="gos-sub2">{t`Kestrel Logistics · renewal review tomorrow, 10:00`}</div></div>
-            <span className="gos-badge gos-badge-info">{t`Meeting`}</span>
-          </div>
-          <div className="gos-pc-row">
-            <span className="gos-av gos-av-b">ML</span>
-            <div><b>Mikael Lindqvist</b><div className="gos-sub2">{t`Fjordline Software · support plan won`}</div></div>
-            <span className="gos-badge gos-badge-success">{t`Customer`}</span>
-          </div>
-          <div className="gos-pc-row">
-            <span className="gos-av gos-av-c">SO</span>
-            <div><b>Sarah Okafor</b><div className="gos-sub2">{t`Brightwater Labs · moved to Proposal`}</div></div>
-            <span className="gos-badge gos-badge-warn">€28,800</span>
-          </div>
-        </div>
-        <p className="gos-side-foot">{t`ScalePoint Ventures Oy · Finland · B2B only`}</p>
-      </aside>
+    </div>
     </div>
   );
 };

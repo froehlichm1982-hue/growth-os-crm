@@ -1,0 +1,59 @@
+{
+  "light": {
+    "bg": "#F3F2EE",
+    "card": "#FFFFFF",
+    "text": "#111E32",
+    "text2": "#3C4656",
+    "muted": "#5B6372",
+    "line": "#E7E5E0",
+    "link": "#0B6E66",
+    "eyebrow": "#0B6E66",
+    "button": "#111E32",
+    "buttonText": "#FFFFFF",
+    "code": "#FAFAF8",
+    "info": "#F6F5F2"
+  },
+  "dark": {
+    "bg": "#0B1220",
+    "card": "#131D2F",
+    "text": "#E6EBF2",
+    "text2": "#C3CDDA",
+    "muted": "#97A3B5",
+    "line": "#2A3448",
+    "link": "#5EE6D8",
+    "eyebrow": "#6EEBDC",
+    "button": "#F4F7FB",
+    "buttonText": "#0D1828",
+    "code": "#0F1828",
+    "info": "#18243A"
+  },
+  "font": "Geist, -apple-system, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif",
+  "mono": "\"Geist Mono\", Menlo, Consolas, monospace",
+  "radius": {
+    "card": "16px",
+    "button": "10px",
+    "box": "12px"
+  },
+  "module": {
+    "outreach": {
+      "fill": "#F26A21",
+      "ink": "#A9420D",
+      "soft": "#FFEEE3"
+    },
+    "connect": {
+      "fill": "#2F6BFF",
+      "ink": "#1F4FD1",
+      "soft": "#E8EFFF"
+    },
+    "booking": {
+      "fill": "#F2A40E",
+      "ink": "#835000",
+      "soft": "#FFF3D6"
+    },
+    "crm": {
+      "fill": "#7C4DEB",
+      "ink": "#5A33C4",
+      "soft": "#F0EAFF"
+    }
+  }
+}

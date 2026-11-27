@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/core/macro';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +27,7 @@ export const formatGrowthOsLocalDate = (iso: string | null) =>
 // Persistent, full-width billing banner on every page (PRODUCT-UX-STANDARD
 // §3.5): payment failed (7-day grace with day counter), paused, read-only.
 // Always exactly 1 action; non-admins are told to ask their admin.
-export const GrowthOsBillingBanner = () => {
+const GrowthOsBillingBannerInner = () => {
   const { plan } = useGrowthOsPlan();
   const permissionMap = usePermissionFlagMap();
   const canManageBilling = permissionMap[PermissionFlagType.BILLING] === true;
@@ -41,14 +42,14 @@ export const GrowthOsBillingBanner = () => {
   if (plan.isReadOnly) {
     return (
       <div
-        className="gos-banner danger"
+        className="growth-os-banner danger"
         role="status"
         data-testid="growth-os-banner-read-only"
       >
-        <span className="gos-banner-icon">
+        <span className="growth-os-banner-icon">
           <GrowthOsIcon name="lock" size={18} />
         </span>
-        <span className="gos-banner-text">
+        <span className="growth-os-banner-text">
           <b>{t`This workspace is read-only.`}</b>{' '}
           {canManageBilling
             ? t`You can still view and export everything, and nothing was deleted. Choose a plan to edit again.`
@@ -57,7 +58,7 @@ export const GrowthOsBillingBanner = () => {
         {canManageBilling && (
           <button
             type="button"
-            className="gos-btn gos-btn-primary"
+            className="gos-btn gos-btn--primary"
             onClick={goToBilling}
           >
             {t`Choose a plan`}
@@ -76,26 +77,26 @@ export const GrowthOsBillingBanner = () => {
 
     return (
       <div
-        className="gos-banner danger"
+        className="growth-os-banner danger"
         role="alert"
         data-testid="growth-os-banner-payment-failed"
       >
-        <span className="gos-banner-icon">
+        <span className="growth-os-banner-icon">
           <GrowthOsIcon name="alert" size={18} />
         </span>
-        <span className="gos-banner-text">
+        <span className="growth-os-banner-text">
           <b>{t`Your payment didn’t go through.`}</b>{' '}
           {canManageBilling
             ? t`Update it by ${until} to keep full access.`
             : t`Ask your admin to update billing by ${until} to keep full access.`}{' '}
-          <span className="gos-banner-meta">
+          <span className="growth-os-banner-meta">
             {t`Grace day ${day} of ${GROWTH_OS_GRACE_DAYS_UI}`}
           </span>
         </span>
         {canManageBilling && (
           <button
             type="button"
-            className="gos-btn gos-btn-primary"
+            className="gos-btn gos-btn--primary"
             disabled={loading}
             onClick={() => openSession({ kind: 'portal' })}
             data-testid="growth-os-banner-update-payment"
@@ -115,21 +116,21 @@ export const GrowthOsBillingBanner = () => {
   if (isPaused && plan.graceEndsAt) {
     return (
       <div
-        className="gos-banner warn"
+        className="growth-os-banner warn"
         role="status"
         data-testid="growth-os-banner-paused"
       >
-        <span className="gos-banner-icon">
+        <span className="growth-os-banner-icon">
           <GrowthOsIcon name="alert" size={18} />
         </span>
-        <span className="gos-banner-text">
+        <span className="growth-os-banner-text">
           <b>{t`Paid features are paused.`}</b>{' '}
           {t`Your workspace uses Starter limits until ${until}, then becomes read-only. Nothing is deleted.`}
         </span>
         {canManageBilling && (
           <button
             type="button"
-            className="gos-btn gos-btn-primary"
+            className="gos-btn gos-btn--primary"
             onClick={goToBilling}
           >
             {t`Choose a plan`}
@@ -141,3 +142,5 @@ export const GrowthOsBillingBanner = () => {
 
   return null;
 };
+
+export const GrowthOsBillingBanner = withGosScope(GrowthOsBillingBannerInner);

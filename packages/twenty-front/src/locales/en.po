@@ -661,6 +661,11 @@ msgstr "{minutes, plural, one {# minute} other {# minutes}}"
 msgid "{morphRelationCount} Objects"
 msgstr "{morphRelationCount} Objects"
 
+#. js-lingui-id: YADzWb
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "{name} (current module)"
+msgstr "{name} (current module)"
+
 #. js-lingui-id: g9mDO3
 #: src/utils/format/getOrdinalNumber.ts
 msgid "{num, selectordinal, one {{num}st} two {{num}nd} few {{num}rd} other {{num}th}}"
@@ -734,6 +739,16 @@ msgstr "{roleTargetName} will be assigned to the \"{newRoleName}\" role."
 msgid "{scopeCount} scopes"
 msgstr "{scopeCount} scopes"
 
+#. js-lingui-id: TaUM+g
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "{seatsUsed} of {seatsAllowed} seats in use"
+msgstr "{seatsUsed} of {seatsAllowed} seats in use"
+
+#. js-lingui-id: 5dui3o
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "{seatsUsed} seats in use"
+msgstr "{seatsUsed} seats in use"
+
 #. js-lingui-id: iL/HBr
 #: src/modules/page-layout/widgets/call-recording-transcript/components/CallRecordingAudioPlayer.tsx
 msgid "{seconds, plural, one {# second} other {# seconds}}"
@@ -784,11 +799,6 @@ msgstr "{tabCount} tabs"
 msgid "{totalFieldsCount} visible fields"
 msgstr "{totalFieldsCount} visible fields"
 
-#. js-lingui-id: 1yIgOW
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "{trialDays}-day Growth trial, no card. Then from €{fromPrice} per user / month, plus VAT."
-msgstr "{trialDays}-day Growth trial, no card. Then from €{fromPrice} per user / month, plus VAT."
-
 #. js-lingui-id: fzpQ2b
 #: src/modules/ui/input/components/internal/date/components/RelativeDatePickerHeader.tsx
 msgid "{unitCount, plural, one {Day} other {Days}}"
@@ -828,6 +838,11 @@ msgstr "{unitCount, plural, one {Week} other {Weeks}}"
 #: src/modules/ui/input/components/internal/date/components/RelativeDatePickerHeader.tsx
 msgid "{unitCount, plural, one {Year} other {Years}}"
 msgstr "{unitCount, plural, one {Year} other {Years}}"
+
+#. js-lingui-id: 5eC9uo
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
+msgstr "{usedSeats} in use. You can’t go below the people in your workspace. Changes are prorated on the next invoice."
 
 #. js-lingui-id: YdwR4T
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCustomView.tsx
@@ -922,11 +937,6 @@ msgstr "${0} / task"
 msgid "€{0} billed yearly"
 msgstr "€{0} billed yearly"
 
-#. js-lingui-id: HwzlJs
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "€173k open"
-msgstr "€173k open"
-
 #. js-lingui-id: Cx0xl3
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -959,6 +969,11 @@ msgstr "1 retry"
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
 msgid "1 scope"
 msgstr "1 scope"
+
+#. js-lingui-id: 3tk/X8
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "1 seat in use"
+msgstr "1 seat in use"
 
 #. js-lingui-id: W/OU4i
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
@@ -1041,6 +1056,11 @@ msgstr "2FA Method Reset"
 msgid "3 Columns"
 msgstr "3 Columns"
 
+#. js-lingui-id: vwX9+Z
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "3 fields updated"
+msgstr "3 fields updated"
+
 #. js-lingui-id: 7SJhyh
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
@@ -1066,6 +1086,11 @@ msgstr "50 per minute"
 #: src/modules/logic-functions/components/LogicFunctionExecutionResult.tsx
 msgid "500 Error - {duration}ms"
 msgstr "500 Error - {duration}ms"
+
+#. js-lingui-id: J9Hz2t
+#: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx
+msgid "6-digit code"
+msgstr "6-digit code"
 
 #. js-lingui-id: wH8/eh
 #: src/modules/ai/constants/AgentChatThreadLastActivityFilterLabels.ts
@@ -1335,6 +1360,8 @@ msgid "Activity visibility"
 msgstr "Activity visibility"
 
 #. js-lingui-id: m16xKo
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailMorphRelationSectionDropdownOneToMany.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationSectionDropdownToMany.tsx
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
 msgid "Add"
 msgstr "Add"
@@ -1407,6 +1434,11 @@ msgstr "Add a record"
 #: src/modules/activities/calendar/components/CalendarEventComposerTargetsInput.tsx
 msgid "Add a related record"
 msgstr "Add a related record"
+
+#. js-lingui-id: syuuw0
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Add a seat"
+msgstr "Add a seat"
 
 #. js-lingui-id: eMc2xs
 #: src/modules/ai/components/suggested-prompts/contextual-suggested-prompts.ts
@@ -1491,6 +1523,11 @@ msgstr "Add card"
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionEmailBase.tsx
 msgid "Add CC"
 msgstr "Add CC"
+
+#. js-lingui-id: AgvHni
+#: src/modules/object-record/record-table/record-table-header/components/RecordTableHeaderAddColumnButton.tsx
+msgid "Add column"
+msgstr "Add column"
 
 #. js-lingui-id: 3iIvQg
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
@@ -1648,7 +1685,7 @@ msgstr "Add new"
 #: src/modules/object-record/record-table-widget/components/RecordTableWidgetNestedRelationAddNewRow.tsx
 #: src/modules/object-record/record-table/components/RecordTableNoRecordGroupAddNew.tsx
 msgid "Add New"
-msgstr "Add New"
+msgstr "Add new"
 
 #. js-lingui-id: erHjaG
 #: src/modules/workflow/workflow-diagram/components/WorkflowDiagramRightClickCommandMenu.tsx
@@ -2477,6 +2514,7 @@ msgid "alphabetical"
 msgstr "alphabetical"
 
 #. js-lingui-id: 8wYDMp
+#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Already have an account?"
 msgstr "Already have an account?"
@@ -2599,6 +2637,11 @@ msgstr "And"
 #: src/modules/settings/billing/components/internal/SettingsBillingPlanComparisonTable.tsx
 msgid "Annual"
 msgstr "Annual"
+
+#. js-lingui-id: 5qU5Gh
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Annual revenue"
+msgstr "Annual revenue"
 
 #. js-lingui-id: GqCA/t
 #: src/modules/settings/admin-panel/components/SettingsAdminChatAskQuestionsPart.tsx
@@ -3214,7 +3257,7 @@ msgstr "Authenticator app"
 #. js-lingui-id: YZWcQL
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Authenticator App"
-msgstr "Authenticator App"
+msgstr "Authenticator app"
 
 #. js-lingui-id: 9aB4Rs
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
@@ -3321,7 +3364,6 @@ msgid "Axis name"
 msgstr "Axis name"
 
 #. js-lingui-id: iH8pgl
-#: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx
 #: src/modules/side-panel/components/SidePanelBackButton.tsx
 #: src/modules/spreadsheet-import/components/StepNavigationButton.tsx
 #: src/pages/onboarding/BookCall.tsx
@@ -3337,6 +3379,12 @@ msgstr "Back to {text}"
 #: src/modules/marketplace/components/SettingsApplicationInstallPermissionValidationModal.tsx
 msgid "Back to settings"
 msgstr "Back to settings"
+
+#. js-lingui-id: QeXxn3
+#: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx
+#: src/pages/auth/PasswordReset.tsx
+msgid "Back to sign in"
+msgstr "Back to sign in"
 
 #. js-lingui-id: i8ZVQU
 #: src/modules/advanced-text-editor/constants/AdvancedTextEditorBlockCatalog.ts
@@ -3567,11 +3615,6 @@ msgstr "Breakdown across AI models."
 #: src/modules/workflow/workflow-steps/workflow-actions/ai-agent-action/components/WorkflowOutputSchemaBuilder.tsx
 msgid "Brief explanation of this output field"
 msgstr "Brief explanation of this output field"
-
-#. js-lingui-id: 61AulK
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Brightwater Labs · moved to Proposal"
-msgstr "Brightwater Labs · moved to Proposal"
 
 #. js-lingui-id: IjfaX/
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterFieldSelect.tsx
@@ -3887,6 +3930,7 @@ msgstr "Can't scan? Copy the"
 #: src/modules/settings/billing/components/UpdatePaymentMethodModal.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/modules/spreadsheet-import/provider/components/SpreadsheetImport.tsx
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/MatchColumnsStep.tsx
@@ -4084,6 +4128,11 @@ msgstr "Cc/Bcc"
 msgid "Change Color"
 msgstr "Change Color"
 
+#. js-lingui-id: feCRNv
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Change email"
+msgstr "Change email"
+
 #. js-lingui-id: qTyVHs
 #: src/modules/workflow/workflow-diagram/workflow-nodes/components/WorkflowDiagramStepNodeOptionsDropdown.tsx
 msgid "Change node"
@@ -4102,7 +4151,7 @@ msgstr "Change password"
 #. js-lingui-id: VhMDMg
 #: src/modules/settings/profile/components/SetOrChangePassword.tsx
 msgid "Change Password"
-msgstr "Change Password"
+msgstr "Change password"
 
 #. js-lingui-id: EYSFEW
 #: src/modules/settings/domains/components/SettingsSubdomain.tsx
@@ -4215,10 +4264,11 @@ msgstr "Check this workflow's recent runs and tell me whether any failed and why
 msgid "Check verification"
 msgstr "Check verification"
 
-#. js-lingui-id: v4fiSg
+#. js-lingui-id: 5IXWmO
 #: src/growth-os/auth/GrowthOsResetSent.tsx
-msgid "Check your email"
-msgstr "Check your email"
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "Check your inbox"
+msgstr "Check your inbox"
 
 #. js-lingui-id: hXXBiE
 #: src/modules/settings/profile/hooks/useUpdateEmail.ts
@@ -4268,11 +4318,6 @@ msgstr "Choose a new password"
 msgid "Choose a plan"
 msgstr "Choose a plan"
 
-#. js-lingui-id: k4gjQW
-#: src/growth-os/plan/GrowthOsPlanStatus.tsx
-msgid "Choose a plan →"
-msgstr "Choose a plan →"
-
 #. js-lingui-id: NFfUic
 #: src/pages/auth/SignInUp.tsx
 msgid "Choose a Workspace"
@@ -4294,6 +4339,7 @@ msgid "Choose folders to sync"
 msgstr "Choose folders to sync"
 
 #. js-lingui-id: 5EMoSo
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingPlansWithoutSubscription.tsx
 msgid "Choose plan"
 msgstr "Choose plan"
@@ -4421,16 +4467,6 @@ msgstr "Clear the field or \"X\" to revert to environment/default value."
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "CLI config"
 msgstr "CLI config"
-
-#. js-lingui-id: 783+Y+
-#: src/growth-os/auth/GrowthOsResetSent.tsx
-msgid "Click “Choose a new password”"
-msgstr "Click “Choose a new password”"
-
-#. js-lingui-id: MxQAVf
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Click “Confirm email”"
-msgstr "Click “Confirm email”"
 
 #. js-lingui-id: Gt8ndY
 #: src/modules/settings/usage/components/SettingsUsageAnalyticsSection.tsx
@@ -5016,11 +5052,6 @@ msgstr "Confirm the cancellation there. This page shows the new status as soon a
 #: src/modules/settings/billing/components/internal/ResourceCreditPriceSelector.tsx
 msgid "Confirm upgrade"
 msgstr "Confirm upgrade"
-
-#. js-lingui-id: U8N77O
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Confirm your email"
-msgstr "Confirm your email"
 
 #. js-lingui-id: OeMn6m
 #: src/modules/settings/unsubscribers/components/SettingsUnsubscribePreview.tsx
@@ -5723,6 +5754,11 @@ msgstr "Create a workspace"
 msgid "Create account"
 msgstr "Create account"
 
+#. js-lingui-id: 3T8ziB
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Create an account"
+msgstr "Create an account"
+
 #. js-lingui-id: dpwEnu
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
 msgid "Create an all-day event"
@@ -6251,7 +6287,6 @@ msgid "Custom views"
 msgstr "Custom views"
 
 #. js-lingui-id: 876pfE
-#: src/growth-os/GrowthOsAuthShell.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceBillingContent.tsx
 msgid "Customer"
 msgstr "Customer"
@@ -6607,7 +6642,7 @@ msgstr "Deactivate this field"
 #: src/pages/settings/data-model/SettingsObjectTable.tsx
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Deactivated"
-msgstr "Deactivated"
+msgstr "Off"
 
 #. js-lingui-id: Iotuxe
 #: src/modules/ai/components/RoutingDebugDisplay.tsx
@@ -7009,6 +7044,11 @@ msgstr "Deleting this method will remove it permanently from your account."
 msgid "Delivery"
 msgstr "Delivery"
 
+#. js-lingui-id: 5tpYSD
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Demo data · Nordlicht Analytics"
+msgstr "Demo data · Nordlicht Analytics"
+
 #. js-lingui-id: Ssdrw4
 #: src/modules/settings/ai/components/SettingsAiModelsTable.tsx
 #: src/pages/settings/applications/components/SettingsApplicationVariableLabelRow.tsx
@@ -7202,6 +7242,11 @@ msgstr "Disconnect connection?"
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Discoverable"
 msgstr "Discoverable"
+
+#. js-lingui-id: tilm+3
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Discovery call"
+msgstr "Discovery call"
 
 #. js-lingui-id: fAlSRz
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
@@ -7452,6 +7497,11 @@ msgstr "Drag and Drop Here"
 msgid "Drag to add to navbar"
 msgstr "Drag to add to navbar"
 
+#. js-lingui-id: KGi3u9
+#: src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
+msgid "Drag to reorder"
+msgstr "Drag to reorder"
+
 #. js-lingui-id: VIbDgE
 #: src/modules/page-layout/widgets/fields/components/FieldsConfigurationGroupEditor.tsx
 msgid "Drop fields here"
@@ -7605,6 +7655,8 @@ msgstr "eddy@gmail.com, @apple.com"
 #. js-lingui-id: ePK91l
 #: src/modules/activities/emails/recipients/components/EmailRecipientChipMenuContent.tsx
 #: src/modules/navigation-menu-item/edit/side-panel/hooks/useNavigationMenuItemEditOrganizeActions.ts
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailMorphRelationSectionDropdownManyToOne.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationSectionDropdownToOne.tsx
 #: src/modules/object-record/record-field/ui/form-types/components/FormMultiSelectFieldInput.tsx
 #: src/modules/object-record/record-field/ui/meta-types/input/components/MultiItemFieldMenuItem.tsx
 #: src/modules/object-record/record-group/hooks/useRecordGroupActions.ts
@@ -7724,6 +7776,11 @@ msgstr "Edit Records on All Objects"
 msgid "Edit relation"
 msgstr "Edit relation"
 
+#. js-lingui-id: DpuBzU
+#: src/modules/navigation-menu-item/display/sections/workspace/components/WorkspaceSection.tsx
+msgid "Edit sidebar"
+msgstr "Edit sidebar"
+
 #. js-lingui-id: /VLYQj
 #: src/modules/settings/translations/components/SettingsTranslationsButton.tsx
 msgid "Edit translations"
@@ -7770,6 +7827,7 @@ msgstr "else if"
 #: src/modules/object-record/record-field/ui/meta-types/input/components/EmailsFieldInput.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminGeneral.tsx
 #: src/modules/settings/members/components/MemberInfosTab.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/modules/settings/roles/role-assignment/components/SettingsRoleAssignmentTable.tsx
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 #: src/modules/settings/workspace/components/SettingsWorkspaceEmailGroupSection.tsx
@@ -8082,7 +8140,7 @@ msgstr "English"
 #. js-lingui-id: UXZry7
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Enhances security by requiring a code along with your password"
-msgstr "Enhances security by requiring a code along with your password"
+msgstr "Ask for a code from your authenticator app as well as your password."
 
 #. js-lingui-id: 6iUnle
 #: src/modules/settings/enterprise/components/EnterprisePlanModal.tsx
@@ -8317,10 +8375,20 @@ msgstr "Enter value"
 msgid "Enter values, comma-separated"
 msgstr "Enter values, comma-separated"
 
+#. js-lingui-id: CSnTe1
+#: src/pages/auth/SignInUp.tsx
+msgid "Enter your authenticator code"
+msgstr "Enter your authenticator code"
+
 #. js-lingui-id: nH66Il
 #: src/pages/auth/SignInUp.tsx
 msgid "Enter your password to continue."
 msgstr "Enter your password to continue."
+
+#. js-lingui-id: hGdxdS
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Enter your password."
+msgstr "Enter your password."
 
 #. js-lingui-id: GDMzJS
 #: src/modules/settings/admin-panel/components/SettingsAdminServerAdminAccess.tsx
@@ -8652,10 +8720,10 @@ msgstr "every {stepNumStr} months, between {startMonth} and {endMonth}"
 msgid "every day"
 msgstr "every day"
 
-#. js-lingui-id: zE4NHg
+#. js-lingui-id: yFXg1h
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Every deal in one place."
-msgstr "Every deal in one place."
+msgid "Every deal,"
+msgstr "Every deal,"
 
 #. js-lingui-id: XWj/lX
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/describeCronExpression.ts
@@ -8664,17 +8732,17 @@ msgstr "Every deal in one place."
 msgid "every hour"
 msgstr "every hour"
 
+#. js-lingui-id: +5cr43
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
+msgstr "Every invoice is emailed to the billing contact as a PDF. You can download past invoices and change the billing address in the billing portal."
+
 #. js-lingui-id: a9EHxw
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/describeCronExpression.ts
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getMinutesDescription.ts
 #: src/modules/workflow/workflow-trigger/utils/cron-to-human/descriptors/getMinutesDescription.ts
 msgid "every minute"
 msgstr "every minute"
-
-#. js-lingui-id: vajYIZ
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Every next step obvious."
-msgstr "Every next step obvious."
 
 #. js-lingui-id: PsQmAw
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownVisibilityContent.tsx
@@ -9737,7 +9805,7 @@ msgstr "First name"
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 #: src/pages/onboarding/CreateProfile.tsx
 msgid "First Name"
-msgstr "First Name"
+msgstr "First name"
 
 #. js-lingui-id: cgevMo
 #: src/pages/onboarding/CreateProfile.tsx
@@ -9753,11 +9821,6 @@ msgstr "Fix the payment issue to keep your enterprise features active."
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "Fix the payment issue to restore your enterprise features."
 msgstr "Fix the payment issue to restore your enterprise features."
-
-#. js-lingui-id: ZZ3//Z
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Fjordline Software · support plan won"
-msgstr "Fjordline Software · support plan won"
 
 #. js-lingui-id: Xgkhyj
 #: src/modules/settings/admin-panel/chats/components/SettingsAdminChatsTable.tsx
@@ -9818,6 +9881,11 @@ msgstr "For"
 #: src/modules/settings/applications/hooks/useComputeApplicationContentForLayoutAndLogic.ts
 msgid "for {objectLabel}"
 msgstr "for {objectLabel}"
+
+#. js-lingui-id: Q/rs74
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "For your security we signed you out. Sign in again to continue. Unsaved changes in this tab are kept."
+msgstr "For your security we signed you out. Sign in again to continue. Unsaved changes in this tab are kept."
 
 #. js-lingui-id: UNMVei
 #: src/modules/auth/sign-in-up/components/internal/SignInUpPasswordField.tsx
@@ -10010,6 +10078,11 @@ msgstr "Function run"
 msgid "Functions - Settings"
 msgstr "Functions - Settings"
 
+#. js-lingui-id: wqo9S3
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "GDPR-ready"
+msgstr "GDPR-ready"
+
 #. js-lingui-id: e4FdDl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Gemini CLI"
@@ -10177,6 +10250,11 @@ msgstr "Goodwill gesture after the March incident"
 msgid "Google"
 msgstr "Google"
 
+#. js-lingui-id: reJJvx
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "Google sign-in didn’t finish. Try again or continue with email."
+msgstr "Google sign-in didn’t finish. Try again or continue with email."
+
 #. js-lingui-id: QlsrUj
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
 msgid "Google, Microsoft or CalDAV account to create the event on. Leave empty to use the default calendar account."
@@ -10337,6 +10415,11 @@ msgstr "Grouping {objectLabel}"
 #: src/growth-os/states/GrowthOsMaintenancePage.tsx
 msgid "Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own."
 msgstr "Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own."
+
+#. js-lingui-id: sYa8ZV
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "Growth OS modules"
+msgstr "Growth OS modules"
 
 #. js-lingui-id: R4r4XO
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -10615,6 +10698,11 @@ msgstr ""
 "\n"
 "See the [Getting Started guide](https://twenty.com/developers/extend/apps/getting-started) for the full walkthrough, and [Building Apps](https://twenty.com/developers/extend/apps/building) for the `defineApplication` / `defineEntity` APIs."
 
+#. js-lingui-id: 454El1
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Hosted in the EU"
+msgstr "Hosted in the EU"
+
 #. js-lingui-id: yY8wAv
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
 msgid "Hours"
@@ -10779,10 +10867,10 @@ msgstr "ID"
 msgid "if"
 msgstr "if"
 
-#. js-lingui-id: TkckA/
+#. js-lingui-id: q4cFg9
 #: src/growth-os/auth/GrowthOsResetSent.tsx
-msgid "If an account exists for {email}, a reset link is on its way. The link works for 60 minutes."
-msgstr "If an account exists for {email}, a reset link is on its way. The link works for 60 minutes."
+msgid "If an account exists for <0>{email}</0>, a reset link is on its way. It works once, for 60 minutes."
+msgstr "If an account exists for <0>{email}</0>, a reset link is on its way. It works once, for 60 minutes."
 
 #. js-lingui-id: bTDz/2
 #: src/modules/settings/admin-panel/health-status/maintenance-mode/components/SettingsAdminMaintenanceMode.tsx
@@ -10967,6 +11055,11 @@ msgstr "Importing"
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 msgid "Importing Data ..."
 msgstr "Importing Data ..."
+
+#. js-lingui-id: 5n8FKh
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Imprint"
+msgstr "Imprint"
 
 #. js-lingui-id: HiyKEP
 #: src/modules/settings/developers/utils/formatExpiration.ts
@@ -11440,6 +11533,11 @@ msgstr "Invite your team"
 msgid "Invoice amount may vary if you add members or credits between periods"
 msgstr "Invoice amount may vary if you add members or credits between periods"
 
+#. js-lingui-id: F7nA5/
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Invoices"
+msgstr "Invoices"
+
 #. js-lingui-id: CUvG5b
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
 msgid "Iris"
@@ -11632,10 +11730,10 @@ msgstr "john.doe"
 msgid "john.doe@example.com"
 msgstr "john.doe@example.com"
 
-#. js-lingui-id: fSPjtl
+#. js-lingui-id: DE1A87
 #: src/pages/auth/SignInUp.tsx
-msgid "Join {workspaceName} team"
-msgstr "Join {workspaceName} team"
+msgid "Join {workspaceName}"
+msgstr "Join {workspaceName}"
 
 #. js-lingui-id: 31TuIx
 #: src/pages/settings/community/SettingsCommunity.tsx
@@ -11695,11 +11793,6 @@ msgstr "Keep executing the next nodes even if this one fails"
 #: src/growth-os/plan/GrowthOsCancelPlanModal.tsx
 msgid "Keep my plan"
 msgstr "Keep my plan"
-
-#. js-lingui-id: JlHMbZ
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Kestrel Logistics · renewal review tomorrow, 10:00"
-msgstr "Kestrel Logistics · renewal review tomorrow, 10:00"
 
 #. js-lingui-id: 7sMeHQ
 #: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/KeyValuePairInput.tsx
@@ -11934,7 +12027,7 @@ msgstr "Last name"
 #: src/modules/settings/profile/components/NameFields.tsx
 #: src/modules/settings/security/components/SettingsSecurityEditableProfileFields.tsx
 msgid "Last Name"
-msgstr "Last Name"
+msgstr "Last name"
 
 #. js-lingui-id: PnMGfO
 #: src/pages/onboarding/CreateProfile.tsx
@@ -12116,11 +12209,6 @@ msgstr "Legal"
 #: src/pages/settings/legal/SettingsLegalDpaNew.tsx
 msgid "Legal entity name"
 msgstr "Legal entity name"
-
-#. js-lingui-id: elNrJ0
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Legal notice"
-msgstr "Legal notice"
 
 #. js-lingui-id: MP1v+1
 #: src/modules/side-panel/pages/page-layout/constants/settings/ChartConfigurationSettingLabels.ts
@@ -12629,6 +12717,11 @@ msgstr "Manage Members"
 msgid "Manage objects, fields and relationships"
 msgstr "Manage objects, fields and relationships"
 
+#. js-lingui-id: rkcRqy
+#: src/growth-os/plan/GrowthOsPlanStatus.tsx
+msgid "Manage plan"
+msgstr "Manage plan"
+
 #. js-lingui-id: eGGH1l
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 msgid "Manage security policies"
@@ -12838,7 +12931,7 @@ msgid "Medium section heading"
 msgstr "Medium section heading"
 
 #. js-lingui-id: oE8Gmu
-#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsAuthArt.tsx
 msgid "Meeting"
 msgstr "Meeting"
 
@@ -12884,6 +12977,7 @@ msgid "Members & invitees"
 msgstr "Members & invitees"
 
 #. js-lingui-id: UODtG8
+#: src/modules/object-record/record-field-list/record-detail-section/duplicate/components/RecordDetailDuplicatesSection.tsx
 #: src/modules/object-record/record-merge/components/MergeRecordsFooter.tsx
 msgid "Merge"
 msgstr "Merge"
@@ -12962,6 +13056,11 @@ msgstr "Microphone access is blocked. Allow it in your browser settings to dicta
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Microsoft"
 msgstr "Microsoft"
+
+#. js-lingui-id: Dy8Lux
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "Microsoft sign-in didn’t finish. Try again or continue with email."
+msgstr "Microsoft sign-in didn’t finish. Try again or continue with email."
 
 #. js-lingui-id: eTUF28
 #: src/modules/object-record/record-board/record-board-column/utils/getAggregateOperationLabel.ts
@@ -13154,6 +13253,7 @@ msgstr "More actions"
 #. js-lingui-id: 3Siwmw
 #: src/modules/activities/files/components/AttachmentDropdown.tsx
 #: src/modules/object-record/record-board/record-board-column/components/RecordBoardColumnHeader.tsx
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationRecordsListItem.tsx
 #: src/modules/object-record/record-group/components/RecordGroupAggregateDropdownContent.tsx
 #: src/modules/object-record/record-group/components/RecordGroupAggregateDropdownMenuContent.tsx
 #: src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterDropdownContent.tsx
@@ -13161,6 +13261,7 @@ msgstr "More actions"
 #: src/modules/page-layout/widgets/fields/components/FieldsConfigurationGroupDropdown.tsx
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
 #: src/modules/settings/domains/components/SettingPublicDomainRowDropdownMenu.tsx
+#: src/modules/settings/profile/devices/components/SettingsDeviceSessionRowDropdownMenu.tsx
 #: src/modules/settings/security/components/sso/SettingsSecuritySsoRowDropdownMenu.tsx
 msgid "More options"
 msgstr "More options"
@@ -13874,6 +13975,11 @@ msgstr "No call recording exists for this calendar event yet."
 msgid "No calling code"
 msgstr "No calling code"
 
+#. js-lingui-id: HIcbjH
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "No card for the trial"
+msgstr "No card for the trial"
+
 #. js-lingui-id: LHCGJf
 #: src/pages/auth/SignInUp.tsx
 msgid "No card needed. Choose a password to get started."
@@ -14024,6 +14130,12 @@ msgstr "No description available for this application"
 #: src/modules/activities/emails/components/EmptyInboxPlaceholder.tsx
 msgid "No email exchange has occurred with this record yet."
 msgstr "No email exchange has occurred with this record yet."
+
+#. js-lingui-id: eNStkj
+#: src/growth-os/auth/GrowthOsResetSent.tsx
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "No email? Check your spam folder."
+msgstr "No email? Check your spam folder."
 
 #. js-lingui-id: p3Hivn
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
@@ -14681,12 +14793,6 @@ msgstr "Not shared by {notSharedByFullName}"
 msgid "Not synced"
 msgstr "Not synced"
 
-#. js-lingui-id: NIHot4
-#: src/growth-os/auth/GrowthOsResetSent.tsx
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Not there after a minute? Check spam or promotions"
-msgstr "Not there after a minute? Check spam or promotions"
-
 #. js-lingui-id: KiJn9B
 #: src/modules/page-layout/hooks/useCreateRecordPageNoteWidget.ts
 #: src/modules/page-layout/hooks/useCreateRecordPageNoteWidget.ts
@@ -14695,6 +14801,11 @@ msgstr "Not there after a minute? Check spam or promotions"
 #: src/modules/side-panel/pages/page-layout/components/SidePanelPageLayoutRecordPageWidgetTypeSelect.tsx
 msgid "Note"
 msgstr "Note"
+
+#. js-lingui-id: 1cB8K/
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Note linked"
+msgstr "Note linked"
 
 #. js-lingui-id: yBYKk1
 #: src/modules/command-menu-item/engine-command/record/single-record/message-campaign/components/CancelMessageCampaignSingleRecordCommand.tsx
@@ -14715,6 +14826,11 @@ msgstr "Nothing to configure for this application"
 #: src/modules/page-layout/widgets/components/StandaloneWidgetPlaceholder.tsx
 msgid "Nothing to see"
 msgstr "Nothing to see"
+
+#. js-lingui-id: DQs/2a
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "November 2026"
+msgstr "November 2026"
 
 #. js-lingui-id: YwzE9K
 #: src/utils/date-utils.ts
@@ -15027,6 +15143,11 @@ msgstr "Onboarding Packs"
 msgid "Onboarding reward"
 msgstr "Onboarding reward"
 
+#. js-lingui-id: nBm8Jm
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "one clear view."
+msgstr "one clear view."
+
 #. js-lingui-id: qaG+Ug
 #: src/modules/side-panel/pages/page-layout/components/ChartFiltersDeletedFieldsWarning.tsx
 msgid "One or more filters reference deactivated or deleted fields and will be automatically removed on save."
@@ -15122,6 +15243,11 @@ msgstr "Only you will be able to see your emails and events"
 msgid "Open"
 msgstr "Open"
 
+#. js-lingui-id: T9mwDN
+#: src/growth-os/shell/GrowthOsModuleSwitcher.tsx
+msgid "Open {name}"
+msgstr "Open {name}"
+
 #. js-lingui-id: Kkq3xr
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open a maintained integration or prefill clients that accept MCP install links."
@@ -15204,11 +15330,10 @@ msgstr "Open Replit with the Twenty remote server config."
 msgid "Open source"
 msgstr "Open source"
 
-#. js-lingui-id: WFTzOb
-#: src/growth-os/auth/GrowthOsResetSent.tsx
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Open the email from ScalePoint Growth OS"
-msgstr "Open the email from ScalePoint Growth OS"
+#. js-lingui-id: 96ITSV
+#: src/pages/auth/SignInUp.tsx
+msgid "Open your authenticator app and enter the 6-digit code for Growth OS."
+msgstr "Open your authenticator app and enter the 6-digit code for Growth OS."
 
 #. js-lingui-id: a02pxq
 #: src/growth-os/GrowthOsAuthShell.tsx
@@ -15270,16 +15395,16 @@ msgstr "Optional secret used to compute the HMAC signature for webhook payloads"
 msgid "Options"
 msgstr "Options"
 
-#. js-lingui-id: BzEFor
-#: src/growth-os/auth/GrowthOsAuthDivider.tsx
-msgid "or"
-msgstr "or"
-
 #. js-lingui-id: ZAVklK
 #: src/modules/settings/unsubscribers/components/SettingsUnsubscribePreview.tsx
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterLogicalOperatorCell.tsx
 msgid "Or"
 msgstr "Or"
+
+#. js-lingui-id: 1//reV
+#: src/growth-os/auth/GrowthOsAuthDivider.tsx
+msgid "or with email"
+msgstr "or with email"
 
 #. js-lingui-id: 4OE5Sf
 #: src/modules/settings/data-model/fields/forms/select/components/SettingsDataModelFieldSelectFormOptionRow.tsx
@@ -15440,6 +15565,7 @@ msgid "Overview"
 msgstr "Overview"
 
 #. js-lingui-id: LtI9AS
+#: src/growth-os/GrowthOsAuthArt.tsx
 #: src/modules/navigation-menu-item/edit/side-panel/components/SidePanelEditOwnerSection.tsx
 #: src/pages/settings/admin-panel/SettingsAdminApplicationRegistrationClaims.tsx
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationGeneralInfo.tsx
@@ -15599,11 +15725,6 @@ msgstr "Password"
 msgid "Password set"
 msgstr "Password set"
 
-#. js-lingui-id: osAB4a
-#: src/growth-os/auth/GrowthOsAuthFields.tsx
-msgid "Password strength"
-msgstr "Password strength"
-
 #. js-lingui-id: ogtYkT
 #: src/pages/auth/PasswordReset.tsx
 msgid "Password updated"
@@ -15618,11 +15739,6 @@ msgstr "Past due"
 #: src/modules/advanced-text-editor/components/AdvancedTextEditorInsertRail.tsx
 msgid "Paste a link to a hosted image"
 msgstr "Paste a link to a hosted image"
-
-#. js-lingui-id: cpStVq
-#: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx
-msgid "Paste the code below"
-msgstr "Paste the code below"
 
 #. js-lingui-id: CCNkDk
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
@@ -15702,6 +15818,11 @@ msgstr "People I’ve sent emails to and received emails from."
 #: src/modules/settings/accounts/components/SettingsAccountsMessageAutoCreationCard.tsx
 msgid "People I’ve sent emails to."
 msgstr "People I’ve sent emails to."
+
+#. js-lingui-id: ThNYve
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "per month, net"
+msgstr "per month, net"
 
 #. js-lingui-id: qMTN0w
 #: src/pages/settings/ai/SettingsAiUsageUserDetail.tsx
@@ -15908,10 +16029,15 @@ msgstr "Pinned to a specific model"
 msgid "Pipeline"
 msgstr "Pipeline"
 
-#. js-lingui-id: 7u7suu
+#. js-lingui-id: iQr/iS
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Pipeline · Meeting"
+msgstr "Pipeline · Meeting"
+
+#. js-lingui-id: ahs5u1
 #: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Pipeline · Nordlicht Analytics"
-msgstr "Pipeline · Nordlicht Analytics"
+msgid "Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed."
+msgstr "Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed."
 
 #. js-lingui-id: KQ93w+
 #: src/growth-os/plan/GrowthOsPlanPage.tsx
@@ -16864,6 +16990,7 @@ msgstr "Remote"
 #: src/modules/object-record/record-group/components/RecordGroupReorderConfirmationModal.tsx
 #: src/modules/spreadsheet-import/steps/components/ValidationStep/ValidationStep.tsx
 #: src/modules/ui/input/components/ImageInput.tsx
+#: src/modules/views/components/SortOrFilterChip.tsx
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "Remove"
@@ -16886,6 +17013,11 @@ msgstr "Remove {0} navigation menu item?"
 #: src/modules/navigation-menu-item/display/folder/components/NavigationMenuItemFolderDnd.tsx
 msgid "Remove {0} navigation menu items?"
 msgstr "Remove {0} navigation menu items?"
+
+#. js-lingui-id: IX+HWe
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Remove a seat"
+msgstr "Remove a seat"
 
 #. js-lingui-id: 1O32oy
 #: src/modules/settings/accounts/components/SettingsAccountsRowDropdownMenu.tsx
@@ -17121,11 +17253,11 @@ msgstr "Research this company"
 msgid "Research this company and summarize what they do, how big they are and any recent news."
 msgstr "Research this company and summarize what they do, how big they are and any recent news."
 
-#. js-lingui-id: G42SNI
+#. js-lingui-id: 1pB0nm
 #: src/growth-os/auth/GrowthOsResetSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "Resend email"
-msgstr "Resend email"
+msgid "Resend link"
+msgstr "Resend link"
 
 #. js-lingui-id: OfhWJH
 #: src/modules/layout-customization/components/LayoutCustomizationBarResetConfirmationModal.tsx
@@ -17151,10 +17283,15 @@ msgstr "Reset 2FA"
 msgid "Reset all overrides on this layout to return it to the app default"
 msgstr "Reset all overrides on this layout to return it to the app default"
 
-#. js-lingui-id: ZziXsp
+#. js-lingui-id: 5lMcSo
 #: src/pages/auth/PasswordReset.tsx
-msgid "Reset links work for 60 minutes and only once. Request a new one and we’ll send it straight away."
-msgstr "Reset links work for 60 minutes and only once. Request a new one and we’ll send it straight away."
+msgid "Reset links work once, for 60 minutes. Request a new one, it takes a few seconds."
+msgstr "Reset links work once, for 60 minutes. Request a new one, it takes a few seconds."
+
+#. js-lingui-id: RfwZxd
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Reset password"
+msgstr "Reset password"
 
 #. js-lingui-id: AASIAQ
 #: src/modules/layout-customization/components/LayoutCustomizationBarMenuDropdown.tsx
@@ -17584,6 +17721,11 @@ msgstr "Save and sign in"
 msgid "Save as new view"
 msgstr "Save as new view"
 
+#. js-lingui-id: LBkSp8
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Save email"
+msgstr "Save email"
+
 #. js-lingui-id: 7byqGp
 #: src/modules/layout-customization/hooks/useEnterLayoutCustomizationMode.ts
 msgid "Save or cancel dashboard changes before editing the layout."
@@ -17604,11 +17746,6 @@ msgstr "Scale"
 #: src/growth-os/states/GrowthOsSystemPage.tsx
 msgid "ScalePoint Growth OS home"
 msgstr "ScalePoint Growth OS home"
-
-#. js-lingui-id: 8Itxh8
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "ScalePoint Ventures Oy · Finland · B2B only"
-msgstr "ScalePoint Ventures Oy · Finland · B2B only"
 
 #. js-lingui-id: gmB6oO
 #: src/modules/workflow/workflow-trigger/components/CronExpressionHelper.tsx
@@ -18003,6 +18140,7 @@ msgid "seats"
 msgstr "seats"
 
 #. js-lingui-id: grt0Pu
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 #: src/modules/settings/billing/components/internal/SettingsBillingSubscriptionInfoCard.tsx
 msgid "Seats"
@@ -18115,16 +18253,6 @@ msgstr "See on marketplace"
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "See our"
 msgstr "See our"
-
-#. js-lingui-id: ruKb0q
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "See plans"
-msgstr "See plans"
-
-#. js-lingui-id: v3WFkz
-#: src/growth-os/plan/GrowthOsPlanStatus.tsx
-msgid "See plans →"
-msgstr "See plans →"
 
 #. js-lingui-id: vn4aKq
 #: src/pages/settings/data-model/SettingsObjectDetailPage.tsx
@@ -18278,6 +18406,11 @@ msgstr "Select all rows"
 #: src/modules/workflow/workflow-trigger/components/WorkflowEditTriggerDatabaseEventForm.tsx
 msgid "Select an option"
 msgstr "Select an option"
+
+#. js-lingui-id: KplOCi
+#: src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
+msgid "Select card"
+msgstr "Select card"
 
 #. js-lingui-id: 21YIUv
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/components/TemplateColumn.tsx
@@ -18445,7 +18578,7 @@ msgstr "Send email"
 #: src/modules/activities/emails/components/EmptyInboxPlaceholder.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
 msgid "Send Email"
-msgstr "Send Email"
+msgstr "Send email"
 
 #. js-lingui-id: CqsED8
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useActionRolePermissionFlagConfig.ts
@@ -18467,6 +18600,11 @@ msgstr "Send later"
 #: src/modules/side-panel/pages/send-campaign/components/SendCampaignForm.tsx
 msgid "Send now"
 msgstr "Send now"
+
+#. js-lingui-id: XOSSSP
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Send pricing"
+msgstr "Send pricing"
 
 #. js-lingui-id: doZzL7
 #: src/modules/side-panel/pages/send-campaign-test/components/SidePanelSendCampaignTestPage.tsx
@@ -18520,7 +18658,6 @@ msgid "Sending starts right away, ahead of the time this campaign is holding."
 msgstr "Sending starts right away, ahead of the time this campaign is holding."
 
 #. js-lingui-id: Sad2tK
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Sending…"
@@ -18647,6 +18784,11 @@ msgstr "Set up forwarding from the source address to this destination."
 msgid "Set up MCP"
 msgstr "Set up MCP"
 
+#. js-lingui-id: Ow+/9q
+#: src/pages/auth/SignInUp.tsx
+msgid "Set up two-step sign-in"
+msgstr "Set up two-step sign-in"
+
 #. js-lingui-id: 9HNKkV
 #: src/pages/settings/applications/tabs/SettingsApplicationDetailEnvironmentVariablesTable.tsx
 msgid "Set your application configuration variables"
@@ -18707,11 +18849,6 @@ msgstr "setup key"
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Setup key copied to clipboard"
 msgstr "Setup key copied to clipboard"
-
-#. js-lingui-id: NQNJjc
-#: src/pages/auth/SignInUp.tsx
-msgid "Setup your 2FA"
-msgstr "Setup your 2FA"
 
 #. js-lingui-id: dsCM1m
 #: src/modules/object-record/record-merge/utils/getPositionWordLabel.ts
@@ -18789,6 +18926,11 @@ msgstr "show all"
 msgid "Show all"
 msgstr "Show all"
 
+#. js-lingui-id: BowKyI
+#: src/modules/object-record/record-field-list/record-detail-section/relation/components/RecordDetailRelationRecordsListItem.tsx
+msgid "Show details"
+msgstr "Show details"
+
 #. js-lingui-id: JObkI8
 #. placeholder {0}: groupValue ?? ''
 #: src/modules/object-record/record-group/components/RecordGroupMenuItemDraggable.tsx
@@ -18856,15 +18998,12 @@ msgid "Sidebar items"
 msgstr "Sidebar items"
 
 #. js-lingui-id: 5lWFkC
+#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
 msgid "Sign in"
 msgstr "Sign in"
-
-#. js-lingui-id: u6Higq
-#: src/pages/auth/SignInUp.tsx
-msgid "Sign in or create a password to join your team."
-msgstr "Sign in or create a password to join your team."
 
 #. js-lingui-id: Vt3mQ2
 #: src/utils/title-utils.ts
@@ -18875,6 +19014,11 @@ msgstr "Sign in or Create an account"
 #: src/pages/auth/SignInUp.tsx
 msgid "Sign in to your Growth OS workspace."
 msgstr "Sign in to your Growth OS workspace."
+
+#. js-lingui-id: fcWrnU
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Sign out"
+msgstr "Sign out"
 
 #. js-lingui-id: mHC57v
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWithCredentials.tsx
@@ -19012,6 +19156,11 @@ msgstr "Skip creating a Name field "
 #: src/modules/settings/data-model/fields/forms/morph-relation/components/SettingsDataModelFieldRelationJunctionForm.tsx
 msgid "Skip the junction object (similar to many-to-many relations)"
 msgstr "Skip the junction object (similar to many-to-many relations)"
+
+#. js-lingui-id: L2CVk3
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "Skip to content"
+msgstr "Skip to content"
 
 #. js-lingui-id: 9NyAH9
 #: src/modules/settings/admin-panel/components/SettingsAdminChatAskQuestionsPart.tsx
@@ -19464,6 +19613,11 @@ msgstr "Street address"
 msgid "Street address 2"
 msgstr "Street address 2"
 
+#. js-lingui-id: JR0j+9
+#: src/growth-os/auth/GrowthOsAuthFields.tsx
+msgid "Strength"
+msgstr "Strength"
+
 #. js-lingui-id: UJNV7l
 #: src/pages/settings/ai/components/SettingsAgentResponseFormat.tsx
 msgid "String"
@@ -19580,7 +19734,6 @@ msgid "Subject, body and attachments will be shared with your team."
 msgstr "Subject, body and attachments will be shared with your team."
 
 #. js-lingui-id: hQRttt
-#: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx
 #: src/modules/spreadsheet-import/steps/components/ValidationStep/ValidationStep.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/form-action/components/WorkflowEditActionFormFiller.tsx
 msgid "Submit"
@@ -19949,6 +20102,11 @@ msgstr "Target relation on Junction Object"
 msgid "Target workspace subdomain"
 msgstr "Target workspace subdomain"
 
+#. js-lingui-id: GvjBKG
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Task linked"
+msgstr "Task linked"
+
 #. js-lingui-id: R+s8S+
 #: src/modules/activities/tasks/components/TaskRow.tsx
 msgid "Task title"
@@ -20051,6 +20209,16 @@ msgstr "Text copied to clipboard"
 #: src/modules/advanced-text-editor/components/FormAdvancedTextFieldInput.tsx
 msgid "Text Editor"
 msgstr "Text Editor"
+
+#. js-lingui-id: +zcP88
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "That email and password don’t match. Check both, or reset your password."
+msgstr "That email and password don’t match. Check both, or reset your password."
+
+#. js-lingui-id: ogCJkG
+#: src/modules/error-handler/components/ErrorMessageEffect.tsx
+msgid "That sign-in didn’t finish. Try again or continue with email."
+msgstr "That sign-in didn’t finish. Try again or continue with email."
 
 #. js-lingui-id: Z4WP0F
 #: src/modules/settings/accounts/components/SettingsAccountsNewEmailGroupChannel.tsx
@@ -20175,7 +20343,7 @@ msgstr "The email associated to this account"
 #. js-lingui-id: VGZYbZ
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "The email associated to your account"
-msgstr "The email associated to your account"
+msgstr "The email you sign in with."
 
 #. js-lingui-id: WGfnFh
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -20839,6 +21007,7 @@ msgid "Time zone"
 msgstr "Time zone"
 
 #. js-lingui-id: cklVjM
+#: src/growth-os/GrowthOsAuthArt.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCalendarViewContent.tsx
 msgid "Timeline"
 msgstr "Timeline"
@@ -20980,6 +21149,11 @@ msgstr "Too expensive"
 #: src/growth-os/auth/GrowthOsAuthAlert.tsx
 msgid "Too many attempts."
 msgstr "Too many attempts."
+
+#. js-lingui-id: u28rcj
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Too many attempts. Try again in {countdown} or reset your password."
+msgstr "Too many attempts. Try again in {countdown} or reset your password."
 
 #. js-lingui-id: 1NhzqT
 #: src/modules/activities/calendar/components/CalendarEventComposerFields.tsx
@@ -21364,7 +21538,7 @@ msgstr "Two columns side by side"
 #: src/pages/settings/profile/SettingsProfile.tsx
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
 msgid "Two Factor Authentication"
-msgstr "Two Factor Authentication"
+msgstr "Two-step sign-in"
 
 #. js-lingui-id: MUIppF
 #: src/modules/auth/components/TwoFactorAuthenticationProvisionEffect.tsx
@@ -21910,6 +22084,11 @@ msgstr "Update records"
 msgid "Update role"
 msgstr "Update role"
 
+#. js-lingui-id: hB01Ly
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
+msgid "Update seats"
+msgstr "Update seats"
+
 #. js-lingui-id: DUqztb
 #: src/modules/views/components/UpdateViewButtonGroup.tsx
 msgid "Update view"
@@ -22092,6 +22271,11 @@ msgstr "Upload Files"
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
 msgid "Upload logo"
 msgstr "Upload logo"
+
+#. js-lingui-id: XjTduw
+#: src/modules/ui/input/components/ImageInput.tsx
+msgid "Upload picture"
+msgstr "Upload picture"
 
 #. js-lingui-id: sl/qWH
 #: src/modules/onboarding/components/OnboardingProfilePictureUploader.tsx
@@ -22443,20 +22627,21 @@ msgstr "Variable not found"
 msgid "Variables"
 msgstr "Variables"
 
+#. js-lingui-id: bZ52T+
+#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
+msgid "Verification links work once, for 30 minutes. Request a new one, it takes a few seconds."
+msgstr "Verification links work once, for 30 minutes. Request a new one, it takes a few seconds."
+
 #. js-lingui-id: QDEWii
 #: src/pages/settings/emailing-domains/utils/getEmailingDomainStatusText.ts
 msgid "Verified"
 msgstr "Verified"
 
 #. js-lingui-id: uSMfoN
+#: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification.tsx
 #: src/utils/title-utils.ts
 msgid "Verify"
 msgstr "Verify"
-
-#. js-lingui-id: IoglDq
-#: src/pages/auth/SignInUp.tsx
-msgid "Verify code from the app"
-msgstr "Verify code from the app"
 
 #. js-lingui-id: zS/rMV
 #: src/pages/settings/profile/SettingsTwoFactorAuthenticationMethod.tsx
@@ -22616,6 +22801,7 @@ msgid "view group"
 msgstr "view group"
 
 #. js-lingui-id: B02hom
+#: src/growth-os/plan/GrowthOsSeatsStepper.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "View invoices"
@@ -22841,11 +23027,6 @@ msgstr "We could not load your {0}. Please try again later."
 msgid "We could not reach the package registry to verify the package provenance. Please try again in a few minutes."
 msgstr "We could not reach the package registry to verify the package provenance. Please try again in a few minutes."
 
-#. js-lingui-id: G/stmH
-#: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "We couldn’t confirm your email with this link. Send a new one and use the latest email."
-msgstr "We couldn’t confirm your email with this link. Send a new one and use the latest email."
-
 #. js-lingui-id: h4KC4F
 #: src/modules/settings/billing/components/AddPaymentMethodForm.tsx
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
@@ -22884,15 +23065,15 @@ msgstr "We match on these fields. If a {0} already exists, we update it. Otherwi
 msgid "We opened billing in a new tab."
 msgstr "We opened billing in a new tab."
 
-#. js-lingui-id: dT4lje
+#. js-lingui-id: /w8TpR
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
-msgid "We sent a confirmation link to {address}. Open it to activate your workspace."
-msgstr "We sent a confirmation link to {address}. Open it to activate your workspace."
+msgid "We sent a verification link to <0>{address}</0>. It works once, for 30 minutes."
+msgstr "We sent a verification link to <0>{address}</0>. It works once, for 30 minutes."
 
 #. js-lingui-id: id6ein
 #: src/modules/ui/input/components/ImageInput.tsx
 msgid "We support your square PNGs, JPEGs and GIFs under 10MB"
-msgstr "We support your square PNGs, JPEGs and GIFs under 10MB"
+msgstr "Square PNG, JPEG or GIF, up to 10 MB."
 
 #. js-lingui-id: Fui3cz
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -22928,6 +23109,11 @@ msgstr "We will send you a link to verify domain ownership"
 #: src/growth-os/states/GrowthOsMaintenancePage.tsx
 msgid "We’ll be right back"
 msgstr "We’ll be right back"
+
+#. js-lingui-id: ULcgoq
+#: src/growth-os/session/GrowthOsOfflineNotice.tsx
+msgid "We’ll reconnect automatically. Wait with edits until you’re back."
+msgstr "We’ll reconnect automatically. Wait with edits until you’re back."
 
 #. js-lingui-id: OAShZP
 #: src/pages/onboarding/PaymentSuccess.tsx
@@ -23559,10 +23745,10 @@ msgstr "You can either create a private app or share it to others"
 msgid "You can get the complete source code of the version we run, including our changes."
 msgstr "You can get the complete source code of the version we run, including our changes."
 
-#. js-lingui-id: VjaiWi
+#. js-lingui-id: wbG+Di
 #: src/growth-os/auth/GrowthOsResetSent.tsx
-msgid "You can resend in {wait}s"
-msgstr "You can resend in {wait}s"
+msgid "You can resend in {clock}. After that, the wait is 2 minutes."
+msgstr "You can resend in {clock}. After that, the wait is 2 minutes."
 
 #. js-lingui-id: CNAoaw
 #: src/modules/workflow/workflow-steps/workflow-actions/logic-function-action/components/WorkflowEditActionLogicFunction.tsx
@@ -23665,10 +23851,30 @@ msgstr "You will lose all your mappings."
 msgid "You will stop receiving these emails."
 msgstr "You will stop receiving these emails."
 
+#. js-lingui-id: XhLLd3
+#: src/pages/auth/PasswordReset.tsx
+msgid "You’ll be signed out on your other devices."
+msgstr "You’ll be signed out on your other devices."
+
 #. js-lingui-id: Cl+hUj
 #: src/modules/settings/domains/components/SettingsSubdomain.tsx
 msgid "You're about to change your workspace subdomain. This action will log out all users."
 msgstr "You're about to change your workspace subdomain. This action will log out all users."
+
+#. js-lingui-id: hKTFzG
+#: src/pages/auth/SignInUp.tsx
+msgid "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
+msgstr "You’re invited to this workspace. Continue with Google, Microsoft or your work email."
+
+#. js-lingui-id: PbCtBI
+#: src/growth-os/session/GrowthOsOfflineNotice.tsx
+msgid "You’re offline."
+msgstr "You’re offline."
+
+#. js-lingui-id: l+U9qC
+#: src/growth-os/GrowthOsAuthShell.tsx
+msgid "You’re signed out"
+msgstr "You’re signed out"
 
 #. js-lingui-id: 6x8lJe
 #: src/modules/ai/components/AIChatNoMoreBillingCreditsBanner.tsx
@@ -23753,17 +23959,12 @@ msgstr "Your handler receives this object. The body is empty because GET request
 #. js-lingui-id: 9ivpwk
 #: src/pages/settings/profile/SettingsProfile.tsx
 msgid "Your name as it will be displayed"
-msgstr "Your name as it will be displayed"
+msgstr "How your name shows up for your team."
 
 #. js-lingui-id: Gfklgu
 #: src/pages/not-found/NotFound.tsx
 msgid "Your open deals"
 msgstr "Your open deals"
-
-#. js-lingui-id: OAPgqn
-#: src/growth-os/GrowthOsAuthShell.tsx
-msgid "Your own workspace and web address"
-msgstr "Your own workspace and web address"
 
 #. js-lingui-id: 8mfOAZ
 #: src/modules/settings/billing/components/AddPaymentMethodForm.tsx
@@ -23800,6 +24001,11 @@ msgstr "Your provider API key for authentication"
 #: src/growth-os/states/GrowthOsForbiddenState.tsx
 msgid "Your role doesn’t include this area. Ask a workspace admin to give you access. Nothing is wrong with your data."
 msgstr "Your role doesn’t include this area. Ask a workspace admin to give you access. Nothing is wrong with your data."
+
+#. js-lingui-id: MOiutB
+#: src/growth-os/session/GrowthOsSessionExpiredModal.tsx
+msgid "Your session expired"
+msgstr "Your session expired"
 
 #. js-lingui-id: 3cPq25
 #: src/modules/apollo/hooks/useApolloFactory.ts

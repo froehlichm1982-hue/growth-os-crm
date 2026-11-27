@@ -23,7 +23,7 @@ export const SendEmailVerificationLinkEmail = ({ link, locale, isEmailUpdate = f
     <KitEmail
       locale={locale}
       title={heading}
-      preheader={isEmailUpdate ? i18n._('Confirm the change to finish updating your sign-in email.') : i18n._('One click and your workspace is ready. The link works for 1 hour.')}
+      preheader={isEmailUpdate ? i18n._('Confirm the change to finish updating your sign-in email.') : i18n._('One click and your workspace is ready. The link works once, for 30 minutes.')}
       eyebrow={isEmailUpdate ? i18n._('Email change') : i18n._('Welcome')}
       heading={heading}
       reason={isEmailUpdate ? 'security' : 'account'}

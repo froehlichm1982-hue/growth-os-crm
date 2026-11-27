@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { styled } from '@linaria/react';
 import { useContext } from 'react';
 
@@ -46,7 +47,7 @@ export const RecordTableCellDragAndDrop = () => {
       hasBottomBorder={false}
       widthClassName={RECORD_TABLE_COLUMN_DRAG_AND_DROP_WIDTH_CLASS_NAME}
     >
-      <StyledContainer ref={sortableHandleRef}>
+      <StyledContainer ref={sortableHandleRef} aria-label={t`Drag to reorder`}>
         <StyledIconWrapper className="icon" isDragging={isDragging}>
           <IconListViewGrip />
         </StyledIconWrapper>

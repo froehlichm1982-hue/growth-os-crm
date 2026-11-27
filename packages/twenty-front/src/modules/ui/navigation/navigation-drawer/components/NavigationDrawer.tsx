@@ -1,5 +1,5 @@
 import { styled } from '@linaria/react';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useCallback, useRef, useState } from 'react';
 
 import { useNavigationDrawerExpanded } from '@/navigation/hooks/useNavigationDrawerExpanded';
 import { useIsSettingsDrawer } from '@/navigation/hooks/useIsSettingsDrawer';
@@ -9,6 +9,7 @@ import { NAVIGATION_DRAWER_COLLAPSED_WIDTH } from '@/ui/layout/resizable-panel/c
 import { NAVIGATION_DRAWER_CONSTRAINTS } from '@/ui/layout/resizable-panel/constants/NavigationDrawerConstraints';
 import { NavigationDrawerWidthEffect } from '@/ui/navigation/components/NavigationDrawerWidthEffect';
 import { NAVIGATION_DRAWER_CLICK_OUTSIDE_ID } from '@/ui/navigation/navigation-drawer/constants/NavigationDrawerClickOutsideId';
+import { useGrowthOsDrawerA11y } from '~/growth-os/shell/useGrowthOsDrawerA11y';
 import { isNavigationDrawerExpandedState } from '@/ui/navigation/states/isNavigationDrawerExpanded';
 import { navigationDrawerActiveTabState } from '@/ui/navigation/states/navigationDrawerActiveTabState';
 import { NAVIGATION_DRAWER_TABS } from '@/ui/navigation/states/navigationDrawerTabs';
@@ -22,12 +23,15 @@ import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomStat
 import { MOBILE_VIEWPORT, themeCssVariables } from 'twenty-ui/theme-constants';
 import { GrowthOsSourceNotice } from '~/growth-os/GrowthOsSourceNotice';
 import { GrowthOsPlanStatus } from '~/growth-os/plan/GrowthOsPlanStatus';
+import { GrowthOsModuleSwitcher } from '~/growth-os/shell/GrowthOsModuleSwitcher';
 import { NavigationDrawerHeader } from './NavigationDrawerHeader';
 
 export type NavigationDrawerProps = {
   children?: ReactNode;
   className?: string;
 };
+
+const GROWTH_OS_SHOW_MODULE_SWITCHER = false;
 
 const StyledAnimatedContainer = styled.div<{
   isExpanded: boolean;
@@ -110,6 +114,13 @@ export const NavigationDrawer = ({
     tableWidthResizeIsActiveState,
   );
 
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const closeDrawer = useCallback(
+    () => setIsNavigationDrawerExpanded(false),
+    [setIsNavigationDrawerExpanded],
+  );
+  useGrowthOsDrawerA11y(drawerRef, isMobile, isExpanded, closeDrawer);
+
   const handleCollapse = () => {
     setIsNavigationDrawerExpanded(false);
     setNavigationDrawerActiveTab(NAVIGATION_DRAWER_TABS.NAVIGATION_MENU);
@@ -132,8 +143,10 @@ export const NavigationDrawer = ({
     <>
       <NavigationDrawerWidthEffect />
       <StyledAnimatedContainer
+        ref={drawerRef}
         className={className}
         data-click-outside-id={NAVIGATION_DRAWER_CLICK_OUTSIDE_ID}
+        data-m="crm"
         isExpanded={isExpanded}
         isResizing={isResizing}
       >
@@ -141,6 +154,8 @@ export const NavigationDrawer = ({
           <NavigationDrawerHeader
             showCollapseButton={isMobile || !isSettingsDrawer}
           />
+          {/* TODO(integrations): show GrowthOsModuleSwitcher with only the modules this workspace is entitled to. Hidden while the CRM ships standalone. */}
+          {GROWTH_OS_SHOW_MODULE_SWITCHER && isExpanded && !isSettingsDrawer && <GrowthOsModuleSwitcher />}
           <StyledContent>{children}</StyledContent>
           {isExpanded && <GrowthOsPlanStatus />}
           {isExpanded && (

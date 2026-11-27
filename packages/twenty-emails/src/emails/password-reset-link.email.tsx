@@ -52,7 +52,7 @@ PasswordResetLinkEmail.PreviewProps = {
   hasPassword: true,
   link: 'https://crm.scalepoint-ventures.com/reset-password/3b91c7c0d',
   locale: 'en',
-  email: 'lena@nordlicht-mail.io',
+  email: 'lena@getnordlicht.example',
   userName: 'Lena',
 } as PasswordResetLinkEmailProps;
 

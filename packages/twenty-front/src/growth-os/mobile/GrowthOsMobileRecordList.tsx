@@ -46,7 +46,7 @@ const StyledCard = styled(Link)`
   background: var(--gos-surface);
   border: 1px solid var(--gos-line);
   border-radius: 8px;
-  box-shadow: var(--gos-card-shadow);
+  box-shadow: var(--gos-shadow-xs);
   color: inherit;
   display: flex;
   gap: 12px;
@@ -76,7 +76,7 @@ const StyledName = styled.span`
 `;
 
 const StyledDetails = styled.span`
-  color: var(--gos-ink-muted);
+  color: var(--gos-text-3);
   font-size: 0.85rem;
   line-height: 1.4;
   overflow: hidden;
@@ -111,7 +111,17 @@ const GrowthOsMobileRecordCard = ({
     : null;
   const name = labelValue ?? 'Untitled';
 
+  // DS stage chip (color.stage) on deal cards; the stage is not repeated in the details.
+  const stageField = objectMetadataItem.fields.find(
+    (field) => field.name === 'stage' && field.type === 'SELECT',
+  );
+  const stageValue = isDefined(stageField) ? record[stageField.name] : null;
+  const stageOption = isDefined(stageField)
+    ? stageField.options?.find((option) => option.value === stageValue)
+    : undefined;
+
   const details = detailFieldIds
+    .filter((fieldId) => fieldId !== stageField?.id)
     .map((fieldId) => {
       const field = fieldMetadataItemByFieldMetadataItemId[fieldId];
 
@@ -138,11 +148,19 @@ const GrowthOsMobileRecordCard = ({
         />
         <StyledBody>
           <StyledName>{name}</StyledName>
+          {isDefined(stageOption) && (
+            <span
+              className="growth-os-stage-pill"
+              data-growth-os-stage-value={String(stageValue)}
+            >
+              {stageOption.label}
+            </span>
+          )}
           {details.length > 0 && (
             <StyledDetails>{details.join(' · ')}</StyledDetails>
           )}
         </StyledBody>
-        <IconChevronRight size={16} color="var(--gos-ink-faint)" />
+        <IconChevronRight size={16} color="var(--gos-text-3)" />
       </StyledCard>
     </StyledItem>
   );

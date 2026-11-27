@@ -47,9 +47,9 @@ export const SendApprovedAccessDomainValidation = ({ link, domain, workspace, se
 
 SendApprovedAccessDomainValidation.PreviewProps = {
   link: 'https://crm.scalepoint-ventures.com/settings/security/approved-domain/demo',
-  domain: 'nordlicht-mail.io',
+  domain: 'getnordlicht.example',
   workspace: { name: 'Nordlicht Analytics', logo: undefined },
-  sender: { email: 'lena@nordlicht-mail.io', firstName: 'Lena', lastName: 'Hartmann' },
+  sender: { email: 'lena@getnordlicht.example', firstName: 'Lena', lastName: 'Hartmann' },
   serverUrl: 'https://crm.scalepoint-ventures.com',
   locale: 'en',
 } as SendApprovedAccessDomainValidationProps;

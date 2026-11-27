@@ -8,6 +8,7 @@ import { useAtomState } from '@/ui/utilities/state/jotai/hooks/useAtomState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { type ColorScheme } from 'twenty-ui/input';
 import { ThemeProvider } from 'twenty-ui/theme-constants';
+import { setGosDataTheme } from '~/growth-os/theme/gosOverrides';
 
 type BaseThemeProviderProps = {
   children: JSX.Element | JSX.Element[];
@@ -27,11 +28,16 @@ export const BaseThemeProvider = ({ children }: BaseThemeProviderProps) => {
     persistedColorScheme === 'System'
       ? systemColorScheme
       : persistedColorScheme;
+  const colorScheme = effectiveColorScheme === 'Dark' ? 'dark' : 'light';
+
+  // Growth OS DS v2: html[data-theme] follows the user's colour-scheme setting
+  // before the theme provider resolves its CSS variables.
+  setGosDataTheme(colorScheme);
 
   return (
     <ThemeSchemeContext.Provider value={setPersistedColorScheme}>
       <ThemeProvider
-        colorScheme={effectiveColorScheme === 'Dark' ? 'dark' : 'light'}
+        colorScheme={colorScheme}
         scale={UI_SCALE_MULTIPLIERS[persistedUiScaleStep]}
       >
         {children}

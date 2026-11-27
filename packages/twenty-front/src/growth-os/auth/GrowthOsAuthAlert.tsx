@@ -3,6 +3,17 @@ import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 
 import { growthOsAuthAlertState } from '~/growth-os/auth/growthOsAuthAlertState';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
+
+const GosAlertIcon = createGosIcon('circle-alert', 'GosAuthAlertIcon');
+
+// DS v2.9 alert tones: default (danger), --warn, --ok, --info.
+const ALERT_CLASS = {
+  danger: 'gos-alert',
+  warn: 'gos-alert gos-alert--warn',
+  success: 'gos-alert gos-alert--ok',
+  info: 'gos-alert gos-alert--info',
+} as const;
 
 const formatCountdown = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
@@ -31,18 +42,15 @@ export const GrowthOsAuthAlert = ({ onResetPassword }: { onResetPassword?: () =>
     : null;
 
   return (
-    <div className={`gos-alert gos-alert-${alert.tone}`} role="alert" data-testid="growth-os-auth-alert">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M8 4.8v3.6M8 10.9v.1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
+    <div className={ALERT_CLASS[alert.tone]} role="alert" data-testid="growth-os-auth-alert">
+      <GosAlertIcon className="gos-icon" />
       <div>
         {remaining !== null ? (
           <>
             <b>{t`Too many attempts.`}</b>{' '}
             {t`Try again in ${formatCountdown(remaining)} or`}{' '}
             {onResetPassword ? (
-              <button type="button" className="gos-linklike" onClick={onResetPassword}>
+              <button type="button" className="growth-os-linklike" onClick={onResetPassword}>
                 {t`reset your password`}
               </button>
             ) : (
@@ -53,11 +61,11 @@ export const GrowthOsAuthAlert = ({ onResetPassword }: { onResetPassword?: () =>
         ) : (
           <>
             <b>{alert.message}</b>
-            {alert.tone === 'danger' && onResetPassword && (
+            {alert.tone === 'danger' && alert.kind !== 'oauth' && onResetPassword && (
               <>
                 {' '}
                 {t`Check both and try again, or`}{' '}
-                <button type="button" className="gos-linklike" onClick={onResetPassword}>
+                <button type="button" className="growth-os-linklike" onClick={onResetPassword}>
                   {t`reset your password`}
                 </button>
                 .

@@ -7,6 +7,8 @@ export type GrowthOsAuthAlert = {
   message: string;
   // Sign-in paused until this timestamp (ms); drives the live countdown.
   lockedUntil?: number;
+  // 'oauth': a provider error; no password hint (§4 OAuth return).
+  kind?: 'credentials' | 'oauth';
 };
 
 export const growthOsAuthAlertState = createAtomState<GrowthOsAuthAlert | null>({

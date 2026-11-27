@@ -21,7 +21,7 @@ const StyledPresets = styled.div`
 
 const StyledPreset = styled.button<{ isActive: boolean }>`
   background: ${({ isActive }) =>
-    isActive ? 'rgba(58,120,114,0.12)' : themeCssVariables.background.primary};
+    isActive ? 'var(--gos-selected)' : themeCssVariables.background.primary};
   border: 1px solid
     ${({ isActive }) =>
       isActive ? 'var(--c-link)' : themeCssVariables.border.color.medium};

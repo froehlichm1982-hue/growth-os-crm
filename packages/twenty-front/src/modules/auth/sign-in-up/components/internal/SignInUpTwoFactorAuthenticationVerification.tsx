@@ -1,5 +1,3 @@
-import { styled } from '@linaria/react';
-
 import { useAuth } from '@/auth/hooks/useAuth';
 import {
   type OTPFormValues,
@@ -10,161 +8,30 @@ import {
   SignInUpStep,
   signInUpStepState,
 } from '@/auth/states/signInUpStepState';
-import {
-  StyledTwoFactorInstructions,
-  StyledTwoFactorMainContent,
-} from '@/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationStyles';
 import { useReadCaptchaToken } from '@/captcha/hooks/useReadCaptchaToken';
-import { ONBOARDING_CONTENT_BLOCK_WIDTH } from '@/onboarding/constants/OnboardingContentBlockWidth';
 import { useCaptcha } from '@/client-config/hooks/useCaptcha';
 import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
-import { Trans, useLingui } from '@lingui/react/macro';
+import { useLingui } from '@lingui/react/macro';
 import { OTPInput, type SlotProps } from 'input-otp';
 import { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { AppPath } from 'twenty-shared/types';
-import { MainButton } from 'twenty-ui/input';
-import { ClickToActionLink } from 'twenty-ui/navigation';
-import { themeCssVariables } from 'twenty-ui/theme-constants';
+import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 import { useNavigateApp } from '~/hooks/useNavigateApp';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
 
-const StyledForm = styled.form`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  width: ${ONBOARDING_CONTENT_BLOCK_WIDTH}px;
-`;
+const GosArrowLeft = createGosIcon('arrow-left', 'GosTotpBack');
 
-const StyledSlot = styled.div<{ isActive: boolean }>`
-  align-items: center;
-  border-bottom: 1px solid ${themeCssVariables.border.color.medium};
-  border-right: 1px solid ${themeCssVariables.border.color.medium};
-  border-top: 1px solid ${themeCssVariables.border.color.medium};
-  display: flex;
-  font-size: 2rem;
-  height: 3.5rem;
-  justify-content: center;
-  outline-color: ${({ isActive }) =>
-    isActive
-      ? themeCssVariables.border.color.strong
-      : themeCssVariables.border.color.medium};
-  outline-style: ${({ isActive }) => (isActive ? 'solid' : 'none')};
-  outline-width: ${({ isActive }) => (isActive ? '1px' : '0')};
-
-  &:first-of-type {
-    border-bottom-left-radius: 0.375rem;
-    border-left: 1px solid ${themeCssVariables.border.color.medium};
-    border-top-left-radius: 0.375rem;
-  }
-
-  &:last-of-type {
-    border-bottom-right-radius: 0.375rem;
-    border-top-right-radius: 0.375rem;
-  }
-
-  .group:hover &,
-  .group:focus-within & {
-    border-color: ${themeCssVariables.border.color.medium};
-  }
-
-  position: relative;
-  transition: all 0.3s;
-  width: 2.5rem;
-`;
-
-const StyledPlaceholderChar = styled.div`
-  .group:has(input[data-input-otp-placeholder-shown]) & {
-    opacity: 0.2;
-  }
-`;
-
-export const Slot = (props: SlotProps) => {
-  return (
-    <StyledSlot isActive={props.isActive}>
-      <StyledPlaceholderChar>
-        {props.char ?? props.placeholderChar}
-      </StyledPlaceholderChar>
-      {props.hasFakeCaret && <FakeCaret />}
-    </StyledSlot>
-  );
-};
-
-const StyledCaretContainer = styled.div`
-  align-items: center;
-  animation: caret-blink 1s steps(2, start) infinite;
-  display: flex;
-  inset: 0;
-  justify-content: center;
-  pointer-events: none;
-  position: absolute;
-
-  @keyframes caret-blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-  }
-`;
-
-const StyledCaret = styled.div`
-  background-color: ${themeCssVariables.font.color.light};
-  height: 2rem;
-  width: 1px;
-`;
-
-const FakeCaret = () => {
-  return (
-    <StyledCaretContainer>
-      <StyledCaret />
-    </StyledCaretContainer>
-  );
-};
-
-const StyledDashContainer = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  width: 2.5rem;
-`;
-
-const StyledDash = styled.div`
-  background-color: ${themeCssVariables.font.color.primary};
-  border-radius: ${themeCssVariables.border.radius.pill};
-  corner-shape: round;
-  height: 0.25rem;
-  width: 0.75rem;
-`;
-
-const FakeDash = () => {
-  return (
-    <StyledDashContainer>
-      <StyledDash />
-    </StyledDashContainer>
-  );
-};
-
-const StyledOTPContainer = styled.div`
-  align-items: center;
-  display: flex;
-
-  &:has(:disabled) {
-    opacity: 0.3;
-  }
-`;
-
-const StyledSlotGroup = styled.div`
-  display: flex;
-`;
-
-const StyledActionBackLinkContainer = styled.div`
-  margin: ${themeCssVariables.spacing[3]} 0 0;
-`;
+// DS v2.9 two-factor.html: six boxes, 3 + gap + 3. input-otp renders one real
+// <input> over these boxes, so the boxes are plain divs styled like `.gos-otp input`
+// (growth-os-auth.css `.growth-os-otp-slot`), not the DS `.gos-otp input` rule.
+const Slot = (props: SlotProps) => (
+  <div className="growth-os-otp-slot" data-active={props.isActive ? 'true' : undefined}>
+    {props.char ?? ''}
+    {props.hasFakeCaret && <span className="growth-os-otp-caret" />}
+  </div>
+);
 
 export const SignInUpTOTPVerification = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -213,17 +80,19 @@ export const SignInUpTOTPVerification = () => {
     }
   };
 
+  // The challenge happens during sign-in: back returns to the sign-in form.
   const handleBack = () => {
-    setSignInUpStep(SignInUpStep.TwoFactorAuthenticationProvision);
+    setSignInUpStep(SignInUpStep.Email);
   };
 
   return (
-    <StyledForm onSubmit={form.handleSubmit(submitOTP)}>
-      <StyledTwoFactorInstructions>
-        <Trans>Paste the code below</Trans>
-      </StyledTwoFactorInstructions>
-      <StyledTwoFactorMainContent>
-        {/* // oxlint-disable-next-line react/jsx-props-no-spreading */}
+    <>
+      <form
+        className="gos-stack"
+        style={{ width: '100%' }}
+        onSubmit={form.handleSubmit(submitOTP)}
+        data-testid="growth-os-2fa-challenge"
+      >
         <Controller
           name="otp"
           control={form.control}
@@ -234,47 +103,39 @@ export const SignInUpTOTPVerification = () => {
               onChange={onChange}
               value={value}
               autoFocus
+              autoComplete="one-time-code"
+              inputMode="numeric"
+              aria-label={t`6-digit code`}
+              containerClassName="growth-os-otp"
               render={({ slots }) => (
-                <StyledOTPContainer>
-                  <StyledSlotGroup>
-                    {slots.slice(0, 3).map((slot, idx) => (
-                      <Slot
-                        key={idx}
-                        // oxlint-disable-next-line react/jsx-props-no-spreading
-                        {...slot}
-                      />
-                    ))}
-                  </StyledSlotGroup>
-
-                  <FakeDash />
-
-                  <StyledSlotGroup>
-                    {slots.slice(3).map((slot, idx) => (
-                      <Slot
-                        key={idx}
-                        // oxlint-disable-next-line react/jsx-props-no-spreading
-                        {...slot}
-                      />
-                    ))}
-                  </StyledSlotGroup>
-                </StyledOTPContainer>
+                <div className="growth-os-otp-row" role="presentation">
+                  {slots.slice(0, 3).map((slot, idx) => (
+                    // oxlint-disable-next-line react/jsx-props-no-spreading
+                    <Slot key={idx} {...slot} />
+                  ))}
+                  <span className="growth-os-otp-gap" />
+                  {slots.slice(3).map((slot, idx) => (
+                    // oxlint-disable-next-line react/jsx-props-no-spreading
+                    <Slot key={idx} {...slot} />
+                  ))}
+                </div>
               )}
             />
           )}
         />
-      </StyledTwoFactorMainContent>
-      <MainButton
-        title={t`Submit`}
-        type="submit"
-        variant="primary"
-        fullWidth
-        disabled={isLoading}
-      />
-      <StyledActionBackLinkContainer>
-        <ClickToActionLink onClick={handleBack}>
-          <Trans>Back</Trans>
-        </ClickToActionLink>
-      </StyledActionBackLinkContainer>
-    </StyledForm>
+        <button
+          type="submit"
+          className="gos-btn gos-btn--primary gos-btn--block gos-btn--lg"
+          disabled={isLoading}
+          aria-busy={isLoading || undefined}
+        >
+          {t`Verify`}
+        </button>
+      </form>
+      <button type="button" className="gos-link gos-tap gos-back growth-os-linklike" onClick={handleBack}>
+        <GosArrowLeft className="gos-icon sm" />
+        {t`Back to sign in`}
+      </button>
+    </>
   );
 };

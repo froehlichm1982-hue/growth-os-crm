@@ -1,331 +1,390 @@
-/* Growth OS CRM app shell (round 7 visual pass).
-   Brand layer on top of growth-os-theme.css: SPV navy sidebar, serif page
-   titles, roomier type and rows, soft grid, card panels. Keyed only on stable
-   hooks (data attributes, upstream global class names, and the few
+/* Growth OS CRM app shell · Design System v2 "Polar Light Day".
+   Values only (DS tokens from ~/gos/css/gos.scoped.css, semantic roles, no hex).
+   Keyed on stable hooks (data attributes, upstream global class names and the
    growth-os-* class names we add), so upstream merges stay cheap.
-   Reference: /workspace/projects/growth-os/preview-site + previews/crm-desktop.png */
+   Reference: design-system/docs/index.html#c-shell, patterns/app-dashboard.html. */
 
-/* 1. Scale: ~14px base and ~34px rows instead of 13px / 32px. Row height is a
-   JS constant upstream, so scale the whole UI through the existing zoom hook. */
+/* 1. Density: 14px base (DS body) instead of 13px, through the zoom hook. */
 html:root {
   --t-zoom: calc(var(--t-scale-user, 1) * 1.0769);
 }
 
-/* 2. Navy sidebar. The drawer is transparent upstream and shows the body
-   background, so paint the body navy and re-scope the drawer tokens. */
-body {
-  background: var(--spv-navy) !important;
+html:root body {
+  background: var(--gos-bg-sunken) !important;
+  color: var(--gos-text);
+  font-family: var(--gos-font-sans);
 }
+
+::selection {
+  background: var(--gos-selected);
+}
+
+:focus-visible {
+  outline-color: var(--gos-focus);
+}
+
+.gos-num,
+.growth-os-num {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* 2. Sidebar: 232px on bg-sunken (default width in NavigationDrawerConstraints). */
 
 [data-click-outside-id='navigation-drawer'] {
-  --t-font-color-primary: #f3f5f7;
-  --t-font-color-secondary: #c9d2dc;
-  --t-font-color-tertiary: #9aa8b8;
-  --t-font-color-light: #7e8ca0;
-  --t-font-color-extra-light: #5d6b7e;
-  --t-background-transparent-light: rgba(255, 255, 255, 0.06);
-  --t-background-transparent-lighter: rgba(255, 255, 255, 0.04);
-  --t-background-transparent-medium: rgba(255, 255, 255, 0.1);
-  --t-background-transparent-strong: rgba(255, 255, 255, 0.14);
-  --t-background-transparent-secondary: rgba(255, 255, 255, 0.06);
-  --t-background-transparent-primary: rgba(255, 255, 255, 0.04);
-  --t-background-primary: var(--spv-navy-light);
-  --t-background-secondary: var(--spv-navy);
-  --t-background-tertiary: rgba(255, 255, 255, 0.08);
-  --t-border-color-light: rgba(255, 255, 255, 0.08);
-  --t-border-color-medium: rgba(255, 255, 255, 0.12);
-  --t-border-color-strong: rgba(255, 255, 255, 0.18);
-  background: var(--spv-navy);
-  color: #f3f5f7;
-}
-
-/* ScalePoint logo above the workspace switcher. */
-[data-click-outside-id='navigation-drawer'] > div:first-child::before {
-  background: url('/images/growth-os/logo-dark@2x.png') left center / contain
-    no-repeat;
-  content: '';
-  display: block;
-  flex: 0 0 auto;
-  height: 26px;
-  margin: 6px 4px 14px;
-  width: 130px;
+  --t-font-color-primary: var(--gos-text);
+  --t-font-color-secondary: var(--gos-text-2);
+  --t-font-color-tertiary: var(--gos-text-3);
+  --t-font-color-light: var(--gos-text-3);
+  background: var(--gos-bg-sunken);
+  color: var(--gos-text-2);
 }
 
 [data-click-outside-id='navigation-drawer'] .navigation-drawer-item {
-  border-radius: 8px;
+  border-radius: var(--gos-radius-sm);
+  color: var(--gos-text-2);
   min-height: 32px;
+  transition:
+    background var(--gos-duration-fast) var(--gos-ease-out),
+    color var(--gos-duration-fast) var(--gos-ease-out);
 }
 
 [data-click-outside-id='navigation-drawer'] .navigation-drawer-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--gos-hover);
+  color: var(--gos-text);
 }
 
-[data-click-outside-id='navigation-drawer'] [aria-current='page'],
-[data-click-outside-id='navigation-drawer']
-  .navigation-drawer-item[aria-current='page'] {
-  background: rgba(89, 192, 182, 0.16) !important;
-  box-shadow: inset 2px 0 0 #59c0b6;
-  color: #ffffff;
+/* Active item: white pill, xs shadow + 1px line, icon in the module fill. */
+[data-click-outside-id='navigation-drawer'] .navigation-drawer-item[aria-current='page'],
+[data-click-outside-id='navigation-drawer'] [aria-current='page'].navigation-drawer-item {
+  background: var(--gos-surface) !important;
+  box-shadow: var(--gos-shadow-xs), 0 0 0 1px var(--gos-line);
+  color: var(--gos-text-strong);
+  font-weight: var(--gos-weight-semibold);
 }
 
-[data-click-outside-id='navigation-drawer']
-  .section-title-container
-  [class*='_label_'] {
-  color: #7e8ca0;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+/* Nav icons: plain 16px Lucide-weight glyphs, muted; no rainbow tiles. */
+[data-click-outside-id='navigation-drawer'] .navigation-drawer-item [class*='_root_']:has(> svg) {
+  background: transparent !important;
+}
+
+[data-click-outside-id='navigation-drawer'] .navigation-drawer-item svg {
+  color: var(--gos-text-3) !important;
+  stroke: currentColor !important;
+}
+
+[data-click-outside-id='navigation-drawer'] .navigation-drawer-item[aria-current='page'] svg {
+  color: var(--m-fill, var(--gos-crm-fill)) !important;
+}
+
+/* Section labels: 11px uppercase, muted. */
+[data-click-outside-id='navigation-drawer'] .section-title-container [class*='_label_'] {
+  color: var(--gos-text-3);
+  font-size: 11px;
+  font-weight: var(--gos-weight-semibold);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-/* Placeholder avatars inside the drawer: teal on navy. */
-[data-click-outside-id='navigation-drawer']
-  [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
-  background: rgba(89, 192, 182, 0.2) !important;
-  color: #9fe0d9 !important;
+/* Placeholder avatars (workspace tile, people): navy tile / neutral chip. */
+[data-click-outside-id='navigation-drawer'] [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
+  background: var(--gos-primary) !important;
+  color: var(--gos-primary-ink) !important;
 }
 
-/* 3. Main surface: one white card on the navy frame. */
+[class*='_placeholderChar_'] {
+  font-family: var(--gos-font-sans);
+}
+
+/* Module switcher: 4 module tiles under the workspace switcher. */
+.growth-os-modsw {
+  display: flex;
+  gap: var(--gos-space-1_5);
+  padding: var(--gos-space-1) var(--gos-space-1_5) var(--gos-space-2);
+}
+
+.growth-os-modsw a {
+  border: 1px solid transparent;
+  border-radius: var(--gos-radius-md);
+  display: grid;
+  opacity: 0.75;
+  padding: 3px;
+  place-items: center;
+  transition:
+    opacity var(--gos-duration-fast) var(--gos-ease-out),
+    background var(--gos-duration-fast) var(--gos-ease-out);
+}
+
+.growth-os-modsw a:hover {
+  background: var(--gos-hover);
+  opacity: 1;
+}
+
+.growth-os-modsw a[aria-current='true'] {
+  background: var(--gos-surface);
+  border-color: var(--gos-line);
+  box-shadow: var(--gos-shadow-xs);
+  opacity: 1;
+}
+
+.growth-os-modsw a:focus-visible {
+  box-shadow: var(--gos-focus-ring);
+  outline: none;
+}
+
+.growth-os-mt {
+  background: var(--m-tile);
+  border-radius: 7px;
+  box-shadow: var(--gos-shadow-inset-highlight);
+  color: var(--m-glyph);
+  display: grid;
+  height: 26px;
+  place-items: center;
+  width: 26px;
+}
+
+/* Plan / usage card at the bottom of the sidebar. */
+.growth-os-plan {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--gos-aurora-teal) 10%, transparent),
+      color-mix(in srgb, var(--gos-aurora-blue) 8%, transparent) 55%,
+      color-mix(in srgb, var(--gos-aurora-violet) 10%, transparent)
+    ),
+    var(--gos-surface);
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-lg);
+  display: grid;
+  gap: var(--gos-space-2);
+  margin: 0 var(--gos-space-1) var(--gos-space-2) 0;
+  padding: var(--gos-space-3);
+}
+
+.growth-os-plan b {
+  color: var(--gos-text-strong);
+  font-size: var(--gos-text-sm);
+  font-weight: var(--gos-weight-semibold);
+}
+
+.growth-os-plan small {
+  color: var(--gos-text-3);
+  font-size: var(--gos-text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.growth-os-plan[data-tone='warn'] {
+  background: var(--gos-warning-soft);
+  border-color: var(--gos-warning-line);
+}
+
+.growth-os-plan[data-tone='danger'] {
+  background: var(--gos-danger-soft);
+  border-color: var(--gos-danger-line);
+}
+
+.growth-os-plan[data-tone='warn'] b { color: var(--gos-warning-ink); }
+.growth-os-plan[data-tone='danger'] b { color: var(--gos-danger-ink); }
+
+.growth-os-meter {
+  background: var(--gos-line);
+  border-radius: var(--gos-radius-full);
+  height: 6px;
+  overflow: hidden;
+}
+
+.growth-os-meter > i {
+  background: var(--gos-gradient-aurora);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+}
+
+.growth-os-plan-btn {
+  align-items: center;
+  background: var(--gos-secondary);
+  border: 1px solid var(--gos-line-strong);
+  border-radius: var(--gos-radius-md);
+  box-shadow: var(--gos-shadow-xs);
+  color: var(--gos-secondary-ink);
+  display: inline-flex;
+  font-size: var(--gos-text-sm);
+  font-weight: var(--gos-weight-semibold);
+  height: var(--gos-size-control-sm);
+  justify-content: center;
+  text-decoration: none;
+  transition:
+    background var(--gos-duration-fast) var(--gos-ease-out),
+    border-color var(--gos-duration-fast) var(--gos-ease-out);
+}
+
+.growth-os-plan-btn:hover {
+  background: var(--gos-hover);
+  border-color: var(--gos-input-line);
+}
+
+.growth-os-plan-btn:focus-visible {
+  box-shadow: var(--gos-focus-ring);
+  outline: none;
+}
+
+/* 3. Main: white card inset 8px, 12px radius, xs shadow + 1px line, app glow. */
 [data-page-surface='main'] {
-  border-radius: 8px;
+  background: var(--gos-gradient-app-glow), var(--gos-surface) !important;
+  border: 1px solid var(--gos-line) !important;
+  border-radius: 12px;
+  box-shadow: var(--gos-shadow-xs);
 }
 
-/* 4. Page header: white bar, serif title, more air. */
+/* 4. Topbar / page header (56px+): translucent white, page-title type. */
 .growth-os-page-card-header {
-  background: var(--gos-surface) !important;
+  backdrop-filter: saturate(1.4) blur(12px);
+  background: color-mix(in srgb, var(--gos-surface) 82%, transparent) !important;
   border-bottom-color: var(--gos-line) !important;
   min-height: 60px !important;
-  padding-left: 20px !important;
-  padding-right: 16px !important;
+  padding-left: var(--gos-space-5) !important;
+  padding-right: var(--gos-space-4) !important;
 }
 
 .growth-os-page-card-title {
-  font-family: var(--spv-font-display);
-  font-size: 1.55rem !important;
-  font-weight: 400 !important;
-  gap: 8px;
-  letter-spacing: -0.005em;
+  color: var(--gos-text-strong);
+  font-family: var(--gos-font-sans);
+  font-size: var(--gos-text-2xl) !important;
+  font-weight: var(--gos-weight-semibold) !important;
+  gap: var(--gos-space-2);
+  letter-spacing: var(--gos-page-title-tracking);
 }
 
-/* Record breadcrumb: parent object muted in the UI font, the record itself in
-   serif, the "(2/6)" position as a small muted counter. */
 [data-testid='top-bar-title'] {
-  font-family: var(--spv-font-ui);
-  font-size: 0.95rem;
-  gap: 8px;
+  font-family: var(--gos-font-sans);
+  font-size: var(--gos-text-md);
+  gap: var(--gos-space-2);
 }
 
 [data-testid='top-bar-title'] > div:first-child:not(:last-of-type),
 [data-testid='top-bar-title'] > div:first-child:not(:last-of-type) * {
-  color: var(--gos-ink-muted);
-  font-family: var(--spv-font-ui);
-  font-size: 0.95rem;
-  font-weight: 500;
+  color: var(--gos-text-3);
+  font-size: var(--gos-text-md);
+  font-weight: var(--gos-weight-medium);
 }
 
 [data-testid='top-bar-title'] > div:last-of-type {
-  font-family: var(--spv-font-display);
-  font-size: 1.45rem;
-  font-weight: 400;
+  color: var(--gos-text-strong);
+  font-size: var(--gos-text-2xl);
+  font-weight: var(--gos-weight-semibold);
+  letter-spacing: var(--gos-page-title-tracking);
 }
 
 [data-testid='top-bar-title'] > span:last-child {
-  color: var(--gos-ink-faint);
-  font-size: 0.8rem;
+  color: var(--gos-text-3);
+  font-size: var(--gos-text-xs);
+  font-variant-numeric: tabular-nums;
 }
 
-.growth-os-page-card-header nav {
-  font-size: 0.95rem;
+/* Page title object icon: muted glyph, no tinted tile. */
+.growth-os-page-card-title [class*='_root_']:has(> svg) {
+  background: transparent !important;
 }
 
-/* 5. Tables: soft grid, calm header, quiet hover. */
-[data-page-surface='main'] .table-cell,
+.growth-os-page-card-title [class*='_root_']:has(> svg) > svg {
+  color: var(--gos-text-3) !important;
+  stroke: currentColor !important;
+}
+
+/* 5. Buttons: one navy primary per view (inset highlight, CTA glow on hover). */
+html:root button[data-variant='primary'][data-accent='blue'],
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] {
+  background: var(--gos-primary) !important;
+  border-color: var(--gos-primary) !important;
+  box-shadow: var(--gos-shadow-inset-highlight), var(--gos-shadow-xs) !important;
+  color: var(--gos-primary-ink) !important;
+  transition:
+    background var(--gos-duration-fast) var(--gos-ease-out),
+    box-shadow var(--gos-duration-base) var(--gos-ease-out),
+    transform var(--gos-duration-fast) var(--gos-ease-out);
+}
+
+html:root button[data-variant='primary'][data-accent='blue'] *,
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] * {
+  color: var(--gos-primary-ink) !important;
+}
+
+html:root button[data-variant='primary'][data-accent='blue']:hover:not(:disabled),
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:hover:not(:disabled) {
+  background: var(--gos-primary-hover) !important;
+  box-shadow: var(--gos-shadow-inset-highlight), var(--gos-glow-cta-hover) !important;
+}
+
+html:root button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Icon-only header actions are ghost buttons, not navy squares. */
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])),
+html:root [data-testid='page-header-side-panel-button'] {
+  background: transparent !important;
+  border: 1px solid var(--gos-line) !important;
+  box-shadow: none !important;
+  color: var(--gos-text-2) !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])) *,
+html:root [data-testid='page-header-side-panel-button'] * {
+  color: var(--gos-text-2) !important;
+}
+
+html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])):hover:not(:disabled),
+html:root [data-testid='page-header-side-panel-button']:hover {
+  background: var(--gos-hover) !important;
+  box-shadow: none !important;
+}
+
+/* 6. Tables: sticky subtle header, 12px muted labels, line-2 rules, hover and
+   selection tints, tabular right-aligned amounts. */
+html:root .header-cell {
+  background: var(--gos-bg-subtle) !important;
+  color: var(--gos-text-3) !important;
+  font-size: var(--gos-text-xs);
+  font-weight: var(--gos-weight-medium);
+}
+
+html:root .table-cell,
 [data-page-surface='main'] [data-testid^='row-id-'] > * {
-  border-color: var(--gos-line-soft) !important;
+  border-color: var(--gos-line-2) !important;
 }
 
-[data-page-surface='main'] [data-testid^='row-id-']:hover > * {
-  background: var(--gos-hover);
+html:root .table-cell {
+  color: var(--gos-text-2);
 }
 
-/* Placeholder avatars and record chips in calm brand tints instead of the
-   upstream rainbow. */
-[data-page-surface='main']
-  [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
-  background: var(--gos-chip-bg) !important;
-  color: var(--gos-chip-fg) !important;
+html:root [data-testid^='row-id-']:hover > .table-cell,
+html:root [data-testid^='row-id-']:hover > [class*='table-cell-'] {
+  background: var(--gos-hover) !important;
 }
 
-/* 6. Record page: field and relation widgets as cards on a warm column. */
-[data-record-show-page-body] .page-layout-scroll-wrapper .widget {
-  background: var(--gos-surface);
-  border: 1px solid var(--gos-line);
-  border-radius: 8px;
-  box-shadow: var(--gos-card-shadow);
-  box-sizing: border-box;
-  margin: 0 12px 12px;
-  width: calc(100% - 24px);
+html:root [data-testid^='row-id-'][data-selected='true'] > *,
+html:root [data-testid^='row-id-'][aria-selected='true'] > * {
+  background: var(--gos-selected) !important;
 }
 
-[data-record-show-page-body] .page-layout-scroll-wrapper > div {
-  padding-top: 12px;
+html:root .record-table-column-field-0 [class*='_chip_'],
+html:root .record-table-column-field-0 [class*='_label_'] {
+  color: var(--gos-text-strong) !important;
+  font-weight: var(--gos-weight-semibold);
 }
 
-[data-record-show-page-body]
-  .page-layout-scroll-wrapper
-  [data-orientation='horizontal'] {
-  display: none;
+html:root [data-testid^='row-id-'] input[type='checkbox'],
+html:root .header-cell input[type='checkbox'] {
+  accent-color: var(--gos-primary);
 }
 
-/* Widget slots carry upstream divider lines; the cards replace them. */
-[data-record-show-page-body] .page-layout-scroll-wrapper > div > div {
-  border-bottom: 0 !important;
-  border-top: 0 !important;
+[data-page-surface='main'] [class*='_root_'][data-type]:has(> [class*='_placeholderChar_']) {
+  background: var(--gos-bg-sunken) !important;
+  color: var(--gos-text-2) !important;
 }
 
-[data-record-show-page-body] .page-layout-scroll-wrapper > div {
-  background: var(--gos-surface-warm);
-}
-
-[data-record-show-page-body] .widget-card-header {
-  font-weight: 600;
-}
-
-[data-record-show-page-body] h3 [data-testid='tooltip'] {
-  font-family: var(--spv-font-display);
-  font-size: 1.4rem;
-  font-weight: 400;
-}
-
-/* 7. Settings: each section is a white card on the warm page. */
-[data-page-surface='main']:has(.growth-os-settings-page) > div > div {
-  background: var(--gos-surface-warm);
-}
-
-.growth-os-settings-page > [class*='_section_'] {
-  background: var(--gos-surface);
-  border: 1px solid var(--gos-line);
-  border-radius: 8px;
-  box-shadow: var(--gos-card-shadow);
-  box-sizing: border-box;
-  padding: 20px 24px;
-}
-
-/* 8. Teal focus ring everywhere. */
-:focus-visible {
-  outline-color: #469189;
-}
-
-/* 9. Object icons in brand tones instead of the upstream rainbow tiles. */
-[data-click-outside-id='navigation-drawer']
-  .navigation-drawer-item
-  [class*='_root_']:has(> svg.tabler-icon) {
-  background: rgba(89, 192, 182, 0.14) !important;
-}
-
-[data-click-outside-id='navigation-drawer']
-  .navigation-drawer-item
-  [class*='_root_']:has(> svg.tabler-icon)
-  > svg {
-  color: #9fe0d9 !important;
-  stroke: #9fe0d9 !important;
-}
-
-.growth-os-page-card-title [class*='_root_']:has(> svg.tabler-icon) {
-  background: var(--gos-chip-bg) !important;
-}
-
-.growth-os-page-card-title [class*='_root_']:has(> svg.tabler-icon) > svg {
-  color: var(--gos-chip-fg) !important;
-  stroke: var(--gos-chip-fg) !important;
-}
-
-/* Avatar initials stay in the UI font even inside serif titles. */
-[class*='_placeholderChar_'] {
-  font-family: var(--spv-font-ui);
-}
-
-/* 10. Pipeline board: stage-tinted columns, accent rule on the header,
-   lifted white deal cards with the amount as the headline figure. */
-.growth-os-board-column,
-.growth-os-board-column-header {
-  --stage: var(--c-ink-3);
-  --stage-bg: var(--c-bg-subtle);
-}
-[data-growth-os-stage-value='NEW'] { --stage: var(--c-info); --stage-bg: var(--c-info-soft); }
-[data-growth-os-stage-value='SCREENING'] { --stage: var(--c-ink-2); --stage-bg: var(--c-bg-warm); }
-[data-growth-os-stage-value='MEETING'] { --stage: var(--c-warn); --stage-bg: var(--c-warn-soft); }
-[data-growth-os-stage-value='PROPOSAL'] { --stage: var(--c-link); --stage-bg: var(--c-bg-selected); }
-[data-growth-os-stage-value='CUSTOMER'] { --stage: var(--c-success); --stage-bg: var(--c-success-soft); }
-
-html:root .growth-os-board-column {
-  background: var(--stage-bg) !important;
-  border-left: none !important;
-  border-radius: 0 0 var(--r-lg) var(--r-lg);
-  margin: 0 5px;
-  padding: 0 4px 8px;
-}
-
-html:root .growth-os-board-column-header {
-  background: var(--stage-bg) !important;
-  border-left: none !important;
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
-  box-shadow: inset 0 3px 0 var(--stage);
-  margin: 8px 5px 0;
-  padding-top: 3px;
-}
-
-html:root .growth-os-board-column-header > div {
-  background: transparent !important;
-}
-
-html:root .growth-os-board-column-header span[class*='_tag_'] {
-  background: transparent !important;
-  color: var(--stage) !important;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-html:root .growth-os-board-column-header [data-testid='tooltip'] {
-  color: var(--c-ink);
-  font-variant-numeric: lining-nums tabular-nums;
-  font-weight: 600;
-}
-
-html:root .growth-os-board-card > div > div {
-  background: var(--c-bg) !important;
-  border: 1px solid var(--c-line) !important;
-  border-radius: var(--r-lg) !important;
-  box-shadow: 0 1px 2px var(--c-ink)0d, 0 2px 8px var(--c-ink)08 !important;
-  transition: box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
-}
-
-html:root .growth-os-board-card > div > div:hover {
-  box-shadow: 0 2px 4px var(--c-ink)12, 0 8px 20px var(--c-ink)0f !important;
-  transform: translateY(-1px);
-}
-
-/* Card fields: no icon gutter; amount as the headline, close date muted. */
-html:root .growth-os-board-card-field > div > div:first-child:has(svg.tabler-icon) {
-  display: none;
-}
-
-html:root .growth-os-board-card-field[data-growth-os-field-type='CURRENCY'] {
-  color: var(--c-ink);
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-
-html:root .growth-os-board-card-field[data-growth-os-field-name='closeDate'] {
-  color: var(--c-ink-3);
-  font-size: 0.8rem;
-}
-
-/* 11. Tables: amounts right-aligned in tabular figures, soft pills. */
 html:root .table-cell[data-growth-os-field-type='CURRENCY'],
-html:root .header-cell[data-growth-os-field-type='CURRENCY'] {
+html:root .header-cell[data-growth-os-field-type='CURRENCY'],
+html:root .table-cell[data-growth-os-field-type='NUMBER'] {
   font-variant-numeric: lining-nums tabular-nums;
 }
 
@@ -341,15 +400,16 @@ html:root .header-cell[data-growth-os-field-type='CURRENCY'] [data-dnd-sortable-
   justify-content: flex-end;
 }
 
-/* Kit .badge: 22px pill, 12px/600, leading status dot. */
+/* DS badge: 22px pill, 12px/600, leading dot, soft background + 1px line. */
 html:root .table-cell span[class*='_tag_'],
 html:root .growth-os-board-card span[class*='_tag_'] {
-  border-radius: var(--r-full) !important;
-  font-size: var(--fs-xs) !important;
-  font-weight: 600;
+  border: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  border-radius: var(--gos-radius-full) !important;
+  font-size: var(--gos-text-xs) !important;
+  font-weight: var(--gos-weight-semibold);
   gap: 6px;
   height: 22px !important;
-  padding: 0 8px !important;
+  padding: 0 9px !important;
 }
 
 html:root .table-cell[data-growth-os-field-type='SELECT'] span[class*='_tag_']::before,
@@ -359,53 +419,79 @@ html:root .table-cell[data-growth-os-field-type='MULTI_SELECT'] span[class*='_ta
   content: '';
   flex: none;
   height: 6px;
-  opacity: 0.9;
   width: 6px;
 }
 
-/* Kit table: subtle header band, muted 12px labels, line-2 row rules. */
-html:root .header-cell {
-  background: var(--c-bg-subtle) !important;
-  color: var(--c-ink-3) !important;
-  font-size: var(--fs-xs);
-  font-weight: 500;
+/* 7. Tabs: muted labels, strong active label with a navy underline. */
+html:root [class*='_tabButton_'] {
+  color: var(--gos-text-3);
+  font-weight: var(--gos-weight-medium);
 }
 
-html:root .table-cell {
-  border-bottom-color: var(--c-line-2) !important;
-  color: var(--c-ink-2);
+html:root [class*='_tabButton_'][data-active='true'] {
+  color: var(--gos-text-strong);
 }
 
+html:root [class*='_tabButton_'][data-active='true']::after,
+html:root [class*='_tabButton_'][data-active='true'] > [class*='_indicator_'] {
+  background: var(--gos-text-strong) !important;
+  border-color: var(--gos-text-strong) !important;
+}
 
-/* 12. Record hero sits on the warm surface; bigger logo tile. */
+/* 8. Record page: widgets as cards on the subtle column. */
+[data-record-show-page-body] .page-layout-scroll-wrapper > div {
+  background: var(--gos-bg-subtle);
+  padding-top: var(--gos-space-3);
+}
+
+[data-record-show-page-body] .page-layout-scroll-wrapper .widget {
+  background: var(--gos-surface);
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-lg);
+  box-shadow: var(--gos-shadow-xs);
+  box-sizing: border-box;
+  margin: 0 var(--gos-space-3) var(--gos-space-3);
+  width: calc(100% - 24px);
+}
+
+[data-record-show-page-body] .page-layout-scroll-wrapper [data-orientation='horizontal'] {
+  display: none;
+}
+
+[data-record-show-page-body] .page-layout-scroll-wrapper > div > div {
+  border-bottom: 0 !important;
+  border-top: 0 !important;
+}
+
+[data-record-show-page-body] .widget-card-header {
+  font-weight: var(--gos-weight-semibold);
+}
+
+html:root [data-record-show-page-body] .widget [class*='_label_'],
+html:root [data-record-show-page-body] .widget [class*='Label'] {
+  color: var(--gos-text-3);
+}
+
 html:root .growth-os-record-hero [class*='_root_'] {
-  border-radius: var(--r-lg) !important;
-  font-size: 1.35rem !important;
+  border-radius: var(--gos-radius-lg) !important;
+  font-size: var(--gos-text-2xl) !important;
   height: 52px !important;
   min-width: 52px !important;
   width: 52px !important;
 }
 
-@media (max-width: 768px) {
-  html:root .growth-os-record-hero [class*='_root_'] {
-    height: 40px !important;
-    min-width: 40px !important;
-    width: 40px !important;
-  }
-}
-
-/* Record pages: the hero carries the editable title, so the identifier bar
-   keeps only the tabs. */
 html:root [data-record-show-page-body]:has(.growth-os-record-hero) .growth-os-record-identifier-cell > :first-child {
   visibility: hidden;
 }
 
 html:root .growth-os-record-hero h3 {
-  font-family: var(--spv-font-display, Georgia, serif) !important;
-  font-size: 1.75rem !important;
-  font-weight: 400 !important;
+  color: var(--gos-text-strong);
+  font-family: var(--gos-font-sans) !important;
+  font-size: var(--gos-page-title-size) !important;
+  font-weight: var(--gos-page-title-weight) !important;
   height: auto !important;
-  line-height: 1.15 !important;
+  letter-spacing: var(--gos-page-title-tracking);
+  line-height: var(--gos-page-title-leading) !important;
 }
 
 html:root .growth-os-record-hero h3 * {
@@ -415,98 +501,180 @@ html:root .growth-os-record-hero h3 * {
 }
 
 @media (max-width: 768px) {
+  html:root .growth-os-record-hero [class*='_root_'] {
+    height: 40px !important;
+    min-width: 40px !important;
+    width: 40px !important;
+  }
+
   html:root .growth-os-record-hero h3 {
-    font-size: 1.35rem !important;
+    font-size: var(--gos-text-2xl) !important;
   }
 }
 
-/* 13. Kit consistency pass (PRODUCT-UX-STANDARD §2): one primary style
-   (kit .btn-primary navy; white on navy in dark mode), calm table rows,
-   kit tabs, kit field labels and checkboxes. */
-html:root button[data-variant='primary'][data-accent='blue'],
-html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] {
-  background: var(--c-navy) !important;
-  border-color: var(--c-navy) !important;
-  box-shadow: var(--sh-inset-btn), var(--sh-xs) !important;
-  color: var(--c-on-navy, #ffffff) !important;
+/* 9. Settings: each section is a white card on the subtle page. */
+[data-page-surface='main']:has(.growth-os-settings-page) > div > div {
+  background: var(--gos-bg-subtle);
 }
 
-html:root button[data-variant='primary'][data-accent='blue'] *,
-html:root [data-click-outside-id='page-action-container'] button[data-variant='primary'] * {
-  color: var(--c-on-navy, #ffffff) !important;
+.growth-os-settings-page > [class*='_section_'] {
+  background: var(--gos-surface);
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-lg);
+  box-shadow: var(--gos-shadow-xs);
+  box-sizing: border-box;
+  padding: var(--gos-space-5) var(--gos-space-6);
 }
 
-html:root button[data-variant='primary'][data-accent='blue']:hover:not(:disabled),
-html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:hover:not(:disabled) {
-  background: var(--c-navy-hover) !important;
+/* 10. Pipeline board: DS stage colours (color.stage) on every column header
+   chip; columns stay neutral (2% stage tint on bg-sunken) with a 3px stage edge; white deal cards. */
+.growth-os-board-column,
+.growth-os-board-column-header {
+  --stage: var(--gos-stage-new);
 }
 
-/* Icon-only header actions (prev/next, favourite, AI, side panel, and the
-   compact mobile Send Email) are kit ghost buttons, not navy squares. */
-html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])),
-html:root [data-testid='page-header-side-panel-button'] {
+[data-growth-os-stage-value='NEW'] { --stage: var(--gos-stage-new); }
+[data-growth-os-stage-value='SCREENING'] { --stage: var(--gos-stage-replied); }
+[data-growth-os-stage-value='MEETING'] { --stage: var(--gos-stage-meeting); }
+[data-growth-os-stage-value='PROPOSAL'] { --stage: var(--gos-stage-proposal); }
+[data-growth-os-stage-value='NEGOTIATION'] { --stage: var(--gos-stage-negotiation); }
+[data-growth-os-stage-value='CUSTOMER'],
+[data-growth-os-stage-value='WON'] { --stage: var(--gos-stage-won); }
+[data-growth-os-stage-value='LOST'] { --stage: var(--gos-stage-lost); }
+
+html:root .growth-os-board-column {
+  background: color-mix(in srgb, var(--stage) 2%, var(--gos-bg-sunken)) !important;
+  border-left: none !important;
+  border-radius: 0 0 var(--gos-radius-lg) var(--gos-radius-lg);
+  margin: 0 5px;
+  padding: 0 4px 8px;
+}
+
+html:root .growth-os-board-column-header {
+  background: color-mix(in srgb, var(--stage) 2%, var(--gos-bg-sunken)) !important;
+  border-left: none !important;
+  border-radius: var(--gos-radius-lg) var(--gos-radius-lg) 0 0;
+  box-shadow: inset 0 3px 0 var(--stage);
+  margin: 8px 5px 0;
+  padding-top: 3px;
+}
+
+html:root .growth-os-board-column-header > div {
   background: transparent !important;
-  border: 1px solid var(--c-line) !important;
-  box-shadow: none !important;
-  color: var(--c-ink-2) !important;
 }
 
-html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])) *,
-html:root [data-testid='page-header-side-panel-button'] * {
-  color: var(--c-ink-2) !important;
+/* Stage chip: dot in the stage colour, label in text-2 (AA on any tint). */
+html:root .growth-os-board-column-header span[class*='_tag_'] {
+  background: var(--gos-surface) !important;
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-full) !important;
+  color: var(--gos-text-2) !important;
+  font-size: var(--gos-text-xs) !important;
+  font-weight: var(--gos-weight-semibold);
+  gap: 6px;
+  height: 22px !important;
+  padding: 0 9px !important;
 }
 
-html:root [data-click-outside-id='page-action-container'] button[data-variant='primary']:not(:has([class*='_text_'])):hover:not(:disabled),
-html:root [data-testid='page-header-side-panel-button']:hover {
-  background: var(--c-bg-hover) !important;
+html:root .growth-os-board-column-header span[class*='_tag_']::before {
+  background: var(--stage);
+  border-radius: 50%;
+  content: '';
+  flex: none;
+  height: 6px;
+  width: 6px;
 }
 
-/* Rows: kit hover and selection tints; the name column reads as the label. */
-html:root [data-testid^='row-id-']:hover > .table-cell,
-html:root [data-testid^='row-id-']:hover > [class*='table-cell-'] {
-  background: var(--c-bg-subtle) !important;
+html:root .growth-os-board-column-header [data-testid='tooltip'] {
+  color: var(--gos-text-strong);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: var(--gos-weight-semibold);
 }
 
-html:root [data-testid^='row-id-'][data-selected='true'] > *,
-html:root [data-testid^='row-id-'][aria-selected='true'] > * {
-  background: var(--c-bg-selected) !important;
-}
-
-html:root .record-table-column-field-0 [class*='_chip_'],
-html:root .record-table-column-field-0 [class*='_label_'] {
-  color: var(--c-ink) !important;
-  font-weight: 600;
-}
-
-html:root [data-testid^='row-id-'] input[type='checkbox'],
-html:root .header-cell input[type='checkbox'] {
-  accent-color: var(--c-navy);
-}
-
-/* Tabs: kit ink + teal accent rule instead of the upstream black. */
-html:root [class*='_tabButton_'] {
-  color: var(--c-ink-3);
-  font-weight: 500;
-}
-
-html:root [class*='_tabButton_'][data-active='true'] {
-  color: var(--c-ink);
-}
-
-html:root [class*='_tabButton_'][data-active='true']::after,
-html:root [class*='_tabButton_'][data-active='true'] > [class*='_indicator_'] {
-  background: var(--c-accent) !important;
-  border-color: var(--c-accent) !important;
-}
-
-/* Record field labels: kit muted 13px. */
-html:root [data-record-show-page-body] .widget [class*='_label_'],
-html:root [data-record-show-page-body] .widget [class*='Label'] {
-  color: var(--c-ink-3);
-}
-
-/* Board cards: kit card hover lift. */
 html:root .growth-os-board-card > div > div {
-  transition: box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+  background: var(--gos-surface) !important;
+  border: 1px solid var(--gos-line) !important;
+  border-radius: var(--gos-radius-lg) !important;
+  box-shadow: var(--gos-shadow-xs) !important;
+  transition:
+    box-shadow var(--gos-duration-base) var(--gos-ease-out),
+    transform var(--gos-duration-base) var(--gos-ease-out);
 }
 
+html:root .growth-os-board-card > div > div:hover {
+  box-shadow: var(--gos-shadow-sm) !important;
+  transform: translateY(-1px);
+}
+
+html:root .growth-os-board-card-field > div > div:first-child:has(svg) {
+  display: none;
+}
+
+html:root .growth-os-board-card-field[data-growth-os-field-type='CURRENCY'] {
+  color: var(--gos-text-strong);
+  font-size: var(--gos-text-lg);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: var(--gos-weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+html:root .growth-os-board-card-field[data-growth-os-field-name='closeDate'] {
+  color: var(--gos-text-3);
+  font-size: var(--gos-text-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root .growth-os-board-card > div > div:hover,
+  html:root button:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* 10b. Stage chips in tables, record fields and mobile cards: the same DS
+   stage chip as the board header (dot in color.stage, text-2 label). */
+.growth-os-select { display: contents; }
+:where(.growth-os-select) { --stage: var(--gos-stage-new); }
+html:root .growth-os-select[data-growth-os-stage-value] span[class*='_tag_'] {
+  background: var(--gos-surface) !important;
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-full) !important;
+  color: var(--gos-text-2) !important;
+  font-size: var(--gos-text-xs) !important;
+  font-weight: var(--gos-weight-semibold);
+  gap: 6px;
+  height: 22px !important;
+  padding: 0 9px !important;
+}
+html:root .growth-os-select[data-growth-os-stage-value] span[class*='_tag_']::before {
+  background: var(--stage);
+  border-radius: 50%;
+  content: '';
+  flex: none;
+  height: 6px;
+  width: 6px;
+}
+:where(.growth-os-stage-pill) { --stage: var(--gos-stage-new); }
+.growth-os-stage-pill {
+  align-items: center;
+  align-self: flex-start;
+  border: 1px solid var(--gos-line);
+  border-radius: var(--gos-radius-full);
+  color: var(--gos-text-2);
+  display: inline-flex;
+  font-size: var(--gos-text-xs);
+  font-weight: var(--gos-weight-semibold);
+  gap: 6px;
+  height: 22px;
+  margin: 2px 0;
+  padding: 0 9px;
+  width: fit-content;
+}
+.growth-os-stage-pill::before { background: var(--stage); border-radius: 50%; content: ''; height: 6px; width: 6px; }
+
+
+/* WCAG 2.2 target size (24px min) for record link chips in tables and cards. */
+a[data-click-outside-id='link-chip-click-outside-id'] {
+  align-items: center;
+  display: inline-flex;
+  min-height: 24px;
+}

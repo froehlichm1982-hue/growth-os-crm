@@ -1,3 +1,4 @@
+import { GrowthOsGosScope } from '~/growth-os/GrowthOsGosScope';
 import { t } from '@lingui/core/macro';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -111,24 +112,25 @@ export const GrowthOsCancelPlanModal = ({
   };
 
   return createPortal(
+    <GrowthOsGosScope>
     <div
-      className="gos-modal-wrap"
+      className="growth-os-modal-wrap"
       role="dialog"
       aria-modal="true"
       aria-labelledby="gos-cancel-title"
       onKeyDown={onKeyDown}
       data-testid="growth-os-cancel-modal"
     >
-      <div className="gos-modal-scrim" onClick={onClose} />
-      <div className="gos-modal" ref={dialogRef}>
-        <div className="gos-modal-h">
+      <div className="growth-os-modal-scrim" onClick={onClose} />
+      <div className="growth-os-modal" ref={dialogRef}>
+        <div className="growth-os-modal-h">
           <div>
             <h2 id="gos-cancel-title">{titles[step].title}</h2>
             <p>{titles[step].description}</p>
           </div>
           <button
             type="button"
-            className="gos-modal-x"
+            className="growth-os-modal-x"
             onClick={onClose}
             aria-label={t`Close`}
           >
@@ -137,7 +139,7 @@ export const GrowthOsCancelPlanModal = ({
             </svg>
           </button>
         </div>
-        <div className="gos-modal-b">
+        <div className="growth-os-modal-b">
           {step === 'explain' && (
             <>
               <ul>
@@ -147,13 +149,13 @@ export const GrowthOsCancelPlanModal = ({
                 </li>
                 <li>{t`Nothing is deleted. You can export all data at any time.`}</li>
               </ul>
-              <fieldset className="gos-chips">
+              <fieldset className="growth-os-chips">
                 <legend>{t`What made you cancel? (optional)`}</legend>
                 {REASONS().map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    className="gos-chip"
+                    className="growth-os-chip"
                     aria-pressed={reason === item.id}
                     onClick={() =>
                       setReason(reason === item.id ? null : item.id)
@@ -166,7 +168,7 @@ export const GrowthOsCancelPlanModal = ({
             </>
           )}
           {step === 'confirm' && (
-            <div className="gos-alert gos-alert-warn" role="note">
+            <div className="gos-alert gos-alert--warn" role="note">
               <GrowthOsIcon name="alert" size={18} />
               <span>
                 {t`Your plan ends on ${periodEnd}. Email sync, workflows and extra seats stop then. We’ll email you a confirmation.`}
@@ -179,19 +181,19 @@ export const GrowthOsCancelPlanModal = ({
             </p>
           )}
         </div>
-        <div className="gos-modal-f">
+        <div className="growth-os-modal-f">
           {step === 'explain' && (
             <>
               <button
                 type="button"
-                className="gos-btn gos-btn-secondary"
+                className="gos-btn gos-btn--secondary"
                 onClick={onExport}
               >
                 {t`Export data`}
               </button>
               <button
                 type="button"
-                className="gos-btn gos-btn-secondary"
+                className="gos-btn gos-btn--secondary"
                 onClick={onClose}
                 data-autofocus
               >
@@ -199,7 +201,7 @@ export const GrowthOsCancelPlanModal = ({
               </button>
               <button
                 type="button"
-                className="gos-btn gos-btn-primary"
+                className="gos-btn gos-btn--primary"
                 onClick={() => setStep('confirm')}
                 data-testid="growth-os-cancel-continue"
               >
@@ -211,7 +213,7 @@ export const GrowthOsCancelPlanModal = ({
             <>
               <button
                 type="button"
-                className="gos-btn gos-btn-secondary"
+                className="gos-btn gos-btn--secondary"
                 onClick={onClose}
                 data-autofocus
               >
@@ -219,7 +221,7 @@ export const GrowthOsCancelPlanModal = ({
               </button>
               <button
                 type="button"
-                className="gos-btn gos-btn-danger"
+                className="gos-btn gos-btn--danger"
                 disabled={loading}
                 onClick={confirm}
                 data-testid="growth-os-cancel-confirm"
@@ -231,7 +233,7 @@ export const GrowthOsCancelPlanModal = ({
           {step === 'done' && (
             <button
               type="button"
-              className="gos-btn gos-btn-primary"
+              className="gos-btn gos-btn--primary"
               onClick={onClose}
               data-autofocus
             >
@@ -240,7 +242,8 @@ export const GrowthOsCancelPlanModal = ({
           )}
         </div>
       </div>
-    </div>,
+    </div>
+    </GrowthOsGosScope>,
     document.body,
   );
 };

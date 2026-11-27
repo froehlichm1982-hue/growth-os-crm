@@ -37,7 +37,7 @@ export const SignInUpPasswordField = ({
           error={showErrors ? (error?.message ?? extraError) : undefined}
           labelAside={
             signInUpMode === SignInUpMode.SignIn && onForgotPassword ? (
-              <button type="button" className="gos-linklike" onClick={onForgotPassword}>
+              <button type="button" className="gos-link gos-tap growth-os-linklike" onClick={onForgotPassword}>
                 {t`Forgot password?`}
               </button>
             ) : undefined

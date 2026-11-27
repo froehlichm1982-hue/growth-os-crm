@@ -52,6 +52,7 @@ export const RecordDetailDuplicatesSection = ({
       title={t`Duplicates`}
       rightAdornment={
         <LightIconButton
+          aria-label={t`Merge`}
           className="displayOnHover"
           Icon={IconArrowMerge}
           accent="tertiary"

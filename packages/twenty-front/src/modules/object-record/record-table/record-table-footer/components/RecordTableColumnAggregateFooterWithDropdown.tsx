@@ -54,6 +54,7 @@ export const RecordTableColumnFooterWithDropdown = ({
       onOpen={handleDropdownOpen}
       onClose={handleDropdownClose}
       dropdownId={dropdownId}
+      clickableAriaLabel={fieldMetadata?.label}
       clickableComponent={
         <RecordTableColumnAggregateFooterValueCell
           dropdownId={dropdownId}

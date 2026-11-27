@@ -12,6 +12,7 @@ import { useAvailableComponentInstanceIdOrThrow } from '@/ui/utilities/state/com
 import { type ErrorLike } from '@apollo/client';
 import { t } from '@lingui/core/macro';
 import { useStore } from 'jotai';
+import { growthOsSessionExpiredState } from '~/growth-os/session/growthOsSessionExpiredState';
 import { isDefined } from 'twenty-shared/utils';
 import { getErrorMessageFromApolloError } from '~/utils/get-error-message-from-apollo-error.util';
 import { SettingsPath } from 'twenty-shared/types';
@@ -50,6 +51,15 @@ export const useSnackBar = () => {
           instanceId: componentInstanceId,
         }),
         (prev) => {
+          // While the session-expired modal is open, failed queries are
+          // expected; it already tells the person what to do.
+          if (
+            newValue.variant === SnackBarVariant.Error &&
+            isDefined(store.get(growthOsSessionExpiredState.atom))
+          ) {
+            return prev;
+          }
+
           if (
             isDefined(newValue.dedupeKey) &&
             prev.queue.some(
