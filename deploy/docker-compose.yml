@@ -1,0 +1,107 @@
+# Growth OS CRM: separate production stack.
+# Own compose project (growth-os-crm), own network, own volumes, own loopback port.
+# It never references /opt/spv-crm and never joins another stack's network.
+#
+#   cd deploy && cp env.production.example crm.env && cp secrets.env.example crm.secrets.env   # then fill in
+#   ./preflight.sh && ./deploy.sh            # dry run (prints the plan)
+#   ./deploy.sh --apply
+name: growth-os-crm
+
+x-crm-env: &crm-env
+  NODE_ENV: production
+  PG_DATABASE_URL: postgres://crm:${CRM_DB_PASSWORD}@db:5432/crm
+  REDIS_URL: redis://redis:6379
+  DISABLE_DB_MIGRATIONS: ${DISABLE_DB_MIGRATIONS:-false}
+
+services:
+  server:
+    image: ${GROWTH_OS_CRM_IMAGE:-growth-os-crm:rc1}
+    build:
+      context: ..
+      dockerfile: packages/twenty-docker/twenty/Dockerfile
+      target: twenty
+      args:
+        APP_VERSION: ${GROWTH_OS_CRM_VERSION:-rc1}
+    env_file: [crm.env, crm.secrets.env]
+    environment:
+      <<: *crm-env
+      NODE_PORT: "3000"
+      MODULE_CRM_WEBHOOK_SECRET_FILE: /run/secrets/module_crm_webhook_secret
+    secrets: [module_crm_webhook_secret]
+    volumes:
+      - crm-local-data:/app/packages/twenty-server/.local-storage
+    ports:
+      # loopback only: the reverse proxy on the host terminates TLS for
+      # crm.scalepoint-ventures.com and *.crm.scalepoint-ventures.com and forwards here
+      - "127.0.0.1:${CRM_HTTP_PORT:-3100}:3000"
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:3000/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks: [crm]
+    restart: unless-stopped
+
+  worker:
+    image: ${GROWTH_OS_CRM_IMAGE:-growth-os-crm:rc1}
+    command: ["yarn", "worker:prod"]
+    env_file: [crm.env, crm.secrets.env]
+    environment:
+      <<: *crm-env
+      DISABLE_DB_MIGRATIONS: "true"          # the server runs them
+      DISABLE_CRON_JOBS_REGISTRATION: "true" # the server registers them
+      MODULE_CRM_WEBHOOK_SECRET_FILE: /run/secrets/module_crm_webhook_secret
+    secrets: [module_crm_webhook_secret]
+    volumes:
+      - crm-local-data:/app/packages/twenty-server/.local-storage
+    depends_on:
+      server: { condition: service_healthy }
+    networks: [crm]
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: crm
+      POSTGRES_USER: crm
+      POSTGRES_PASSWORD: ${CRM_DB_PASSWORD}
+    volumes:
+      - crm-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crm -d crm"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [crm]
+    restart: unless-stopped
+    # no published port: only reachable inside the stack
+
+  redis:
+    image: redis:7
+    command: ["--maxmemory-policy", "noeviction"]
+    volumes:
+      - crm-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [crm]
+    restart: unless-stopped
+
+secrets:
+  module_crm_webhook_secret:
+    # 600 file handed over by OS Lead, owned by uid 1000 (the container user)
+    file: ${MODULE_CRM_WEBHOOK_SECRET_HOST_FILE:?set MODULE_CRM_WEBHOOK_SECRET_HOST_FILE in crm.secrets.env or the shell}
+
+volumes:
+  crm-db:
+  crm-redis:
+  crm-local-data:
+
+networks:
+  crm:
+    name: growth-os-crm_net
