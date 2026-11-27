@@ -9,10 +9,11 @@
 // Billing API (module-authenticated):  POST /v1/accounts · GET /v1/entitlements ·
 //   POST /v1/checkout-sessions · POST /v1/portal-sessions · POST /v1/seats ·
 //   POST /v1/accounts/{external_user_id}/cancel · GET /portal · GET /healthz
+//   (checkout-sessions answers mode checkout|confirm|noop, or 409 interval_conflict; accounts: 201 new / 200 existing)
 // Stub controls (stand-in for Stripe + time; loopback only):
 //   POST /__stub/checkout/{id}/pay · POST /__stub/{ext}/fail-payment · /recover ·
 //   /advance {days} · POST /l/{token} (cancel confirmation page) · GET /__stub/log ·
-//   POST /__stub/{ext}/replay-last · /push-stale
+//   POST /__stub/{ext}/replay-last · /push-stale · /combined {on} (combined plan: interval switch -> 409)
 import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 
@@ -45,7 +46,7 @@ type Account = {
   underlying: string | null; plan: string | null; interval: string | null; seats: number;
   seatsUsed: number; lookupKey: string | null; trialEndsAt: number | null;
   periodEnd: number | null; cancelAtPeriodEnd: boolean; graceUntil: number | null;
-  readOnly: boolean; version: number;
+  readOnly: boolean; version: number; combined?: boolean;
 };
 const accounts = new Map<string, Account>(); // key = ext (workspace id)
 const checkouts = new Map<string, { ext: string; lookupKey: string; qty: number; successUrl: string }>();
@@ -190,20 +191,30 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
       if (!c || !a) return send(res, 404, { error: 'unknown_checkout' });
       const p = PLANS[c.lookupKey];
 
-      a.status = 'active'; a.underlying = null; a.plan = p.plan; a.interval = p.interval; a.lookupKey = c.lookupKey;
+      // More than ~2 days of the no-card trial left: the subscription keeps the remaining trial
+      // days (status stays trialing, a lookup key now exists). Otherwise billing starts at once.
+      const keepTrial = a.status === 'trialing' && !!a.trialEndsAt && a.trialEndsAt - now() > 2 * DAY;
+
+      a.status = keepTrial ? 'trialing' : 'active'; a.underlying = null; a.plan = p.plan; a.interval = p.interval; a.lookupKey = c.lookupKey;
       a.seats = p.maxSeats ? Math.min(c.qty, p.maxSeats) : c.qty; a.cancelAtPeriodEnd = false; a.graceUntil = null; a.readOnly = false;
-      a.trialEndsAt = null; a.periodEnd = now() + (p.interval === 'year' ? 365 : 30) * DAY;
+      a.periodEnd = keepTrial ? a.trialEndsAt : now() + (p.interval === 'year' ? 365 : 30) * DAY;
+      if (!keepTrial) a.trialEndsAt = null;
       const r = await push(a);
 
       return send(res, 200, { ok: true, redirect: c.successUrl, push: r });
     }
-    m = path.match(/^\/__stub\/([^/]+)\/(fail-payment|recover|advance|replay-last|push-stale)$/);
+    m = path.match(/^\/__stub\/([^/]+)\/(fail-payment|recover|advance|replay-last|push-stale|combined)$/);
     if (m) {
       const a = accounts.get(decodeURIComponent(m[1]));
 
       if (!a) return send(res, 404, { error: 'unknown_account' });
       const b = raw ? JSON.parse(raw) : {};
 
+      if (m[2] === 'combined') {
+        a.combined = b.on !== false;
+
+        return send(res, 200, { ok: true, combined: a.combined });
+      }
       if (m[2] === 'fail-payment') {
         a.status = 'past_due'; a.underlying = 'past_due'; a.graceUntil = now() + 7 * DAY; a.readOnly = false;
 
@@ -218,7 +229,10 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
         clockOffset += Math.round(Number(b.days ?? 0) * DAY);
         const t = now(); const out: unknown[] = [];
 
-        if (a.status === 'trialing' && a.trialEndsAt && t >= a.trialEndsAt) { a.status = 'canceled'; a.graceUntil = a.trialEndsAt + 7 * DAY; out.push(await push(a)); }
+        if (a.status === 'trialing' && a.lookupKey && a.trialEndsAt && t >= a.trialEndsAt) {
+          // Trial with a subscription ends: the first payment is taken and the plan turns active.
+          a.status = 'active'; a.trialEndsAt = null; a.periodEnd = t + (a.interval === 'year' ? 365 : 30) * DAY; out.push(await push(a));
+        } else if (a.status === 'trialing' && a.trialEndsAt && t >= a.trialEndsAt) { a.status = 'canceled'; a.graceUntil = a.trialEndsAt + 7 * DAY; out.push(await push(a)); }
         else if (a.status === 'active' && a.cancelAtPeriodEnd && a.periodEnd && t >= a.periodEnd) { a.status = 'canceled'; a.graceUntil = a.periodEnd + 7 * DAY; a.cancelAtPeriodEnd = false; out.push(await push(a)); }
         if ((a.status === 'past_due' || a.status === 'canceled') && a.graceUntil && t >= a.graceUntil && !a.readOnly) {
           a.underlying = a.status; a.status = 'read_only'; a.readOnly = true; out.push(await push(a));
@@ -265,6 +279,8 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
 
       return send(res, 303, '', { Location: l.returnUrl });
     }
+    m = path.match(/^\/confirm\/([^/]+)$/);
+    if (m) return send(res, 200, page('Confirm plan change (stub)', 'Stub plan-change confirm page. Payment is simulated by POST /__stub/checkout/<id>/pay.'));
     m = path.match(/^\/checkout\/([^/]+)$/);
     if (m) return send(res, 200, page('Checkout (stub)', 'Stub checkout page. Payment is simulated by POST /__stub/checkout/<id>/pay.'));
 
@@ -300,9 +316,18 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
       record({ ext, body: path.includes('portal') || path.includes('checkout') ? { ...b, email: undefined } : undefined });
 
       if (path === '/v1/accounts' && req.method === 'POST') {
+        // Idempotent per product + external id: an existing account answers 200, email/name are
+        // updated only when sent, and trial:true on a repeat call never restarts the trial.
+        const existing = accounts.get(ext);
         const a = ensureAccount(ext, b);
 
-        return send(res, 201, { account_id: a.id, organisation_id: a.org, ...entResponse(a) });
+        if (existing) {
+          if (b.email) a.email = b.email;
+          if (b.name) a.name = b.name;
+          if (b.locale) a.locale = b.locale;
+        }
+
+        return send(res, existing ? 200 : 201, { account_id: a.id, organisation_id: a.org, ...entResponse(a) });
       }
       if (path === '/v1/entitlements') {
         const a = accounts.get(ext);
@@ -317,12 +342,22 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
         const success = allowedReturn(b.success_url) ?? 'https://crm.scalepoint-ventures.com/settings/billing?checkout=success';
 
         allowedReturn(b.cancel_url);
-        if (a.status === 'active' && a.lookupKey === lookupKey) return send(res, 200, { url: success, mode: 'noop' });
+        // A subscription exists (also while its no-card trial days are kept).
+        const hasSub = !!a.lookupKey && ['trialing', 'active', 'past_due'].includes(a.status);
+
+        if (hasSub && a.lookupKey === lookupKey) { record({ mode: 'noop' }); return send(res, 200, { url: success, mode: 'noop' }); }
+        if (hasSub && a.combined && PLANS[a.lookupKey!].interval !== PLANS[lookupKey].interval) {
+          record({ mode: 'conflict' });
+
+          return send(res, 409, { error: 'interval_conflict', message: 'The billing interval cannot be changed inside a combined plan' });
+        }
         const id = `cs_${randomUUID().replace(/-/g, '').slice(0, 14)}`;
+        const mode = hasSub ? 'confirm' : 'checkout';
 
         checkouts.set(id, { ext, lookupKey, qty: Math.max(1, Number(b.quantity ?? b.seats ?? 1)), successUrl: success });
+        record({ mode });
 
-        return send(res, 200, { url: `${PUBLIC}/checkout/${id}`, mode: a.status === 'active' ? 'confirm' : 'checkout', id });
+        return send(res, 200, { url: mode === 'confirm' ? `${PUBLIC}/confirm/${id}` : `${PUBLIC}/checkout/${id}`, mode, id });
       }
       if (path === '/v1/portal-sessions') {
         const a = ensureAccount(ext, b);
