@@ -1,66 +1,49 @@
-import { Logo } from '@/auth/components/Logo';
 import { WorkspaceSelectionFooter } from '@/auth/sign-in-up/components/WorkspaceSelectionFooter';
 import { SignInUpStep } from '@/auth/states/signInUpStepState';
-import { styled } from '@linaria/react';
 import { type JSX } from 'react';
-import { AppPath } from 'twenty-shared/types';
-import { AnimatedEaseIn } from 'twenty-ui/layout';
-import { ModalContent } from 'twenty-ui/surfaces';
-import { themeCssVariables } from 'twenty-ui/theme-constants';
+import { GrowthOsStateIcon } from '~/growth-os/auth/GrowthOsResetSent';
 import { type PublicWorkspaceData } from '~/generated-metadata/graphql';
 
-const StyledTitleContainer = styled.div`
-  line-height: 1.2;
-  margin-top: ${themeCssVariables.spacing[10]};
-`;
-
-const StyledFormContainer = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: ${themeCssVariables.spacing[6]};
-  margin-top: ${themeCssVariables.spacing[6]};
-  min-width: 0;
-  width: 100%;
-`;
-
 type SignInUpStandardContentProps = {
-  workspacePublicData: PublicWorkspaceData | null;
+  workspacePublicData?: PublicWorkspaceData | null;
   signInUpForm: JSX.Element | null;
   signInUpStep: SignInUpStep;
   title: string;
   subtitle?: string;
-  onClickOnLogo: () => void;
+  onClickOnLogo?: () => void;
 };
 
+// Growth OS (DS v2.9 auth kit): heading block `.head` (h1 + `.sub`) and the form
+// inside the shell's `.gos-auth-form`. The upstream workspace logo is not shown.
 export const SignInUpStandardContent = ({
-  workspacePublicData,
   signInUpForm,
   signInUpStep,
   title,
   subtitle,
-  onClickOnLogo,
 }: SignInUpStandardContentProps) => {
-  return (
-    <ModalContent isVerticallyCentered isHorizontallyCentered>
-      <div className="gos-upstream-logo">
-        <AnimatedEaseIn>
-          <Logo
-            secondaryLogo={workspacePublicData?.logo}
-            placeholder={workspacePublicData?.displayName}
-            onClick={onClickOnLogo}
-            to={AppPath.SignInUp}
-          />
-        </AnimatedEaseIn>
+  if (signInUpStep === SignInUpStep.TwoFactorAuthenticationVerification) {
+    return (
+      <div className="gos-auth-status">
+        <GrowthOsStateIcon kind="shield" />
+        <div className="head">
+          <h1>{title}</h1>
+          {subtitle && <p className="sub">{subtitle}</p>}
+        </div>
+        {signInUpForm}
       </div>
-      <StyledTitleContainer>
-        <h1 className="gos-auth-title">{title}</h1>
-        {subtitle && <p className="gos-auth-sub">{subtitle}</p>}
-      </StyledTitleContainer>
-      <StyledFormContainer>{signInUpForm}</StyledFormContainer>
+    );
+  }
+
+  return (
+    <>
+      <div className="head">
+        <h1>{title}</h1>
+        {subtitle && <p className="sub">{subtitle}</p>}
+      </div>
+      {signInUpForm}
       {signInUpStep === SignInUpStep.WorkspaceSelection && (
         <WorkspaceSelectionFooter />
       )}
-    </ModalContent>
+    </>
   );
 };

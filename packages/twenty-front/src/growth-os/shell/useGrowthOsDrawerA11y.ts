@@ -1,7 +1,7 @@
 import { type RefObject, useEffect, useRef } from 'react';
 
-// DS v2.2 drawer behaviour (ported from design-system js/gos.js, which the CRM
-// does not load): on mobile a closed drawer is inert + aria-hidden; while open
+// DS drawer behaviour as a React hook (the equivalent of design-system js/gos.js,
+// which the CRM does not load; see PATCHES.md, DS v2.9): on mobile a closed drawer is inert + aria-hidden; while open
 // focus is trapped, Esc closes it, and focus returns to the control that
 // opened it.
 const FOCUSABLE =

@@ -7,6 +7,14 @@ import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 
 const GosAlertIcon = createGosIcon('circle-alert', 'GosAuthAlertIcon');
 
+// DS v2.9 alert tones: default (danger), --warn, --ok, --info.
+const ALERT_CLASS = {
+  danger: 'gos-alert',
+  warn: 'gos-alert gos-alert--warn',
+  success: 'gos-alert gos-alert--ok',
+  info: 'gos-alert gos-alert--info',
+} as const;
+
 const formatCountdown = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 
@@ -34,15 +42,15 @@ export const GrowthOsAuthAlert = ({ onResetPassword }: { onResetPassword?: () =>
     : null;
 
   return (
-    <div className={`gos-alert gos-alert-${alert.tone}`} role="alert" data-testid="growth-os-auth-alert">
-      <GosAlertIcon size={16} />
+    <div className={ALERT_CLASS[alert.tone]} role="alert" data-testid="growth-os-auth-alert">
+      <GosAlertIcon className="gos-icon" />
       <div>
         {remaining !== null ? (
           <>
             <b>{t`Too many attempts.`}</b>{' '}
             {t`Try again in ${formatCountdown(remaining)} or`}{' '}
             {onResetPassword ? (
-              <button type="button" className="gos-linklike" onClick={onResetPassword}>
+              <button type="button" className="growth-os-linklike" onClick={onResetPassword}>
                 {t`reset your password`}
               </button>
             ) : (
@@ -57,7 +65,7 @@ export const GrowthOsAuthAlert = ({ onResetPassword }: { onResetPassword?: () =>
               <>
                 {' '}
                 {t`Check both and try again, or`}{' '}
-                <button type="button" className="gos-linklike" onClick={onResetPassword}>
+                <button type="button" className="growth-os-linklike" onClick={onResetPassword}>
                   {t`reset your password`}
                 </button>
                 .

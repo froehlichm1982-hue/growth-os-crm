@@ -1,7 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { type ReactNode, useMemo, useState } from 'react';
 
-import '~/growth-os/auth/growth-os-auth-fields.css';
 import '~/growth-os/states/growth-os-states.css';
 
 // Growth OS CRM: kit states (PRODUCT-UX-STANDARD §3.3). Art is built from UI
@@ -97,21 +96,21 @@ export const GrowthOsEmptyState = ({
   width,
 }: GrowthOsEmptyStateProps) => (
   <div
-    className="gos-empty-wrap"
+    className="growth-os-empty-wrap"
     style={width ? { maxWidth: width } : undefined}
     data-testid={testId}
   >
-    <section className="gos-empty" aria-labelledby={`${testId ?? 'gos'}-title`}>
+    <section className="growth-os-empty" aria-labelledby={`${testId ?? 'gos'}-title`}>
       <div
-        className={`gos-empty-art${tone === 'danger' ? ' danger' : ''}`}
+        className={`growth-os-empty-art${tone === 'danger' ? ' danger' : ''}`}
         aria-hidden="true"
       >
-        <div className="gos-card back" />
-        <div className="gos-card front">
+        <div className="growth-os-card back" />
+        <div className="growth-os-card front">
           <GrowthOsIcon name={icon} size={24} />
         </div>
         {badge && (
-          <span className="gos-badge">
+          <span className="growth-os-badge">
             <GrowthOsIcon name={badge} size={14} />
           </span>
         )}
@@ -204,7 +203,7 @@ export const GrowthOsErrorState = ({
         <span>{time}</span>
         <button
           type="button"
-          className="gos-btn gos-btn-ghost"
+          className="gos-btn gos-btn--ghost"
           onClick={copy}
           aria-live="polite"
         >

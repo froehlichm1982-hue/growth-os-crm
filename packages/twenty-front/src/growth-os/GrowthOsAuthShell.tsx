@@ -16,20 +16,63 @@ import {
 
 import './growth-os-auth.css';
 
-// Growth OS CRM auth frame on the DS v2 split layout (patterns/sign-in.html):
-// art panel left (≥ 1024px), form column right with the sign-in / sign-up
-// switch, the form and the legal footer. Demo data: Nordlicht Analytics only.
+// Growth OS CRM auth frame on the Design System v2.9 auth kit
+// (patterns/auth/crm/<lang>/sign-in.html). All layout and look come from the
+// CRM-scoped DS sheet (`.gos` is the <html> element, see index.html); the only
+// local CSS is growth-os-auth.css (upstream glue, zoom-safe height).
+// Art panel: Pipeline + Timeline demo product card (Nordlicht Analytics demo
+// data, no photo). Magic link and login code are not offered (owner decision).
 
 const IconCrm = createGosIcon('kanban-square', 'GosAuthCrm');
 const IconShield = createGosIcon('shield-check', 'GosAuthShield');
 const IconLock = createGosIcon('lock', 'GosAuthLock');
 const IconCheck = createGosIcon('circle-check', 'GosAuthCheck');
 
-const Logo = ({ decorative = false }: { decorative?: boolean }) => (
+const ART = '/images/growth-os/auth';
+
+const ArtCard = ({
+  name,
+  width,
+  height,
+  tag,
+  style,
+}: {
+  name: 'r-col' | 'r-time';
+  width: number;
+  height: number;
+  tag: string;
+  style: React.CSSProperties;
+}) => (
+  <div className="gos-auth-card" data-m="crm" style={style}>
+    <picture>
+      <source type="image/avif" srcSet={`${ART}/${name}@1x.avif 1x, ${ART}/${name}@2x.avif 2x`} />
+      <img
+        src={`${ART}/${name}@2x.webp`}
+        srcSet={`${ART}/${name}@1x.webp 1x, ${ART}/${name}@2x.webp 2x`}
+        width={width}
+        height={height}
+        alt=""
+        decoding="async"
+      />
+    </picture>
+    <span className="tag"><i />{tag}</span>
+  </div>
+);
+
+const Logos = ({ decorative = false }: { decorative?: boolean }) => (
   <>
     <img className="gos-logo gos-logo--light" src={GROWTH_OS_LOGO_LIGHT} width={150} height={30} alt={decorative ? '' : 'ScalePoint Ventures'} />
     <img className="gos-logo gos-logo--dark" src={GROWTH_OS_LOGO_DARK} width={150} height={30} alt="" aria-hidden="true" />
   </>
+);
+
+const ModChip = ({ className = '' }: { className?: string }) => (
+  <span className={`mod-chip ${className}`.trim()}>
+    <span className="gos-mt gos-mt--sm" data-m="crm">
+      <IconCrm className="gos-icon sm" />
+    </span>
+    CRM
+  </span>
 );
 
 export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
@@ -49,68 +92,67 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <div className="gos-auth" data-m="crm">
+    <>
+    <a className="gos-skip" href="#main">{t`Skip to content`}</a>
+    <div className="gos-auth growth-os-auth" data-m="crm">
       <section className="gos-auth-art" aria-hidden="true">
-        <Logo decorative />
-        <div className="gos-auth-claim">
-          <span className="gos-auth-chip">
-            <span className="growth-os-mt" data-m="crm">
-              <IconCrm size={14} />
-            </span>
-            CRM
-          </span>
+        <div className="aurora"><i /><i /><i /></div>
+        <Logos decorative />
+        <div className="claim">
+          <ModChip />
           <h2>
             {t`Every deal,`} <span className="gos-accent">{t`one clear view.`}</span>
           </h2>
           <p>{t`Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed.`}</p>
         </div>
-        <ul className="gos-auth-proof">
-          <li><IconShield size={14} />{t`Hosted in the EU`}</li>
-          <li><IconLock size={14} />{t`GDPR-ready`}</li>
-          <li><IconCheck size={14} />{t`No card for the trial`}</li>
+        <div className="gos-auth-stage">
+          <ArtCard name="r-col" width={186} height={372} tag={t`Pipeline · Meeting`} style={{ '--x': '2%', '--y': '2%', '--w': '42%', zIndex: 2 } as React.CSSProperties} />
+          <ArtCard name="r-time" width={446} height={304} tag={t`Timeline`} style={{ '--x': '34%', '--y': '50%', '--w': '64%', zIndex: 3 } as React.CSSProperties} />
+          <span className="demo">{t`Demo data · Nordlicht Analytics`}</span>
+        </div>
+        <ul className="proof">
+          <li><IconShield className="gos-icon sm" />{t`Hosted in the EU`}</li>
+          <li><IconLock className="gos-icon sm" />{t`GDPR-ready`}</li>
+          <li><IconCheck className="gos-icon sm" />{t`No card for the trial`}</li>
         </ul>
-        <svg className="gos-auth-ridge" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 400 L0 300 L250 140 L330 200 L430 90 L600 250 L680 210 L800 290 L800 400Z" />
-          <path d="M0 300 L250 140 L330 200 L430 90 L600 250 L680 210 L800 290" fill="none" strokeWidth="1.2" />
-        </svg>
       </section>
-      <div className="gos-auth-main">
-        <header className="gos-auth-top">
-          <a className="gos-auth-mobile-logo" href={GROWTH_OS_BRAND.marketingUrl} aria-label={t`ScalePoint Growth OS home`}>
-            <Logo decorative />
+      <main className="gos-auth-main" id="main">
+        <div className="gos-auth-top">
+          <a className="gos-mobile-logo" style={{ marginRight: 'auto' }} href={GROWTH_OS_BRAND.marketingUrl} aria-label={t`ScalePoint Growth OS home`}>
+            <Logos decorative />
           </a>
           {isInvite ? null : isSignUp ? (
             <span>
-              <span className="gos-hide-xs">{t`Already have an account?`} </span>
-              <a href="/welcome">{t`Sign in`}</a>
+              {t`Already have an account?`} <a className="gos-link gos-tap" href="/welcome">{t`Sign in`}</a>
             </span>
           ) : (
             <span>
-              <span className="gos-hide-xs">{t`New here?`} </span>
-              <a href="/welcome?mode=signup">{t`Create an account`}</a>
+              {t`New here?`} <a className="gos-link gos-tap" href="/welcome?mode=signup">{t`Create an account`}</a>
             </span>
           )}
-        </header>
-        <main id="main" className="gos-auth-card">
-          {children}
-        </main>
-        <footer className="gos-auth-foot">
-          <a href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noopener noreferrer">{t`Privacy`}</a>
-          <a href={GROWTH_OS_BRAND.legal.terms} target="_blank" rel="noopener noreferrer">{t`Terms`}</a>
-          <a href={GROWTH_OS_BRAND.legal.notice} target="_blank" rel="noopener noreferrer">{t`Imprint`}</a>
-          <a href={GROWTH_OS_BRAND.legal.dpa} target="_blank" rel="noopener noreferrer">DPA</a>
-          <a href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
-          <span>© 2026 {GROWTH_OS_BRAND.companyName}</span>
-        </footer>
-        <div className="gos-toast-region" role="status" aria-live="polite">
-          {signedOut && (
-            <div className="gos-toast" data-testid="growth-os-signed-out-toast">
-              <IconCheck size={16} />
-              {t`You’re signed out`}
-            </div>
-          )}
         </div>
+        <div className="gos-auth-form">
+          <ModChip className="gos-mobile-chip" />
+          {children}
+        </div>
+        <div className="gos-auth-foot">
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noopener noreferrer">{t`Privacy`}</a>
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.terms} target="_blank" rel="noopener noreferrer">{t`Terms`}</a>
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.notice} target="_blank" rel="noopener noreferrer">{t`Imprint`}</a>
+          <a className="gos-tap" href={GROWTH_OS_BRAND.legal.dpa} target="_blank" rel="noopener noreferrer">DPA</a>
+          <a className="gos-tap" href={GROWTH_OS_LICENCES_PATH}>{t`Open-source licences`}</a>
+          <span>© 2026 {GROWTH_OS_BRAND.companyName}</span>
+        </div>
+      </main>
+      <div className="gos-toasts" role="status" aria-live="polite">
+        {signedOut && (
+          <div className="gos-toast" data-testid="growth-os-signed-out-toast">
+            <IconCheck className="gos-icon" />
+            <span>{t`You’re signed out`}</span>
+          </div>
+        )}
       </div>
     </div>
+    </>
   );
 };

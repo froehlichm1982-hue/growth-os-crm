@@ -20,10 +20,10 @@ export const NotFound = () => {
         lead={t`The link may be old, or the page has moved. Nothing is wrong with your account or data.`}
         actions={
           <>
-            <button type="button" className="gos-btn gos-btn-primary" onClick={() => navigate(AppPath.Index)}>
+            <button type="button" className="gos-btn gos-btn--primary" onClick={() => navigate(AppPath.Index)}>
               {t`Go to your workspace`}
             </button>
-            <button type="button" className="gos-btn gos-btn-secondary" onClick={() => navigate(-1)}>
+            <button type="button" className="gos-btn gos-btn--secondary" onClick={() => navigate(-1)}>
               {t`Go back`}
             </button>
           </>

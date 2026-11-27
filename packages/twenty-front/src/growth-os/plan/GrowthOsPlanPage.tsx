@@ -364,7 +364,7 @@ export const GrowthOsPlanPage = () => {
               {plan.status === 'active' && !plan.isTrial && (
                 <button
                   type="button"
-                  className="gos-linklike"
+                  className="growth-os-linklike"
                   style={{ alignSelf: 'flex-start', minHeight: 44 }}
                   onClick={() => setIsCancelOpen(true)}
                   data-testid="growth-os-cancel-plan"

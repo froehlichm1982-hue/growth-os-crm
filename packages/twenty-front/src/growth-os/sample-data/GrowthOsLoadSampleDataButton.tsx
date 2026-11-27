@@ -51,7 +51,7 @@ export const GrowthOsLoadSampleDataButton = () => {
       {t`Just looking around?`}{' '}
       <button
         type="button"
-        className="gos-linklike"
+        className="growth-os-linklike"
         disabled={loading}
         onClick={handleClick}
         data-testid="growth-os-load-sample-data"

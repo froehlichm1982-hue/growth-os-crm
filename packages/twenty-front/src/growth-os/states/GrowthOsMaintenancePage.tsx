@@ -17,10 +17,10 @@ export const GrowthOsMaintenancePage = () => {
       lead={t`Growth OS CRM is briefly unavailable, usually for planned maintenance. Your data is safe. This page tries again on its own.`}
       actions={
         <>
-          <button type="button" className="gos-btn gos-btn-primary" onClick={() => window.location.reload()}>
+          <button type="button" className="gos-btn gos-btn--primary" onClick={() => window.location.reload()}>
             {t`Try again`}
           </button>
-          <a className="gos-btn gos-btn-secondary" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>
+          <a className="gos-btn gos-btn--secondary" href={`mailto:${GROWTH_OS_BRAND.supportEmail}`}>
             {t`Contact support`}
           </a>
         </>

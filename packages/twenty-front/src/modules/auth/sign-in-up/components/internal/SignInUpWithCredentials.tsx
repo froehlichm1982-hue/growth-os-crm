@@ -16,7 +16,6 @@ import { SignInUpMode } from '@/auth/types/signInUpMode';
 import { isRequestingCaptchaTokenState } from '@/captcha/states/isRequestingCaptchaTokenState';
 import { captchaState } from '@/client-config/states/captchaState';
 import { isDDLLockedState } from '@/client-config/states/isDDLLockedState';
-import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
 import { useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -32,13 +31,6 @@ import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomStat
 import { signInUpModeState } from '@/auth/states/signInUpModeState';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 
-const StyledForm = styled.form`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  width: 100%;
-`;
 
 export const SignInUpWithCredentials = ({
   isGlobalScope,
@@ -183,7 +175,7 @@ export const SignInUpWithCredentials = ({
       {(signInUpStep === SignInUpStep.Password ||
         signInUpStep === SignInUpStep.Email ||
         signInUpStep === SignInUpStep.Init) && (
-        <StyledForm onSubmit={handleSubmit} noValidate>
+        <form className="gos-stack" onSubmit={handleSubmit} noValidate>
           <GrowthOsAuthAlert onResetPassword={forgotPassword} />
           <SignInUpEmailField
             showErrors={showErrors}
@@ -221,21 +213,19 @@ export const SignInUpWithCredentials = ({
                     <a href={GROWTH_OS_BRAND.legal.privacy} target="_blank" rel="noreferrer">{t`Privacy Policy`}</a>.
                   </span>
                 </label>
-                <div className="gos-slot">
-                  {showTermsError && !hasAcceptedTerms && (
-                    <p className="gos-error">{t`Confirm the business terms to continue.`}</p>
-                  )}
-                </div>
+                <span className={showTermsError && !hasAcceptedTerms ? 'gos-msg gos-msg--error' : 'gos-msg'} role={showTermsError && !hasAcceptedTerms ? 'alert' : undefined}>
+                  {showTermsError && !hasAcceptedTerms ? t`Confirm the business terms to continue.` : null}
+                </span>
               </div>
             )}
           <StyledSsoButtonContainer>
             <button
-              className="gos-btn gos-btn-primary gos-btn-block"
+              className="gos-btn gos-btn--primary gos-btn--block gos-btn--lg"
               type="submit"
               disabled={isSubmitButtonDisabled}
               aria-busy={form.formState.isSubmitting || undefined}
             >
-              {form.formState.isSubmitting && <span className="gos-spinner" aria-hidden="true" />}
+              {form.formState.isSubmitting && <span className="growth-os-spinner" aria-hidden="true" />}
               {form.formState.isSubmitting
                 ? signInUpMode === SignInUpMode.SignUp
                   ? t`Creating your workspace…`
@@ -244,11 +234,11 @@ export const SignInUpWithCredentials = ({
             </button>
             {isLastUsed && <LastUsedPill />}
             {!isInviteMode && (
-              <p className="gos-mode-switch">
+              <p className="gos-small gos-muted gos-alt">
                 {signInUpMode === SignInUpMode.SignUp ? t`Already have an account?` : t`New here?`}{' '}
                 <button
                   type="button"
-                  className="gos-linklike"
+                  className="gos-link gos-tap growth-os-linklike"
                   data-testid="growth-os-mode-switch"
                   onClick={() => {
                     setGrowthOsAuthAlert(null);
@@ -268,7 +258,7 @@ export const SignInUpWithCredentials = ({
               <InputHint>{t`Sign-up is temporarily unavailable during maintenance.`}</InputHint>
             )}
           </StyledSsoButtonContainer>
-        </StyledForm>
+        </form>
       )}
     </>
   );

@@ -56,7 +56,7 @@ export const GrowthOsLicencesPage = () => {
         <>
           {sourceCodeUrl && (
             <a
-              className="gos-btn gos-btn-primary"
+              className="gos-btn gos-btn--primary"
               href={sourceCodeUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -65,7 +65,7 @@ export const GrowthOsLicencesPage = () => {
             </a>
           )}
           <a
-            className={`gos-btn ${sourceCodeUrl ? 'gos-btn-secondary' : 'gos-btn-primary'}`}
+            className={`gos-btn ${sourceCodeUrl ? 'gos-btn--secondary' : 'gos-btn--primary'}`}
             href={AGPL_TEXT_URL}
             target="_blank"
             rel="noopener noreferrer"

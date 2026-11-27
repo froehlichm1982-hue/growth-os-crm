@@ -13,7 +13,6 @@ import { growthOsParseLockedSeconds } from '~/growth-os/auth/growthOsAuthAlertSt
 import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 import { growthOsSessionExpiredState } from '~/growth-os/session/growthOsSessionExpiredState';
 
-import '~/growth-os/auth/growth-os-auth-fields.css';
 import '~/growth-os/states/growth-os-states.css';
 
 const GosAlertIcon = createGosIcon('circle-alert', 'GosSessionAlert');
@@ -92,7 +91,7 @@ export const GrowthOsSessionExpiredModal = () => {
 
   return createPortal(
     <div
-      className="gos-modal-wrap gos-session-modal"
+      className="growth-os-modal-wrap gos-session-modal"
       role="dialog"
       aria-modal="true"
       aria-labelledby="gos-session-title"
@@ -100,10 +99,10 @@ export const GrowthOsSessionExpiredModal = () => {
       onKeyDown={onKeyDown}
       data-testid="growth-os-session-expired"
     >
-      <div className="gos-modal-scrim" />
-      <div className="gos-modal" ref={dialogRef}>
+      <div className="growth-os-modal-scrim" />
+      <div className="growth-os-modal" ref={dialogRef}>
         <form onSubmit={onSubmit} noValidate>
-          <div className="gos-modal-h">
+          <div className="growth-os-modal-h">
             <div>
               <h2 id="gos-session-title">{t`Your session expired`}</h2>
               <p id="gos-session-desc">
@@ -111,10 +110,10 @@ export const GrowthOsSessionExpiredModal = () => {
               </p>
             </div>
           </div>
-          <div className="gos-modal-b">
+          <div className="growth-os-modal-b">
             {error && (
-              <div className="gos-alert gos-alert-danger" role="alert">
-                <GosAlertIcon size={16} />
+              <div className="gos-alert" role="alert">
+                <GosAlertIcon className="gos-icon" />
                 <div>
                   {error}{' '}
                   <a href="/welcome">{t`Reset password`}</a>
@@ -129,10 +128,10 @@ export const GrowthOsSessionExpiredModal = () => {
               email={expired.email}
             />
           </div>
-          <div className="gos-modal-f">
+          <div className="growth-os-modal-f">
             <button
               type="button"
-              className="gos-btn gos-btn-secondary"
+              className="gos-btn gos-btn--secondary"
               onClick={() => {
                 setExpired(null);
                 void signOut();
@@ -142,7 +141,7 @@ export const GrowthOsSessionExpiredModal = () => {
             </button>
             <button
               type="submit"
-              className="gos-btn gos-btn-primary"
+              className="gos-btn gos-btn--primary"
               disabled={loading}
               aria-busy={loading || undefined}
               data-testid="growth-os-session-sign-in"

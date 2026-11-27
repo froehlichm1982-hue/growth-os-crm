@@ -1,6 +1,5 @@
 import { t } from '@lingui/core/macro';
 import { useEffect, useState } from 'react';
-import '~/growth-os/growth-os-auth.css';
 import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 
 // DS pattern "offline" as an in-app notice: shown while the browser reports no
@@ -24,10 +23,10 @@ export const GrowthOsOfflineNotice = () => {
   }, []);
 
   return (
-    <div className="gos-toast-region" role="status" aria-live="polite">
+    <div className="gos-toasts" role="status" aria-live="polite">
       {isOffline && (
         <div className="gos-toast" data-testid="growth-os-offline">
-          <GosIconWifiOff size={16} aria-hidden="true" />
+          <GosIconWifiOff className="gos-icon" aria-hidden="true" />
           <span>
             <strong>{t`You’re offline.`}</strong>{' '}
             {t`We’ll reconnect automatically. Wait with edits until you’re back.`}

@@ -37,7 +37,6 @@ import { SignInUpTwoFactorAuthenticationProvision } from '@/auth/sign-in-up/comp
 import { SignInUpTOTPVerification } from '@/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationVerification';
 import { useWorkspaceFromInviteHash } from '@/auth/sign-in-up/hooks/useWorkspaceFromInviteHash';
 import { clientConfigApiStatusState } from '@/client-config/states/clientConfigApiStatusState';
-import { ModalContent } from 'twenty-ui/surfaces';
 import { useLingui } from '@lingui/react/macro';
 import { useSearchParams } from 'react-router-dom';
 import { isDefined } from 'twenty-shared/utils';
@@ -51,15 +50,6 @@ const StyledLoaderContainer = styled.div`
   justify-content: center;
   margin-bottom: ${themeCssVariables.spacing[8]};
   margin-top: ${themeCssVariables.spacing[8]};
-  width: 100%;
-`;
-
-const StyledBackground = styled.div`
-  background: ${themeCssVariables.background.secondary};
-  display: flex;
-  flex-direction: column;
-  height: calc(100dvh / var(--t-zoom, 1));
-  overflow-y: auto;
   width: 100%;
 `;
 
@@ -129,7 +119,7 @@ export const SignInUp = () => {
     }
 
     if (signInUpStep === SignInUpStep.TwoFactorAuthenticationVerification) {
-      return t`Enter your 6-digit code`;
+      return t`Enter your authenticator code`;
     }
 
     // Growth OS CRM: kit auth headings; the mode is the person's choice.
@@ -160,6 +150,10 @@ export const SignInUp = () => {
 
     if (signInUpStep === SignInUpStep.WorkspaceSelection) {
       return t`Pick the workspace you want to open.`;
+    }
+
+    if (signInUpStep === SignInUpStep.TwoFactorAuthenticationVerification) {
+      return t`Open your authenticator app and enter the 6-digit code for Growth OS.`;
     }
 
     if (
@@ -249,13 +243,10 @@ export const SignInUp = () => {
     </OnboardingLayout>
   ) : (
     <GrowthOsAuthShell>
-    <StyledBackground>
       {isDefined(growthOsResetSent) ? (
         <GrowthOsResetSentCard />
       ) : signInUpStep === SignInUpStep.EmailVerification ? (
-        <ModalContent isVerticallyCentered isHorizontallyCentered>
-          <EmailVerificationSent email={searchParams.get('email')} />
-        </ModalContent>
+        <EmailVerificationSent email={searchParams.get('email')} />
       ) : (
         <SignInUpStandardContent
           workspacePublicData={workspacePublicData}
@@ -266,7 +257,6 @@ export const SignInUp = () => {
           onClickOnLogo={onClickOnLogo}
         />
       )}
-    </StyledBackground>
     </GrowthOsAuthShell>
   );
 };

@@ -17,20 +17,22 @@ import {
 
 import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 
-import './growth-os-auth-fields.css';
 
-// Kit form fields for auth (product standard §4.1 / §4.2): label above the
-// field, reserved message slot, 44px controls, password toggle + Caps Lock
-// hint, live rules + 4-segment strength meter for new passwords.
+// DS v2.9 form fields for auth (gos-field / gos-label / gos-input / gos-inputwrap
+// gos-pw / gos-msg / gos-caps / gos-meter / gos-rules, from the CRM-scoped sheet):
+// label above the field, reserved message slot, 44px controls, password toggle +
+// Caps Lock hint, live rules + 4-segment strength meter for new passwords.
 
 const GosCircleAlert = createGosIcon('circle-alert', 'GosFieldAlert');
 const GosEye = createGosIcon('eye', 'GosEye');
 const GosEyeOff = createGosIcon('eye-off', 'GosEyeOff');
 
-const ErrorIcon = () => <GosCircleAlert size={14} />;
+const GosTriangleAlert = createGosIcon('triangle-alert', 'GosFieldCaps');
+
+const ErrorIcon = () => <GosCircleAlert className="gos-icon sm" />;
 
 const Eye = ({ off }: { off: boolean }) =>
-  off ? <GosEyeOff size={18} /> : <GosEye size={18} />;
+  off ? <GosEyeOff className="gos-icon" /> : <GosEye className="gos-icon" />;
 
 type FieldShellProps = {
   id: string;
@@ -43,22 +45,26 @@ type FieldShellProps = {
 
 const FieldShell = ({ id, label, labelAside, error, hint, children }: FieldShellProps) => (
   <div className="gos-field">
-    <div className="gos-label-row">
+    {labelAside ? (
+      <div className="gos-label gos-label--row">
+        <label htmlFor={id}>{label}</label>
+        {labelAside}
+      </div>
+    ) : (
       <label className="gos-label" htmlFor={id}>
         {label}
       </label>
-      {labelAside}
-    </div>
+    )}
     {children}
-    <div className="gos-slot">
+    {hint}
+    <span className={error ? 'gos-msg gos-msg--error' : 'gos-msg'} id={`${id}-err`}>
       {error ? (
-        <p className="gos-error" id={`${id}-err`}>
+        <>
           <ErrorIcon />
           <span>{error}</span>
-        </p>
+        </>
       ) : null}
-      {hint}
-    </div>
+    </span>
   </div>
 );
 
@@ -100,7 +106,7 @@ export const GrowthOsEmailInput = ({
         readOnly={readOnly}
         autoFocus={autoFocus}
         aria-invalid={error ? true : undefined}
-        aria-describedby={error ? `${id}-err` : undefined}
+        aria-describedby={`${id}-err`}
         onChange={(event) => onChange?.(event.target.value)}
         onBlur={(event) => {
           const trimmed = event.target.value.trim();
@@ -162,14 +168,12 @@ export const GrowthOsPasswordInput = ({
   const checks = growthOsCheckPassword(value, email);
   const score = growthOsPasswordScore(value, email);
   const scoreLabel = [t`Too weak`, t`Too weak`, t`Weak`, t`Good`, t`Strong`][score];
-  const describedBy = [error ? `${id}-err` : null, capsLock ? `${id}-caps` : null, mode === 'new' ? `${id}-rules` : null]
-    .filter(Boolean)
-    .join(' ');
+  const describedBy = [mode === 'new' ? `${id}-rules` : null, `${id}-err`].filter(Boolean).join(' ');
 
   const rule = (ok: boolean, text: string) => (
     <li data-ok={ok ? 'true' : 'false'}>
       {text}
-      <span className="gos-sr-only">{ok ? t`met` : t`not met`}</span>
+      <span className="gos-sr">{ok ? t`met` : t`not met`}</span>
     </li>
   );
 
@@ -180,17 +184,16 @@ export const GrowthOsPasswordInput = ({
       labelAside={labelAside}
       error={error}
       hint={
-        capsLock ? (
-          <p className="gos-caps" id={`${id}-caps`}>
-            <ErrorIcon /> {t`Caps Lock is on`}
-          </p>
-        ) : null
+        <span className="gos-caps" data-on={capsLock ? 'true' : 'false'} role="status">
+          <GosTriangleAlert className="gos-icon sm" />
+          {capsLock ? t`Caps Lock is on` : ''}
+        </span>
       }
     >
-      <div className="gos-control">
+      <span className="gos-inputwrap gos-pw">
         <input
           ref={inputRef}
-          className="gos-input gos-has-toggle"
+          className="gos-input"
           id={id}
           name="password"
           type={visible ? 'text' : 'password'}
@@ -231,17 +234,17 @@ export const GrowthOsPasswordInput = ({
         >
           <Eye off={visible} />
         </button>
-      </div>
+      </span>
       {mode === 'new' && (
         <div id={`${id}-rules`}>
-          <div className="gos-strength" data-score={score} aria-hidden="true">
+          <div className="gos-meter" data-score={score} aria-hidden="true">
             <i />
             <i />
             <i />
             <i />
           </div>
-          <div className="gos-strength-row">
-            <span>{t`Password strength`}</span>
+          <div className="gos-meter-row">
+            <span>{t`Strength`}</span>
             <b aria-live="polite">{value ? scoreLabel : ''}</b>
           </div>
           <ul className="gos-rules">
