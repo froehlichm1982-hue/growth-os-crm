@@ -81,7 +81,7 @@
 
 /* TOTP challenge (DS two-factor.html): input-otp draws one real <input> over six boxes. */
 .growth-os-otp { margin-bottom: 8px; position: relative; }
-.growth-os-otp-row { display: flex; gap: 8px; }
+.growth-os-otp-row { display: flex; gap: 8px; justify-content: flex-start; }
 .growth-os-otp-gap { flex: none; width: 8px; }
 
 .growth-os-otp-slot {
@@ -91,14 +91,15 @@
   box-sizing: border-box;
   color: var(--gos-text);
   display: grid;
-  flex: none;
+  flex: 1 1 0;
   font-family: var(--gos-font-mono);
   font-size: 22px;
   font-weight: var(--gos-weight-semibold);
   height: 56px;
   place-items: center;
+  max-width: 48px;
+  min-width: 0;
   position: relative;
-  width: 48px;
 }
 
 .growth-os-otp-slot[data-active='true'] {
