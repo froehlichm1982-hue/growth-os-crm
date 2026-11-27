@@ -634,6 +634,12 @@ msgstr "Liste {label}"
 msgid "{label} plan"
 msgstr ""
 
+#. js-lingui-id: oXqEdr
+#. placeholder {0}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/useGrowthOsPlan.ts
+msgid "{label} plan · billing starts {0}"
+msgstr ""
+
 #. js-lingui-id: 9vQZL3
 #. placeholder {0}: plan.trialDaysLeft ?? 0
 #: src/growth-os/plan/useGrowthOsPlan.ts
@@ -23854,6 +23860,13 @@ msgstr ""
 #. js-lingui-id: 6x8lJe
 #: src/modules/ai/components/AIChatNoMoreBillingCreditsBanner.tsx
 msgid "You’ve reached your AI usage limit."
+msgstr ""
+
+#. js-lingui-id: JpFMK5
+#. placeholder {0}: GROWTH_OS_PLAN_LABELS[plan.plan]
+#. placeholder {1}: formatGrowthOsDate(plan.trialEndsAt)
+#: src/growth-os/plan/GrowthOsPlanPage.tsx
+msgid "Your {0} plan is set up. Your free trial continues until {1}, then billing starts."
 msgstr ""
 
 #. js-lingui-id: tOPGvO
