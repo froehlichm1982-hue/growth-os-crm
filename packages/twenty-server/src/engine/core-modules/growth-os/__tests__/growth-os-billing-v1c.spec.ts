@@ -144,3 +144,30 @@ describe('a plan bought during the no-card trial keeps the trial days', () => {
     expect(e).toMatchObject({ status: 'active', isTrial: false, hasSubscription: false, seatsAllowed: 8 });
   });
 });
+
+describe('a workspace without a billing account gets one when the plan page is read', () => {
+  it('creates it once per 5 minutes, only when the service is live, and never throws', async () => {
+    const request = jest.fn(async () => ({ account_id: 'acc_late', organisation_id: 'org_late' }));
+    const { service, entitlements } = makeService(request, null);
+
+    service.ensureAccountSoon(WS);
+    service.ensureAccountSoon(WS); // throttled
+    await new Promise((resolve) => setTimeout(resolve, 30));
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(entitlements.saveBillingAccount).toHaveBeenCalledWith(expect.objectContaining({ accountId: 'acc_late' }));
+
+    const failing = makeService(jest.fn(async () => { throw new Error('service down'); }), null);
+
+    expect(() => failing.service.ensureAccountSoon(WS)).not.toThrow();
+    await new Promise((resolve) => setTimeout(resolve, 30));
+  });
+
+  it('does nothing in mock mode', () => {
+    const request = jest.fn();
+    const client = { isLive: () => false, request } as unknown as GrowthOsBillingClient;
+    const service = new GrowthOsBillingService(client, {} as GrowthOsEntitlementService);
+
+    service.ensureAccountSoon(WS);
+    expect(request).not.toHaveBeenCalled();
+  });
+});
