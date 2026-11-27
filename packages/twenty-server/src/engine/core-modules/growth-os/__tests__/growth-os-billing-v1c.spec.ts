@@ -152,14 +152,14 @@ describe('a workspace without a billing account gets one when the plan page is r
 
     service.ensureAccountSoon(WS);
     service.ensureAccountSoon(WS); // throttled
-    await new Promise((resolve) => setTimeout(resolve, 30));
+    for (let i = 0; i < 30; i += 1) await Promise.resolve();
     expect(request).toHaveBeenCalledTimes(1);
     expect(entitlements.saveBillingAccount).toHaveBeenCalledWith(expect.objectContaining({ accountId: 'acc_late' }));
 
     const failing = makeService(jest.fn(async () => { throw new Error('service down'); }), null);
 
     expect(() => failing.service.ensureAccountSoon(WS)).not.toThrow();
-    await new Promise((resolve) => setTimeout(resolve, 30));
+    for (let i = 0; i < 30; i += 1) await Promise.resolve();
   });
 
   it('does nothing in mock mode', () => {
