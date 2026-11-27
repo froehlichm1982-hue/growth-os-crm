@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { t } from '@lingui/core/macro';
 import { useEffect, useState } from 'react';
 import { createGosIcon } from '~/growth-os/icons/createGosIcon';
@@ -7,7 +8,7 @@ import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 // so the copy asks people to wait instead of promising saved changes.
 const GosIconWifiOff = createGosIcon('wifi-off', 'GosIconWifiOff');
 
-export const GrowthOsOfflineNotice = () => {
+const GrowthOsOfflineNoticeInner = () => {
   const [isOffline, setIsOffline] = useState(
     typeof navigator !== 'undefined' && navigator.onLine === false,
   );
@@ -36,3 +37,5 @@ export const GrowthOsOfflineNotice = () => {
     </div>
   );
 };
+
+export const GrowthOsOfflineNotice = withGosScope(GrowthOsOfflineNoticeInner);

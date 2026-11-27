@@ -1,3 +1,4 @@
+import { GrowthOsGosScope } from '~/growth-os/GrowthOsGosScope';
 import { t } from '@lingui/core/macro';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -111,6 +112,7 @@ export const GrowthOsCancelPlanModal = ({
   };
 
   return createPortal(
+    <GrowthOsGosScope>
     <div
       className="growth-os-modal-wrap"
       role="dialog"
@@ -240,7 +242,8 @@ export const GrowthOsCancelPlanModal = ({
           )}
         </div>
       </div>
-    </div>,
+    </div>
+    </GrowthOsGosScope>,
     document.body,
   );
 };

@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { useLingui } from '@lingui/react/macro';
 import { type ReactNode } from 'react';
 
@@ -9,7 +10,7 @@ export type GrowthOsSystemLink = { href: string; title: string; text: string };
 
 // Growth OS CRM: kit system page shell (reference-kit 404.html / 500.html).
 // Used for 404, 403 and maintenance / back end unreachable.
-export const GrowthOsSystemPage = ({
+const GrowthOsSystemPageInner = ({
   code,
   tone = 'default',
   title,
@@ -72,3 +73,5 @@ export const GrowthOsSystemPage = ({
     </div>
   );
 };
+
+export const GrowthOsSystemPage = withGosScope(GrowthOsSystemPageInner);

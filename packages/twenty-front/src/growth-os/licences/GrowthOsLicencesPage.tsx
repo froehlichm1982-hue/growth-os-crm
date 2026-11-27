@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { useLingui } from '@lingui/react/macro';
 
 import { GROWTH_OS_BRAND } from '~/growth-os/brand';
@@ -29,7 +30,7 @@ const THIRD_PARTY: Array<[string, string]> = [
 
 // Growth OS CRM: the only place in the UI that names the upstream project
 // (OS Lead decision, 26 Nov 2026). Allowlisted in scripts/check-white-label.ts.
-export const GrowthOsLicencesPage = () => {
+const GrowthOsLicencesPageInner = () => {
   const { t } = useLingui();
   const productName = GROWTH_OS_BRAND.productName;
   const upstreamName = GROWTH_OS_BRAND.upstreamName;
@@ -90,3 +91,5 @@ export const GrowthOsLicencesPage = () => {
     </GrowthOsSystemPage>
   );
 };
+
+export const GrowthOsLicencesPage = withGosScope(GrowthOsLicencesPageInner);

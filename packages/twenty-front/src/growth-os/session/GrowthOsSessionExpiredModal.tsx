@@ -1,3 +1,4 @@
+import { GrowthOsGosScope } from '~/growth-os/GrowthOsGosScope';
 import { useApolloClient } from '@apollo/client/react';
 import { useLingui } from '@lingui/react/macro';
 import { type FormEvent, useEffect, useRef, useState } from 'react';
@@ -90,6 +91,7 @@ export const GrowthOsSessionExpiredModal = () => {
   };
 
   return createPortal(
+    <GrowthOsGosScope>
     <div
       className="growth-os-modal-wrap gos-session-modal"
       role="dialog"
@@ -151,7 +153,8 @@ export const GrowthOsSessionExpiredModal = () => {
           </div>
         </form>
       </div>
-    </div>,
+    </div>
+    </GrowthOsGosScope>,
     document.body,
   );
 };

@@ -1,8 +1,11 @@
 import ReactDOM from 'react-dom/client';
 
-// Design System v2.9 CRM-scoped build: every rule sits under `.gos`, which is the <html> element (index.html), so
-// the tokens reach the app and its portals. Loaded FIRST so that same-specificity host rules (linaria/emotion
-// classes) keep winning over the DS reset rules (`.gos :where(a|button|input)`). Never edit by hand, see PATCHES.md.
+// Design System v2.9 CRM-scoped build. Two sheets, both generated from the DS by scripts/growth-os-sync-design-system.sh
+// (never edit by hand, see PATCHES.md): gos.tokens-root.css = the custom properties only, on :root, so the --t-* bridge
+// (gosOverrides.ts) resolves; gos.scoped.css = every other DS rule, under `.gos`. `.gos` is mounted only on DS screens
+// (auth shell) and on our own screens/portals via GrowthOsGosScope, never on <html>/<body>, so upstream screens are
+// untouched. Loaded first so same-specificity host rules (linaria/emotion classes) keep winning over the DS resets.
+import '~/gos/css/gos.tokens-root.css';
 import '~/gos/css/gos.scoped.css';
 
 import { App } from '@/app/components/App';

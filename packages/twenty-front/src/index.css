@@ -11,10 +11,8 @@ body {
   touch-action: manipulation;
 }
 
-html,
-html.gos {
+html {
   font-size: 13px;
-  line-height: normal;
   background: var(--t-background-tertiary);
   /* The interface scale preference. Standardized CSS zoom multiplies every
      used length uniformly, exactly like browser zoom, while computed styles,

@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { t } from '@lingui/core/macro';
 import { type ReactNode, useMemo, useState } from 'react';
 
@@ -73,7 +74,7 @@ const ActionButton = ({
 }) => (
   <button
     type="button"
-    className={`gos-btn gos-btn-${variant}`}
+    className={`gos-btn gos-btn--${variant}`}
     onClick={action.onClick}
     data-testid={action.testId}
   >
@@ -82,7 +83,7 @@ const ActionButton = ({
   </button>
 );
 
-export const GrowthOsEmptyState = ({
+const GrowthOsEmptyStateInner = ({
   icon,
   badge,
   tone = 'default',
@@ -146,7 +147,7 @@ const formatCetTime = (date: Date) =>
   }).format(date);
 
 // Error (load failed): what failed + Try again + reference id + CET time + Copy.
-export const GrowthOsErrorState = ({
+const GrowthOsErrorStateInner = ({
   title,
   description,
   onRetry,
@@ -214,3 +215,7 @@ export const GrowthOsErrorState = ({
     </GrowthOsEmptyState>
   );
 };
+
+export const GrowthOsEmptyState = withGosScope(GrowthOsEmptyStateInner);
+
+export const GrowthOsErrorState = withGosScope(GrowthOsErrorStateInner);

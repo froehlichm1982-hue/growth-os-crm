@@ -12,9 +12,9 @@ mkdir -p "$OUT/generated" "$OUT/fonts" "$OUT/css"
 rm -f "$OUT/generated/tokens.css"
 for f in crm-theme.mjs crm-theme.d.mts tokens.mjs tokens.email.json; do [ -f "$DS/generated/$f" ] && cp "$DS/generated/$f" "$OUT/generated/$f"; done
 python3 "$DS/scripts/build_scoped.py" --root .gos --out "$OUT/css/gos.scoped.css"
-# Auth art panel (DS v2.9 demo product card: Pipeline + Timeline, Nordlicht Analytics demo data, no photos).
-mkdir -p "$FRONT/public/images/growth-os/auth"
-for f in r-col r-time; do for ext in avif webp; do for r in 1x 2x; do cp "$DS/assets/auth/$f@$r.$ext" "$FRONT/public/images/growth-os/auth/$f@$r.$ext"; done; done; done
+# :root token sheet derived from the scoped build (custom properties only; the --t-* bridge lives on <html>).
+python3 "$(dirname "$0")/growth-os-scoped-tokens.py" "$OUT/css/gos.scoped.css" "$OUT/css/gos.tokens-root.css"
+# Auth art panel: live DOM in GrowthOsAuthArt.tsx (the DS raster crops r-col/r-time cut text at the card edge and are not copied).
 cp "$DS/fonts/Geist-Variable.woff2" "$DS/fonts/GeistMono-Variable.woff2" "$DS/fonts/LICENSE-Geist-OFL.txt" "$OUT/fonts/"
 cp "$DS/icons/LICENSE-Lucide-ISC.txt" "$OUT/"
 for f in favicon-512.png logo-light@2x.png logo-dark@2x.png; do cp "$DS/assets/$f" "$FRONT/public/images/growth-os/$f"; done

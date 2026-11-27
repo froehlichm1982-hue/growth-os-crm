@@ -1,3 +1,4 @@
+import { withGosScope } from '~/growth-os/GrowthOsGosScope';
 import { i18n } from '@lingui/core';
 import { t } from '@lingui/core/macro';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +27,7 @@ export const formatGrowthOsLocalDate = (iso: string | null) =>
 // Persistent, full-width billing banner on every page (PRODUCT-UX-STANDARD
 // §3.5): payment failed (7-day grace with day counter), paused, read-only.
 // Always exactly 1 action; non-admins are told to ask their admin.
-export const GrowthOsBillingBanner = () => {
+const GrowthOsBillingBannerInner = () => {
   const { plan } = useGrowthOsPlan();
   const permissionMap = usePermissionFlagMap();
   const canManageBilling = permissionMap[PermissionFlagType.BILLING] === true;
@@ -141,3 +142,5 @@ export const GrowthOsBillingBanner = () => {
 
   return null;
 };
+
+export const GrowthOsBillingBanner = withGosScope(GrowthOsBillingBannerInner);
