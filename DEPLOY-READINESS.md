@@ -47,6 +47,7 @@ Two files in `deploy/` (copy the examples, never commit the filled ones): `crm.e
 | `SOURCE_CODE_URL` | the public repository URL | AGPL-3.0 section 13 source offer; required at GO (`./preflight.sh --go` warns/fails) |
 | `HELP_URL` | `https://scalepoint-ventures.com/growthos/crm/faq` | |
 | `APP_SECRET`, `ENCRYPTION_KEY`, `CRM_DB_PASSWORD` | generated (`openssl rand -base64 32`), in `crm.secrets.env` | |
+| `GROWTH_OS_RESERVED_SUBDOMAINS` | empty; `spv,portal,oldorff` for cutover option A | names no customer may take as a workspace subdomain (another stack routed by host) |
 | `CRM_HTTP_PORT` | `3110` | loopback port of the server; the reverse proxy forwards to `127.0.0.1:3110` |
 
 The webhook is registered **once** in the billing service at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing`; events are routed by workspace id, never by host.
@@ -64,7 +65,7 @@ The webhook is registered **once** in the billing service at `https://crm.scalep
 
 Needs on the server: Docker with the compose v2 plugin (it is not installed on the box I worked on, so the compose file was only read, not started), about 8 GB free during the image build, a reverse proxy.
 
-Reverse proxy (OS Lead's existing proxy, a new vhost only): `crm.scalepoint-ventures.com` and `*.crm.scalepoint-ventures.com` → `http://127.0.0.1:3110`, forward `Host`, `X-Forwarded-Proto`, `X-Forwarded-For`, websockets on, redirect http→https. The wildcard needs a wildcard certificate (DNS-01 challenge).
+Reverse proxy: **do not point the existing `crm.` / `*.crm.` routes at the new stack without reading `CUTOVER-PLAN.md`.** Today Caddy serves those hosts to the existing stack (`/opt/spv-crm`, `127.0.0.1:3000`, workspaces `spv`, `portal`, `oldorff`). The plan compares three ways; **recommended: option C, the new SaaS on `app.crm.scalepoint-ventures.com` and `*.app.crm.scalepoint-ventures.com`**, with the existing routes untouched (set `SERVER_URL` and `FRONTEND_URL` to `https://app.crm.scalepoint-ventures.com`, new DNS `app.crm` and `*.app.crm`). Wildcard TLS is Caddy `on_demand` with an `ask` endpoint (no wildcard certificate): the new stack answers `GET /internal/tls-ask?domain=<host>` on `127.0.0.1:3110` (200 only for the host in `FRONTEND_URL` and `<subdomain>.<that host>` of an existing workspace; refuses anything with `X-Forwarded-*`). Caddy has one global `ask`; the plan has the Caddy snippet, the config diff per option and a small union ask. Block `/internal/*` on the public site. Forward `Host`, `X-Forwarded-*`, websockets on, http→https.
 
 ## 4. Tested on the release candidate
 
@@ -73,11 +74,13 @@ Reverse proxy (OS Lead's existing proxy, a new vhost only): `crm.scalepoint-vent
 | Typecheck server + front (tsgo) | pass |
 | `vite build` front, `check-white-label`, `strip-enterprise --check`, `check-permission-hot-path` | pass |
 | Server build (nest/swc) | pass |
-| Unit tests (growth-os suite, 10 files) | **108/108** |
-| Stub E2E (billing against the local fake service; 51 steps: signup → account → trial → checkout modes → seats → portal → ordering → dunning without CRM mail → cancel → read-only → reactivation → expired trial → late purchase → no CRM welcome mail) | **51/51** |
+| Unit tests (growth-os suite + subdomain validation) | **172/172** (growth-os 130 in 11 files + subdomain validation 42) |
+| Stub E2E (billing against the local fake service; 61 steps: signup → account → trial → checkout modes → seats → portal → ordering → dunning without CRM mail → cancel → read-only → reactivation → expired trial → late purchase → no CRM welcome mail → **lost push caught by reconcile (once per 10 min) → workspace rename and verified owner-email change update the billing account**) | **61/61** |
 | Mock suite (entitlements, BCC, export; `BILLING_PROVIDER=mock`) | **47/47** |
-| Real billing service (T1-T26 in `TEST-CASES-billing.md`) | **not run** (after the Stripe step) |
-| Human test script | `human-tests/crm.md` (CRM-01 to CRM-68), for Markus after GO |
+| Webhook answer codes (unit; see §7a) | 200/503/400/404/401 per case, incl. secret file missing and database down → 503 |
+| tls-ask endpoint | unit (4 cases) and live against the local build: apex 200, existing workspace 200, unknown 404, foreign host 404, `X-Forwarded-For` 404 |
+| Real billing service (T1-T29 in `TEST-CASES-billing.md`) | **not run** (after the Stripe step) |
+| Human test script | `human-tests/crm.md` (CRM-01 to CRM-70), for Markus after GO |
 
 ## 5. GO day: order, owners, commands
 
@@ -85,9 +88,10 @@ Before GO nothing sends mail (`SEND_EMAILS=false`), so signup cannot be verified
 
 | # | Step | Who | Command / detail |
 |---|---|---|---|
+| -1 | **Resources:** the server is a CX23 with 1.24 GB free; the image build needs about 8 GB free and the running stack 4 to 6 GB. **The release waits for the CX33 resize** | OS Lead | `free -m` |
 | 0 | **Merge** PR #1, then PR #2, then the billing PR (or the RC as one PR); see §7 | Markus approves, OS Lead merges (nobody has pushed anything yet) | |
-| 1 | DNS: `crm` and `*.crm` A/AAAA (or CNAME) → the server; low TTL a day before | Markus (registrar) or OS Lead | `dig +short crm.scalepoint-ventures.com` and `dig +short x.crm.scalepoint-ventures.com` |
-| 2 | Wildcard TLS certificate for `crm.scalepoint-ventures.com` + `*.crm.scalepoint-ventures.com` | OS Lead | DNS-01 |
+| 1 | DNS for the chosen host pattern (`CUTOVER-PLAN.md`; recommended C: `app.crm` and `*.app.crm` A/AAAA → the server; low TTL a day before). **The existing `crm` / `*.crm` records and routes stay as they are** | Markus (registrar) or OS Lead | `dig +short app.crm.scalepoint-ventures.com` and `dig +short x.app.crm.scalepoint-ventures.com` |
+| 2 | TLS: Caddy `on_demand` with the ask endpoint (union ask, `CUTOVER-PLAN.md` appendix A); no wildcard certificate needed | OS Lead | `curl 'localhost:3110/internal/tls-ask?domain=app.crm.scalepoint-ventures.com'` → 200 |
 | 3 | Resend: domain `scalepoint-ventures.com` verified (SPF, DKIM, DMARC), API key created | Markus | key goes to OS Lead over the vault, not chat |
 | 4 | Public source repository exists; URL for `SOURCE_CODE_URL` | Markus | AGPL section 13 |
 | 5 | Billing service ready: `crm` product with lookup keys `crm_{starter,growth,scale}_{m,y}`, webhook registered once, return hosts `crm.scalepoint-ventures.com` and `*.crm.scalepoint-ventures.com`, the `trial_started`, payment-failed, reminder, cancellation, invoice and receipt mails on, Stripe step done | OS Lead (Stripe step: Markus) | `curl https://billing.scalepoint-ventures.com/healthz` |
@@ -96,8 +100,8 @@ Before GO nothing sends mail (`SEND_EMAILS=false`), so signup cannot be verified
 | 8 | `cp env.production.example crm.env`, `cp secrets.env.example crm.secrets.env` (`chmod 600`), fill in; set `MODULE_CRM_WEBHOOK_SECRET_HOST_FILE` | OS Lead | |
 | 9 | `./preflight.sh` | OS Lead | must print `0 FAIL` |
 | 10 | `./deploy.sh` (dry run), read it, then `./deploy.sh --apply` | OS Lead | image build, migrations and cron registration happen on first start |
-| 11 | Reverse proxy vhost → `127.0.0.1:3110` | OS Lead | |
-| 12 | `./smoke.sh` | OS Lead | must print `0 FAIL` |
+| 11 | Caddy: the new site block → `127.0.0.1:3110` (diff in `CUTOVER-PLAN.md`), after the backups and the baseline of the existing hosts; compare after reload | OS Lead | `caddy validate` then `caddy reload` |
+| 12 | `./smoke.sh https://app.crm.scalepoint-ventures.com https://billing.scalepoint-ventures.com <existing-workspace-subdomain>` | OS Lead | must print `0 FAIL` |
 | 13 | **GO** | **Markus** | |
 | 14 | `./deploy.sh --go-live` (SEND_EMAILS=true, GO pre-flight, recreate, smoke) | OS Lead | the pre-GO env is kept as `crm.env.pre-go.<time>` |
 | 15 | Journey test `human-tests/crm.md` with the test-clock helper | Markus + OS Lead | |
@@ -107,7 +111,7 @@ Before GO nothing sends mail (`SEND_EMAILS=false`), so signup cannot be verified
 
 1. Stop the mail first if needed: `cp crm.env.pre-go.<time> crm.env` (it has `SEND_EMAILS=false`), then recreate with `docker compose -p growth-os-crm --env-file crm.env --env-file crm.secrets.env up -d --force-recreate server worker`.
 2. `./deploy.sh --rollback` stops `server` and `worker` of this project only. Volumes are kept, nothing is deleted.
-3. Point the reverse proxy / DNS back to what served the old CRM (OS Lead). The old stack under `/opt/spv-crm` was never touched and still runs as before.
+3. Caddy: restore the saved `Caddyfile.before` and `caddy reload` (`CUTOVER-PLAN.md`, rollback per option). The old stack under `/opt/spv-crm` was never touched and still runs as before.
 4. The billing service keeps its webhook registration; while the CRM is down it cannot deliver pushes (OS Lead: confirm the service retries and replays on recovery). Workspace state in the CRM catches up with the next push per workspace.
 5. A bad migration: restore the dump taken by `./deploy.sh --apply` or `./backup.sh`: stop server+worker, `docker compose -p growth-os-crm ... exec -T db pg_restore -U crm -d crm --clean --if-exists < backups/crm-<time>.dump`, start the previous image tag (`GROWTH_OS_CRM_IMAGE=growth-os-crm:<previous>`).
 
@@ -119,6 +123,20 @@ Nothing leaves the box without Markus' OK. When he agrees:
 2. `git push origin ds-v2-pr1` (PR #2, head `bd727e77a7d`).
 3. `git push origin billing-v1 release-candidate-1`, then a draft PR `release-candidate-1` → `main` with the note in `/workspace/push-handoff/PR-rc1-billing-note.md`.
 4. Offline alternatives in `/workspace/push-handoff/`: `gos-crm-rc1.bundle` (increment: `billing-v1` and `release-candidate-1` on top of `ds-v2-pr1`, needs that history already present) and `gos-crm-rc1-full.bundle` (everything above `main`). On the server: `git clone gos-crm-rc1-full.bundle crm && cd crm && git checkout release-candidate-1`.
+
+## 7a. Webhook answer codes (the billing outbox: 9 attempts, 30 s to 24 h, then dead; 400/404 are dead at once)
+
+| Code | When |
+|---|---|
+| 200 | applied, duplicate, stale, or an event type this module does not use (`ignored`) |
+| **503** + `Retry-After` | anything transient: secret file not readable yet (CRM not ready), database down or query failing, workspace/account not stored yet |
+| 401 | bad, missing or expired signature (retried by the service; recovers by itself after a secret rotation) |
+| 400 | not JSON or permanently invalid payload (dead at once) |
+| 404 | the workspace id is valid but the workspace does not exist (dead at once) |
+
+Behaviour changes against the first version: a missing or unreadable secret file now answers 503 (was 401), a storage error answers 503 (was a generic 500), an unused event type is acknowledged with 200. Open question for OS Lead: the 401 for a bad signature relies on the service re-signing each retry (the timestamp tolerance is 300 s, the retries span 24 h); if the service replays the first signature, a late retry would be 401 forever. The text asked for 400 on bad signatures, but 400 is dead at once, so a clock or secret mix-up would lose pushes; I kept 401 (retried). Tell me if you want 400.
+
+Reconcile and contact sync (built): the plan page re-reads `GET /v1/entitlements` when the stored state is older than 10 minutes (at most once per workspace per 10 minutes); an owner email or name or workspace name change calls `POST /v1/accounts` again (idempotent). Details: `GROWTH-OS-BILLING.md`.
 
 ## 8. Journey walk: gaps (code and local stub)
 
@@ -136,31 +154,30 @@ Journey: signup → email verification → workspace → trial → welcome mail 
 | Onboarding | no operator action anywhere: no approval step, no manual plan step; sample data is optional |
 | Telemetry | **was on by default** (`TELEMETRY_ENABLED = true` calls the upstream host); default changed to false, pre-flight requires an explicit `false` |
 | Workspace cleaner (suspended workspaces, with its own mails) | cannot trigger: workspaces only become suspended through the upstream billing webhook, which is off |
-| Subdomains / DNS / TLS | only tested on `localhost`: needs the wildcard DNS, wildcard certificate and proxy of §5 and `smoke.sh` |
+| Subdomains / DNS / TLS | only tested on `localhost` (plus the tls-ask endpoint live on the local build): needs the DNS, Caddy `on_demand` + ask and the host pattern chosen in `CUTOVER-PLAN.md`, then `smoke.sh` |
 | Unused leftovers | the `billing-*.email.tsx` templates in `twenty-emails` are not referenced by the server any more (only by a rendering test); harmless, can be deleted later |
 
 ## 9. Heads (fill after the last commit)
 
-RC head: `git rev-parse release-candidate-1` (the commit "release-candidate-1: deploy readiness") · billing-v1: `936eb98a9da` · ds-v2-pr1: `bd727e77a7d` · ds-v2: `0dc72e1720b`.
+RC head: see `git rev-parse release-candidate-1` · the cloud agent pushed `57f00261c87` (draft PR); everything after it is new local commits (port 3110, webhook answer codes, reconcile, contact sync, tls-ask, reserved subdomains, cutover plan) · billing-v1: `936eb98a9da` · ds-v2-pr1: `bd727e77a7d` · ds-v2: `0dc72e1720b`.
 
 ## 10. Still missing
 
 **Needs Markus**
 - GO (step 13) and the Stripe step (billing service live mode).
 - Resend: verify the sending domain and create the key.
-- DNS records (if he controls the registrar) for `crm` and `*.crm`.
+- DNS records (if he controls the registrar) for the chosen pattern (recommended: `app.crm` and `*.app.crm`).
+- The decision on `CUTOVER-PLAN.md` (recommended: option C).
 - The public source repository URL (`SOURCE_CODE_URL`, AGPL).
 - OK to push (§7), to merge PR #1, #2 and the billing PR, and to run the human test.
 
 **Needs OS Lead**
-- The server: docker compose v2, `/opt/growth-os-crm/`, reverse proxy vhost, wildcard certificate, free port for `CRM_HTTP_PORT`.
+- The CX33 resize (the release waits for it), docker compose v2, `/opt/growth-os-crm/`, the Caddy change and ask union per `CUTOVER-PLAN.md`, the choice of option (recommended C), free port 3110.
 - The module secret as a 600 file (owner uid 1000), `crm.secrets.env`.
 - Billing service: webhook registered once, return hosts, lookup keys, mail templates (`trial_started`, payment failed, reminders, cancellation, invoice, receipt), retry/replay of undelivered pushes, test-clock helper for `human-tests/crm.md`.
-- Real runs of `TEST-CASES-billing.md` T1-T26 against the real test-mode service.
+- Real runs of `TEST-CASES-billing.md` T1-T29 against the real test-mode service.
 - Backup cron and monitoring/alerting (health, disk, mail bounces).
 
 **Needs me (Grok Bot), once the above is decided**
-- Reconcile job: today the CRM trusts pushes only. If a push is lost, the state stays stale until the next one. Proposal: `GET /v1/entitlements` refresh when the plan page is read and the stored state is older than a threshold. Not built: needs OS Lead's OK on the endpoint load.
-- Sync of an owner email change to the billing account (today: the signup address).
 - Run the compose stack once on a machine with docker compose (the box here has none).
 - Delete the unused `billing-*` mail templates if wanted.

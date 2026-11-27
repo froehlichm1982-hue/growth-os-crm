@@ -118,13 +118,28 @@ Signature: `X-Growth-OS-Signature: t=<unix>,v1=<hex>` **or** `X-GOS-Timestamp` +
 
 **One URL for all workspaces.** The service registers the webhook once, at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing`. The handler routes each event by `data.workspaceId` (the id the account was created with) and never by the request host, so it works behind any host; a unit test covers two workspaces, mixed hosts and a stale version for one of them.
 
-Responses: `200 {received, result: applied|duplicate|stale, …}`, `401` bad/missing signature,
-`400` invalid payload, `404` unknown workspace (not retried by the service). Idempotent by event id.
+**Answer codes** (the billing outbox retries non-2xx with backoff 30 s, 2 m, 10 m, 30 m, 1 h, 3 h, 6 h, 12 h, 24 h, 9 attempts, then marks the push dead; **400 and 404 are dead at once**, so they are only used for permanent problems):
+
+| Code | When | Retried by the service |
+|---|---|---|
+| `200 {received, result}` | `applied`, `duplicate`, `stale` (older version), or `ignored` (an event type this module does not use) | – |
+| `503` + `Retry-After` | anything transient: the module secret file is not mounted/readable yet (CRM not ready), the database is down or a query fails, the workspace row or the account is not stored yet (workspace being created) | yes |
+| `401` | bad, missing or expired signature (timestamp outside ±300 s) | yes (it is not 400/404; a rotated secret recovers by itself) |
+| `400` | not JSON, or permanently invalid payload (unknown plan/status, no valid `workspaceId`) | no (dead) |
+| `404` | the `workspaceId` is valid but no such workspace exists (deleted, or never existed) | no (dead) |
+
+A push for a workspace that is still being created is therefore answered `503`, never `404`: the workspace row is written before the billing account is created, so a real push cannot arrive earlier; if it ever did, it retries. Idempotent by event id.
 Ordering: `version` first, `createdAt` for senders without one. Seat caps, features, trial and
 read-only come from the stored state: `seatsAllowed = min(plan cap, purchased seats)`; with
 `readOnly` present, the local grace clock is not used. Changes apply within ~5 s (per-process cache).
 
-Storage: `core."growthOsPlanEntitlement"` (+ `version, readOnly, graceUntil, cancelAtPeriodEnd, lookupKey`),
+**Reconcile (pushes are the main channel, this is the safety net).** When the plan page is read (`growthOsPlan`) and the stored state is older than 10 minutes (the later of the last applied push and the last reconcile, `syncedAt`), the CRM calls `GET /v1/entitlements?product=crm&external_user_id=<workspaceId>` once, in the background, and applies the answer through the same version ordering as a push (an older answer never overwrites a newer push). At most one such call per workspace per 10 minutes (in memory per server process); a check that finds the state fresh does not use up the window; mock mode and a failing service change nothing and never fail the page.
+
+**Owner email / name changes.** The billing service sends all billing mail to the account email, so it follows the workspace: when the owner's email changes (verified email change), the workspace name changes, or the plan page finds the stored email/name different from the current ones (retry after a failure, name changes), the CRM calls `POST /v1/accounts` again (idempotent: the account is updated, no second trial, no second `trial_started` mail; no `trial` flag is sent). Nothing is sent when nothing changed.
+
+**TLS ask endpoint.** `GET /internal/tls-ask?domain=<host>` answers `200` only for the host in `FRONTEND_URL` and `<subdomain>.<that host>` of an existing, not deleted workspace; everything else `404`, database trouble `503`. It refuses requests that carry `X-Forwarded-For`/`X-Forwarded-Host` (anything that came through the public proxy). See `CUTOVER-PLAN.md` for the Caddy side.
+
+Storage: `core."growthOsPlanEntitlement"` (+ `version, readOnly, graceUntil, cancelAtPeriodEnd, lookupKey, syncedAt`),
 `core."growthOsBillingAccount"` – created on boot with
 `CREATE TABLE IF NOT EXISTS` / `ADD COLUMN IF NOT EXISTS`, cascade-deleted with the workspace.
 
