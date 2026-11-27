@@ -3,6 +3,7 @@ import { Global, Module } from '@nestjs/common';
 import { GrowthOsBillingService } from 'src/engine/core-modules/growth-os/growth-os-billing.service';
 import { GrowthOsBillingClient } from 'src/engine/core-modules/growth-os/growth-os-billing.client';
 import { GrowthOsBillingWebhookController } from 'src/engine/core-modules/growth-os/growth-os-billing-webhook.controller';
+import { GrowthOsTlsAskController } from 'src/engine/core-modules/growth-os/growth-os-tls-ask.controller';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
 import { GrowthOsSampleDataService } from 'src/engine/core-modules/growth-os/growth-os-sample-data.service';
 import { GrowthOsPlanResolver } from 'src/engine/core-modules/growth-os/growth-os-plan.resolver';
@@ -13,7 +14,7 @@ import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permi
 @Global()
 @Module({
   imports: [PermissionsModule],
-  controllers: [GrowthOsBillingWebhookController],
+  controllers: [GrowthOsBillingWebhookController, GrowthOsTlsAskController],
   providers: [
     GrowthOsEntitlementService,
     GrowthOsBillingClient,

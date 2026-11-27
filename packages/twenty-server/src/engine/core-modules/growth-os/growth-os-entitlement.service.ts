@@ -385,6 +385,15 @@ export class GrowthOsEntitlementService implements OnModuleInit {
     );
   }
 
+  async subdomainExists(subdomain: string) {
+    const rows = await this.coreDataSource.query(
+      `SELECT 1 FROM core."workspace" WHERE "subdomain" = $1 AND "deletedAt" IS NULL LIMIT 1`,
+      [subdomain],
+    );
+
+    return rows.length > 0;
+  }
+
   async workspaceExists(workspaceId: string) {
     const rows = await this.coreDataSource.query(
       `SELECT 1 FROM core."workspace" WHERE "id" = $1 AND "deletedAt" IS NULL`,
