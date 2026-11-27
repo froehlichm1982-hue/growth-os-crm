@@ -143,7 +143,8 @@ Read-only is **not** flipped by a job: it is derived when entitlements are read,
 | Service state | Effective plan | Read-only |
 |---|---|---|
 | `trialing` (no card) | Growth | after trial end + grace |
-| `trialing` + `lookupKey` (plan bought, trial days kept) | the bought plan, **bought seats apply**, still shown as a trial ("billing starts <trial end>") | – (the service pushes `active` at the first payment) |
+| `trialing` + `lookupKey` (plan bought with more than 2 days + 1 h of trial left; with less the service sets no trial end and pushes `active` at once) | the bought plan, **bought seats apply**, still shown as a trial ("billing starts <trial end>") | – (the service pushes `active` at the first payment) |
+| `trialing` with `trialEndsAt` in the past (expired card-free trial, `graceUntil` set) | **Starter limits, shown as "Trial ended", never as a trial**; the service's `graceUntil` is the grace end | when `readOnly:true`, or (fail closed) once `graceUntil` has passed; the service then pushes `canceled` + `readOnly:true` |
 | `active` (also with `cancelAtPeriodEnd`) | paid plan until period end | – |
 | `past_due` | paid plan | when the service sends `readOnly:true` (after 7 days) |
 | `canceled` (period ended) | Starter limits | when the service sends `readOnly:true` (7 days later) |

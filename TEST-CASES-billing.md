@@ -50,6 +50,9 @@ Helper: `sig() { t=$(date +%s); printf 't=%s,v1=%s' "$t" "$(printf '%s.%s' "$t" 
 | T22b | (b) Workspace with a subscription: pick another plan or seat count | `mode=confirm`, `url` is the service's plan-change confirm page; the CRM redirects there; after confirming, the push updates the plan |
 | T22c | (c) Click the plan you already have | `mode=noop`, `url` = `<workspace host>/settings/billing?checkout=success`; the CRM redirects there, nothing is charged |
 | T23 interval_conflict | Workspace on a combined plan (CRM + another product on one subscription): switch the interval (monthly ↔ yearly) in the CRM | Service answers `409 interval_conflict`; the CRM stays on the plan page and shows "The billing interval can’t be changed here … contact support@scalepoint-ventures.com" (a billing account with locale de: "… Schreib uns an support@scalepoint-ventures.com …"). No redirect, no change |
+| T24 Trial pushes (facts from the service) | Read the delivery log for (a) a fresh signup, (b) a purchase during the trial, (c) the trial end | (a) `trialing`, plan = trial plan, `lookupKey` null, seats null, `trialEndsAt` set. (b) `trialing` + `lookupKey`, plan, seats, interval, `trialEndsAt` = the sub's trial end, `currentPeriodEnd`. (c) `active`, `trialEndsAt` null |
+| T25 Late purchase | Buy with 2 days + 1 h of trial left or less | No trial end on the sub: push `active` at once; the plan page has no "billing starts" note |
+| T26 Expired card-free trial | Let a card-free trial lapse (test clock past the trial end, no purchase) | Push stays `trialing` with `trialEndsAt` in the past and `graceUntil` set: CRM shows "Trial ended · Starter limits until <date>", not a trial; still writable. After the grace: push `canceled` + `readOnly:true`: read-only. Checkout from there → `active`, read-only lifted (reactivation) |
 
 ## M. Mails (sent by the service, none by the CRM)
 
