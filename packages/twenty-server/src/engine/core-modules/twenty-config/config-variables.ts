@@ -903,7 +903,9 @@ export class ConfigVariables {
     type: ConfigVariableType.BOOLEAN,
   })
   @IsOptional()
-  TELEMETRY_ENABLED = true;
+  // Growth OS: nothing is reported to the upstream project. Off unless an operator sets it
+  // (the deploy pre-flight check requires the explicit value `false`).
+  TELEMETRY_ENABLED = false;
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.LOGGING,
