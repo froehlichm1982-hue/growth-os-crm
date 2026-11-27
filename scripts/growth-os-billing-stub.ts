@@ -53,7 +53,8 @@ const links = new Map<string, { kind: 'cancel_item' | 'undo_cancel'; ext: string
 const log: Array<Record<string, unknown>> = [];
 const pushes: Array<{ eventId: string; version: number; status: string; httpStatus: number | string; result?: string; ext: string; body: string }> = [];
 
-const sign = (body: string, t = now()) =>
+// Signatures always use the real clock (the CRM checks +-300 s); only entitlement dates use the stub clock.
+const sign = (body: string, t = Math.floor(Date.now() / 1000)) =>
   ({ t, mac: createHmac('sha256', SECRET).update(`${t}.${body}`).digest('hex') });
 const safeEq = (a: string, b: string) => {
   const x = Buffer.from(a, 'utf8'); const y = Buffer.from(b, 'utf8');
