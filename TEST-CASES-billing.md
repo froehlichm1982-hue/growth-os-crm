@@ -11,13 +11,14 @@ CRM environment (server only, never in git):
 ```
 BILLING_PROVIDER=growth-os
 GROWTH_OS_BILLING_URL=https://billing.scalepoint-ventures.com
-GROWTH_OS_BILLING_WEBHOOK_SECRET=<MODULE_CRM_WEBHOOK_SECRET>
-GROWTH_OS_BILLING_MAILS=off        # B-cases below; use `crm` for case M, then switch back. Never both senders.
-SEND_EMAILS=true                   # only once the mail sender is verified
+MODULE_CRM_WEBHOOK_SECRET_FILE=/path/to/crm-module-secret   # the 600 file handed over at deploy (or MODULE_CRM_WEBHOOK_SECRET=<value>)
 ```
 
-Service side: `MODULE_CRM_WELCOME_URL` and the CRM return hosts must allow the workspace host
-(`*.scalepoint-ventures.com`); the CRM webhook URL is `https://<crm host>/webhooks/growth-os-billing`.
+The CRM sends **no billing mail** (the service sends payment-failed, reminders, cancellation, invoice, receipt), so no mail
+setting is needed for these cases. `SEND_EMAILS` only matters for the CRM's own auth mails.
+
+Service side: the CRM return hosts allow `crm.scalepoint-ventures.com` and `*.crm.scalepoint-ventures.com`; the CRM webhook is registered
+**once** at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing` (all workspaces).
 Use a test workspace. `W` = its id (Settings → or `select id from core.workspace`), `ACC` = its account id.
 Helper: `sig() { t=$(date +%s); printf 't=%s,v1=%s' "$t" "$(printf '%s.%s' "$t" "$1" | openssl dgst -sha256 -hmac "$SECRET" -hex | sed 's/^.* //')"; }`
 
@@ -32,23 +33,24 @@ Helper: `sig() { t=$(date +%s); printf 't=%s,v1=%s' "$t" "$(printf '%s.%s' "$t" 
 | T7 Signed portal link | Click "Manage billing". Copy the URL | Opens `https://billing.scalepoint-ventures.com/portal?a=ACC&m=crm&exp=<≈now+7d>&sig=<64 hex>` → 302/200 to the hosted portal. Recompute: `printf 'portal.crm.ACC.<exp>' \| openssl dgst -sha256 -hmac "$SECRET"` = `sig`. Change one hex char → 400 page; set `exp` to the past with its valid sig → 410 "expired" page (the service mails a fresh link at most once an hour). No secret in the URL |
 | T8 Push ordering | Redeliver an older event from the service delivery log (lower `version`) | CRM answers `200 {"result":"stale"}`, plan unchanged. Resending the same event id → `duplicate` |
 | T9 Signature checks | `curl -X POST $CRM/webhooks/growth-os-billing -d '{}'` (no header) → 401. Valid body with `t` 400 s old → 401. Wrong secret → 401. Real service delivery (it sends both header styles) → 200 | as listed |
-| T10 Payment failed | Stripe test clock / card `4000 0000 0000 0341` on renewal (or the service's test-clock helper) | Push → CRM shows "Payment failed · fix by <date>", still writable. Banner "Update payment method" opens the signed portal link. Mail day 0 (see M or the service's own mail) |
+| T10 Payment failed | Stripe test clock / card `4000 0000 0000 0341` on renewal (or the service's test-clock helper) | Push → CRM shows "Payment failed · fix by <date>", still writable. Banner "Update payment method" opens the signed portal link. The **service** sends the day-0 mail (see M); the CRM sends none |
 | T11 Read-only after grace | Advance the test clock 7 days | Push with `readOnly:true`: plan page "read-only"; creating a record → "This workspace is read-only…"; list views and CSV export still work; nothing deleted |
 | T12 Recovery | Update the card in the portal; invoice pays | Push `active`, `readOnly:false`; writes work again |
 | T13 Cancel (2 steps) | Plan page → "Cancel plan" → step 1 (what happens, optional reason) → Continue → step 2 → "Cancel plan" | New tab with the service's cancel confirmation page. Until you confirm there: no change. Confirm: push `cancelAtPeriodEnd:true`; CRM shows the scheduled cancellation with "Keep my plan"; plan stays Growth, active |
 | T14 Undo | Click "Keep my plan" | Service's undo page; confirm → push `cancelAtPeriodEnd:false` |
 | T15 Period end | Cancel again, advance the test clock past the period end | Push `canceled` (Starter limits, still writable 7 days), then `readOnly:true` after 7 days |
 | T16 Failure handling | Temporarily set a wrong secret in the CRM, click "Upgrade" | "Billing is unavailable right now…" (service answers 401); signup still works; fix the secret → account is created lazily on the next click |
-| T17 Return URL | In the browser console call the GraphQL mutation `growthOsBillingSessionUrl(kind:"checkout", plan:"growth", returnUrl:"https://evil.example")` | URL still works; the service log shows `success_url`/`cancel_url` on `*.scalepoint-ventures.com` only |
+| T17 Return URL | In the browser console call the GraphQL mutation `growthOsBillingSessionUrl(kind:"checkout", plan:"growth", returnUrl:"https://evil.example")` | URL still works; the service log shows `success_url` = `<workspace host>/settings/billing?checkout=success` and `cancel_url` on `crm.scalepoint-ventures.com` / `*.crm.scalepoint-ventures.com` only (the evil host never reaches the service) |
 | T18 Mock fallback | Unset `BILLING_PROVIDER` (or `mock`) and restart | Demo behaves as before: static links, `scripts/growth-os-billing-mock.ts` pushes work |
+| T19 Secret file | Remove `MODULE_CRM_WEBHOOK_SECRET` from the CRM env, keep `MODULE_CRM_WEBHOOK_SECRET_FILE`, restart. Then point the file at a missing path and restart | With the file: T2, T7 and T9 work. With a missing/empty file: the webhook answers 401 and signup still works (no env fallback). The server log shows a warning only if the file mode is looser than 600; never the secret |
+| T20 One webhook URL, two workspaces | Create a second test workspace (other subdomain). Pay for Growth in the first, let a payment fail in the second | Both pushes arrive at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing`; the first shows active, the second past_due, each only on its own workspace |
 
-## M. Mails (only with `GROWTH_OS_BILLING_MAILS=crm`, service mails for the CRM product disabled)
+## M. Mails (sent by the service, none by the CRM)
 
 | # | Steps | Expected |
 |---|---|---|
-| M1 | Repeat T10 | One mail "Action needed: your Growth OS payment didn’t go through" to the billing contact; button = signed `/portal` link (same checks as T7); links only `crm.scalepoint-ventures.com` / service host; no payment-provider URL |
-| M2 | Wait (or advance the clock) 3 and 6 days | Exactly one "Reminder: your Growth OS payment is still due" and one "Last day: update payment by <date>" (hourly sweep) |
-| M3 | Resend the same delivery | No second mail |
-| M4 | Repeat T13 | One mail "Your Growth OS plan is cancelled" with access-until date, button = signed portal link |
-| M5 | Check the sender | `ScalePoint Growth OS CRM <noreply@scalepoint-ventures.com>`, Reply-To support@ |
-| M6 | Pay an invoice | No CRM mail (the service sends the invoice/receipt). With `off`, the service sends everything: confirm there are **no doubles** with `crm` + service both on |
+| M1 | Repeat T10 (payment failed) | The service sends "payment failed" to the billing contact; its button is the signed `/portal` link; **no mail from the CRM** (check the CRM mail log / `noreply` sender: nothing for this event) |
+| M2 | Wait or advance the clock 3 and 6 days | The service sends the day-3 and day-6 reminders, one each. The CRM sends nothing and runs no background job |
+| M3 | Repeat T13 (cancel) | The service sends the cancellation mail once; the CRM sends none |
+| M4 | Pay an invoice / renewal | The service sends the invoice and receipt mails; the CRM sends none |
+| M5 | Check sender and links in the service mails | Links only `crm.scalepoint-ventures.com`, the workspace host or the service host; no payment-provider URL |

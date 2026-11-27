@@ -38,34 +38,6 @@ Prices/copy are single-sourced in `packages/twenty-shared/src/i18n/growth-os-whi
 * AI cap = per workspace per calendar month (`GROWTH_OS_AI_MONTHLY_CAP`, or
   `aiMonthlyCap` in the event).
 
-## Status handling ("pause, don't delete")
-
-| Billing status | Effective plan | After 7-day grace |
-|---|---|---|
-| `trialing` (before `trialEndsAt`) | Growth | – |
-| trial ended, no paid plan | Starter limits | **read-only** |
-| `active` | paid plan | – |
-| `past_due` | paid plan | **read-only** until paid |
-| `canceled` / `unpaid` | Starter limits | **read-only** (or Starter with `GROWTH_OS_UNPAID_ACCESS=starter`) |
-| no entitlement row after trial | Starter (safe default) | read-only |
-
-Grace starts at `currentPeriodEnd` (if in the past) or at the status change.
-Read-only blocks every record write (GraphQL and REST) and metadata changes;
-**reading and CSV export keep working**. Nothing is deleted: paused sync jobs
-skip their run, workflows don't run, data and settings stay in place and come
-back when the plan is upgraded. Over-limit data (e.g. a 2nd pipeline created
-during the trial) stays; only new creations are blocked.
-
-Blocked actions return HTTP 403 / GraphQL `FORBIDDEN` with
-`error: GROWTH_OS_PLAN_LIMIT` and a message ending in
-"Upgrade in Settings → Plan & Billing."
-
-Enforcement points: invitations + invite accept/sign-up, custom object create,
-custom field create, Kanban view create on Opportunities, role create, API key
-and webhook create, API-key requests, IMAP/SMTP/CalDAV connect, Google/Microsoft
-OAuth connect, messaging/calendar sync jobs, workflow activation and run, AI
-chat, and the common record query runner (read-only + API rate limit).
-
 ## Providers: `BILLING_PROVIDER=mock | growth-os` (v1)
 
 | | `mock` (default) | `growth-os` |
@@ -85,9 +57,8 @@ The webhook endpoint is the same in both modes.
 |---|---|---|
 | `BILLING_PROVIDER` | `mock` | `mock` or `growth-os` |
 | `GROWTH_OS_BILLING_URL` | – | Base URL of the service, e.g. `https://billing.scalepoint-ventures.com` (https required; `http` only for loopback stubs) |
-| `GROWTH_OS_BILLING_WEBHOOK_SECRET` (alias `GROWTH_OS_BILLING_SECRET`) | – | The CRM **module secret** (`MODULE_CRM_WEBHOOK_SECRET` in the service). Server env only, never in git, never logged. One secret signs API calls (both ways), pushes and `/portal` links |
-| `GROWTH_OS_BILLING_MAILS` | `off` | `off`: the service sends billing mail. `crm`: the CRM sends payment-failed (day 0/3/6) and cancellation mail itself (see Mails). **Set exactly one side to send, never both** |
-| `GROWTH_OS_BILLING_SWEEP_SECONDS` | `3600` | Interval of the day-3 / day-6 reminder sweep (only with `GROWTH_OS_BILLING_MAILS=crm`) |
+| `MODULE_CRM_WEBHOOK_SECRET_FILE` (alias `GROWTH_OS_BILLING_SECRET_FILE`) | – | **Preferred.** Path of a `600` file holding the CRM module secret (`MODULE_CRM_WEBHOOK_SECRET` of the service); handed over at deploy. If set, the file is used; a missing/unreadable/empty file means *no secret* (calls and pushes are rejected, **no fallback to env**). A file readable by group/other logs a warning (path only). Re-read at most every 30 s |
+| `MODULE_CRM_WEBHOOK_SECRET` (aliases `GROWTH_OS_BILLING_WEBHOOK_SECRET`, `GROWTH_OS_BILLING_SECRET`) | – | The same secret as an env value, used only when no `*_FILE` is set. One secret signs API calls (both ways), pushes and `/portal` links. Never in git, never logged |
 | `GROWTH_OS_CHECKOUT_URL` / `GROWTH_OS_PORTAL_URL` | pricing page / mailto | `mock` fallbacks |
 | `GROWTH_OS_UNPAID_ACCESS` | `read_only` | `read_only` or `starter` after cancel/unpaid grace (local clock fallback only) |
 | `GROWTH_OS_AI_MONTHLY_CAP` | `500` | Default AI requests / workspace / month on Scale |
@@ -110,7 +81,7 @@ created lazily on the first checkout/portal request (`ensureAccount`).
 * **Manage billing** – only the signed link `GET {billing}/portal?a=<account_id>&m=crm&exp=<now+7d>&sig=<hex>` with `sig = HMAC_SHA256(secret, "portal.crm.<account_id>.<exp>")` (`portal-link.md`; test vector in the unit tests). Built on the server per request; never stored.
 * **Cancel** – two steps in the CRM (what happens + reason, then confirm), then `POST /v1/portal-sessions {flow:"cancel", reason}` opens the service's confirmation page. Nothing changes until the service pushes `cancelAtPeriodEnd:true`. "Keep my plan" uses the same call (the service returns its undo page).
 * **Payment method** – `POST /v1/portal-sessions {flow:"payment_method"}`.
-* Return URLs are limited to `*.scalepoint-ventures.com` (and loopback in test mode); anything else is replaced by `https://crm.scalepoint-ventures.com/settings/billing`.
+* Return URLs are limited to `crm.scalepoint-ventures.com` and its workspace subdomains `<workspace>.crm.scalepoint-ventures.com` (loopback only for the local stub); anything else is replaced by `https://crm.scalepoint-ventures.com/settings/billing`. Every checkout call passes `success_url=<workspace host>/settings/billing?checkout=success` (the v1 field name; the legacy `/crm/sessions` calls it `successUrl`) and a `cancel_url` on the same host.
 * All requests: `X-Growth-OS-Signature: t=<unix>,v1=HMAC_SHA256(secret, "<t>.<raw body>")` (a GET signs the empty body), 8 s timeout. If the service fails, checkout/cancel show "Billing is unavailable right now" (no static fallback in `growth-os` mode).
 * The UI never names the payment provider.
 
@@ -142,6 +113,8 @@ Signature: `X-Growth-OS-Signature: t=<unix>,v1=<hex>` **or** `X-GOS-Timestamp` +
 }
 ```
 
+**One URL for all workspaces.** The service registers the webhook once, at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing`. The handler routes each event by `data.workspaceId` (the id the account was created with) and never by the request host, so it works behind any host; a unit test covers two workspaces, mixed hosts and a stale version for one of them.
+
 Responses: `200 {received, result: applied|duplicate|stale, …}`, `401` bad/missing signature,
 `400` invalid payload, `404` unknown workspace (not retried by the service). Idempotent by event id.
 Ordering: `version` first, `createdAt` for senders without one. Seat caps, features, trial and
@@ -149,23 +122,18 @@ read-only come from the stored state: `seatsAllowed = min(plan cap, purchased se
 `readOnly` present, the local grace clock is not used. Changes apply within ~5 s (per-process cache).
 
 Storage: `core."growthOsPlanEntitlement"` (+ `version, readOnly, graceUntil, cancelAtPeriodEnd, lookupKey`),
-`core."growthOsBillingAccount"`, `core."growthOsBillingMailLog"` – all created on boot with
+`core."growthOsBillingAccount"` – created on boot with
 `CREATE TABLE IF NOT EXISTS` / `ADD COLUMN IF NOT EXISTS`, cascade-deleted with the workspace.
 
-## Mails (mail base v3)
+## Mails: the billing service sends all of them
 
-The service's contract (`integration/crm.md`) says it sends the billing mails. OS Lead asked for the CRM mails
-to be wired to the billing events, so both exist, **switched by `GROWTH_OS_BILLING_MAILS`** (default `off` = no doubles):
+The CRM sends **no billing mail**: payment failed (day 0/3/6), cancellation, invoice and receipt mail all come
+from growth-os-billing (decided 27 Nov). There is no mail code, no sender dependency and no mail sweep in the CRM
+billing path (a unit test guards this). The mail templates in `twenty-emails` (payment failed, cancellation, …) stay
+for previews and the mail base only. The former `GROWTH_OS_BILLING_MAILS=crm` option and its hourly sweep were removed.
 
-| Mail | Trigger (with `crm`) | Dedupe |
-|---|---|---|
-| Payment failed, day 0 | push moves status to `past_due` | once per grace date |
-| Payment failed, day 3 / day 6 | hourly sweep (`GROWTH_OS_BILLING_SWEEP_SECONDS`), the service pushes only on state change | once per day per grace date |
-| Cancellation | push with `cancelAtPeriodEnd:true` (or status → `canceled`) | once per period end |
-| Invoice | **not sent by the CRM**: invoices belong to the service (PDF + receipt); no CRM template | – |
-
-Mails go through the normal mail driver (`SEND_EMAILS` gate), to the billing contact stored with the account.
-Their buttons are the signed `/portal` link. They contain no payment-provider URL.
+Read-only is **not** flipped by a job: it is derived when entitlements are read, from the service's `readOnly` /
+`graceUntil` fields (local 7-day clock only for senders that omit them). Nothing runs in the background.
 
 ## Status handling ("pause, don't delete")
 
@@ -178,7 +146,7 @@ Their buttons are the signed `/portal` link. They contain no payment-provider UR
 
 Read-only blocks every record write and metadata change; **reading and CSV export keep working**.
 Nothing is deleted. Blocked actions return `GROWTH_OS_PLAN_LIMIT` ("… Plan & Billing.").
-Enforcement points are listed in `PATCHES.md`.
+Enforcement points: invitations and invite accept, custom objects and fields, Kanban views on Opportunities, roles, API keys and webhooks, API-key requests, IMAP/Google/Microsoft connect, sync jobs, workflow activation and run, AI chat, and the record query runner (read-only + API rate limit). Over-limit data stays; only new creations are blocked.
 
 ## Local test (no real service)
 
@@ -188,7 +156,7 @@ STUB_SECRET=<local test secret> STUB_PUSH_URL=http://127.0.0.1:3000/webhooks/gro
   npx tsx scripts/growth-os-billing-stub.ts
 # 2) the CRM
 BILLING_PROVIDER=growth-os GROWTH_OS_BILLING_URL=http://127.0.0.1:4010 \
-GROWTH_OS_BILLING_WEBHOOK_SECRET=<same local test secret> GROWTH_OS_BILLING_MAILS=crm
+MODULE_CRM_WEBHOOK_SECRET_FILE=<600 file with the same local test secret>
 # 3) unit tests
 cd packages/twenty-server && npx jest --config jest.config.mjs src/engine/core-modules/growth-os/__tests__
 ```
