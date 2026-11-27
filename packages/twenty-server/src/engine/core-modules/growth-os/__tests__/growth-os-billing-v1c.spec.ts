@@ -252,7 +252,7 @@ describe('owner email / name change: POST /v1/accounts again (idempotent update)
 
     expect(await service.syncContact(WS)).toBe('updated');
     expect(request).toHaveBeenCalledWith('POST', '/v1/accounts', { product: 'crm', external_user_id: WS, email: 'owner@example.test', name: 'SPV', locale: 'de' });
-    expect(request.mock.calls[0][2]).not.toHaveProperty('trial');
+    expect((request.mock.calls[0] as unknown[])[2]).not.toHaveProperty('trial');
     expect(entitlements.saveBillingAccount).toHaveBeenCalledWith(expect.objectContaining({ accountId: 'acc_1', email: 'owner@example.test', name: 'SPV' }));
   });
 

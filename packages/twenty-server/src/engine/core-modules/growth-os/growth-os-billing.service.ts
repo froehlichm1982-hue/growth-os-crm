@@ -125,9 +125,14 @@ export class GrowthOsBillingService {
 
     if (Date.now() - last < RECONCILE_WINDOW_MS) return;
     this.lastReconcile.set(workspaceId, Date.now());
-    void this.reconcile(workspaceId).catch((error) => {
-      this.logger.warn(`Reconcile failed for ${workspaceId}: ${error}`);
-    });
+    // A check that finds nothing to do (fresh, no account yet) does not use up the window.
+    void this.reconcile(workspaceId)
+      .then((outcome) => {
+        if (outcome === 'fresh' || outcome === 'no-account') this.lastReconcile.delete(workspaceId);
+      })
+      .catch((error) => {
+        this.logger.warn(`Reconcile failed for ${workspaceId}: ${error}`);
+      });
   }
 
   async reconcile(workspaceId: string) {
@@ -210,7 +215,9 @@ export class GrowthOsBillingService {
 
     if (Date.now() - last < 5 * 60_000) return;
     this.lastContactCheck.set(workspaceId, Date.now());
-    void this.syncContactBestEffort(workspaceId);
+    void this.syncContactBestEffort(workspaceId).then((outcome) => {
+      if (outcome === 'unchanged') this.lastContactCheck.delete(workspaceId);
+    });
   }
 
   // A user changed their email: every workspace where they are the billing contact follows.

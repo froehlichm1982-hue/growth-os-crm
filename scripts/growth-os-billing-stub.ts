@@ -13,7 +13,7 @@
 // Stub controls (stand-in for Stripe + time; loopback only):
 //   POST /__stub/checkout/{id}/pay · POST /__stub/{ext}/fail-payment · /recover ·
 //   /advance {days} · POST /l/{token} (cancel confirmation page) · GET /__stub/log ·
-//   POST /__stub/{ext}/replay-last · /push-stale · /combined {on} (combined plan: interval switch -> 409)
+//   POST /__stub/{ext}/silent {apply} (state change without a push: a lost push) · /replay-last · /push-stale · /combined {on} (combined plan: interval switch -> 409)
 import { createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 
@@ -204,7 +204,7 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
 
       return send(res, 200, { ok: true, redirect: c.successUrl, push: r });
     }
-    m = path.match(/^\/__stub\/([^/]+)\/(fail-payment|recover|advance|replay-last|push-stale|combined|expire-trial|end-grace|trial-left)$/);
+    m = path.match(/^\/__stub\/([^/]+)\/(fail-payment|recover|advance|replay-last|push-stale|combined|expire-trial|end-grace|trial-left|silent)$/);
     if (m) {
       const a = accounts.get(decodeURIComponent(m[1]));
 
@@ -214,6 +214,16 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
       // Real-clock controls (the CRM judges dates on its own clock): an expired card-free trial still
       // pushes status `trialing` with trialEndsAt in the past and graceUntil set; after the grace it pushes
       // canceled + readOnly. `trial-left {hours}` sets the remaining trial time of a card-free trial.
+      // `silent {apply: fail-payment|recover}`: the state changes and the version grows, but NO push goes out
+      // (a lost push: the outbox gave up). Only GET /v1/entitlements (the CRM's reconcile) reveals it.
+      if (m[2] === 'silent') {
+        if (b.apply === 'fail-payment') { a.status = 'past_due'; a.underlying = 'past_due'; a.graceUntil = now() + 7 * DAY; a.readOnly = false; }
+        else if (b.apply === 'recover') { a.status = 'active'; a.underlying = null; a.graceUntil = null; a.readOnly = false; }
+        else return send(res, 400, { error: 'unknown_apply' });
+        a.version += 1;
+
+        return send(res, 200, { ok: true, silent: true, version: a.version });
+      }
       if (m[2] === 'trial-left') {
         a.trialEndsAt = Math.floor(Date.now() / 1000) + Math.round(Number(b.hours ?? 24) * 3600);
 
