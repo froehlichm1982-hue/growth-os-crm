@@ -12,6 +12,7 @@ export const GROWTH_OS_PLAN_QUERY = gql`
       graceEndsAt
       isReadOnly
       cancelAtPeriodEnd
+      hasSubscription
       interval
       currentPeriodEnd
       seatsAllowed
@@ -64,6 +65,7 @@ export type GrowthOsPlanData = {
   graceEndsAt: string | null;
   isReadOnly: boolean;
   cancelAtPeriodEnd: boolean;
+  hasSubscription: boolean;
   interval: 'month' | 'year' | null;
   currentPeriodEnd: string | null;
   seatsAllowed: number | null;

@@ -94,6 +94,7 @@ export class GrowthOsPlanResolver {
       graceEndsAt: entitlement.graceEndsAt,
       isReadOnly: entitlement.isReadOnly,
       cancelAtPeriodEnd: entitlement.cancelAtPeriodEnd,
+      hasSubscription: entitlement.hasSubscription,
       interval: entitlement.interval,
       currentPeriodEnd: entitlement.currentPeriodEnd,
       seatsAllowed: entitlement.seatsAllowed,

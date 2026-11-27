@@ -38,6 +38,10 @@ export const getGrowthOsStatusLine = (plan: GrowthOsPlanData) => {
 
   switch (plan.status) {
     case 'trialing':
+      if (plan.hasSubscription) {
+        return t`${label} plan · billing starts ${formatGrowthOsDate(plan.trialEndsAt)}`;
+      }
+
       return plan.trialDaysLeft === 1
         ? t`${label} trial · 1 day left`
         : t`${label} trial · ${plan.trialDaysLeft ?? 0} days left`;

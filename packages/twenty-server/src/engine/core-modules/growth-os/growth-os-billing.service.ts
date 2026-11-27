@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { UserInputError } from 'src/engine/core-modules/graphql/utils/graphql-errors.util';
 import {
   GrowthOsBillingClient,
+  GrowthOsBillingHttpError,
   type GrowthOsBillingSessionKind,
 } from 'src/engine/core-modules/growth-os/growth-os-billing.client';
 import { GrowthOsEntitlementService } from 'src/engine/core-modules/growth-os/growth-os-entitlement.service';
@@ -14,6 +15,11 @@ import {
 } from 'src/engine/core-modules/growth-os/growth-os-plan.constants';
 import { buildBillingPortalLink } from 'src/engine/core-modules/growth-os/utils/billing-portal-link.util';
 import { parseGrowthOsEntitlementEvent } from 'src/engine/core-modules/growth-os/utils/parse-growth-os-entitlement-event.util';
+
+export const INTERVAL_CONFLICT_MESSAGE_EN =
+  'The billing interval can’t be changed here because your plan is combined with another Growth OS product. Please contact support@scalepoint-ventures.com and we will switch it for you.';
+export const INTERVAL_CONFLICT_MESSAGE_DE =
+  'Das Abrechnungsintervall lässt sich hier nicht ändern, weil dein Tarif mit einem weiteren Growth-OS-Produkt kombiniert ist. Schreib uns an support@scalepoint-ventures.com, dann stellen wir es für dich um.';
 
 const APP_HOST = 'crm.scalepoint-ventures.com';
 const DEFAULT_RETURN_URL = `https://${APP_HOST}/settings/billing`;
@@ -143,9 +149,10 @@ export class GrowthOsBillingService {
           locale: account?.locale ?? 'en',
         });
 
+        // No `mode` is sent. The answer's mode is checkout (hosted payment page), confirm
+        // (the service's plan-change page, the org already has a subscription) or noop
+        // (nothing to pay: url is our success_url). The customer is redirected to `url` in all three cases.
         if (typeof result?.url === 'string') return result.url;
-        // mode=noop: nothing to pay, send the customer to the signed portal link.
-        if (account) return buildBillingPortalLink(account.accountId);
       } else {
         const result = await this.client.request('POST', '/v1/portal-sessions', {
           product: 'crm',
@@ -158,6 +165,17 @@ export class GrowthOsBillingService {
         if (typeof result?.url === 'string') return result.url;
       }
     } catch (error) {
+      if (
+        input.kind === 'checkout' &&
+        error instanceof GrowthOsBillingHttpError &&
+        error.status === 409 &&
+        error.code === 'interval_conflict'
+      ) {
+        // The interval was switched inside a combined plan: only support can change that.
+        throw new UserInputError(
+          account?.locale === 'de' ? INTERVAL_CONFLICT_MESSAGE_DE : INTERVAL_CONFLICT_MESSAGE_EN,
+        );
+      }
       this.logger.warn(`Billing session (${input.kind}) failed: ${error}`);
     }
 

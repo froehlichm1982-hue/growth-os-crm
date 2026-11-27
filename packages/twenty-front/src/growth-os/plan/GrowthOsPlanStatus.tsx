@@ -54,7 +54,7 @@ export const GrowthOsPlanStatus = () => {
         to={getSettingsPath(SettingsPath.Billing)}
         className="growth-os-plan-btn"
       >
-        {plan.status === 'active' && !plan.isReadOnly ? t`Manage plan` : t`Choose plan`}
+        {(plan.status === 'active' || plan.hasSubscription) && !plan.isReadOnly ? t`Manage plan` : t`Choose plan`}
       </Link>
     </div>
   );

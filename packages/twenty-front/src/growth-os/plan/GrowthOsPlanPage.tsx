@@ -265,7 +265,10 @@ export const GrowthOsPlanPage = () => {
     }
   };
 
-  const isPaying = plan?.status === 'active' || plan?.status === 'past_due';
+  const isPaying =
+    plan?.status === 'active' ||
+    plan?.status === 'past_due' ||
+    plan?.hasSubscription === true;
 
   return (
     <SettingsPageLayout
@@ -285,9 +288,11 @@ export const GrowthOsPlanPage = () => {
             <StyledCurrent data-testid="growth-os-current-plan">
               <StyledCurrentHeader>
                 <StyledPlanName>
-                  {plan.isTrial
+                  {plan.isTrial && !plan.hasSubscription
                     ? t`${GROWTH_OS_PLAN_LABELS[plan.effectivePlan]} trial`
-                    : plan.status === 'active' || plan.status === 'past_due'
+                    : plan.status === 'active' ||
+                        plan.status === 'past_due' ||
+                        plan.hasSubscription
                       ? GROWTH_OS_PLAN_LABELS[plan.plan]
                       : t`${GROWTH_OS_PLAN_LABELS[plan.effectivePlan]} (no active plan)`}
                 </StyledPlanName>
@@ -297,10 +302,10 @@ export const GrowthOsPlanPage = () => {
               </StyledCurrentHeader>
               {isReturningFromCheckout && (
                 <StyledNote tone="info" data-testid="growth-os-checkout-return">
-                  {plan.status === 'active'
+                  {plan.status === 'active' || plan.hasSubscription
                     ? t`Thank you. Your plan is active.`
                     : t`Thank you. We are activating your plan. This takes a few seconds.`}
-                  {plan.status === 'active' && (
+                  {(plan.status === 'active' || plan.hasSubscription) && (
                     <button
                       type="button"
                       className="gos-linklike"
@@ -325,7 +330,12 @@ export const GrowthOsPlanPage = () => {
                   </button>
                 </StyledNote>
               )}
-              {plan.isTrial && (
+              {plan.isTrial && plan.hasSubscription && (
+                <StyledNote tone="info" data-testid="growth-os-trial-subscribed">
+                  {t`Your ${GROWTH_OS_PLAN_LABELS[plan.plan]} plan is set up. Your free trial continues until ${formatGrowthOsDate(plan.trialEndsAt)}, then billing starts.`}
+                </StyledNote>
+              )}
+              {plan.isTrial && !plan.hasSubscription && (
                 <StyledNote tone="info">
                   {t`You are trying every Growth feature free until ${formatGrowthOsDate(plan.trialEndsAt)}. No card needed. Pick a plan before then to keep email sync, workflows and more than 3 users.`}
                 </StyledNote>
