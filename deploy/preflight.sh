@@ -67,7 +67,7 @@ if [ -f "$SECRETS_FILE" ]; then
 else fail "$SECRETS_FILE missing (copy secrets.env.example, chmod 600)"; fi
 
 # separate stack: loopback port must be free and nothing may point at /opt/spv-crm
-PORT="${CRM_HTTP_PORT:-$(val CRM_HTTP_PORT "$ENV_FILE")}"; PORT="${PORT:-3100}"
+PORT="${CRM_HTTP_PORT:-$(val CRM_HTTP_PORT "$ENV_FILE")}"; PORT="${PORT:-3110}"
 if command -v ss >/dev/null 2>&1; then
   if ss -ltn "sport = :$PORT" 2>/dev/null | grep -q LISTEN; then
     docker ps --format '{{.Names}}' 2>/dev/null | grep -q '^growth-os-crm-server' && ok "port $PORT is used by this stack" || fail "port $PORT is already in use by something else"

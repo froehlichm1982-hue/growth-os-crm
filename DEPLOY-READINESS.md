@@ -47,7 +47,7 @@ Two files in `deploy/` (copy the examples, never commit the filled ones): `crm.e
 | `SOURCE_CODE_URL` | the public repository URL | AGPL-3.0 section 13 source offer; required at GO (`./preflight.sh --go` warns/fails) |
 | `HELP_URL` | `https://scalepoint-ventures.com/growthos/crm/faq` | |
 | `APP_SECRET`, `ENCRYPTION_KEY`, `CRM_DB_PASSWORD` | generated (`openssl rand -base64 32`), in `crm.secrets.env` | |
-| `CRM_HTTP_PORT` | `3100` | loopback port of the server; the reverse proxy forwards to `127.0.0.1:3100` |
+| `CRM_HTTP_PORT` | `3110` | loopback port of the server; the reverse proxy forwards to `127.0.0.1:3110` |
 
 The webhook is registered **once** in the billing service at `https://crm.scalepoint-ventures.com/webhooks/growth-os-billing`; events are routed by workspace id, never by host.
 
@@ -55,7 +55,7 @@ The webhook is registered **once** in the billing service at `https://crm.scalep
 
 | File | Purpose |
 |---|---|
-| `docker-compose.yml` | project `growth-os-crm`: `server`, `worker`, `db` (postgres 16), `redis` 7; own network `growth-os-crm_net`; volumes `crm-db`, `crm-redis`, `crm-local-data`; only port `127.0.0.1:3100->3000`; image built from `packages/twenty-docker/twenty/Dockerfile` (target `twenty`, server + front); the module secret is a compose file-secret |
+| `docker-compose.yml` | project `growth-os-crm`: `server`, `worker`, `db` (postgres 16), `redis` 7; own network `growth-os-crm_net`; volumes `crm-db`, `crm-redis`, `crm-local-data`; only port `127.0.0.1:3110->3000`; image built from `packages/twenty-docker/twenty/Dockerfile` (target `twenty`, server + front); the module secret is a compose file-secret |
 | `env.production.example`, `secrets.env.example` | the lists above, names and non-secret values only |
 | `preflight.sh` | fails (exit 1) if `TELEMETRY_ENABLED` is not exactly `false`, the module secret file or `crm.secrets.env` is not mode 600 or is empty, `SEND_EMAILS` is `true` before GO (or not `true` with `--go`), a Sentry/AI/enterprise/`RESEND_API_KEY` value is set, the provider is not `growth-os`, the billing URL is not https, verification or the 30m link is off, the port is taken, or the stack mentions `/opt/spv-crm` |
 | `deploy.sh` | **dry run by default**. `--apply` (pre-flight, build, backup if a DB exists, db/redis, server with migrations and cron registration, worker, health wait), `--go-live` (SEND_EMAILS=true, GO pre-flight, recreate server+worker, smoke), `--rollback` |
@@ -64,7 +64,7 @@ The webhook is registered **once** in the billing service at `https://crm.scalep
 
 Needs on the server: Docker with the compose v2 plugin (it is not installed on the box I worked on, so the compose file was only read, not started), about 8 GB free during the image build, a reverse proxy.
 
-Reverse proxy (OS Lead's existing proxy, a new vhost only): `crm.scalepoint-ventures.com` and `*.crm.scalepoint-ventures.com` → `http://127.0.0.1:3100`, forward `Host`, `X-Forwarded-Proto`, `X-Forwarded-For`, websockets on, redirect http→https. The wildcard needs a wildcard certificate (DNS-01 challenge).
+Reverse proxy (OS Lead's existing proxy, a new vhost only): `crm.scalepoint-ventures.com` and `*.crm.scalepoint-ventures.com` → `http://127.0.0.1:3110`, forward `Host`, `X-Forwarded-Proto`, `X-Forwarded-For`, websockets on, redirect http→https. The wildcard needs a wildcard certificate (DNS-01 challenge).
 
 ## 4. Tested on the release candidate
 
@@ -96,7 +96,7 @@ Before GO nothing sends mail (`SEND_EMAILS=false`), so signup cannot be verified
 | 8 | `cp env.production.example crm.env`, `cp secrets.env.example crm.secrets.env` (`chmod 600`), fill in; set `MODULE_CRM_WEBHOOK_SECRET_HOST_FILE` | OS Lead | |
 | 9 | `./preflight.sh` | OS Lead | must print `0 FAIL` |
 | 10 | `./deploy.sh` (dry run), read it, then `./deploy.sh --apply` | OS Lead | image build, migrations and cron registration happen on first start |
-| 11 | Reverse proxy vhost → `127.0.0.1:3100` | OS Lead | |
+| 11 | Reverse proxy vhost → `127.0.0.1:3110` | OS Lead | |
 | 12 | `./smoke.sh` | OS Lead | must print `0 FAIL` |
 | 13 | **GO** | **Markus** | |
 | 14 | `./deploy.sh --go-live` (SEND_EMAILS=true, GO pre-flight, recreate, smoke) | OS Lead | the pre-GO env is kept as `crm.env.pre-go.<time>` |

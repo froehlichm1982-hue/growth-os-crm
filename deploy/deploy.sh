@@ -46,6 +46,6 @@ run $DC up -d server
 run $DC up -d worker
 echo "== 6 wait for health =="
 if [ "$MODE" = apply ]; then
-  for i in $(seq 1 60); do curl -fsS "http://127.0.0.1:${CRM_HTTP_PORT:-3100}/healthz" >/dev/null 2>&1 && { echo "healthy"; break; }; sleep 5; [ "$i" = 60 ] && { echo "NOT healthy: $DC logs --tail 100 server"; exit 1; }; done
-else echo "DRY-RUN  wait for http://127.0.0.1:${CRM_HTTP_PORT:-3100}/healthz"; fi
+  for i in $(seq 1 60); do curl -fsS "http://127.0.0.1:${CRM_HTTP_PORT:-3110}/healthz" >/dev/null 2>&1 && { echo "healthy"; break; }; sleep 5; [ "$i" = 60 ] && { echo "NOT healthy: $DC logs --tail 100 server"; exit 1; }; done
+else echo "DRY-RUN  wait for http://127.0.0.1:${CRM_HTTP_PORT:-3110}/healthz"; fi
 [ "$MODE" = dry ] && echo "Dry run finished. Nothing was changed. Use --apply." || echo "Stack is up with SEND_EMAILS=false. Next: reverse proxy + DNS (OS Lead), then ./smoke.sh, then ./deploy.sh --go-live at Markus' GO."
