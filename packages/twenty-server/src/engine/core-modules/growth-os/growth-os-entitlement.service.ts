@@ -513,6 +513,16 @@ export class GrowthOsEntitlementService implements OnModuleInit {
     );
   }
 
+  async getWorkspaceIdsOfUser(userId: string): Promise<string[]> {
+    const rows = await this.coreDataSource.query(
+      `SELECT uw."workspaceId" FROM core."userWorkspace" uw
+        WHERE uw."userId" = $1 AND uw."deletedAt" IS NULL`,
+      [userId],
+    );
+
+    return rows.map((row: { workspaceId: string }) => row.workspaceId);
+  }
+
   // First owner of the workspace: the billing contact for the account (the billing service sends all billing mail).
   async getBillingContact(workspaceId: string): Promise<{
     email: string;

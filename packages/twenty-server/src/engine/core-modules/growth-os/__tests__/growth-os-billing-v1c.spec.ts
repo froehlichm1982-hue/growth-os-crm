@@ -20,6 +20,7 @@ const makeService = (request: jest.Mock, account: Record<string, unknown> | null
     applyUpdate: jest.fn(async () => undefined),
     getSyncedAt: jest.fn(async () => null as Date | null),
     markSynced: jest.fn(async () => undefined),
+    getWorkspaceIdsOfUser: jest.fn(async () => [WS]),
   };
 
   return { service: new GrowthOsBillingService(client, entitlements as unknown as GrowthOsEntitlementService), entitlements };
@@ -239,5 +240,71 @@ describe('reconcile: GET /v1/entitlements when the plan page opens and the store
 
     service.reconcileSoon(WS);
     expect(request).not.toHaveBeenCalled();
+  });
+});
+
+describe('owner email / name change: POST /v1/accounts again (idempotent update)', () => {
+  const oldAccount = { accountId: 'acc_1', organisationId: 'org_1', email: 'old@example.test', name: 'SPV', locale: 'de', workspaceId: WS };
+
+  it('a changed owner email is sent once, without a trial flag, and stored', async () => {
+    const request = jest.fn(async () => ({ account_id: 'acc_1', organisation_id: 'org_1', version: 3, data: { workspaceId: WS, plan: 'growth', status: 'trialing', interval: 'month' } }));
+    const { service, entitlements } = makeService(request, oldAccount);
+
+    expect(await service.syncContact(WS)).toBe('updated');
+    expect(request).toHaveBeenCalledWith('POST', '/v1/accounts', { product: 'crm', external_user_id: WS, email: 'owner@example.test', name: 'SPV', locale: 'de' });
+    expect(request.mock.calls[0][2]).not.toHaveProperty('trial');
+    expect(entitlements.saveBillingAccount).toHaveBeenCalledWith(expect.objectContaining({ accountId: 'acc_1', email: 'owner@example.test', name: 'SPV' }));
+  });
+
+  it('a changed workspace name is the changed account name', async () => {
+    const request = jest.fn(async () => ({ account_id: 'acc_1' }));
+    const { service } = makeService(request, { ...oldAccount, email: 'owner@example.test', name: 'Old name' });
+
+    expect(await service.syncContact(WS)).toBe('updated');
+    expect((request.mock.calls[0] as unknown[])[2]).toMatchObject({ name: 'SPV' });
+  });
+
+  it('nothing changed: no call', async () => {
+    const request = jest.fn();
+    const { service } = makeService(request, { ...oldAccount, email: 'owner@example.test' });
+
+    expect(await service.syncContact(WS)).toBe('unchanged');
+    expect(request).not.toHaveBeenCalled();
+  });
+
+  it('a failing call stores nothing, so the next check retries; the best-effort wrapper never throws', async () => {
+    const request = jest.fn(async () => { throw new Error('billing down'); });
+    const { service, entitlements } = makeService(request, oldAccount);
+
+    expect(await service.syncContactBestEffort(WS)).toBe('failed');
+    expect(entitlements.saveBillingAccount).not.toHaveBeenCalled();
+  });
+
+  it('syncContactSoon checks at most once per workspace every 5 minutes', async () => {
+    const request = jest.fn(async () => ({ account_id: 'acc_1' }));
+    const { service } = makeService(request, oldAccount);
+
+    for (let i = 0; i < 4; i += 1) service.syncContactSoon(WS);
+    for (let i = 0; i < 30; i += 1) await Promise.resolve();
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it('syncContactForUser updates every workspace of the user; a user without workspaces does nothing', async () => {
+    const request = jest.fn(async () => ({ account_id: 'acc_1' }));
+    const { service, entitlements } = makeService(request, oldAccount);
+
+    await service.syncContactForUser('user-1');
+    expect(request).toHaveBeenCalledTimes(1);
+    entitlements.getWorkspaceIdsOfUser.mockResolvedValue([]);
+    await service.syncContactForUser('user-2');
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it('mock mode: no call', async () => {
+    const request = jest.fn();
+    const client = { isLive: () => false, request } as unknown as GrowthOsBillingClient;
+    const service = new GrowthOsBillingService(client, {} as GrowthOsEntitlementService);
+
+    expect(await service.syncContact(WS)).toBe('mock');
   });
 });

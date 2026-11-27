@@ -491,6 +491,11 @@ export class UserService {
       email,
     });
 
+    // Growth OS CRM: the billing account (and every billing mail) follows the owner's email.
+    void this.workspaceService
+      ?.syncBillingContactForUser?.(user.id)
+      ?.catch?.(() => undefined);
+
     return updatedUser;
   }
 

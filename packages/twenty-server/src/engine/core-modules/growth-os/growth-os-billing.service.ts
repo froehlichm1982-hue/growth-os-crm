@@ -149,6 +149,77 @@ export class GrowthOsBillingService {
     return 'reconciled';
   }
 
+  // The billing service sends all billing mails to the account email, so it has to follow the
+  // workspace owner: when the owner's email or name (or the workspace name) changed, call
+  // POST /v1/accounts again. It is idempotent: an existing account is updated (email, name,
+  // locale), no second trial, no second welcome mail. Nothing is sent when nothing changed, and
+  // a failed call leaves the stored values behind so the next plan read retries.
+  async syncContact(workspaceId: string) {
+    if (!this.client.isLive()) return 'mock';
+    const account = await this.entitlementService.getBillingAccount(workspaceId);
+
+    if (!account) return (await this.ensureAccount(workspaceId)) ? 'created' : 'no-contact';
+
+    const contact = await this.entitlementService.getBillingContact(workspaceId);
+
+    if (!contact) return 'no-contact';
+    const email = contact.email;
+    const name = contact.workspaceName || contact.name || null;
+
+    if (account.email === email && (account.name ?? null) === name && account.locale === contact.locale) {
+      return 'unchanged';
+    }
+
+    const result = await this.client.request('POST', '/v1/accounts', {
+      product: 'crm',
+      external_user_id: workspaceId,
+      email,
+      name: name ?? undefined,
+      locale: contact.locale,
+    });
+
+    await this.entitlementService.saveBillingAccount({
+      workspaceId,
+      accountId: typeof result?.account_id === 'string' ? result.account_id : account.accountId,
+      organisationId: (result?.organisation_id as string) ?? account.organisationId,
+      email,
+      name,
+      locale: contact.locale,
+    });
+    await this.applyServiceState(account.accountId, result);
+
+    return 'updated';
+  }
+
+  // Never throws (an email change must not fail because billing is unreachable).
+  syncContactBestEffort(workspaceId: string) {
+    return this.syncContact(workspaceId).catch((error) => {
+      this.logger.warn(`Billing contact sync failed for ${workspaceId}: ${error}`);
+
+      return 'failed';
+    });
+  }
+
+  private readonly lastContactCheck = new Map<string, number>();
+
+  // On a plan read: catches a name change (and a retry after a failed sync). One check per
+  // workspace every 5 minutes, fire and forget.
+  syncContactSoon(workspaceId: string) {
+    if (!this.client.isLive()) return;
+    const last = this.lastContactCheck.get(workspaceId) ?? 0;
+
+    if (Date.now() - last < 5 * 60_000) return;
+    this.lastContactCheck.set(workspaceId, Date.now());
+    void this.syncContactBestEffort(workspaceId);
+  }
+
+  // A user changed their email: every workspace where they are the billing contact follows.
+  async syncContactForUser(userId: string) {
+    const workspaceIds = await this.entitlementService.getWorkspaceIdsOfUser(userId);
+
+    for (const workspaceId of workspaceIds) await this.syncContactBestEffort(workspaceId);
+  }
+
   private readonly lastEnsureAttempt = new Map<string, number>();
 
   // Self-healing: a workspace without a billing account (the service was down at signup, or the

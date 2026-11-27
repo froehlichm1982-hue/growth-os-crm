@@ -384,7 +384,24 @@ export class WorkspaceService {
       });
     }
 
+    // Growth OS CRM: the workspace name is the billing account name.
+    if (
+      isDefined(payload.displayName) &&
+      payload.displayName !== workspace.displayName
+    ) {
+      void this.growthOsBillingService
+        ?.syncContactBestEffort(workspace.id)
+        .catch(() => undefined);
+    }
+
     return updatedWorkspace;
+  }
+
+  // Growth OS CRM: the user changed their email; the billing account follows (best effort).
+  async syncBillingContactForUser(userId: string) {
+    await this.growthOsBillingService
+      ?.syncContactForUser(userId)
+      .catch(() => undefined);
   }
 
   async activateWorkspace(user: AuthContextUser, workspace: WorkspaceEntity) {
