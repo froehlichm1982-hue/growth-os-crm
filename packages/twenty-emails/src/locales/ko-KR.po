@@ -514,7 +514,7 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
-msgid "One click and your workspace is ready. The link works for 1 hour."
+msgid "One click and your workspace is ready. The link works once, for 30 minutes."
 msgstr ""
 
 #. js-lingui-explicit-id

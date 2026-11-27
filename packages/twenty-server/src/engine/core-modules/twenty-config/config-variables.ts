@@ -129,7 +129,7 @@ export class ConfigVariables {
   })
   @IsPositiveDuration()
   @IsOptional()
-  EMAIL_VERIFICATION_TOKEN_EXPIRES_IN = '1h';
+  EMAIL_VERIFICATION_TOKEN_EXPIRES_IN = '30m'; // Growth OS: DS v2.9 auth copy (verify links work once, for 30 minutes)
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.TOKENS_DURATION,

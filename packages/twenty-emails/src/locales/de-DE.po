@@ -514,8 +514,8 @@ msgstr "Nach der Freigabe können Kolleg:innen mit dieser Domain ohne Einladung 
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
-msgid "One click and your workspace is ready. The link works for 1 hour."
-msgstr "Ein Klick und dein Arbeitsbereich ist bereit. Der Link gilt 1 Stunde."
+msgid "One click and your workspace is ready. The link works once, for 30 minutes."
+msgstr "Ein Klick und dein Arbeitsbereich ist bereit. Der Link gilt einmalig, 30 Minuten lang."
 
 #. js-lingui-explicit-id
 #: src/emails/validate-approved-access-domain.email.tsx

@@ -509,8 +509,8 @@ msgstr "Once approved, colleagues with this domain can join without an invite."
 
 #. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
-msgid "One click and your workspace is ready. The link works for 1 hour."
-msgstr "One click and your workspace is ready. The link works for 1 hour."
+msgid "One click and your workspace is ready. The link works once, for 30 minutes."
+msgstr "One click and your workspace is ready. The link works once, for 30 minutes."
 
 #. js-lingui-explicit-id
 #: src/emails/validate-approved-access-domain.email.tsx
