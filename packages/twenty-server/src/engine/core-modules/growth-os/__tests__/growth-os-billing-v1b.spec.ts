@@ -230,3 +230,91 @@ describe('checkout carries the success url on the workspace host', () => {
     }));
   });
 });
+
+describe('webhook answer codes (the billing outbox: 400/404 are dead at once, 5xx is retried)', () => {
+  const SECRET = 'answer-code-secret';
+  const WS = '77777777-7777-4777-8777-777777777777';
+  const saved = process.env.MODULE_CRM_WEBHOOK_SECRET;
+
+  beforeEach(() => { process.env.MODULE_CRM_WEBHOOK_SECRET = SECRET; resetGrowthOsBillingSecretCache(); });
+  afterAll(() => { if (saved === undefined) delete process.env.MODULE_CRM_WEBHOOK_SECRET; else process.env.MODULE_CRM_WEBHOOK_SECRET = saved; resetGrowthOsBillingSecretCache(); });
+
+  const post = async (controller: GrowthOsBillingWebhookController, body: string, headers: Record<string, string> = {}) => {
+    const setHeader = jest.fn();
+    const request = { rawBody: Buffer.from(body), headers: { 'x-growth-os-signature': signGrowthOsPayload(SECRET, body), ...headers }, res: { setHeader } };
+
+    try {
+      return { ok: await controller.handle(request as never), setHeader };
+    } catch (error) {
+      return { error: error as { getStatus: () => number; message: string }, setHeader };
+    }
+  };
+  const event = (data: Record<string, unknown> = {}, type = 'entitlement.updated') =>
+    JSON.stringify({ id: `evt_${Math.random().toString(36).slice(2)}`, type, version: 1, createdAt: '2026-11-20T10:00:00Z', data: { workspaceId: WS, plan: 'growth', status: 'active', interval: 'month', seats: 3, ...data } });
+  const setup = () => {
+    const ds = makeFakeDataSource([WS]);
+    const entitlements = new GrowthOsEntitlementService(ds as never, { pushSeatCount: jest.fn() } as never);
+
+    return { ds, controller: new GrowthOsBillingWebhookController(entitlements) };
+  };
+
+  it('200 for a good push, a duplicate and an event type the module does not use', async () => {
+    const { controller } = setup();
+    const body = event();
+
+    expect((await post(controller, body)).ok).toMatchObject({ result: 'applied' });
+    expect((await post(controller, body)).ok).toMatchObject({ result: 'duplicate' });
+    expect((await post(controller, event({}, 'account.created'))).ok).toMatchObject({ received: true, result: 'ignored' });
+  });
+
+  it('404 only for a workspace that does not exist', async () => {
+    const { controller } = setup();
+    const r = await post(controller, event({ workspaceId: '88888888-8888-4888-8888-888888888888' }));
+
+    expect(r.error?.getStatus()).toBe(404);
+  });
+
+  it('400 for payloads that can never become valid; 401 for a bad or missing signature', async () => {
+    const { controller } = setup();
+
+    expect((await post(controller, 'not json')).error?.getStatus()).toBe(400);
+    expect((await post(controller, event({ plan: 'platinum' }))).error?.getStatus()).toBe(400);
+    expect((await post(controller, event({ workspaceId: 'not-a-uuid' }))).error?.getStatus()).toBe(400);
+    expect((await post(controller, event(), { 'x-growth-os-signature': 't=1,v1=00' })).error?.getStatus()).toBe(401);
+    expect((await post(controller, event(), { 'x-growth-os-signature': '' })).error?.getStatus()).toBe(401);
+  });
+
+  it('503 (retry) while the database is down, with a Retry-After header, and the push applies once it is back', async () => {
+    const { ds, controller } = setup();
+    const original = ds.query.getMockImplementation()!;
+    const body = event();
+
+    ds.query.mockImplementation(async () => { throw new Error('connection refused'); });
+    const down = await post(controller, body);
+
+    expect(down.error?.getStatus()).toBe(503);
+    expect(down.setHeader).toHaveBeenCalledWith('Retry-After', expect.any(String));
+    ds.query.mockImplementation(original);
+    expect((await post(controller, body)).ok).toMatchObject({ result: 'applied' });
+  });
+
+  it('503 (retry) while the module secret is not readable yet, never a permanent 4xx', async () => {
+    const { controller } = setup();
+    const dir = mkdtempSync(join(tmpdir(), 'gos-late-'));
+    const file = join(dir, 'secret');
+    const savedFile = process.env.MODULE_CRM_WEBHOOK_SECRET_FILE;
+    const body = event();
+
+    delete process.env.MODULE_CRM_WEBHOOK_SECRET;
+    process.env.MODULE_CRM_WEBHOOK_SECRET_FILE = file; // not mounted yet
+    resetGrowthOsBillingSecretCache();
+    const early = await post(controller, body);
+
+    expect(early.error?.getStatus()).toBe(503);
+    writeFileSync(file, `${SECRET}\n`);
+    chmodSync(file, 0o600);
+    resetGrowthOsBillingSecretCache();
+    expect((await post(controller, body)).ok).toMatchObject({ result: 'applied' });
+    if (savedFile === undefined) delete process.env.MODULE_CRM_WEBHOOK_SECRET_FILE; else process.env.MODULE_CRM_WEBHOOK_SECRET_FILE = savedFile;
+  });
+});
