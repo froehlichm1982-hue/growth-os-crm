@@ -21,3 +21,7 @@
 .growth-os-sys-code.danger i{background:var(--c-danger)}
 .growth-os-sys-code.warn i{background:var(--gos-warning-fill)}
 .growth-os-sys a.gos-btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+
+@media (max-width: 640px) {
+  .growth-os-sys-foot a { align-items: center; display: inline-flex; justify-content: center; min-height: 44px; min-width: 44px; }
+}

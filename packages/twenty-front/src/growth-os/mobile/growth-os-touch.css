@@ -20,6 +20,11 @@
     min-height: 44px;
   }
 
+  /* Settings cards wrapped in a router link (e.g. Profile > Authenticator app): the card is the target. */
+  #root a[class*='_undecoratedLink_'] > div {
+    min-height: 44px;
+  }
+
   /* Pill/link chips (record fields, chips in cards) keep their visual
      height; the 44 px hit area comes from an invisible ::after box. */
   #root a[href][class*='_root_'] {

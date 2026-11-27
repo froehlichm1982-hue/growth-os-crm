@@ -18,6 +18,12 @@
   .gos .growth-os-auth .gos-auth-art { --stage: min(100%, 440px); }
 }
 
+/* Phones: the whole terms row is the 44px target (DS .gos-check is a 24px row); links in it stay inline text. */
+@media (max-width: 640px) {
+  .gos .growth-os-auth .gos-check { align-items: center; min-height: 44px; }
+  .gos .growth-os-auth .gos-check a { display: inline; }
+}
+
 /* Buttons that must read as links (kit "link-like" actions). */
 .growth-os-linklike {
   background: none;
