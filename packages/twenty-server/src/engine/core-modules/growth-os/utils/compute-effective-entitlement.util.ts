@@ -90,6 +90,9 @@ export const computeEffectiveEntitlement = ({
       stored?.trialEndsAt ?? addDays(workspaceCreatedAt, GROWTH_OS_TRIAL_DAYS);
     plan = stored?.plan ?? GROWTH_OS_TRIAL_PLAN;
 
+    // trialEndsAt in the past is an expired trial, never an active one: the service keeps
+    // pushing status `trialing` for an expired card-free trial (with graceUntil set) until the
+    // grace is over, then pushes canceled + readOnly.
     if (now < trialEndsAt) {
       status = 'trialing';
       effectivePlan = plan;
@@ -121,7 +124,7 @@ export const computeEffectiveEntitlement = ({
 
   // The billing service knows the dunning clock: its grace date and readOnly
   // flag win over the local 7-day clock whenever they were sent.
-  if (stored?.graceUntil && !isTrialRecord) {
+  if (stored?.graceUntil && (!isTrialRecord || status === 'trial_expired')) {
     graceEndsAt = new Date(stored.graceUntil);
   }
 
@@ -131,7 +134,9 @@ export const computeEffectiveEntitlement = ({
   const isReadOnly =
     stored && !isTrialRecord && typeof stored.readOnly === 'boolean'
       ? stored.readOnly
-      : localReadOnly;
+      : status === 'trial_expired'
+        ? stored?.readOnly === true || localReadOnly
+        : localReadOnly;
 
   const definition = GROWTH_OS_PLAN_DEFINITIONS[effectivePlan];
   // The service keeps the remaining no-card trial days when a plan is bought with more than

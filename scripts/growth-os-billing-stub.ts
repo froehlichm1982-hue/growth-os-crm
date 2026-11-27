@@ -193,7 +193,8 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
 
       // More than ~2 days of the no-card trial left: the subscription keeps the remaining trial
       // days (status stays trialing, a lookup key now exists). Otherwise billing starts at once.
-      const keepTrial = a.status === 'trialing' && !!a.trialEndsAt && a.trialEndsAt - now() > 2 * DAY;
+      // Edge: with 2 days + 1 h of trial left or less, no trial_end is set -> active right away.
+      const keepTrial = a.status === 'trialing' && !!a.trialEndsAt && a.trialEndsAt - now() > 2 * DAY + 3600;
 
       a.status = keepTrial ? 'trialing' : 'active'; a.underlying = null; a.plan = p.plan; a.interval = p.interval; a.lookupKey = c.lookupKey;
       a.seats = p.maxSeats ? Math.min(c.qty, p.maxSeats) : c.qty; a.cancelAtPeriodEnd = false; a.graceUntil = null; a.readOnly = false;
@@ -203,13 +204,35 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
 
       return send(res, 200, { ok: true, redirect: c.successUrl, push: r });
     }
-    m = path.match(/^\/__stub\/([^/]+)\/(fail-payment|recover|advance|replay-last|push-stale|combined)$/);
+    m = path.match(/^\/__stub\/([^/]+)\/(fail-payment|recover|advance|replay-last|push-stale|combined|expire-trial|end-grace|trial-left)$/);
     if (m) {
       const a = accounts.get(decodeURIComponent(m[1]));
 
       if (!a) return send(res, 404, { error: 'unknown_account' });
       const b = raw ? JSON.parse(raw) : {};
 
+      // Real-clock controls (the CRM judges dates on its own clock): an expired card-free trial still
+      // pushes status `trialing` with trialEndsAt in the past and graceUntil set; after the grace it pushes
+      // canceled + readOnly. `trial-left {hours}` sets the remaining trial time of a card-free trial.
+      if (m[2] === 'trial-left') {
+        a.trialEndsAt = Math.floor(Date.now() / 1000) + Math.round(Number(b.hours ?? 24) * 3600);
+
+        return send(res, 200, { ok: true, push: await push(a) });
+      }
+      if (m[2] === 'expire-trial') {
+        const real = Math.floor(Date.now() / 1000);
+
+        a.status = 'trialing'; a.trialEndsAt = real - 3600; a.graceUntil = a.trialEndsAt + 7 * DAY; a.readOnly = false;
+
+        return send(res, 200, { ok: true, push: await push(a) });
+      }
+      if (m[2] === 'end-grace') {
+        const real = Math.floor(Date.now() / 1000);
+
+        a.underlying = a.status; a.status = 'read_only'; a.readOnly = true; a.graceUntil = real - 60;
+
+        return send(res, 200, { ok: true, push: await push(a) });
+      }
       if (m[2] === 'combined') {
         a.combined = b.on !== false;
 
@@ -232,9 +255,9 @@ const handler = async (req: IncomingMessage, res: ServerResponse) => {
         if (a.status === 'trialing' && a.lookupKey && a.trialEndsAt && t >= a.trialEndsAt) {
           // Trial with a subscription ends: the first payment is taken and the plan turns active.
           a.status = 'active'; a.trialEndsAt = null; a.periodEnd = t + (a.interval === 'year' ? 365 : 30) * DAY; out.push(await push(a));
-        } else if (a.status === 'trialing' && a.trialEndsAt && t >= a.trialEndsAt) { a.status = 'canceled'; a.graceUntil = a.trialEndsAt + 7 * DAY; out.push(await push(a)); }
+        } else if (a.status === 'trialing' && a.trialEndsAt && t >= a.trialEndsAt && !a.graceUntil) { a.graceUntil = a.trialEndsAt + 7 * DAY; out.push(await push(a)); }
         else if (a.status === 'active' && a.cancelAtPeriodEnd && a.periodEnd && t >= a.periodEnd) { a.status = 'canceled'; a.graceUntil = a.periodEnd + 7 * DAY; a.cancelAtPeriodEnd = false; out.push(await push(a)); }
-        if ((a.status === 'past_due' || a.status === 'canceled') && a.graceUntil && t >= a.graceUntil && !a.readOnly) {
+        if ((a.status === 'past_due' || a.status === 'canceled' || (a.status === 'trialing' && !a.lookupKey)) && a.graceUntil && t >= a.graceUntil && !a.readOnly) {
           a.underlying = a.status; a.status = 'read_only'; a.readOnly = true; out.push(await push(a));
         }
 
