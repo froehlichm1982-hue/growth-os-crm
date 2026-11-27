@@ -7,6 +7,7 @@ import {
   GROWTH_OS_LOGO_DARK,
   GROWTH_OS_LOGO_LIGHT,
 } from '~/growth-os/brand';
+import { GrowthOsArtPipelineCard, GrowthOsArtTimelineCard } from '~/growth-os/GrowthOsAuthArt';
 import { createGosIcon } from '~/growth-os/icons/createGosIcon';
 import { GROWTH_OS_LICENCES_PATH } from '~/growth-os/licences/growthOsLicencesPath';
 import {
@@ -20,44 +21,13 @@ import './growth-os-auth.css';
 // (patterns/auth/crm/<lang>/sign-in.html). All layout and look come from the
 // CRM-scoped DS sheet (`.gos` is the <html> element, see index.html); the only
 // local CSS is growth-os-auth.css (upstream glue, zoom-safe height).
-// Art panel: Pipeline + Timeline demo product card (Nordlicht Analytics demo
-// data, no photo). Magic link and login code are not offered (owner decision).
+// Art panel: Pipeline + Timeline demo product cards (GrowthOsAuthArt.tsx,
+// Nordlicht Analytics demo data, live DOM, no photo or raster crop). Magic link and login code are not offered (owner decision).
 
 const IconCrm = createGosIcon('kanban-square', 'GosAuthCrm');
 const IconShield = createGosIcon('shield-check', 'GosAuthShield');
 const IconLock = createGosIcon('lock', 'GosAuthLock');
 const IconCheck = createGosIcon('circle-check', 'GosAuthCheck');
-
-const ART = '/images/growth-os/auth';
-
-const ArtCard = ({
-  name,
-  width,
-  height,
-  tag,
-  style,
-}: {
-  name: 'r-col' | 'r-time';
-  width: number;
-  height: number;
-  tag: string;
-  style: React.CSSProperties;
-}) => (
-  <div className="gos-auth-card" data-m="crm" style={style}>
-    <picture>
-      <source type="image/avif" srcSet={`${ART}/${name}@1x.avif 1x, ${ART}/${name}@2x.avif 2x`} />
-      <img
-        src={`${ART}/${name}@2x.webp`}
-        srcSet={`${ART}/${name}@1x.webp 1x, ${ART}/${name}@2x.webp 2x`}
-        width={width}
-        height={height}
-        alt=""
-        decoding="async"
-      />
-    </picture>
-    <span className="tag"><i />{tag}</span>
-  </div>
-);
 
 const Logos = ({ decorative = false }: { decorative?: boolean }) => (
   <>
@@ -92,7 +62,7 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <>
+    <div className="gos" data-m="crm">
     <a className="gos-skip" href="#main">{t`Skip to content`}</a>
     <div className="gos-auth growth-os-auth" data-m="crm">
       <section className="gos-auth-art" aria-hidden="true">
@@ -106,8 +76,8 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
           <p>{t`Pipeline, contacts and the next step for every deal, in one place. Set up in minutes, no card needed.`}</p>
         </div>
         <div className="gos-auth-stage">
-          <ArtCard name="r-col" width={186} height={372} tag={t`Pipeline · Meeting`} style={{ '--x': '2%', '--y': '2%', '--w': '42%', zIndex: 2 } as React.CSSProperties} />
-          <ArtCard name="r-time" width={446} height={304} tag={t`Timeline`} style={{ '--x': '34%', '--y': '50%', '--w': '64%', zIndex: 3 } as React.CSSProperties} />
+          <GrowthOsArtPipelineCard style={{ '--x': '2%', '--y': '2%', '--w': '42%', zIndex: 2 } as React.CSSProperties} />
+          <GrowthOsArtTimelineCard style={{ '--x': '34%', '--y': '50%', '--w': '64%', zIndex: 3 } as React.CSSProperties} />
           <span className="demo">{t`Demo data · Nordlicht Analytics`}</span>
         </div>
         <ul className="proof">
@@ -153,6 +123,6 @@ export const GrowthOsAuthShell = ({ children }: { children: ReactNode }) => {
         )}
       </div>
     </div>
-    </>
+    </div>
   );
 };

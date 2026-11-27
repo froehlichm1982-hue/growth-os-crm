@@ -1061,6 +1061,11 @@ msgstr "إعادة ضبط طريقة 2FA"
 msgid "3 Columns"
 msgstr "ثلاثة أعمدة"
 
+#. js-lingui-id: vwX9+Z
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "3 fields updated"
+msgstr ""
+
 #. js-lingui-id: 7SJhyh
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
@@ -2637,6 +2642,11 @@ msgstr "و"
 #: src/modules/settings/billing/components/internal/SettingsBillingPlanComparisonTable.tsx
 msgid "Annual"
 msgstr "سنوي"
+
+#. js-lingui-id: 5qU5Gh
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Annual revenue"
+msgstr ""
 
 #. js-lingui-id: GqCA/t
 #: src/modules/settings/admin-panel/components/SettingsAdminChatAskQuestionsPart.tsx
@@ -7237,6 +7247,11 @@ msgstr "قطع الاتصال؟"
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Discoverable"
 msgstr "قابل للاكتشاف"
+
+#. js-lingui-id: tilm+3
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Discovery call"
+msgstr ""
 
 #. js-lingui-id: fAlSRz
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
@@ -12920,6 +12935,11 @@ msgstr "أنا"
 msgid "Medium section heading"
 msgstr "عنوان قسم متوسط"
 
+#. js-lingui-id: oE8Gmu
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Meeting"
+msgstr ""
+
 #. js-lingui-id: Sma10A
 #: src/modules/ui/navigation/navigation-drawer/components/MultiWorkspaceDropdown/internal/components/WorkspacesForSignIn.tsx
 msgid "Member of"
@@ -14787,6 +14807,11 @@ msgstr "غير متزامن"
 msgid "Note"
 msgstr "ملاحظة"
 
+#. js-lingui-id: 1cB8K/
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Note linked"
+msgstr ""
+
 #. js-lingui-id: yBYKk1
 #: src/modules/command-menu-item/engine-command/record/single-record/message-campaign/components/CancelMessageCampaignSingleRecordCommand.tsx
 msgid "Nothing has gone out yet. The campaign returns to your drafts and you can edit or schedule it again."
@@ -14806,6 +14831,11 @@ msgstr "لا يوجد شيء لإعداده لهذا التطبيق"
 #: src/modules/page-layout/widgets/components/StandaloneWidgetPlaceholder.tsx
 msgid "Nothing to see"
 msgstr "لا يوجد ما يمكن عرضه"
+
+#. js-lingui-id: DQs/2a
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "November 2026"
+msgstr ""
 
 #. js-lingui-id: YwzE9K
 #: src/utils/date-utils.ts
@@ -15540,6 +15570,7 @@ msgid "Overview"
 msgstr "نظرة عامة"
 
 #. js-lingui-id: LtI9AS
+#: src/growth-os/GrowthOsAuthArt.tsx
 #: src/modules/navigation-menu-item/edit/side-panel/components/SidePanelEditOwnerSection.tsx
 #: src/pages/settings/admin-panel/SettingsAdminApplicationRegistrationClaims.tsx
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationGeneralInfo.tsx
@@ -16004,7 +16035,7 @@ msgid "Pipeline"
 msgstr ""
 
 #. js-lingui-id: iQr/iS
-#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsAuthArt.tsx
 msgid "Pipeline · Meeting"
 msgstr ""
 
@@ -18575,6 +18606,11 @@ msgstr ""
 msgid "Send now"
 msgstr ""
 
+#. js-lingui-id: XOSSSP
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Send pricing"
+msgstr ""
+
 #. js-lingui-id: doZzL7
 #: src/modules/side-panel/pages/send-campaign-test/components/SidePanelSendCampaignTestPage.tsx
 msgid "Send test email"
@@ -20071,6 +20107,11 @@ msgstr "العلاقة المستهدفة على كائن الربط"
 msgid "Target workspace subdomain"
 msgstr "النطاق الفرعي لمساحة العمل المستهدفة"
 
+#. js-lingui-id: GvjBKG
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Task linked"
+msgstr ""
+
 #. js-lingui-id: R+s8S+
 #: src/modules/activities/tasks/components/TaskRow.tsx
 msgid "Task title"
@@ -20969,7 +21010,7 @@ msgid "Time zone"
 msgstr "المنطقة الزمنية"
 
 #. js-lingui-id: cklVjM
-#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsAuthArt.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCalendarViewContent.tsx
 msgid "Timeline"
 msgstr "الجدول الزمني"

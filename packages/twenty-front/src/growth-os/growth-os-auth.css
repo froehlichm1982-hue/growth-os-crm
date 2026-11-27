@@ -102,3 +102,52 @@
 
 @keyframes growth-os-caret { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .growth-os-otp-caret { animation: none; } }
+
+/* Auth art product cards (GrowthOsAuthArt.tsx): live DOM on the DS .gos-auth-card frame.
+   Light theme on purpose (the DS card surface stays light in dark mode, data-theme="light" on the
+   wrapper re-applies the light tokens). Sizes in container units so the card scales with the stage;
+   no truncation, no ellipsis, tag clearance in the top padding. */
+.growth-os-art-ui {
+  background: var(--gos-surface);
+  border-radius: 13px;
+  box-sizing: border-box;
+  color: var(--gos-text-strong);
+  container-type: inline-size;
+  display: grid;
+  font-size: 6.6cqw;
+  gap: 2.4cqw;
+  line-height: 1.25;
+  padding: 18px 10px 12px;
+}
+
+.growth-os-art-ui--time { font-size: 4.4cqw; gap: 4cqw; padding-top: 20px; }
+.growth-os-art-head { align-items: center; display: flex; gap: 3cqw; }
+.growth-os-art-stage { background: var(--gos-info-soft); border-radius: 6px; color: var(--gos-info-ink); font-weight: var(--gos-weight-medium); padding: 0.2em 0.6em; white-space: nowrap; }
+.growth-os-art-count { color: var(--gos-text-2); white-space: nowrap; }
+.growth-os-art-deal { background: var(--gos-bg-subtle); border: 1px solid var(--gos-line); border-radius: 10px; display: grid; gap: 1.6cqw; padding: 4cqw; }
+.growth-os-art-row { align-items: center; display: flex; gap: 2.4cqw; white-space: nowrap; }
+.growth-os-art-row--title { font-weight: var(--gos-weight-semibold); }
+.growth-os-art-row--muted { color: var(--gos-text-2); }
+.growth-os-art-av { align-items: center; border-radius: 50%; display: inline-grid; flex: none; font-size: 0.78em; font-weight: var(--gos-weight-semibold); height: 1.5em; justify-content: center; place-items: center; width: 1.5em; }
+.growth-os-art-av--a { background: var(--gos-warning-soft); color: var(--gos-text-strong); }
+.growth-os-art-av--b { background: var(--gos-success-soft); color: var(--gos-success-ink); }
+.growth-os-art-av--c { background: var(--gos-bg-subtle); color: var(--gos-text-strong); box-shadow: inset 0 0 0 1px var(--gos-line); }
+.growth-os-art-chip { background: var(--gos-bg-subtle); border-radius: 6px; box-shadow: inset 0 0 0 1px var(--gos-line); padding: 0.15em 0.55em; }
+.growth-os-art-date { color: var(--gos-text-2); font-weight: var(--gos-weight-semibold); white-space: nowrap; }
+.growth-os-art-event { align-items: center; display: flex; gap: 2.4cqw; white-space: nowrap; }
+.growth-os-art-event u { text-underline-offset: 2px; }
+.growth-os-art-dot { background: var(--gos-text-3); border-radius: 50%; flex: none; height: 0.5em; width: 0.5em; }
+.growth-os-art-box { background: var(--gos-bg-subtle); border: 1px solid var(--gos-line); border-radius: 10px; display: grid; gap: 2cqw; padding: 3cqw 4cqw; }
+.growth-os-art-box > div { align-items: center; display: flex; gap: 2cqw; white-space: nowrap; }
+.growth-os-art-box span:first-child { color: var(--gos-text-2); min-width: 32cqw; }
+
+/* GrowthOsGosScope (our screens + portals that use DS classes): no box, no typography change. */
+.gos.growth-os-gos-scope {
+  background: none;
+  color: inherit;
+  display: contents;
+  font: inherit;
+  font-feature-settings: inherit;
+  -webkit-font-smoothing: inherit;
+  text-rendering: inherit;
+}

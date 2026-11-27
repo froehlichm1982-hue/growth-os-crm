@@ -1056,6 +1056,11 @@ msgstr ""
 msgid "3 Columns"
 msgstr ""
 
+#. js-lingui-id: vwX9+Z
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "3 fields updated"
+msgstr ""
+
 #. js-lingui-id: 7SJhyh
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
@@ -2631,6 +2636,11 @@ msgstr ""
 #. js-lingui-id: YkfDoz
 #: src/modules/settings/billing/components/internal/SettingsBillingPlanComparisonTable.tsx
 msgid "Annual"
+msgstr ""
+
+#. js-lingui-id: 5qU5Gh
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Annual revenue"
 msgstr ""
 
 #. js-lingui-id: GqCA/t
@@ -7231,6 +7241,11 @@ msgstr ""
 #. js-lingui-id: xt4a74
 #: src/modules/settings/security/components/SettingsSecurityAuthProvidersOptionsList.tsx
 msgid "Discoverable"
+msgstr ""
+
+#. js-lingui-id: tilm+3
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Discovery call"
 msgstr ""
 
 #. js-lingui-id: fAlSRz
@@ -12892,6 +12907,11 @@ msgstr ""
 msgid "Medium section heading"
 msgstr ""
 
+#. js-lingui-id: oE8Gmu
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Meeting"
+msgstr ""
+
 #. js-lingui-id: Sma10A
 #: src/modules/ui/navigation/navigation-drawer/components/MultiWorkspaceDropdown/internal/components/WorkspacesForSignIn.tsx
 msgid "Member of"
@@ -14759,6 +14779,11 @@ msgstr ""
 msgid "Note"
 msgstr ""
 
+#. js-lingui-id: 1cB8K/
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Note linked"
+msgstr ""
+
 #. js-lingui-id: yBYKk1
 #: src/modules/command-menu-item/engine-command/record/single-record/message-campaign/components/CancelMessageCampaignSingleRecordCommand.tsx
 msgid "Nothing has gone out yet. The campaign returns to your drafts and you can edit or schedule it again."
@@ -14777,6 +14802,11 @@ msgstr ""
 #. js-lingui-id: DYCPYF
 #: src/modules/page-layout/widgets/components/StandaloneWidgetPlaceholder.tsx
 msgid "Nothing to see"
+msgstr ""
+
+#. js-lingui-id: DQs/2a
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "November 2026"
 msgstr ""
 
 #. js-lingui-id: YwzE9K
@@ -15512,6 +15542,7 @@ msgid "Overview"
 msgstr ""
 
 #. js-lingui-id: LtI9AS
+#: src/growth-os/GrowthOsAuthArt.tsx
 #: src/modules/navigation-menu-item/edit/side-panel/components/SidePanelEditOwnerSection.tsx
 #: src/pages/settings/admin-panel/SettingsAdminApplicationRegistrationClaims.tsx
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationGeneralInfo.tsx
@@ -15976,7 +16007,7 @@ msgid "Pipeline"
 msgstr ""
 
 #. js-lingui-id: iQr/iS
-#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsAuthArt.tsx
 msgid "Pipeline · Meeting"
 msgstr ""
 
@@ -18547,6 +18578,11 @@ msgstr ""
 msgid "Send now"
 msgstr ""
 
+#. js-lingui-id: XOSSSP
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Send pricing"
+msgstr ""
+
 #. js-lingui-id: doZzL7
 #: src/modules/side-panel/pages/send-campaign-test/components/SidePanelSendCampaignTestPage.tsx
 msgid "Send test email"
@@ -20043,6 +20079,11 @@ msgstr ""
 msgid "Target workspace subdomain"
 msgstr ""
 
+#. js-lingui-id: GvjBKG
+#: src/growth-os/GrowthOsAuthArt.tsx
+msgid "Task linked"
+msgstr ""
+
 #. js-lingui-id: R+s8S+
 #: src/modules/activities/tasks/components/TaskRow.tsx
 msgid "Task title"
@@ -20911,7 +20952,7 @@ msgid "Time zone"
 msgstr ""
 
 #. js-lingui-id: cklVjM
-#: src/growth-os/GrowthOsAuthShell.tsx
+#: src/growth-os/GrowthOsAuthArt.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownCalendarViewContent.tsx
 msgid "Timeline"
 msgstr ""
